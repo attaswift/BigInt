@@ -287,6 +287,10 @@ public func +(a: BigUInt, b: BigUInt) -> BigUInt {
     return a.add(b)
 }
 
+public func +=(inout a: BigUInt, b: BigUInt) {
+    a.addInPlace(b, shift: 0)
+}
+
 //MARK: Subtraction
 
 extension BigUInt {
@@ -335,6 +339,10 @@ extension BigUInt {
 @warn_unused_result
 public func -(a: BigUInt, b: BigUInt) -> BigUInt {
     return a.subtract(b)
+}
+
+public func -=(inout a: BigUInt, b: BigUInt) {
+    a.subtractInPlace(b, shift: 0)
 }
 
 //MARK: Multiplication
@@ -409,6 +417,10 @@ public func *(x: BigUInt, y: BigUInt) -> BigUInt {
         r.addInPlace(m, shift: xc / 2)
     }
     return r
+}
+
+public func *=(inout a: BigUInt, b: BigUInt) {
+    a = a * b
 }
 
 

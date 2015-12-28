@@ -90,3 +90,10 @@ public func -(a: BigInt, b: BigInt) -> BigInt {
     return a + (-b)
 }
 
+public func *(a: BigInt, b: BigInt) -> BigInt {
+    return BigInt(abs: a.abs * b.abs, negative: a.negative != b.negative)
+}
+
+public func +=(inout a: BigInt, b: BigInt) { a = a + b }
+public func -=(inout a: BigInt, b: BigInt) { a = a - b }
+public func *=(inout a: BigInt, b: BigInt) { a = a * b }

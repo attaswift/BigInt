@@ -264,6 +264,9 @@ class BigUIntTests: XCTestCase {
 
         b.addInPlace(BigUInt([0, Digit.max]))
         XCTAssertEqual(b, BigUInt([3, 3, 2]))
+
+        b += 2
+        XCTAssertEqual(b, BigUInt([5, 3, 2]))
     }
 
     func testShiftedAddition() {
@@ -291,6 +294,10 @@ class BigUIntTests: XCTestCase {
 
         let b2 = BigUInt([0, 0, 1]) - BigUInt([1])
         XCTAssertEqual(Array(b2), [Digit.max, Digit.max])
+
+        var b3 = BigUInt([1, 0, 0, 1])
+        b3 -= 2
+        XCTAssertEqual(Array(b3), [Digit.max, Digit.max, Digit.max])
     }
 
     func testMultiplyByDigit() {
@@ -344,5 +351,10 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(
             BigUInt([1, 2]) * BigUInt([2, 1]),
             BigUInt([2, 5, 2]))
+
+        var b = BigUInt("2637AB28")!
+        b *= BigUInt("164B")!
+        XCTAssertEqual(b, BigUInt("353FB0494B8"))
+
     }
 }
