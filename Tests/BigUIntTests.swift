@@ -301,24 +301,24 @@ class BigUIntTests: XCTestCase {
     }
 
     func testMultiplyByDigit() {
-        XCTAssertEqual(BigUInt([1, 2, 3, 4]).multiplyWithDigit(0), BigUInt(0))
-        XCTAssertEqual(BigUInt([1, 2, 3, 4]).multiplyWithDigit(2), BigUInt([2, 4, 6, 8]))
+        XCTAssertEqual(BigUInt([1, 2, 3, 4]).multiplyByDigit(0), BigUInt(0))
+        XCTAssertEqual(BigUInt([1, 2, 3, 4]).multiplyByDigit(2), BigUInt([2, 4, 6, 8]))
 
         let full = Digit.max
 
-        let b = BigUInt([full, 0, full, 0, full]).multiplyWithDigit(2)
+        let b = BigUInt([full, 0, full, 0, full]).multiplyByDigit(2)
         XCTAssertEqual(b, BigUInt([full - 1, 1, full - 1, 1, full - 1, 1]))
 
-        let c = BigUInt([full, full, full]).multiplyWithDigit(2)
+        let c = BigUInt([full, full, full]).multiplyByDigit(2)
         XCTAssertEqual(c, BigUInt([full - 1, full, full, 1]))
 
-        let d = BigUInt([full, full, full]).multiplyWithDigit(full)
+        let d = BigUInt([full, full, full]).multiplyByDigit(full)
         XCTAssertEqual(d, BigUInt([1, full, full, full - 1]))
 
-        let e = BigUInt(Array(count: 16, repeatedValue: Digit(17))).multiplyWithDigit(15)
+        let e = BigUInt(Array(count: 16, repeatedValue: Digit(17))).multiplyByDigit(15)
         XCTAssertEqual(e, BigUInt("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")!)
 
-        let f = BigUInt([18] + Array(count: 15, repeatedValue: Digit(17))).multiplyWithDigit(15)
+        let f = BigUInt([18] + Array(count: 15, repeatedValue: Digit(17))).multiplyByDigit(15)
         XCTAssertEqual(f, BigUInt("10000000000000000000000000000000E")!)
     }
 

@@ -348,7 +348,7 @@ public func -=(inout a: BigUInt, b: BigUInt) {
 //MARK: Multiplication
 
 extension BigUInt {
-    public mutating func multiplyInPlaceWithDigit(y: Digit) {
+    public mutating func multiplyInPlaceByDigit(y: Digit) {
         guard y != 0 else { self = 0; return }
         guard y != 1 else { return }
         lift()
@@ -364,9 +364,9 @@ extension BigUInt {
     }
 
     @warn_unused_result
-    public func multiplyWithDigit(y: Digit) -> BigUInt {
+    public func multiplyByDigit(y: Digit) -> BigUInt {
         var r = self
-        r.multiplyInPlaceWithDigit(y)
+        r.multiplyInPlaceByDigit(y)
         return r
     }
 }
@@ -377,8 +377,8 @@ public func *(x: BigUInt, y: BigUInt) -> BigUInt {
     let yc = y.count
     if xc == 0 { return BigUInt() }
     if yc == 0 { return BigUInt() }
-    if yc == 1 { return x.multiplyWithDigit(y[0]) }
-    if xc == 1 { return y.multiplyWithDigit(x[0]) }
+    if yc == 1 { return x.multiplyByDigit(y[0]) }
+    if xc == 1 { return y.multiplyByDigit(x[0]) }
 
     if yc < xc {
         let (xh, xl) = x.split
