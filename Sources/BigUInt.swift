@@ -388,28 +388,41 @@ public func *(x: BigUInt, y: BigUInt) -> BigUInt {
     if xc == 1 { return y.scalarMultiply(x[0]) }
 
     if yc < xc {
-        var r = x.low * y
-        r.add(x.high * y, shift: xc / 2)
+        let (xh, xl) = x.split
+        var r = xl * y
+        r.add(xh * y, shift: xc / 2)
         return r
     }
     else if xc < yc {
-        var r = y.low * x
-        r.add(y.high * x, shift: yc / 2)
+        let (yh, yl) = y.split
+        var r = yl * x
+        r.add(yh * x, shift: yc / 2)
         return r
     }
 
     // Karatsuba multiplication:
-    // x * y = <a,b> * <c,d> = <ac, (a+b)(c+d) - (ac + bd), bd> (ignoring carry)
+    // x * y = <a,b> * <c,d> = <ac, ac + bd - (a-b)(c-d), bd> (ignoring carry)
     let (a, b) = x.split
     let (c, d) = y.split
 
     let high = a * c
     let low = b * d
-    let mid = (a + b) * (c + d) - (high + low)
+    let xp = a >= b
+    let yp = c >= d
+    let xm = (xp ? a - b : b - a)
+    let ym = (yp ? c - d : d - c)
+    let m = xm * ym
 
     var r = low
-    r.add(mid, shift: xc / 2)
     r.add(high, shift: xc)
+    r.add(low, shift: xc / 2)
+    r.add(high, shift: xc / 2)
+    if xp == yp {
+        r.subtract(m, shift: xc / 2)
+    }
+    else {
+        r.add(m, shift: xc / 2)
+    }
     return r
 }
 
