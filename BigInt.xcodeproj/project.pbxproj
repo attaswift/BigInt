@@ -7,9 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BB64E6F41C2F490000C18269 /* BigInt.h in Headers */ = {isa = PBXBuildFile; fileRef = BB64E6F31C2F490000C18269 /* BigInt.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BB64E6FB1C2F490000C18269 /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB64E6F01C2F490000C18269 /* BigInt.framework */; };
 		BB64E7001C2F490000C18269 /* BigIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E6FF1C2F490000C18269 /* BigIntTests.swift */; };
+		BB64E7191C2F49D000C18269 /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB64E70F1C2F49CF00C18269 /* BigInt.framework */; };
+		BB64E7271C2F4A7A00C18269 /* BigUInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E7261C2F4A7A00C18269 /* BigUInt.swift */; };
+		BB64E7281C2F4A7A00C18269 /* BigUInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E7261C2F4A7A00C18269 /* BigUInt.swift */; };
+		BB64E72A1C2F592B00C18269 /* Digits.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E7291C2F592B00C18269 /* Digits.swift */; };
+		BB64E72B1C2F592B00C18269 /* Digits.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E7291C2F592B00C18269 /* Digits.swift */; };
+		BB64E72D1C2F60F500C18269 /* BigInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E72C1C2F60F500C18269 /* BigInt.swift */; };
+		BB64E72E1C2F60F500C18269 /* BigInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E72C1C2F60F500C18269 /* BigInt.swift */; };
+		BB64E7301C2F653900C18269 /* Bitwise Hacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E72F1C2F653900C18269 /* Bitwise Hacks.swift */; };
+		BB64E7311C2F653900C18269 /* Bitwise Hacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E72F1C2F653900C18269 /* Bitwise Hacks.swift */; };
+		BB64E7331C2F76FF00C18269 /* BitwiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E7321C2F76FF00C18269 /* BitwiseTests.swift */; };
+		BB64E7341C2F76FF00C18269 /* BitwiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E7321C2F76FF00C18269 /* BitwiseTests.swift */; };
+		BB64E7361C2F831000C18269 /* DigitsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E7351C2F831000C18269 /* DigitsTests.swift */; };
+		BB64E7371C2F831000C18269 /* DigitsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E7351C2F831000C18269 /* DigitsTests.swift */; };
+		BB6EF3CC1C2F993600ABFA71 /* BigUIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EF3CB1C2F993600ABFA71 /* BigUIntTests.swift */; };
+		BB6EF3CD1C2F993600ABFA71 /* BigUIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EF3CB1C2F993600ABFA71 /* BigUIntTests.swift */; };
+		BB6EF3D31C2FC60300ABFA71 /* BigIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E6FF1C2F490000C18269 /* BigIntTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -20,15 +35,30 @@
 			remoteGlobalIDString = BB64E6EF1C2F490000C18269;
 			remoteInfo = BigInt;
 		};
+		BB64E71A1C2F49D000C18269 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BB64E6E71C2F48FF00C18269 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BB64E70E1C2F49CF00C18269;
+			remoteInfo = "BigInt-Mac";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		BB64E6F01C2F490000C18269 /* BigInt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BigInt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BB64E6F31C2F490000C18269 /* BigInt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BigInt.h; sourceTree = "<group>"; };
 		BB64E6F51C2F490000C18269 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB64E6FA1C2F490000C18269 /* BigIntTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BigIntTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB64E6FF1C2F490000C18269 /* BigIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigIntTests.swift; sourceTree = "<group>"; };
 		BB64E7011C2F490000C18269 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BB64E70F1C2F49CF00C18269 /* BigInt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BigInt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB64E7181C2F49CF00C18269 /* BigIntTests-Mac.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "BigIntTests-Mac.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB64E7261C2F4A7A00C18269 /* BigUInt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BigUInt.swift; sourceTree = "<group>"; };
+		BB64E7291C2F592B00C18269 /* Digits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Digits.swift; sourceTree = "<group>"; };
+		BB64E72C1C2F60F500C18269 /* BigInt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BigInt.swift; sourceTree = "<group>"; };
+		BB64E72F1C2F653900C18269 /* Bitwise Hacks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bitwise Hacks.swift"; sourceTree = "<group>"; };
+		BB64E7321C2F76FF00C18269 /* BitwiseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BitwiseTests.swift; sourceTree = "<group>"; };
+		BB64E7351C2F831000C18269 /* DigitsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DigitsTests.swift; sourceTree = "<group>"; };
+		BB6EF3CB1C2F993600ABFA71 /* BigUIntTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BigUIntTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,14 +77,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BB64E70B1C2F49CF00C18269 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BB64E7151C2F49CF00C18269 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BB64E7191C2F49D000C18269 /* BigInt.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		BB64E6E61C2F48FF00C18269 = {
 			isa = PBXGroup;
 			children = (
-				BB64E6F21C2F490000C18269 /* BigInt */,
-				BB64E6FE1C2F490000C18269 /* BigIntTests */,
+				BB64E6F21C2F490000C18269 /* Sources */,
+				BB64E6FE1C2F490000C18269 /* Tests */,
 				BB64E6F11C2F490000C18269 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -64,26 +109,34 @@
 			children = (
 				BB64E6F01C2F490000C18269 /* BigInt.framework */,
 				BB64E6FA1C2F490000C18269 /* BigIntTests.xctest */,
+				BB64E70F1C2F49CF00C18269 /* BigInt.framework */,
+				BB64E7181C2F49CF00C18269 /* BigIntTests-Mac.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		BB64E6F21C2F490000C18269 /* BigInt */ = {
+		BB64E6F21C2F490000C18269 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				BB64E6F31C2F490000C18269 /* BigInt.h */,
 				BB64E6F51C2F490000C18269 /* Info.plist */,
+				BB64E72F1C2F653900C18269 /* Bitwise Hacks.swift */,
+				BB64E7291C2F592B00C18269 /* Digits.swift */,
+				BB64E7261C2F4A7A00C18269 /* BigUInt.swift */,
+				BB64E72C1C2F60F500C18269 /* BigInt.swift */,
 			);
-			path = BigInt;
+			path = Sources;
 			sourceTree = "<group>";
 		};
-		BB64E6FE1C2F490000C18269 /* BigIntTests */ = {
+		BB64E6FE1C2F490000C18269 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				BB64E7321C2F76FF00C18269 /* BitwiseTests.swift */,
+				BB64E7351C2F831000C18269 /* DigitsTests.swift */,
+				BB6EF3CB1C2F993600ABFA71 /* BigUIntTests.swift */,
 				BB64E6FF1C2F490000C18269 /* BigIntTests.swift */,
 				BB64E7011C2F490000C18269 /* Info.plist */,
 			);
-			path = BigIntTests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -93,16 +146,22 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB64E6F41C2F490000C18269 /* BigInt.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BB64E70C1C2F49CF00C18269 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		BB64E6EF1C2F490000C18269 /* BigInt */ = {
+		BB64E6EF1C2F490000C18269 /* BigInt-iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BB64E7041C2F490000C18269 /* Build configuration list for PBXNativeTarget "BigInt" */;
+			buildConfigurationList = BB64E7041C2F490000C18269 /* Build configuration list for PBXNativeTarget "BigInt-iOS" */;
 			buildPhases = (
 				BB64E6EB1C2F490000C18269 /* Sources */,
 				BB64E6EC1C2F490000C18269 /* Frameworks */,
@@ -113,14 +172,14 @@
 			);
 			dependencies = (
 			);
-			name = BigInt;
+			name = "BigInt-iOS";
 			productName = BigInt;
 			productReference = BB64E6F01C2F490000C18269 /* BigInt.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		BB64E6F91C2F490000C18269 /* BigIntTests */ = {
+		BB64E6F91C2F490000C18269 /* BigIntTests-iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BB64E7071C2F490000C18269 /* Build configuration list for PBXNativeTarget "BigIntTests" */;
+			buildConfigurationList = BB64E7071C2F490000C18269 /* Build configuration list for PBXNativeTarget "BigIntTests-iOS" */;
 			buildPhases = (
 				BB64E6F61C2F490000C18269 /* Sources */,
 				BB64E6F71C2F490000C18269 /* Frameworks */,
@@ -131,9 +190,45 @@
 			dependencies = (
 				BB64E6FD1C2F490000C18269 /* PBXTargetDependency */,
 			);
-			name = BigIntTests;
+			name = "BigIntTests-iOS";
 			productName = BigIntTests;
 			productReference = BB64E6FA1C2F490000C18269 /* BigIntTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		BB64E70E1C2F49CF00C18269 /* BigInt-Mac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BB64E7201C2F49D000C18269 /* Build configuration list for PBXNativeTarget "BigInt-Mac" */;
+			buildPhases = (
+				BB64E70A1C2F49CF00C18269 /* Sources */,
+				BB64E70B1C2F49CF00C18269 /* Frameworks */,
+				BB64E70C1C2F49CF00C18269 /* Headers */,
+				BB64E70D1C2F49CF00C18269 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "BigInt-Mac";
+			productName = "BigInt-Mac";
+			productReference = BB64E70F1C2F49CF00C18269 /* BigInt.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		BB64E7171C2F49CF00C18269 /* BigIntTests-Mac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BB64E7231C2F49D000C18269 /* Build configuration list for PBXNativeTarget "BigIntTests-Mac" */;
+			buildPhases = (
+				BB64E7141C2F49CF00C18269 /* Sources */,
+				BB64E7151C2F49CF00C18269 /* Frameworks */,
+				BB64E7161C2F49CF00C18269 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BB64E71B1C2F49D000C18269 /* PBXTargetDependency */,
+			);
+			name = "BigIntTests-Mac";
+			productName = "BigInt-MacTests";
+			productReference = BB64E7181C2F49CF00C18269 /* BigIntTests-Mac.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -152,6 +247,12 @@
 					BB64E6F91C2F490000C18269 = {
 						CreatedOnToolsVersion = 7.2;
 					};
+					BB64E70E1C2F49CF00C18269 = {
+						CreatedOnToolsVersion = 7.2;
+					};
+					BB64E7171C2F49CF00C18269 = {
+						CreatedOnToolsVersion = 7.2;
+					};
 				};
 			};
 			buildConfigurationList = BB64E6EA1C2F48FF00C18269 /* Build configuration list for PBXProject "BigInt" */;
@@ -166,8 +267,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				BB64E6EF1C2F490000C18269 /* BigInt */,
-				BB64E6F91C2F490000C18269 /* BigIntTests */,
+				BB64E6EF1C2F490000C18269 /* BigInt-iOS */,
+				BB64E70E1C2F49CF00C18269 /* BigInt-Mac */,
+				BB64E6F91C2F490000C18269 /* BigIntTests-iOS */,
+				BB64E7171C2F49CF00C18269 /* BigIntTests-Mac */,
 			);
 		};
 /* End PBXProject section */
@@ -187,6 +290,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BB64E70D1C2F49CF00C18269 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BB64E7161C2F49CF00C18269 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -194,6 +311,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB64E7271C2F4A7A00C18269 /* BigUInt.swift in Sources */,
+				BB64E72A1C2F592B00C18269 /* Digits.swift in Sources */,
+				BB64E72D1C2F60F500C18269 /* BigInt.swift in Sources */,
+				BB64E7301C2F653900C18269 /* Bitwise Hacks.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,7 +322,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB64E7361C2F831000C18269 /* DigitsTests.swift in Sources */,
 				BB64E7001C2F490000C18269 /* BigIntTests.swift in Sources */,
+				BB6EF3CC1C2F993600ABFA71 /* BigUIntTests.swift in Sources */,
+				BB64E7331C2F76FF00C18269 /* BitwiseTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BB64E70A1C2F49CF00C18269 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BB64E7281C2F4A7A00C18269 /* BigUInt.swift in Sources */,
+				BB64E72B1C2F592B00C18269 /* Digits.swift in Sources */,
+				BB64E72E1C2F60F500C18269 /* BigInt.swift in Sources */,
+				BB64E7311C2F653900C18269 /* Bitwise Hacks.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BB64E7141C2F49CF00C18269 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BB6EF3D31C2FC60300ABFA71 /* BigIntTests.swift in Sources */,
+				BB64E7341C2F76FF00C18269 /* BitwiseTests.swift in Sources */,
+				BB64E7371C2F831000C18269 /* DigitsTests.swift in Sources */,
+				BB6EF3CD1C2F993600ABFA71 /* BigUIntTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,8 +356,13 @@
 /* Begin PBXTargetDependency section */
 		BB64E6FD1C2F490000C18269 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = BB64E6EF1C2F490000C18269 /* BigInt */;
+			target = BB64E6EF1C2F490000C18269 /* BigInt-iOS */;
 			targetProxy = BB64E6FC1C2F490000C18269 /* PBXContainerItemProxy */;
+		};
+		BB64E71B1C2F49D000C18269 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BB64E70E1C2F49CF00C18269 /* BigInt-Mac */;
+			targetProxy = BB64E71A1C2F49D000C18269 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -257,6 +408,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -298,6 +450,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -308,15 +462,16 @@
 		BB64E7051C2F490000C18269 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = BigInt/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.lorentey.BigInt;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = BigInt;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -324,15 +479,16 @@
 		BB64E7061C2F490000C18269 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = BigInt/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.lorentey.BigInt;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = BigInt;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -340,22 +496,212 @@
 		BB64E7081C2F490000C18269 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = BigIntTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.lorentey.BigIntTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = BigIntTests;
 			};
 			name = Debug;
 		};
 		BB64E7091C2F490000C18269 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = BigIntTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.lorentey.BigIntTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = BigIntTests;
 			};
 			name = Release;
+		};
+		BB64E7211C2F49D000C18269 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = Sources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigInt-Mac";
+				PRODUCT_NAME = BigInt;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		BB64E7221C2F49D000C18269 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = Sources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigInt-Mac";
+				PRODUCT_NAME = BigInt;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		BB64E7241C2F49D000C18269 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigInt-MacTests";
+				PRODUCT_NAME = "BigIntTests-Mac";
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BB64E7251C2F49D000C18269 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigInt-MacTests";
+				PRODUCT_NAME = "BigIntTests-Mac";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		BB6EF3CE1C2F9E1F00ABFA71 /* Test */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-DTinyDigits";
+				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Test;
+		};
+		BB6EF3CF1C2F9E1F00ABFA71 /* Test */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Sources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.lorentey.BigInt;
+				PRODUCT_NAME = BigInt;
+				SKIP_INSTALL = YES;
+			};
+			name = Test;
+		};
+		BB6EF3D01C2F9E1F00ABFA71 /* Test */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = Sources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigInt-Mac";
+				PRODUCT_NAME = BigInt;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Test;
+		};
+		BB6EF3D11C2F9E1F00ABFA71 /* Test */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.lorentey.BigIntTests;
+				PRODUCT_NAME = BigIntTests;
+			};
+			name = Test;
+		};
+		BB6EF3D21C2F9E1F00ABFA71 /* Test */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigInt-MacTests";
+				PRODUCT_NAME = "BigIntTests-Mac";
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Test;
 		};
 /* End XCBuildConfiguration section */
 
@@ -364,26 +710,51 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BB64E7021C2F490000C18269 /* Debug */,
+				BB6EF3CE1C2F9E1F00ABFA71 /* Test */,
 				BB64E7031C2F490000C18269 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BB64E7041C2F490000C18269 /* Build configuration list for PBXNativeTarget "BigInt" */ = {
+		BB64E7041C2F490000C18269 /* Build configuration list for PBXNativeTarget "BigInt-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BB64E7051C2F490000C18269 /* Debug */,
+				BB6EF3CF1C2F9E1F00ABFA71 /* Test */,
 				BB64E7061C2F490000C18269 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
-		BB64E7071C2F490000C18269 /* Build configuration list for PBXNativeTarget "BigIntTests" */ = {
+		BB64E7071C2F490000C18269 /* Build configuration list for PBXNativeTarget "BigIntTests-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BB64E7081C2F490000C18269 /* Debug */,
+				BB6EF3D11C2F9E1F00ABFA71 /* Test */,
 				BB64E7091C2F490000C18269 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BB64E7201C2F49D000C18269 /* Build configuration list for PBXNativeTarget "BigInt-Mac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BB64E7211C2F49D000C18269 /* Debug */,
+				BB6EF3D01C2F9E1F00ABFA71 /* Test */,
+				BB64E7221C2F49D000C18269 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BB64E7231C2F49D000C18269 /* Build configuration list for PBXNativeTarget "BigIntTests-Mac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BB64E7241C2F49D000C18269 /* Debug */,
+				BB6EF3D21C2F9E1F00ABFA71 /* Test */,
+				BB64E7251C2F49D000C18269 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
