@@ -31,11 +31,3 @@ extension Digit {
         return (high, low)
     }
 }
-
-extension Array where Element: UnsignedIntegerType {
-    mutating func shrink() {
-        while last == Element(0) {
-            removeLast()
-        }
-    }
-}

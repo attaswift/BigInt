@@ -11,57 +11,83 @@ import XCTest
 
 class BigUIntTests: XCTestCase {
     func testInit() {
-        let b1 = BigUInt(digits: [12, 34, 56], level: 1, offset: 2)
-        XCTAssertEqual(b1._digits, [12, 34, 56])
-        XCTAssertEqual(b1._level, 1)
-        XCTAssertEqual(b1._offset, 2)
-
-        let b2 = BigUInt()
-        XCTAssertEqual(b2._digits, [])
-        XCTAssertEqual(b2._level, 0)
-        XCTAssertEqual(b2._offset, 0)
-
-        let b3 = BigUInt([1, 2])
-        XCTAssertEqual(b3._digits, [1, 2])
-        XCTAssertEqual(b3._level, 2)
-        XCTAssertEqual(b3._offset, 0)
-
-        let b3p = BigUInt([1, 2, 3, 4, 5])
-        XCTAssertEqual(b3p._digits, [1, 2, 3, 4, 5])
-        XCTAssertEqual(b3p._level, 4)
-        XCTAssertEqual(b3p._offset, 0)
-
-        let b4 = BigUInt(UIntMax(0x1827364554637281))
-        XCTAssertEqual(String(b4), "1827364554637281")
-        XCTAssertEqual(b4._offset, 0)
-
-        let b5 = BigUInt(UInt32(0x12345678))
-        XCTAssertEqual(String(b5), "12345678")
-        XCTAssertEqual(b5._offset, 0)
-
-        let b6: BigUInt = 0x1827364554637281
-        XCTAssertEqual(String(b6), "1827364554637281")
-        XCTAssertEqual(b6._offset, 0)
-    }
-
-    func testDigits() {
         let b0 = BigUInt()
         XCTAssertEqual(b0._digits, [])
+        XCTAssertEqual(b0._start, 0)
+        XCTAssertEqual(b0._end, 0)
+
+        let b1 = BigUInt([1, 2])
+        XCTAssertEqual(b1._digits, [1, 2])
+        XCTAssertEqual(b1._start, 0)
+        XCTAssertEqual(b1._end, 2)
+
+        let b2 = BigUInt([1, 2, 3, 0, 0])
+        XCTAssertEqual(b2._digits, [1, 2, 3, 0, 0])
+        XCTAssertEqual(b2._start, 0)
+        XCTAssertEqual(b2._end, 3)
+
+        let b3 = BigUInt(digits: [12, 34, 56], start: 1, end: 2)
+        XCTAssertEqual(b3._digits, [12, 34, 56])
+        XCTAssertEqual(b3._start, 1)
+        XCTAssertEqual(b3._end, 2)
+
+        let b4 = BigUInt(digits: [12, 34, 56], start: 5, end: 10)
+        XCTAssertEqual(b4._digits, [12, 34, 56])
+        XCTAssertEqual(b4._start, 3)
+        XCTAssertEqual(b4._end, 3)
+
+        let b5 = BigUInt(UIntMax(0x1827364554637281))
+        XCTAssertEqual(String(b5), "1827364554637281")
+
+        let b6 = BigUInt(UInt32(0x12345678))
+        XCTAssertEqual(String(b6), "12345678")
+
+        let b7 = BigUInt(IntMax(0x1827364554637281))
+        XCTAssertEqual(String(b7), "1827364554637281")
+
+        let b8 = BigUInt(Int16(0x1234))
+        XCTAssertEqual(String(b8), "1234")
+
+        let b9: BigUInt = 0x1827364554637281
+        XCTAssertEqual(String(b9), "1827364554637281")
+
+        let b10 = BigUInt("1")!
+        XCTAssertEqual(String(b10), "1")
+
+        let b11 = BigUInt("1234567890ABCDEF")!
+        XCTAssertEqual(String(b11), "1234567890ABCDEF")
+
+        let b12 = BigUInt("Not a number")
+        XCTAssertNil(b12)
+
+        let b13 = BigUInt("X")
+        XCTAssertNil(b13)
+    }
+
+    func testCollection() {
+        let b0 = BigUInt()
+        XCTAssertEqual(b0.count, 0)
+        XCTAssertEqual(Array(b0), [])
 
         let b1 = BigUInt([1])
-        XCTAssertEqual(b1._digits, [1])
+        XCTAssertEqual(b1.count, 1)
+        XCTAssertEqual(Array(b1), [1])
 
         let b2 = BigUInt([0, 1])
-        XCTAssertEqual(b2._digits, [0, 1])
+        XCTAssertEqual(b2.count, 2)
+        XCTAssertEqual(Array(b2), [0, 1])
 
         let b3 = BigUInt([0, 1, 0])
-        XCTAssertEqual(b3._digits, [0, 1])
+        XCTAssertEqual(b3.count, 2)
+        XCTAssertEqual(Array(b3), [0, 1])
 
         let b4 = BigUInt([1, 0, 0, 0])
-        XCTAssertEqual(b4._digits, [1])
+        XCTAssertEqual(b4.count, 1)
+        XCTAssertEqual(Array(b4), [1])
 
         let b5 = BigUInt([0, 0, 0, 0, 0, 0])
-        XCTAssertEqual(b5._digits, [])
+        XCTAssertEqual(b5.count, 0)
+        XCTAssertEqual(Array(b5), [])
     }
 
     func testSubscriptingGetter() {
@@ -94,13 +120,13 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(d[10], 0)
 
         d[10] = 23
-        XCTAssertEqual(d.count, 16)
+        XCTAssertEqual(d.count, 11)
         XCTAssertEqual(d[0], 42)
         XCTAssertEqual(d[1], 0)
         XCTAssertEqual(d[10], 23)
 
         d[0] = 0
-        XCTAssertEqual(d.count, 16)
+        XCTAssertEqual(d.count, 11)
         XCTAssertEqual(d[0], 0)
         XCTAssertEqual(d[1], 0)
         XCTAssertEqual(d[10], 23)
@@ -113,23 +139,6 @@ class BigUIntTests: XCTestCase {
         
         XCTAssertEqual(d, BigUInt())
     }
-
-    func testExtend() {
-        var d = BigUInt()
-        d.extend(3)
-        XCTAssertEqual(d.count, 4)
-        XCTAssertEqual(d[0], 0)
-        XCTAssertEqual(d[1], 0)
-        XCTAssertEqual(d[2], 0)
-        XCTAssertEqual(d[3], 0)
-
-        d.extend(1)
-        XCTAssertEqual(d.count, 4)
-
-        d.shrink()
-        XCTAssertEqual(d.count, 0)
-    }
-    
 
     func testConversionToString() {
         XCTAssertEqual(String(BigUInt()), "0")
@@ -150,43 +159,59 @@ class BigUIntTests: XCTestCase {
         let b = BigUInt([0, 1, 2, 3, 4, 5])
 
         let bl = b.low
-        XCTAssertEqual(bl, BigUInt([0, 1, 2, 3]))
+        XCTAssertEqual(bl, BigUInt([0, 1, 2]))
         let bh = b.high
-        XCTAssertEqual(bh, BigUInt([4, 5]))
+        XCTAssertEqual(bh, BigUInt([3, 4, 5]))
 
         let bll = bl.low
-        XCTAssertEqual(bll, BigUInt([0, 1]))
+        XCTAssertEqual(bll, BigUInt([0]))
         let blh = bl.high
-        XCTAssertEqual(blh, BigUInt([2, 3]))
+        XCTAssertEqual(blh, BigUInt([1, 2]))
         let bhl = bh.low
-        XCTAssertEqual(bhl, BigUInt([4, 5]))
+        XCTAssertEqual(bhl, BigUInt([3]))
         let bhh = bh.high
-        XCTAssertEqual(bhh, BigUInt())
+        XCTAssertEqual(bhh, BigUInt([4, 5]))
 
-        let blll = bll.low
-        XCTAssertEqual(blll, BigUInt([0]))
-        let bllh = bll.high
-        XCTAssertEqual(bllh, BigUInt([1]))
         let blhl = blh.low
-        XCTAssertEqual(blhl, BigUInt([2]))
+        XCTAssertEqual(blhl, BigUInt([1]))
         let blhh = blh.high
-        XCTAssertEqual(blhh, BigUInt([3]))
-        let bhll = bhl.low
-        XCTAssertEqual(bhll, BigUInt([4]))
-        let bhlh = bhl.high
-        XCTAssertEqual(bhlh, BigUInt([5]))
+        XCTAssertEqual(blhh, BigUInt([2]))
+        let bhhl = bhh.low
+        XCTAssertEqual(bhhl, BigUInt([4]))
+        let bhhh = bhh.high
+        XCTAssertEqual(bhhh, BigUInt([5]))
     }
 
     func testComparison() {
         XCTAssertEqual(BigUInt([1, 2, 3]), BigUInt([1, 2, 3]))
         XCTAssertNotEqual(BigUInt([1, 2]), BigUInt([1, 2, 3]))
-        XCTAssertEqual(BigUInt([1, 2, 3, 4, 5, 6]).low.high, BigUInt([3, 4]))
+        XCTAssertNotEqual(BigUInt([1, 2, 3]), BigUInt([1, 3, 3]))
+        XCTAssertEqual(BigUInt([1, 2, 3, 4, 5, 6]).low.high, BigUInt([2, 3]))
 
         XCTAssertTrue(BigUInt([1, 2]) < BigUInt([1, 2, 3]))
         XCTAssertTrue(BigUInt([1, 2, 2]) < BigUInt([1, 2, 3]))
         XCTAssertFalse(BigUInt([1, 2, 3]) < BigUInt([1, 2, 3]))
-        XCTAssertTrue(BigUInt([3, 3]) < BigUInt([1, 2, 3, 4, 5, 6]).low.high)
+        XCTAssertTrue(BigUInt([3, 3]) < BigUInt([1, 2, 3, 4, 5, 6])[2..<4])
         XCTAssertTrue(BigUInt([1, 2, 3, 4, 5, 6]).low.high < BigUInt([3, 5]))
+    }
+
+    func testHashing() {
+        var hashes: [Int] = []
+        hashes.append(BigUInt([]).hashValue)
+        hashes.append(BigUInt([1]).hashValue)
+        hashes.append(BigUInt([2]).hashValue)
+        hashes.append(BigUInt([0, 1]).hashValue)
+        hashes.append(BigUInt([1, 1]).hashValue)
+        hashes.append(BigUInt([1, 2]).hashValue)
+        hashes.append(BigUInt([2, 1]).hashValue)
+        hashes.append(BigUInt([2, 2]).hashValue)
+        hashes.append(BigUInt([1, 2, 3, 4, 5]).hashValue)
+        hashes.append(BigUInt([5, 4, 3, 2, 1]).hashValue)
+        hashes.append(BigUInt([Digit.max]).hashValue)
+        hashes.append(BigUInt([Digit.max, Digit.max]).hashValue)
+        hashes.append(BigUInt([Digit.max, Digit.max, Digit.max]).hashValue)
+        hashes.append(BigUInt([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).hashValue)
+        XCTAssertEqual(hashes.count, Set(hashes).count)
     }
 
     func testIsZero() {
@@ -194,8 +219,6 @@ class BigUIntTests: XCTestCase {
 
         XCTAssertFalse(b.isZero)
         XCTAssertTrue(b.low.isZero)
-        XCTAssertTrue(b.low.low.isZero)
-        XCTAssertTrue(b.low.high.isZero)
         XCTAssertTrue(b.high.low.isZero)
         XCTAssertFalse(b.high.high.isZero)
     }
@@ -227,31 +250,31 @@ class BigUIntTests: XCTestCase {
         var b = BigUInt()
         XCTAssertEqual(b, 0)
 
-        b.add(BigUInt(Digit.max))
+        b.addInPlace(BigUInt(Digit.max))
         XCTAssertEqual(b, BigUInt(Digit.max))
 
-        b.add(1)
+        b.addInPlace(1)
         XCTAssertEqual(b, BigUInt([0, 1]))
 
-        b.add(BigUInt([3, 4]))
+        b.addInPlace(BigUInt([3, 4]))
         XCTAssertEqual(b, BigUInt([3, 5]))
 
-        b.add(BigUInt([0, Digit.max]))
+        b.addInPlace(BigUInt([0, Digit.max]))
         XCTAssertEqual(b, BigUInt([3, 4, 1]))
 
-        b.add(BigUInt([0, Digit.max]))
+        b.addInPlace(BigUInt([0, Digit.max]))
         XCTAssertEqual(b, BigUInt([3, 3, 2]))
     }
 
     func testShiftedAddition() {
         var b = BigUInt()
-        b.add(1, shift: 1)
+        b.addInPlace(1, shift: 1)
         XCTAssertEqual(b, BigUInt([0, 1]))
 
-        b.add(2, shift: 3)
+        b.addInPlace(2, shift: 3)
         XCTAssertEqual(b, BigUInt([0, 1, 0, 2]))
 
-        b.add(BigUInt(Digit.max), shift: 1)
+        b.addInPlace(BigUInt(Digit.max), shift: 1)
         XCTAssertEqual(b, BigUInt([0, 0, 1, 2]))
     }
 
@@ -259,34 +282,36 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(BigUInt(0) - BigUInt(0), BigUInt(0))
 
         var b = BigUInt([1, 2, 3, 4])
-        XCTAssertFalse(b.subtractWithOverflow(BigUInt([0, 1, 1, 1])))
+        XCTAssertFalse(b.subtractInPlaceWithOverflow(BigUInt([0, 1, 1, 1])))
         XCTAssertEqual(Array(b), [1, 1, 2, 3])
 
-        XCTAssertTrue(b.subtractWithOverflow(BigUInt([1, 1, 3, 3])))
-        XCTAssertEqual(Array(b), [0, 0, Digit.max, Digit.max])
+        let b1 = BigUInt([1, 1, 2, 3]).subtractWithOverflow(BigUInt([1, 1, 3, 3]))
+        XCTAssertEqual(b1.0, BigUInt([0, 0, Digit.max, Digit.max]))
+        XCTAssertTrue(b1.1)
 
         let b2 = BigUInt([0, 0, 1]) - BigUInt([1])
         XCTAssertEqual(Array(b2), [Digit.max, Digit.max])
     }
 
     func testMultiplyByDigit() {
-        XCTAssertEqual(BigUInt([1, 2, 3, 4]).scalarMultiply(2), BigUInt([2, 4, 6, 8]))
+        XCTAssertEqual(BigUInt([1, 2, 3, 4]).multiplyWithDigit(0), BigUInt(0))
+        XCTAssertEqual(BigUInt([1, 2, 3, 4]).multiplyWithDigit(2), BigUInt([2, 4, 6, 8]))
 
         let full = Digit.max
 
-        let b = BigUInt([full, 0, full, 0, full]).scalarMultiply(2)
+        let b = BigUInt([full, 0, full, 0, full]).multiplyWithDigit(2)
         XCTAssertEqual(b, BigUInt([full - 1, 1, full - 1, 1, full - 1, 1]))
 
-        let c = BigUInt([full, full, full]).scalarMultiply(2)
+        let c = BigUInt([full, full, full]).multiplyWithDigit(2)
         XCTAssertEqual(c, BigUInt([full - 1, full, full, 1]))
 
-        let d = BigUInt([full, full, full]).scalarMultiply(full)
+        let d = BigUInt([full, full, full]).multiplyWithDigit(full)
         XCTAssertEqual(d, BigUInt([1, full, full, full - 1]))
 
-        let e = BigUInt(Array(count: 16, repeatedValue: Digit(17))).scalarMultiply(15)
+        let e = BigUInt(Array(count: 16, repeatedValue: Digit(17))).multiplyWithDigit(15)
         XCTAssertEqual(e, BigUInt("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")!)
 
-        let f = BigUInt([18] + Array(count: 15, repeatedValue: Digit(17))).scalarMultiply(15)
+        let f = BigUInt([18] + Array(count: 15, repeatedValue: Digit(17))).multiplyWithDigit(15)
         XCTAssertEqual(f, BigUInt("10000000000000000000000000000000E")!)
     }
 
@@ -309,6 +334,9 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(
             BigUInt([0, 1]) * BigUInt([1, 2, 3, 4]),
             BigUInt([0, 1, 2, 3, 4]))
+        XCTAssertEqual(
+            BigUInt([4, 3, 2, 1]) * BigUInt([1, 2, 3, 4]),
+            BigUInt([4, 11, 20, 30, 20, 11, 4]))
         // 999 * 99 = 98901
         XCTAssertEqual(
             BigUInt([Digit.max, Digit.max, Digit.max]) * BigUInt([Digit.max, Digit.max]),

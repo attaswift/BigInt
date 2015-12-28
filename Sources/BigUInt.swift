@@ -10,45 +10,25 @@ import Foundation
 
 public struct BigUInt {
     internal var _digits: [Digit]
-    internal var _level: Int
-    internal var _offset: Int
+    internal var _start: Int
+    internal var _end: Int
 
-    internal init(digits: [Digit], level: Int, offset: Int) {
+    internal init(digits: [Digit], start: Int, end: Int) {
+        precondition(start >= 0 && start <= end)
+        let start = min(start, digits.count)
+        var end = min(end, digits.count)
+        while end > start && digits[end - 1] == 0 { end -= 1 }
         self._digits = digits
-        self._level = level
-        self._offset = offset
+        self._start = start
+        self._end = end
     }
-}
 
-//MARK: Initializers
-
-extension BigUInt {
     public init() {
-        self._digits = []
-        self._level = 0
-        self._offset = 0
+        self.init([])
     }
 
-    internal init(_ digits: [Digit]) {
-        var digits = digits
-        digits.shrink()
-        let level = (digits.count > 0 ? UInt(digits.count - 1).rank + 1 : 0)
-        self.init(digits: digits, level: level, offset: 0)
-    }
-
-    internal init(_ value: BigUInt) {
-        self = value
-        uniq()
-    }
-
-    internal init(_ value: DigitsSlice) {
-        self.init(Array(value))
-    }
-}
-
-extension BigUInt: IntegerLiteralConvertible {
-    public init(integerLiteral value: UInt64) {
-        self.init(value.toUIntMax())
+    public init(_ digits: [Digit]) {
+        self.init(digits: digits, start: 0, end: digits.count)
     }
 
     public init<I: UnsignedIntegerType>(_ integer: I) {
@@ -64,88 +44,95 @@ extension BigUInt: IntegerLiteralConvertible {
         digits.append(Digit(remaining))
         self.init(digits)
     }
+
+    public init<I: SignedIntegerType>(_ integer: I) {
+        precondition(integer >= 0)
+        self.init(UIntMax(integer.toIntMax()))
+    }
 }
 
-//MARK: Shrink and extend
+//MARK: Initializers
 
-extension BigUInt {
-    internal mutating func shrink() {
-        uniq()
-        guard _digits.last == 0 else { return }
-        repeat { _digits.removeLast() } while _digits.last == 0
-        _level = (_digits.count > 0 ? UInt(_digits.count - 1).rank + 1 : 0)
-    }
-
-    internal mutating func extend(index: Int) {
-        uniq()
-        let i = _start + index
-        guard i > _digits.count - 1 else { return }
-        _digits += Array(count: i - (_digits.count - 1), repeatedValue: 0)
-        _level = (_digits.count > 0 ? UInt(_digits.count - 1).rank + 1 : 0)
-    }
-
-    internal var isSlice: Bool { return _offset > 0 || count < _digits.count }
-    internal mutating func uniq() {
-        guard isSlice else { return }
-        self._digits = Array(self)
-        self._offset = 0
+extension BigUInt: IntegerLiteralConvertible {
+    public init(integerLiteral value: UInt64) {
+        self.init(value.toUIntMax())
     }
 }
 
 //MARK: CollectionType
 
 extension BigUInt: CollectionType {
-    public var count: Int {
-        guard _level > 0 else { return 0 }
-        return 1 << (_level - 1)
-    }
-
+    public var count: Int { return _end - _start }
     public var startIndex: Int { return 0 }
     public var endIndex: Int { return count }
 
-    internal var _start: Int {
-        return _offset * count
-    }
-    internal var _end: Int {
-        return (_offset + 1) * count
-    }
-
     public func generate() -> DigitsGenerator {
-        return DigitsGenerator(digits: _digits, endIndex: endIndex, index: startIndex)
+        return DigitsGenerator(digits: _digits, end: _end, index: _start)
     }
 
     public subscript(index: Int) -> Digit {
         get {
-            return (_start + index < _digits.count ? _digits[_start + index] : 0)
+            precondition(index >= 0)
+            let i = _start + index
+            return (i < min(_end, _digits.count) ? _digits[i] : 0)
         }
         set(digit) {
-            uniq()
+            precondition(index >= 0)
+            lift()
             let i = _start + index
-            if i < _digits.count {
+            if i < _end {
                 _digits[i] = digit
-                if digit == 0 && i == _digits.count - 1 {
+                if digit == 0 && i == _end - 1 {
                     shrink()
                 }
             }
             else {
                 guard digit != 0 else { return }
-                extend(index)
-                _digits[i] = digit
+                while _digits.count < i { _digits.append(0) }
+                _digits.append(digit)
+                _end = i + 1
             }
         }
     }
 
-    public subscript(range: Range<Int>) -> DigitsSlice {
+    public subscript(range: Range<Int>) -> BigUInt {
         get {
-            let start = _start
-            return DigitsSlice(
-                digits: _digits,
-                start: start + range.startIndex,
-                end: start + range.endIndex)
+            return BigUInt(digits: _digits, start: _start + range.startIndex, end: _start + range.endIndex)
         }
     }
 }
 
+public struct DigitsGenerator: GeneratorType {
+    internal let digits: [Digit]
+    internal let end: Int
+    internal var index: Int
+
+    public mutating func next() -> Digit? {
+        guard index < end else { return nil }
+        let v = digits[index]
+        index += 1
+        return v
+    }
+}
+
+
+//MARK: Lift and shrink
+
+extension BigUInt {
+    internal var isTop: Bool { return _start == 0 && _end == _digits.count }
+    internal mutating func lift() {
+        guard !isTop else { return }
+        _digits = Array(self)
+        _start = 0
+        _end = _digits.count
+    }
+
+    internal mutating func shrink() {
+        while _end > _start && _digits[_end - 1] == 0 {
+            _end -= 1
+        }
+    }
+}
 
 //MARK: Conversion to and from String
 
@@ -171,58 +158,13 @@ extension BigUInt: CustomStringConvertible {
     }
 
     public var description: String {
-        return self[startIndex..<endIndex].description
-    }
-}
-
-//MARK: Generator
-
-public struct DigitsGenerator: GeneratorType {
-    internal let digits: [Digit]
-    internal let endIndex: Int
-    internal var index: Int
-
-    public mutating func next() -> Digit? {
-        guard index < endIndex else { return nil }
-        let v = (index < digits.count ? digits[index] : 0)
-        index += 1
-        return v
-    }
-}
-
-//MARK: DigitsSlice
-
-public struct DigitsSlice: CollectionType {
-    internal var digits: [Digit]
-    internal let start: Int
-    internal let end: Int
-
-    public var count: Int { return end - start }
-    public var startIndex: Int { return 0 }
-    public var endIndex: Int { return count }
-
-    public func generate() -> DigitsGenerator {
-        return DigitsGenerator(digits: digits, endIndex: end, index: start)
-    }
-
-    public subscript(index: Int) -> Digit {
-        get {
-            precondition(index >= 0)
-            let i = start + index
-            return i < digits.count ? digits[i] : 0
-        }
-    }
-}
-
-extension DigitsSlice: CustomStringConvertible {
-    public var description: String {
         var result = ""
-        let parts = self[0..<count].map { String($0, radix: 16, uppercase: true) }
+        let parts = self.map { String($0, radix: 16, uppercase: true) }
         var first = true
         for part in parts.reverse() {
-            if first && part == "0" { continue }
             let zeroes = 2 * sizeof(Digit) - part.characters.count
             if !first && zeroes > 0 {
+                // Insert leading zeroes for mid-digits
                 result += String(count: zeroes, repeatedValue: "0" as Character)
             }
             first = false
@@ -235,17 +177,24 @@ extension DigitsSlice: CustomStringConvertible {
 //MARK: Low and High
 
 extension BigUInt {
+    internal var split: (high: BigUInt, low: BigUInt) {
+        precondition(count > 1)
+        let mid = _start + count / 2
+        return (
+            BigUInt(digits: _digits, start: mid, end: _end),
+            BigUInt(digits: _digits, start: _start, end: mid)
+        )
+    }
+
     /// Returns the low-order half of this BigUInt.
     internal var low: BigUInt {
-        return BigUInt(digits: _digits, level: _level - 1, offset: 2 * _offset)
+        return split.low
     }
 
     /// Returns the high-order half of this BigUInt.
     internal var high: BigUInt {
-        return BigUInt(digits: _digits, level: _level - 1, offset: 2 * _offset + 1)
+        return split.high
     }
-
-    internal var split: (high: BigUInt, low: BigUInt) { return (high, low) }
 }
 
 //MARK: Comparable
@@ -254,8 +203,8 @@ extension BigUInt: Comparable {
 }
 
 public func ==(a: BigUInt, b: BigUInt) -> Bool {
-    let c = max(a.count, b.count)
-    for i in (0..<c) {
+    guard a.count == b.count else { return false }
+    for i in (0..<a.count) {
         let ad = a[i]
         let bd = b[i]
         if ad != bd { return false }
@@ -264,8 +213,8 @@ public func ==(a: BigUInt, b: BigUInt) -> Bool {
 }
 
 public func <(a: BigUInt, b: BigUInt) -> Bool {
-    let c = max(a.count, b.count)
-    for i in (0..<c).reverse() {
+    guard a.count == b.count else { return a.count < b.count }
+    for i in (0..<a.count).reverse() {
         let ad = a[i]
         let bd = b[i]
         if ad != bd { return ad < bd }
@@ -275,11 +224,24 @@ public func <(a: BigUInt, b: BigUInt) -> Bool {
 
 extension BigUInt {
     var isZero: Bool {
-        return self.indexOf { $0 != 0 } == nil
+        return count == 0
     }
 }
 
+//MARK: Hashable
 
+extension BigUInt: Hashable {
+    public var hashValue: Int {
+        var hash: UInt64 = UInt64(count).byteSwapped
+        for i in 0..<count {
+            let shift: UInt64 = ((UInt64(i) << 5) - UInt64(i)) & 63
+            let rotated = (hash >> shift) | ((hash & ((1 << shift) - 1)) << shift)
+            hash = rotated ^ UInt64(UInt(truncatingBitPattern: Int64(self[i].hashValue &+ i)))
+        }
+
+        return Int(truncatingBitPattern: hash)
+    }
+}
 
 //MARK: Bitwise negation
 
@@ -290,9 +252,8 @@ public prefix func ~(a: BigUInt) -> BigUInt {
 //MARK: Addition
 
 extension BigUInt {
-
-    public mutating func add(b: BigUInt, shift: Int = 0) {
-        uniq()
+    public mutating func addInPlace(b: BigUInt, shift: Int = 0) {
+        lift()
         let c = max(count, b.count)
         var carry = false
         for i in 0..<c {
@@ -311,23 +272,27 @@ extension BigUInt {
         if carry {
             self[c] = 1
         }
-        _level = (_digits.count > 0 ? UInt(_digits.count - 1).rank + 1 : 0)
+    }
+
+    @warn_unused_result
+    public func add(b: BigUInt, shift: Int = 0) -> BigUInt {
+        var r = self
+        r.addInPlace(b, shift: shift)
+        return r
     }
 }
 
 @warn_unused_result
 public func +(a: BigUInt, b: BigUInt) -> BigUInt {
-    var result = a
-    result.add(b)
-    return result
+    return a.add(b)
 }
 
 //MARK: Subtraction
 
 extension BigUInt {
     @warn_unused_result
-    public mutating func subtractWithOverflow(b: BigUInt, shift: Int = 0) -> Bool {
-        uniq()
+    public mutating func subtractInPlaceWithOverflow(b: BigUInt, shift: Int = 0) -> Bool {
+        lift()
         let c = max(count, b.count)
         var carry = false
         for i in (0..<c) {
@@ -343,38 +308,58 @@ extension BigUInt {
                 carry = c
             }
         }
+        shrink()
         return carry
     }
 
-    public mutating func subtract(b: BigUInt, shift: Int = 0) {
-        let overflow = subtractWithOverflow(b, shift: shift)
+    public mutating func subtractInPlace(b: BigUInt, shift: Int = 0) {
+        let overflow = subtractInPlaceWithOverflow(b, shift: shift)
         precondition(!overflow)
+    }
+
+    @warn_unused_result
+    public func subtractWithOverflow(b: BigUInt, shift: Int = 0) -> (BigUInt, Bool) {
+        var result = self
+        let overflow = result.subtractInPlaceWithOverflow(b, shift: shift)
+        return (result, overflow)
+    }
+
+    @warn_unused_result
+    public func subtract(b: BigUInt, shift: Int = 0) -> BigUInt {
+        var result = self
+        result.subtractInPlace(b, shift: shift)
+        return result
     }
 }
 
 @warn_unused_result
 public func -(a: BigUInt, b: BigUInt) -> BigUInt {
-    var result = a
-    result.subtract(b)
-    return result
+    return a.subtract(b)
 }
 
 //MARK: Multiplication
 
 extension BigUInt {
-    @warn_unused_result
-    public func scalarMultiply(y: Digit) -> BigUInt {
-        var result = BigUInt()
+    public mutating func multiplyInPlaceWithDigit(y: Digit) {
+        guard y != 0 else { self = 0; return }
+        guard y != 1 else { return }
+        lift()
         var carry: Digit = 0
         let c = self.count
         for i in 0..<c {
             let (h, l) = Digit.fullMultiply(self[i], y)
             let (low, o) = Digit.addWithOverflow(l, carry)
-            result[i] = low
+            self[i] = low
             carry = (o ? h + 1 : h)
         }
-        result[c] = carry
-        return result
+        self[c] = carry
+    }
+
+    @warn_unused_result
+    public func multiplyWithDigit(y: Digit) -> BigUInt {
+        var r = self
+        r.multiplyInPlaceWithDigit(y)
+        return r
     }
 }
 
@@ -384,19 +369,19 @@ public func *(x: BigUInt, y: BigUInt) -> BigUInt {
     let yc = y.count
     if xc == 0 { return BigUInt() }
     if yc == 0 { return BigUInt() }
-    if yc == 1 { return x.scalarMultiply(y[0]) }
-    if xc == 1 { return y.scalarMultiply(x[0]) }
+    if yc == 1 { return x.multiplyWithDigit(y[0]) }
+    if xc == 1 { return y.multiplyWithDigit(x[0]) }
 
     if yc < xc {
         let (xh, xl) = x.split
         var r = xl * y
-        r.add(xh * y, shift: xc / 2)
+        r.addInPlace(xh * y, shift: xc / 2)
         return r
     }
     else if xc < yc {
         let (yh, yl) = y.split
         var r = yl * x
-        r.add(yh * x, shift: yc / 2)
+        r.addInPlace(yh * x, shift: yc / 2)
         return r
     }
 
@@ -414,14 +399,14 @@ public func *(x: BigUInt, y: BigUInt) -> BigUInt {
     let m = xm * ym
 
     var r = low
-    r.add(high, shift: xc)
-    r.add(low, shift: xc / 2)
-    r.add(high, shift: xc / 2)
+    r.addInPlace(high, shift: xc)
+    r.addInPlace(low, shift: xc / 2)
+    r.addInPlace(high, shift: xc / 2)
     if xp == yp {
-        r.subtract(m, shift: xc / 2)
+        r.subtractInPlace(m, shift: xc / 2)
     }
     else {
-        r.add(m, shift: xc / 2)
+        r.addInPlace(m, shift: xc / 2)
     }
     return r
 }
