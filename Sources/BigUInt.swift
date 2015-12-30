@@ -708,7 +708,7 @@ extension BigUInt {
             // Now refine q by considering x.2 and y.1. 
             // Note that since y is normalized, q - x/y is between 0 and 2.
             var p = Digit.fullMultiply(q, y.1)
-            while p.0 > r || (p.0 == r || p.1 > x.2) {
+            while p.0 > r || (p.0 == r && p.1 > x.2) {
                 q -= 1
                 let (a, ao) = Digit.addWithOverflow(r, y.0)
                 if ao { return q }
