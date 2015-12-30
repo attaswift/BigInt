@@ -315,10 +315,10 @@ class BigUIntTests: XCTestCase {
         let d = BigUInt([full, full, full]).multiplyByDigit(full)
         XCTAssertEqual(d, BigUInt([1, full, full, full - 1]))
 
-        let e = BigUInt(Array(count: 16, repeatedValue: Digit(17))).multiplyByDigit(15)
+        let e = BigUInt("11111111111111111111111111111111")!.multiplyByDigit(15)
         XCTAssertEqual(e, BigUInt("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")!)
 
-        let f = BigUInt([18] + Array(count: 15, repeatedValue: Digit(17))).multiplyByDigit(15)
+        let f = BigUInt("11111111111111111111111111111112")!.multiplyByDigit(15)
         XCTAssertEqual(f, BigUInt("10000000000000000000000000000000E")!)
     }
 
