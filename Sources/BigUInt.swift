@@ -545,11 +545,19 @@ public func << (b: BigUInt, amount: Int) -> BigUInt {
     let ext = amount / Int(Digit.width) // External shift amount (new digits)
     let int = Digit(amount % Int(Digit.width)) // Internal shift amount (subdigit shift)
 
-    var lowbits: Digit = 0
-    for i in 0..<b.count {
-        let digit = b[i]
-        result[i + ext] = digit << int | lowbits
-        lowbits = digit >> Digit.width - int
+    if int > 0 {
+        var lowbits: Digit = 0
+        for i in 0..<b.count {
+            let digit = b[i]
+            result[i + ext] = digit << int | lowbits
+            lowbits = digit >> (Digit.width - int)
+        }
+        result[b.count] = lowbits
+    }
+    else {
+        for i in 0..<b.count {
+            result[i + ext] = b[i]
+        }
     }
     return result
 }
@@ -580,17 +588,24 @@ public func >> (b: BigUInt, amount: Int) -> BigUInt {
     precondition(amount >= 0)
     guard amount > 0 else { return b }
 
-    var result = BigUInt()
     let ext = amount / Int(Digit.width) // External shift amount (new digits)
     let int = Digit(amount % Int(Digit.width)) // Internal shift amount (subdigit shift)
 
-    if ext >= b.count { return result }
+    if ext >= b.count { return BigUInt() }
 
-    var highbits: Digit = 0
-    for i in (ext..<b.count).reverse() {
-        let digit = b[i]
-        result[i - ext] = highbits | digit >> int
-        highbits = digit << Digit.width - int
+    var result = BigUInt()
+    if int > 0 {
+        var highbits: Digit = 0
+        for i in (ext..<b.count).reverse() {
+            let digit = b[i]
+            result[i - ext] = highbits | digit >> int
+            highbits = digit << (Digit.width - int)
+        }
+    }
+    else {
+        for i in (ext..<b.count).reverse() {
+            result[i - ext] = b[i]
+        }
     }
     return result
 }
