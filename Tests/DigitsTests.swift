@@ -20,7 +20,7 @@ class DigitsTests: XCTestCase {
         #endif
     }
 
-    func testMultiplyDigits() {
+    func testFullMultiply() {
         var high, low: Digit
 
         (high, low) = Digit.fullMultiply(2, 3)

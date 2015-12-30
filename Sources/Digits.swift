@@ -17,13 +17,15 @@ public typealias Digit = UIntMax
 //MARK: Digit multiplication
 
 extension Digit {
+    /// Return a tuple with the high and low digits of the product of `x` and `y`.
+    @warn_unused_result
     internal static func fullMultiply(x: Digit, _ y: Digit) -> (high: Digit, low: Digit) {
         let a = Digit(x.high)
         let b = Digit(x.low)
         let c = Digit(y.high)
         let d = Digit(y.low)
 
-        // We don't have a full-width multiplication, so we build it out of half-width multiplications.
+        // We don't have a full-width multiplication, so we build it out of four half-width multiplications.
         // x * y = ac * HH + (ad + bc) * H + bd where H = 2^(n/2)
         let (mv, mo) = Digit.addWithOverflow(a * d, b * c)
         let (low, lo) = Digit.addWithOverflow(b * d, Digit(mv.low) << Digit.halfShift)
