@@ -735,12 +735,11 @@ extension BigUInt {
         let dc = divisor.count
         let d1 = divisor[dc - 1]
         let d0 = divisor[dc - 2]
-        for j in (0 ... remainder.count - dc).reverse() {
-
+        for j in (dc ... remainder.count).reverse() {
             // Approximate dividing the top dc digits of remainder using the topmost 3/2 digits.
-            let r2 = remainder[dc + j]
-            let r1 = remainder[dc + j - 1]
-            let r0 = remainder[dc + j - 2]
+            let r2 = remainder[j]
+            let r1 = remainder[j - 1]
+            let r0 = remainder[j - 2]
             let q = approximateQuotient(x: (r2, r1, r0), y: (d1, d0))
 
             // Multiply q with the whole divisor and subtract the result from remainder.
@@ -748,14 +747,14 @@ extension BigUInt {
             // it may overshoot by at most 1, in which case the product will be greater
             // than remainder.
             let product = divisor.multiplyByDigit(q)
-            if product <= remainder[j ... dc + j] {
-                remainder.subtractInPlace(product, shift: j)
-                quotient[j] = q
+            if product <= remainder[j - dc ... j] {
+                remainder.subtractInPlace(product, shift: j - dc)
+                quotient[j - dc] = q
             }
             else {
                 // This case is extremely rare -- it has a probability of 1/2^(Digit.width - 1).
-                remainder.subtractInPlace(product - divisor, shift: j)
-                quotient[j] = q - 1
+                remainder.subtractInPlace(product - divisor, shift: j - dc)
+                quotient[j - dc] = q - 1
             }
         }
         // The remainder's normalization needs to be undone, but otherwise we're done.
