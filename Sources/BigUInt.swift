@@ -34,7 +34,7 @@ public struct BigUInt {
     public init<I: UnsignedIntegerType>(_ integer: I) {
         var digits = Array<Digit>()
         var remaining = integer.toUIntMax()
-        var rank = remaining.rank
+        var rank = Int(remaining.rank)
         let chunk = 8 * sizeof(Digit)
         while rank >= chunk {
             digits.append(Digit(remaining & UIntMax(Digit.max)))

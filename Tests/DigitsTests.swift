@@ -43,7 +43,7 @@ class DigitsTests: XCTestCase {
         XCTAssertEqual(low, 1)
         XCTAssertEqual(high, Digit.max - 1)
 
-        let half = Digit(Digit.max.low)
+        let half = Digit.max.low
         (high, low) = Digit.fullMultiply(half << Digit.halfShift, half)
         XCTAssertEqual(low, 1 << Digit.halfShift)
         XCTAssertEqual(high, half - 1)
@@ -71,7 +71,7 @@ class DigitsTests: XCTestCase {
         #if TinyDigits
             for v in (0..<Digit.max).map({ $0 + 1 }) {
                 for u1 in 0..<v {
-                    for u0 in 0...Digit(Digit.max.low) {
+                    for u0 in 0...Digit.max.low {
                         testDivision((u1, u0), v)
                     }
                 }

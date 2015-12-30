@@ -42,9 +42,9 @@ class BitwiseTests: XCTestCase {
         for i in 0...255 {
             let rank = UInt8(i).rank
             XCTAssertLessThanOrEqual(rank, 8)
-            XCTAssertGreaterThan(1 << rank, i)
+            XCTAssertGreaterThan(1 << Int(rank), i)
             if i > 0 {
-                XCTAssertLessThanOrEqual(1 << (rank - 1), i)
+                XCTAssertLessThanOrEqual(1 << Int(rank - 1), i)
             }
         }
     }
