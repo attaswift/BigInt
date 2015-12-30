@@ -731,11 +731,6 @@ extension BigUInt {
         var quotient = BigUInt()
         assert(divisor.count == y.count && divisor.last!.high > 0)
 
-        // Note that normalization also ensures that the top digit of `remainder`
-        // will not be greater than the top digit of `divisor`--which is the other
-        // requirement of the 3/2 approximation.
-        assert(remainder.count >= x.count && remainder.last! <= divisor.last!)
-
         // We're ready to start the long division!
         let dc = divisor.count
         let d1 = divisor[dc - 1]
