@@ -283,13 +283,27 @@ public func ^= (inout a: BigUInt, b: BigUInt) {
 //MARK: Addition
 
 extension BigUInt {
-    public mutating func addInPlace(b: BigUInt, shift: Int = 0) {
+    public mutating func addDigitInPlace(d: Digit, shift: Int = 0) {
+        precondition(shift >= 0)
         lift()
-        let c = max(count, b.count)
+        var carry: Digit = d
+        var i = shift
+        while carry > 0 {
+            let (d, c) = Digit.addWithOverflow(self[i], carry)
+            self[i] = d
+            carry = (c ? 1 : 0)
+            i += 1
+        }
+    }
+
+    public mutating func addInPlace(b: BigUInt, shift: Int = 0) {
+        precondition(shift >= 0)
+        lift()
         var carry = false
-        for i in 0..<c {
-            let ai = shift + i
-            let (d, c) = Digit.addWithOverflow(self[ai], b[i])
+        var bi = 0
+        while bi < b.count || carry {
+            let ai = shift + bi
+            let (d, c) = Digit.addWithOverflow(self[ai], b[bi])
             if carry {
                 let (d2, c2) = Digit.addWithOverflow(d, 1)
                 self[ai] = d2
@@ -299,9 +313,7 @@ extension BigUInt {
                 self[ai] = d
                 carry = c
             }
-        }
-        if carry {
-            self[c] = 1
+            bi += 1
         }
     }
 
@@ -310,6 +322,17 @@ extension BigUInt {
         var r = self
         r.addInPlace(b, shift: shift)
         return r
+    }
+
+    @warn_unused_result
+    public func addDigit(d: Digit, shift: Int = 0) -> BigUInt {
+        var r = self
+        r.addDigitInPlace(d, shift: shift)
+        return r
+    }
+
+    public mutating func increment(shift shift: Int = 0) {
+        self.addDigitInPlace(1, shift: shift)
     }
 }
 
@@ -326,13 +349,48 @@ public func +=(inout a: BigUInt, b: BigUInt) {
 
 extension BigUInt {
     @warn_unused_result
-    public mutating func subtractInPlaceWithOverflow(b: BigUInt, shift: Int = 0) -> Bool {
+    public mutating func subtractDigitInPlaceWithOverflow(d: Digit, shift: Int = 0) -> Bool {
+        precondition(shift >= 0)
         lift()
-        let c = max(count, b.count)
+        var carry: Digit = d
+        var i = shift
+        while carry > 0 && i < count {
+            let (d, c) = Digit.subtractWithOverflow(self[i], carry)
+            self[i] = d
+            carry = (c ? 1 : 0)
+            i += 1
+        }
+        return carry > 0
+    }
+
+    @warn_unused_result
+    public func subtractDigitWithOverflow(d: Digit, shift: Int = 0) -> (BigUInt, Bool) {
+        var result = self
+        let overflow = result.subtractDigitInPlaceWithOverflow(d, shift: shift)
+        return (result, overflow)
+    }
+
+    public mutating func subtractDigitInPlace(d: Digit, shift: Int = 0) {
+        let overflow = subtractDigitInPlaceWithOverflow(d, shift: shift)
+        precondition(!overflow)
+    }
+
+    @warn_unused_result
+    public func subtractDigit(d: Digit, shift: Int = 0) -> BigUInt {
+        var result = self
+        result.subtractDigitInPlace(d, shift: shift)
+        return result
+    }
+
+    @warn_unused_result
+    public mutating func subtractInPlaceWithOverflow(b: BigUInt, shift: Int = 0) -> Bool {
+        precondition(shift >= 0)
+        lift()
         var carry = false
-        for i in (0..<c) {
-            let ai = shift + i
-            let (d, c) = Digit.subtractWithOverflow(self[ai], b[i])
+        var bi = 0
+        while bi < b.count || (shift + bi < count && carry) {
+            let ai = shift + bi
+            let (d, c) = Digit.subtractWithOverflow(self[ai], b[bi])
             if carry {
                 let (d2, c2) = Digit.subtractWithOverflow(d, 1)
                 self[ai] = d2
@@ -342,14 +400,9 @@ extension BigUInt {
                 self[ai] = d
                 carry = c
             }
+            bi += 1
         }
-        shrink()
         return carry
-    }
-
-    public mutating func subtractInPlace(b: BigUInt, shift: Int = 0) {
-        let overflow = subtractInPlaceWithOverflow(b, shift: shift)
-        precondition(!overflow)
     }
 
     @warn_unused_result
@@ -359,11 +412,20 @@ extension BigUInt {
         return (result, overflow)
     }
 
+    public mutating func subtractInPlace(b: BigUInt, shift: Int = 0) {
+        let overflow = subtractInPlaceWithOverflow(b, shift: shift)
+        precondition(!overflow)
+    }
+
     @warn_unused_result
     public func subtract(b: BigUInt, shift: Int = 0) -> BigUInt {
         var result = self
         result.subtractInPlace(b, shift: shift)
         return result
+    }
+
+    public mutating func decrement(shift shift: Int = 0) {
+        self.subtractDigitInPlace(1, shift: shift)
     }
 }
 
