@@ -17,6 +17,8 @@ public typealias Digit = UIntMax
 //MARK: Digit multiplication
 
 extension Digit {
+    internal static var width: Digit { return Digit(8 * sizeof(Digit)) }
+
     /// Return a tuple with the high and low digits of the product of `x` and `y`.
     @warn_unused_result
     internal static func fullMultiply(x: Digit, _ y: Digit) -> (high: Digit, low: Digit) {
@@ -80,7 +82,7 @@ extension Digit {
 
         // Normalize u and v such that v has no leading zeroes.
         let w = v.rank // width of v
-        let z = (2 * halfShift - w) // number of leading zeroes in v
+        let z = Digit.width - w // number of leading zeroes in v
         let vn = v << z
 
         let un32 = (z == 0 ? u1 : (u1 << z) | (u0 >> w)) // No bits are lost
