@@ -38,11 +38,12 @@ extension Digit {
 
     private init(high: Digit, low: Digit) {
         assert(low.high == 0 && high.high == 0)
-        self = low + (high << Digit.halfShift)
+        self = (high << Digit.halfShift) | low
     }
 
     /// Divide the two-digit number `(u1, u0)` by `v` and return the quotient and remainder.
     /// - Requires: `u1 < v`, so that the result will fit in a single digit.
+    /// - Complexity: O(1) with 2 divisions, 6 multiplications and ~12 or so additions/subtractions.
     @warn_unused_result
     public static func fullDivide(u1: Digit, _ u0: Digit, _ v: Digit) -> (div: Digit, mod: Digit) {
         // Division is complicated.
@@ -50,48 +51,51 @@ extension Digit {
         // which is in turn a C adaptation of Knuth Algorithm D (TAOCP vol 2, 4.3.1).
         precondition(u1 < v)
 
-        // Find the first half-digit quotient in (uh, ul) / (vn1, vn0), which must be normalized.
-        // uh is a full digit, while ul, vn1, vn0 are expected to be half digits; so this function
-        // divides 3 half-digits by 2 half-digits to get a single digit.
-        func quotient(uh: Digit, _ ul: Digit, _ vn1: Digit, _ vn0: Digit) -> Digit {
-            let q = uh / vn1
-            let r = uh - q * vn1 // < vn1
+        /// Find the half-digit quotient in `(uh, ul) / vn`, which must be normalized.
+        /// - Requires: uh < vn && ul.high == 0 && vn.rank = width(Digit)
+        func quotient(uh: Digit, _ ul: Digit, _ vn: Digit) -> Digit {
+            let (vn1, vn0) = vn.split
+            let q = uh / vn1 // Approximated quotient.
+            let r = uh - q * vn1 // Remainder, less than vn1
             let p = q * vn0
-            // q is often already correct, but sometimes we overshoot by at most 2.
-            // The code that follows checks for this while being careful not to need a full-width multiplication.
-            if q.high == 0 && p <= (r << halfShift) + ul { return q }
+            // q is often already correct, but sometimes the approximation overshoots by at most 2.
+            // The code that follows checks for this while being careful not to need double-digit operations.
+            if q.high == 0 && p <= (r << halfShift) | ul { return q }
             if (r + vn1).high != 0 { return q - 1 }
-            if (q - 1).high == 0 && (p - vn0) <= ((r + vn1) << halfShift) + ul { return q - 1 }
-            assert((r + 2 * vn1).high != 0 || p - 2 * vn0 <= (r + 2 * vn1) << halfShift + ul)
+            if (q - 1).high == 0 && (p - vn0) <= ((r + vn1) << halfShift) | ul { return q - 1 }
+            assert((r + 2 * vn1).high != 0 || p - 2 * vn0 <= (r + 2 * vn1) << halfShift | ul)
             return q - 2
         }
+        /// Divide 3 half-digits by 2 half-digits to get a half-digit quotient and a full-digit remainder.
+        /// - Requires: uh < vn && ul.high == 0 && vn.rank = width(Digit)
+        func divmod(uh: Digit, _ ul: Digit, _ v: Digit) -> (div: Digit, mod: Digit) {
+            let q = quotient(uh, ul, v)
+            // Note that `uh << halfShift` will shift off a couple of bits, and `q * v` and the
+            // subtraction are likely to overflow. Despite this, the end result (remainder) will
+            // still be correct and it will fit inside a single (full) Digit.
+            let r = ((uh << halfShift) | ul) &- q &* v
+            assert(r < v)
+            return (q, r)
+        }
 
-        let w = Digit(v.rank) // width of v
-        let s = (2 * halfShift - w) // number of leading zeroes in v
+        // Normalize u and v such that v has no leading zeroes.
+        let w = v.rank // width of v
+        let z = (2 * halfShift - w) // number of leading zeroes in v
+        let vn = v << z
 
-        // Normalization
-        let vn = v << s
-        let (vn1, vn0) = vn.split
-
-        let un32 = (s == 0 ? u1 : (u1 << s) | (u0 >> w))
-        let un10 = u0 << s
+        let un32 = (z == 0 ? u1 : (u1 << z) | (u0 >> w))
+        let un10 = u0 << z
         let (un1, un0) = un10.split
 
-        // Calculate quotient's high half-digit
-        let q1 = quotient(un32, un1, vn1, vn0)
+        // We are dividing `(un32,un10)` with `vn`.
 
-        // Multiply and subtract. 
-        // Note that `un32 << halfShift` will shift off a couple of bits, and `q1 * vn` and the 
-        // subtraction are likely to overflow. Despite this, the end result (remainder) will 
-        // still be correct and it will fit inside a single (full) Digit.
-        let un21 = (un32 << halfShift) &+ un1 &- q1 &* vn
+        // We split the full 4/2 division into two 3/2 ones.
+        let (q1, un21) = divmod(un32, un1, vn)
+        let (q0, rn) = divmod(un21, un0, vn)
 
-        // Calculate quotient's low half-digit
-        let q0 = quotient(un21, un0, vn1, vn0)
-
-        let mod = ((un21 << halfShift) &+ un0 &- q0 &* vn) >> s
+        // Undo normalization of remainder and combine the two halves of the quotient.
+        let mod = rn >> z
         let div = Digit(high: q1, low: q0)
-
         return (div, mod)
     }
 }
