@@ -454,4 +454,83 @@ public func *=(inout a: BigUInt, b: BigUInt) {
     a = a * b
 }
 
+//MARK: Bitwise Shifts
+
+public func <<= (inout b: BigUInt, amount: Int) {
+    precondition(amount >= 0)
+    guard amount > 0 else { return }
+
+    let ext = amount / Int(Digit.width) // External shift amount (new digits)
+    let int = Digit(amount % Int(Digit.width)) // Internal shift amount (subdigit shift)
+
+    b.lift()
+    var lowbits: Digit = 0
+    for i in 0..<b.count {
+        let digit = b[i]
+        b[i] = digit << int | lowbits
+        lowbits = digit >> Digit.width - int
+    }
+    if ext > 0 && b.count > 0 {
+        b._digits.insertContentsOf(Array<Digit>(count: ext, repeatedValue: 0), at: 0)
+    }
+}
+
+public func << (b: BigUInt, amount: Int) -> BigUInt {
+    precondition(amount >= 0)
+    guard amount > 0 else { return b }
+
+    var result = BigUInt()
+    let ext = amount / Int(Digit.width) // External shift amount (new digits)
+    let int = Digit(amount % Int(Digit.width)) // Internal shift amount (subdigit shift)
+
+    var lowbits: Digit = 0
+    for i in 0..<b.count {
+        let digit = b[i]
+        result[i + ext] = digit << int | lowbits
+        lowbits = digit >> Digit.width - int
+    }
+    return result
+}
+
+public func >>= (inout b: BigUInt, amount: Int) {
+    precondition(amount >= 0)
+    guard amount > 0 else { return }
+
+    let ext = amount / Int(Digit.width) // External shift amount (new digits)
+    let int = Digit(amount % Int(Digit.width)) // Internal shift amount (subdigit shift)
+
+    if ext >= b.count { b = BigUInt() }
+
+    b.lift()
+    var highbits: Digit = 0
+    for i in ext..<b.count {
+        let digit = b[i]
+        b[i - ext] = highbits | digit >> int
+        highbits = digit >> Digit.width - int
+    }
+    if ext > 0 {
+        b._digits.removeRange(Range(start: b.count - ext, end: b.count))
+        b.shrink()
+    }
+}
+
+public func >> (b: BigUInt, amount: Int) -> BigUInt {
+    precondition(amount >= 0)
+    guard amount > 0 else { return b }
+
+    var result = BigUInt()
+    let ext = amount / Int(Digit.width) // External shift amount (new digits)
+    let int = Digit(amount % Int(Digit.width)) // Internal shift amount (subdigit shift)
+
+    if ext >= b.count { return result }
+
+    var highbits: Digit = 0
+    for i in (ext..<b.count).reverse() {
+        let digit = b[i]
+        result[i - ext] = highbits | digit >> int
+        highbits = digit << Digit.width - int
+    }
+    return result
+}
+
 
