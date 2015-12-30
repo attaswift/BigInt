@@ -33,11 +33,6 @@ extension Digit {
         return (high, low)
     }
 
-    @warn_unused_result
-    internal static func divmod(x: Digit, _ y: Digit) -> (div: Digit, mod: Digit) {
-        return (x / y, x % y)
-    }
-
     private init(high: Digit, low: Digit) {
         assert(low.high == 0 && high.high == 0)
         self = (high << Digit.halfShift) | low
