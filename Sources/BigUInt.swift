@@ -200,26 +200,22 @@ extension BigUInt {
 //MARK: Comparable
 
 extension BigUInt: Comparable {
+    public static func compare(a: BigUInt, _ b: BigUInt) -> NSComparisonResult {
+        if a.count != b.count { return a.count > b.count ? .OrderedDescending : .OrderedAscending }
+        for i in (0..<a.count).reverse() {
+            let ad = a[i]
+            let bd = b[i]
+            if ad != bd { return ad > bd ? .OrderedDescending : .OrderedAscending }
+        }
+        return .OrderedSame
+    }
 }
 
 public func ==(a: BigUInt, b: BigUInt) -> Bool {
-    guard a.count == b.count else { return false }
-    for i in (0..<a.count) {
-        let ad = a[i]
-        let bd = b[i]
-        if ad != bd { return false }
-    }
-    return true
+    return BigUInt.compare(a, b) == .OrderedSame
 }
-
 public func <(a: BigUInt, b: BigUInt) -> Bool {
-    guard a.count == b.count else { return a.count < b.count }
-    for i in (0..<a.count).reverse() {
-        let ad = a[i]
-        let bd = b[i]
-        if ad != bd { return ad < bd }
-    }
-    return false
+    return BigUInt.compare(a, b) == .OrderedAscending
 }
 
 extension BigUInt {
