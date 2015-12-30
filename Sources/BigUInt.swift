@@ -239,11 +239,46 @@ extension BigUInt: Hashable {
     }
 }
 
-//MARK: Bitwise negation
+//MARK: Bitwise operations
 
 public prefix func ~(a: BigUInt) -> BigUInt {
     return BigUInt(a.map { ~$0 })
 }
+
+public func | (a: BigUInt, b: BigUInt) -> BigUInt {
+    var result = BigUInt()
+    for i in (0 ..< max(a.count, b.count)).reverse() {
+        result[i] = a[i] | b[i]
+    }
+    return result
+}
+
+public func & (a: BigUInt, b: BigUInt) -> BigUInt {
+    var result = BigUInt()
+    for i in (0 ..< max(a.count, b.count)).reverse() {
+        result[i] = a[i] & b[i]
+    }
+    return result
+}
+
+public func ^ (a: BigUInt, b: BigUInt) -> BigUInt {
+    var result = BigUInt()
+    for i in (0 ..< max(a.count, b.count)).reverse() {
+        result[i] = a[i] ^ b[i]
+    }
+    return result
+}
+
+public func |= (inout a: BigUInt, b: BigUInt) {
+    a = a | b
+}
+public func &= (inout a: BigUInt, b: BigUInt) {
+    a = a & b
+}
+public func ^= (inout a: BigUInt, b: BigUInt) {
+    a = a ^ b
+}
+
 
 //MARK: Addition
 
