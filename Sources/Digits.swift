@@ -87,9 +87,7 @@ extension Digit {
         let un10 = u0 << z
         let (un1, un0) = un10.split
 
-        // We are dividing `(un32,un10)` with `vn`.
-
-        // We split the full 4/2 division into two 3/2 ones.
+        // Divide `(un32,un10)` by `vn`, splitting the full 4/2 division into two 3/2 ones.
         let (q1, un21) = divmod(un32, un1, vn)
         let (q0, rn) = divmod(un21, un0, vn)
 
