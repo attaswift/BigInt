@@ -50,6 +50,25 @@ extension UInt64: BigDigit {
     public static func fromUIntMax(i: UIntMax) -> [UIntMax] { return [i] }
 }
 
+extension UInt32: BigDigit {
+    public static var width: Int { return 32 }
+    public static func fromUIntMax(i: UIntMax) -> [UInt32] { return [UInt32(i.low), UInt32(i.high)] }
+
+    // Somewhat surprisingly, these specializations do not help make UInt32 reach UInt64's performance.
+    // (They are 4-42% faster in benchmarks, but UInt64 is 2-3 times faster still.)
+    public static func fullMultiply(x: UInt32, _ y: UInt32) -> (high: UInt32, low: UInt32) {
+        let p = UInt64(x) * UInt64(y)
+        return (UInt32(p.high), UInt32(p.low))
+    }
+    public static func fullDivide(xh: UInt32, _ xl: UInt32, _ y: UInt32) -> (div: UInt32, mod: UInt32) {
+        let x = UInt64(xh) << 32 + UInt64(xl)
+        let div = x / UInt64(y)
+        let mod = x % UInt64(y)
+        return (UInt32(div), UInt32(mod))
+    }
+}
+
+
 extension UInt8: BigDigit {
     public static var width: Int { return 8 }
     public static func fromUIntMax(i: UIntMax) -> [UInt8] {
