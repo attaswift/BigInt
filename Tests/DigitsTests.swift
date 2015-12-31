@@ -68,7 +68,15 @@ class DigitsTests: XCTestCase {
             XCTAssertEqual(p, bu, "For u = \(bu), v = \(bv), u div v = \(bdiv), u mod v = \(bmod), but div * v + mod = \(p)")
         }
 
-        #if TinyDigits
+        testDivision((0, 0), 2)
+        testDivision((0, 1), 2)
+        testDivision((1, 0), 2)
+        testDivision((8, 0), 136)
+        testDivision((128, 0), 136)
+        testDivision((2, 0), 35)
+        testDivision((7, 12), 19)
+
+        #if false && TinyDigits
             for v in (0..<Digit.max).map({ $0 + 1 }) {
                 for u1 in 0..<v {
                     for u0 in 0...Digit.max.low {
