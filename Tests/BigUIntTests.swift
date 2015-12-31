@@ -164,29 +164,29 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(bh, BigUInt([3, 4, 5]))
 
         let bll = bl.low
-        XCTAssertEqual(bll, BigUInt([0]))
+        XCTAssertEqual(bll, BigUInt([0, 1]))
         let blh = bl.high
-        XCTAssertEqual(blh, BigUInt([1, 2]))
+        XCTAssertEqual(blh, BigUInt([2, 0]))
         let bhl = bh.low
-        XCTAssertEqual(bhl, BigUInt([3]))
+        XCTAssertEqual(bhl, BigUInt([3, 4]))
         let bhh = bh.high
-        XCTAssertEqual(bhh, BigUInt([4, 5]))
+        XCTAssertEqual(bhh, BigUInt([5, 0]))
 
-        let blhl = blh.low
-        XCTAssertEqual(blhl, BigUInt([1]))
-        let blhh = blh.high
-        XCTAssertEqual(blhh, BigUInt([2]))
-        let bhhl = bhh.low
-        XCTAssertEqual(bhhl, BigUInt([4]))
-        let bhhh = bhh.high
-        XCTAssertEqual(bhhh, BigUInt([5]))
+        let blhl = bll.low
+        XCTAssertEqual(blhl, BigUInt([0]))
+        let blhh = bll.high
+        XCTAssertEqual(blhh, BigUInt([1]))
+        let bhhl = bhl.low
+        XCTAssertEqual(bhhl, BigUInt([3]))
+        let bhhh = bhl.high
+        XCTAssertEqual(bhhh, BigUInt([4]))
     }
 
     func testComparison() {
         XCTAssertEqual(BigUInt([1, 2, 3]), BigUInt([1, 2, 3]))
         XCTAssertNotEqual(BigUInt([1, 2]), BigUInt([1, 2, 3]))
         XCTAssertNotEqual(BigUInt([1, 2, 3]), BigUInt([1, 3, 3]))
-        XCTAssertEqual(BigUInt([1, 2, 3, 4, 5, 6]).low.high, BigUInt([2, 3]))
+        XCTAssertEqual(BigUInt([1, 2, 3, 4, 5, 6]).low.high, BigUInt([3]))
 
         XCTAssertTrue(BigUInt([1, 2]) < BigUInt([1, 2, 3]))
         XCTAssertTrue(BigUInt([1, 2, 2]) < BigUInt([1, 2, 3]))
