@@ -746,6 +746,7 @@ extension BigUInt {
             // it may overshoot by at most 1, in which case the product will be greater
             // than remainder.
             let product = divisor.multiplyByDigit(q)
+            assert(remainder.isTop) // Or all the copying will lead to a 850% slowdown.
             if product <= remainder[j - dc ... j] {
                 remainder.subtractInPlace(product, shift: j - dc)
                 quotient[j - dc] = q
