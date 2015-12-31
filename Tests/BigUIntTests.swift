@@ -322,7 +322,7 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(f, BigUInt("10000000000000000000000000000000E")!)
     }
 
-    func testMultiply() {
+    func testMultiplication() {
         XCTAssertEqual(
             BigUInt([1, 2, 3, 4]) * BigUInt(),
             BigUInt())
@@ -356,5 +356,82 @@ class BigUIntTests: XCTestCase {
         b *= BigUInt("164B")!
         XCTAssertEqual(b, BigUInt("353FB0494B8"))
 
+        XCTAssertEqual(BigUInt("16B60")! * BigUInt("33E28")!, BigUInt("49A5A0700")!)
     }
+
+    func testDivision() {
+        func test(a: [Digit], _ b: [Digit], file: String = __FILE__, line: UInt = __LINE__) {
+            let x = BigUInt(a)
+            let y = BigUInt(b)
+            let (div, mod) = BigUInt.divmod(x, y)
+            XCTAssertLessThan(mod, y, "x:\(x) = div:\(div) * y:\(y) + mod:\(mod)", file: file, line: line)
+            XCTAssertEqual(div * y + mod, x, "x:\(x) = div:\(div) * y:\(y) + mod:\(mod)", file: file, line: line)
+        }
+        // These cases exercise all code paths in the division for Digit == UInt8.
+        test([], [1])
+        test([1], [1])
+        test([1], [2])
+        test([2], [1])
+        test([], [0, 1])
+        test([1], [0, 1])
+        test([0, 1], [0, 1])
+        test([0, 0, 1], [0, 1])
+        test([0, 0, 1], [1, 1])
+        test([0, 0, 1], [3, 1])
+        test([0, 0, 1], [75, 1])
+        test([0, 0, 0, 1], [0, 1])
+        test([2, 4, 6, 8], [1, 2])
+        test([2, 3, 4, 5], [4, 5])
+        test([Digit.max, Digit.max - 1, Digit.max], [Digit.max, Digit.max])
+        test([0, 0, 0, 0, 0, Digit.max / 2 + 1, Digit.max / 2], [1, 0, 0, Digit.max / 2 + 1])
+
+        #if false
+            for y0 in Array(1 ... Int(Digit.max)).reverse() {
+                for y1 in Array(0 ... Int(Digit.max)).reverse() {
+                    for x0 in Array(1 ... Int(Digit.max)).reverse() {
+                        for x1 in Array(0 ... Int(Digit.max)).reverse() {
+                            for x2 in Array(0 ... Int(Digit.max)).reverse() {
+                                test(
+                                    [Digit(x2), Digit(x1), Digit(x0)],
+                                    [Digit(y1), Digit(y0)])
+                            }
+                        }
+                    }
+                }
+            }
+        #endif
+    }
+
+    func testFactorial() {
+        let power = 10
+        var forward = BigUInt(1)
+        for i in 1 ..< (1 << power) {
+            forward *= BigUInt(i)
+        }
+        print("\(1 << power - 1)! = \(forward) [\(forward.count)]")
+        var backward = BigUInt(1)
+        for i in (1 ..< (1 << power)).reverse() {
+            backward *= BigUInt(i)
+        }
+
+        func balancedFactorial(level level: Int, offset: Int) -> BigUInt {
+            if level == 0 {
+                return BigUInt(offset == 0 ? 1 : offset)
+            }
+            let a = balancedFactorial(level: level - 1, offset: 2 * offset)
+            let b = balancedFactorial(level: level - 1, offset: 2 * offset + 1)
+            return a * b
+        }
+        var balanced = balancedFactorial(level: power, offset: 0)
+
+        XCTAssertEqual(backward, forward)
+        XCTAssertEqual(balanced, forward)
+        for i in 1 ..< (1 << power) {
+            let (div, mod) = BigUInt.divmod(balanced, BigUInt(i))
+            XCTAssertEqual(mod, 0)
+            balanced = div
+        }
+        XCTAssertEqual(balanced, 1)
+    }
+
 }
