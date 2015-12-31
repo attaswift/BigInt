@@ -179,7 +179,7 @@ extension BigUInt: CustomStringConvertible {
 extension BigUInt {
     internal var split: (high: BigUInt, low: BigUInt) {
         precondition(count > 1)
-        let mid = _start + count / 2
+        let mid = _start + (count + 1) / 2
         return (
             BigUInt(digits: _digits, start: mid, end: _end),
             BigUInt(digits: _digits, start: _start, end: mid)
@@ -476,15 +476,17 @@ public func *(x: BigUInt, y: BigUInt) -> BigUInt {
     if yc < xc {
         let (xh, xl) = x.split
         var r = xl * y
-        r.addInPlace(xh * y, shift: xc / 2)
+        r.addInPlace(xh * y, shift: (xc + 1) / 2)
         return r
     }
     else if xc < yc {
         let (yh, yl) = y.split
         var r = yl * x
-        r.addInPlace(yh * x, shift: yc / 2)
+        r.addInPlace(yh * x, shift: (yc + 1) / 2)
         return r
     }
+
+    let shift = (xc + 1) / 2
 
     // Karatsuba multiplication:
     // x * y = <a,b> * <c,d> = <ac, ac + bd - (a-b)(c-d), bd> (ignoring carry)
@@ -500,14 +502,14 @@ public func *(x: BigUInt, y: BigUInt) -> BigUInt {
     let m = xm * ym
 
     var r = low
-    r.addInPlace(high, shift: xc)
-    r.addInPlace(low, shift: xc / 2)
-    r.addInPlace(high, shift: xc / 2)
+    r.addInPlace(high, shift: 2 * shift)
+    r.addInPlace(low, shift: shift)
+    r.addInPlace(high, shift: shift)
     if xp == yp {
-        r.subtractInPlace(m, shift: xc / 2)
+        r.subtractInPlace(m, shift: shift)
     }
     else {
-        r.addInPlace(m, shift: xc / 2)
+        r.addInPlace(m, shift: shift)
     }
     return r
 }
