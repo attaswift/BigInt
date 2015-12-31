@@ -466,6 +466,17 @@ public func *(x: BigUInt, y: BigUInt) -> BigUInt {
     if yc == 1 { return x.multiplyByDigit(y[0]) }
     if xc == 1 { return y.multiplyByDigit(x[0]) }
 
+    if min(xc, yc) <= 1024 {
+        // Long multiplication.
+        let left = (xc < yc ? y : x)
+        let right = (xc < yc ? x : y)
+        var result = BigUInt()
+        for i in (0 ..< right.count).reverse() {
+            result.addInPlace(left.multiplyByDigit(right[i]), shift: i)
+        }
+        return result
+    }
+
     if yc < xc {
         let (xh, xl) = x.split
         var r = xl * y
