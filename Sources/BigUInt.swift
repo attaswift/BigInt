@@ -678,8 +678,8 @@ extension BigUInt {
         // digit. (Remember that this step is also tricky when we do it on paper!)
         //
         // The solution is that the long division can be approximated by a single fullDivide
-        // using just the most significant digits. We can then use multiplies and subtracts
-        // to refine the approximation until we get the correct quotient digit.
+        // using just the most significant digits. We can then use multiplications and 
+        // subtractions to refine the approximation until we get the correct quotient digit.
 
         // We could do this by doing a simple 2/1 fullDivide, but Knuth goes one step further,
         // and implements a 3/2 division. This results in an exact approximation in the 
