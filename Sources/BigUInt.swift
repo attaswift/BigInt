@@ -517,15 +517,16 @@ public func <<= (inout b: BigUInt, amount: Int) {
     precondition(amount >= 0)
     guard amount > 0 else { return }
 
-    let ext = amount / Int(Digit.width) // External shift amount (new digits)
-    let int = Digit(amount % Int(Digit.width)) // Internal shift amount (subdigit shift)
+    let ext = amount / Digit.width // External shift amount (new digits)
+    let up = Digit(amount % Digit.width) // Internal shift amount (subdigit shift)
+    let down = Digit(Digit.width) - up
 
     b.lift()
     var lowbits: Digit = 0
     for i in 0..<b.count {
         let digit = b[i]
-        b[i] = digit << int | lowbits
-        lowbits = digit >> Digit.width - int
+        b[i] = digit << up | lowbits
+        lowbits = digit >> down
     }
     if ext > 0 && b.count > 0 {
         b._digits.insertContentsOf(Array<Digit>(count: ext, repeatedValue: 0), at: 0)
@@ -537,15 +538,16 @@ public func << (b: BigUInt, amount: Int) -> BigUInt {
     guard amount > 0 else { return b }
 
     var result = BigUInt()
-    let ext = amount / Int(Digit.width) // External shift amount (new digits)
-    let int = Digit(amount % Int(Digit.width)) // Internal shift amount (subdigit shift)
+    let ext = amount / Digit.width // External shift amount (new digits)
+    let up = Digit(amount % Digit.width) // Internal shift amount (subdigit shift)
+    let down = Digit(Digit.width) - up
 
-    if int > 0 {
+    if up > 0 {
         var lowbits: Digit = 0
         for i in 0..<b.count {
             let digit = b[i]
-            result[i + ext] = digit << int | lowbits
-            lowbits = digit >> (Digit.width - int)
+            result[i + ext] = digit << up | lowbits
+            lowbits = digit >> down
         }
         result[b.count] = lowbits
     }
@@ -561,8 +563,9 @@ public func >>= (inout b: BigUInt, amount: Int) {
     precondition(amount >= 0)
     guard amount > 0 else { return }
 
-    let ext = amount / Int(Digit.width) // External shift amount (new digits)
-    let int = Digit(amount % Int(Digit.width)) // Internal shift amount (subdigit shift)
+    let ext = amount / Digit.width // External shift amount (new digits)
+    let down = Digit(amount % Digit.width) // Internal shift amount (subdigit shift)
+    let up = Digit(Digit.width) - down
 
     if ext >= b.count { b = BigUInt() }
 
@@ -570,8 +573,8 @@ public func >>= (inout b: BigUInt, amount: Int) {
     var highbits: Digit = 0
     for i in ext..<b.count {
         let digit = b[i]
-        b[i - ext] = highbits | digit >> int
-        highbits = digit >> Digit.width - int
+        b[i - ext] = highbits | digit >> down
+        highbits = digit << up
     }
     if ext > 0 {
         b._digits.removeRange(Range(start: b.count - ext, end: b.count))
@@ -583,18 +586,19 @@ public func >> (b: BigUInt, amount: Int) -> BigUInt {
     precondition(amount >= 0)
     guard amount > 0 else { return b }
 
-    let ext = amount / Int(Digit.width) // External shift amount (new digits)
-    let int = Digit(amount % Int(Digit.width)) // Internal shift amount (subdigit shift)
+    let ext = amount / Digit.width // External shift amount (new digits)
+    let down = Digit(amount % Digit.width) // Internal shift amount (subdigit shift)
+    let up = Digit(Digit.width) - down
 
     if ext >= b.count { return BigUInt() }
 
     var result = BigUInt()
-    if int > 0 {
+    if down > 0 {
         var highbits: Digit = 0
         for i in (ext..<b.count).reverse() {
             let digit = b[i]
-            result[i - ext] = highbits | digit >> int
-            highbits = digit << (Digit.width - int)
+            result[i - ext] = highbits | digit >> down
+            highbits = digit << up
         }
     }
     else {
@@ -611,11 +615,11 @@ public func >> (b: BigUInt, amount: Int) -> BigUInt {
 extension BigUInt {
     public var width: Int {
         guard count > 0 else { return 0 }
-        return (count - 1) * Int(Digit.width) + Int(self[count - 1].rank)
+        return (count - 1) * Digit.width + self[count - 1].width
     }
     public var numberOfLeadingZeroes: Int {
         guard count > 0 else { return 0 }
-        return Int(Digit.width - self[count - 1].rank)
+        return Int(Digit.width - self[count - 1].width)
     }
 
     /// Divides this integer by `y`, leaving the quotient in its place and returning the remainder.

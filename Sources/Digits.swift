@@ -15,16 +15,32 @@ import Foundation
     public typealias Digit = UIntMax
 #endif
 
-public protocol BigWord: Comparable, Hashable {
+public protocol ShiftOperationsType {
+    @warn_unused_result
+    func <<(a: Self, b: Self) -> Self
+
+    @warn_unused_result
+    func >>(a: Self, b: Self) -> Self
+
+    func <<=(inout a: Self, b: Self)
+    func >>=(inout a: Self, b: Self)
+}
+
+public protocol BigDigit: UnsignedIntegerType, BitwiseOperationsType, ShiftOperationsType {
+    init(_ v: Int)
     static func fromUIntMax(i: UIntMax) -> [Self]
 
     static func fullMultiply(x: Self, _ y: Self) -> (high: Self, low: Self)
     static func fullDivide(xh: Self, _ xl: Self, _ y: Self) -> (div: Self, mod: Self)
 
-    static var width: Self { get }
+    static var width: Int { get }
 }
 
-extension UIntMax: BigWord {
+extension BigDigit {
+    var upshifted: Self { return self << (Self(Self.width) / 2) }
+}
+
+extension UIntMax: BigDigit {
     public static func fromUIntMax(i: UIntMax) -> [UIntMax] {
         return [i]
     }
@@ -34,11 +50,11 @@ extension UInt8 {
     public static func fromUIntMax(i: UIntMax) -> [UInt8] {
         var digits = Array<UInt8>()
         var remaining = i
-        var rank = remaining.rank
-        while rank >= 8 {
+        var width = remaining.width
+        while width >= 8 {
             digits.append(UInt8(remaining & UIntMax(UInt8.max)))
             remaining >>= 8
-            rank -= 8
+            width -= 8
         }
         digits.append(UInt8(remaining))
         return digits
@@ -48,7 +64,7 @@ extension UInt8 {
 //MARK: Digit multiplication
 
 extension Digit {
-    public static var width: Digit { return Digit(8 * sizeof(Digit)) }
+    public static var width: Int { return 8 * sizeof(Digit) }
 
     /// Return a tuple with the high and low digits of the product of `x` and `y`.
     @warn_unused_result
@@ -59,14 +75,14 @@ extension Digit {
         // We don't have a full-width multiplication, so we build it out of four half-width multiplications.
         // x * y = ac * HH + (ad + bc) * H + bd where H = 2^(n/2)
         let (mv, mo) = Digit.addWithOverflow(a * d, b * c)
-        let (low, lo) = Digit.addWithOverflow(b * d, mv.low << halfShift)
-        let high = a * c + mv.high + (mo ? 1 << halfShift : 0) + (lo ? 1 : 0)
+        let (low, lo) = Digit.addWithOverflow(b * d, mv.low.upshifted)
+        let high = a * c + mv.high + (mo ? Digit(1).upshifted : 0) + (lo ? 1 : 0)
         return (high, low)
     }
 
     private init(high: Digit, low: Digit) {
         assert(low.high == 0 && high.high == 0)
-        self = (high << Digit.halfShift) | low
+        self = high.upshifted | low
     }
 
     /// Divide the two-digit number `(u1, u0)` by a single digit `v` and return the quotient and remainder.
@@ -80,7 +96,7 @@ extension Digit {
         precondition(u1 < v)
 
         /// Find the half-digit quotient in `(uh, ul) / vn`, which must be normalized.
-        /// - Requires: uh < vn && ul.high == 0 && vn.rank = width(Digit)
+        /// - Requires: uh < vn && ul.high == 0 && vn.width = width(Digit)
         func quotient(uh: Digit, _ ul: Digit, _ vn: Digit) -> Digit {
             let (vn1, vn0) = vn.split
             let q = uh / vn1 // Approximated quotient.
@@ -88,14 +104,14 @@ extension Digit {
             let p = q * vn0
             // q is often already correct, but sometimes the approximation overshoots by at most 2.
             // The code that follows checks for this while being careful to only perform single-digit operations.
-            if q.high == 0 && p <= (r << halfShift) | ul { return q }
+            if q.high == 0 && p <= r.upshifted | ul { return q }
             if (r + vn1).high != 0 { return q - 1 }
             if (q - 1).high == 0 && (p - vn0) <= Digit(high: r + vn1, low: ul) { return q - 1 }
             assert((r + 2 * vn1).high != 0 || p - 2 * vn0 <= Digit(high: r + 2 * vn1, low: ul))
             return q - 2
         }
         /// Divide 3 half-digits by 2 half-digits to get a half-digit quotient and a full-digit remainder.
-        /// - Requires: uh < vn && ul.high == 0 && vn.rank = width(Digit)
+        /// - Requires: uh < vn && ul.high == 0 && vn.width = width(Digit)
         func divmod(uh: Digit, _ ul: Digit, _ v: Digit) -> (div: Digit, mod: Digit) {
             let q = quotient(uh, ul, v)
             // Note that `uh.low` masks off a couple of bits, and `q * v` and the
@@ -107,8 +123,8 @@ extension Digit {
         }
 
         // Normalize u and v such that v has no leading zeroes.
-        let w = v.rank // width of v
-        let z = Digit.width - w // number of leading zeroes in v
+        let w = Digit(v.width) // width of v
+        let z = Digit(Digit.width) - w // number of leading zeroes in v
         let vn = v << z
 
         let un32 = (z == 0 ? u1 : (u1 << z) | (u0 >> w)) // No bits are lost

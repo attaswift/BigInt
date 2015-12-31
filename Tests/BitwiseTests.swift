@@ -38,13 +38,13 @@ class BitwiseTests: XCTestCase {
         XCTAssertEqual(n.low, 0x89ABCDEF)
     }
 
-    func testUInt8_rank() {
+    func testUInt8_width() {
         for i in 0...255 {
-            let rank = UInt8(i).rank
-            XCTAssertLessThanOrEqual(rank, 8)
-            XCTAssertGreaterThan(1 << Int(rank), i)
+            let width = UInt8(i).width
+            XCTAssertLessThanOrEqual(width, 8)
+            XCTAssertGreaterThan(1 << Int(width), i)
             if i > 0 {
-                XCTAssertLessThanOrEqual(1 << Int(rank - 1), i)
+                XCTAssertLessThanOrEqual(1 << Int(width - 1), i)
             }
         }
     }
@@ -61,17 +61,17 @@ class BitwiseTests: XCTestCase {
     }
 
     func testRankTable() {
-        XCTAssertEqual(rankTable.count, 256)
+        XCTAssertEqual(widthTable.count, 256)
     }
 
-    func testUInt16_rank() {
-        XCTAssertEqual(UInt16(0x0000).rank, 0)
-        XCTAssertEqual(UInt16(0x0080).rank, 8)
-        XCTAssertEqual(UInt16(0x00FF).rank, 8)
-        XCTAssertEqual(UInt16(0x0100).rank, 9)
-        XCTAssertEqual(UInt16(0x01FF).rank, 9)
-        XCTAssertEqual(UInt16(0x0200).rank, 10)
-        XCTAssertEqual(UInt16(0xFFFF).rank, 16)
+    func testUInt16_width() {
+        XCTAssertEqual(UInt16(0x0000).width, 0)
+        XCTAssertEqual(UInt16(0x0080).width, 8)
+        XCTAssertEqual(UInt16(0x00FF).width, 8)
+        XCTAssertEqual(UInt16(0x0100).width, 9)
+        XCTAssertEqual(UInt16(0x01FF).width, 9)
+        XCTAssertEqual(UInt16(0x0200).width, 10)
+        XCTAssertEqual(UInt16(0xFFFF).width, 16)
     }
 
     func testUInt16_mask() {
@@ -84,14 +84,14 @@ class BitwiseTests: XCTestCase {
         XCTAssertEqual(UInt16(0xFFFF).mask, 0xFFFF)
     }
 
-    func testUInt32_rank() {
-        XCTAssertEqual(UInt32(0x00000000).rank, 0)
-        XCTAssertEqual(UInt32(0x00008000).rank, 16)
-        XCTAssertEqual(UInt32(0x0000FFFF).rank, 16)
-        XCTAssertEqual(UInt32(0x00010000).rank, 17)
-        XCTAssertEqual(UInt32(0x0001FFFF).rank, 17)
-        XCTAssertEqual(UInt32(0x00020000).rank, 18)
-        XCTAssertEqual(UInt32(0xFFFFFFFF).rank, 32)
+    func testUInt32_width() {
+        XCTAssertEqual(UInt32(0x00000000).width, 0)
+        XCTAssertEqual(UInt32(0x00008000).width, 16)
+        XCTAssertEqual(UInt32(0x0000FFFF).width, 16)
+        XCTAssertEqual(UInt32(0x00010000).width, 17)
+        XCTAssertEqual(UInt32(0x0001FFFF).width, 17)
+        XCTAssertEqual(UInt32(0x00020000).width, 18)
+        XCTAssertEqual(UInt32(0xFFFFFFFF).width, 32)
     }
 
     func testUInt32_mask() {
@@ -104,14 +104,14 @@ class BitwiseTests: XCTestCase {
         XCTAssertEqual(UInt32(0xFFFFFFFF).mask, 0xFFFFFFFF)
     }
 
-    func testUInt64_rank() {
-        XCTAssertEqual(UInt64(0x0000000000000000).rank, 0)
-        XCTAssertEqual(UInt64(0x0000000080000000).rank, 32)
-        XCTAssertEqual(UInt64(0x00000000FFFFFFFF).rank, 32)
-        XCTAssertEqual(UInt64(0x0000000100000000).rank, 33)
-        XCTAssertEqual(UInt64(0x00000001FFFFFFFF).rank, 33)
-        XCTAssertEqual(UInt64(0x0000000200000000).rank, 34)
-        XCTAssertEqual(UInt64.max.rank, 64)
+    func testUInt64_width() {
+        XCTAssertEqual(UInt64(0x0000000000000000).width, 0)
+        XCTAssertEqual(UInt64(0x0000000080000000).width, 32)
+        XCTAssertEqual(UInt64(0x00000000FFFFFFFF).width, 32)
+        XCTAssertEqual(UInt64(0x0000000100000000).width, 33)
+        XCTAssertEqual(UInt64(0x00000001FFFFFFFF).width, 33)
+        XCTAssertEqual(UInt64(0x0000000200000000).width, 34)
+        XCTAssertEqual(UInt64.max.width, 64)
     }
 
     func testUInt64_mask() {
@@ -124,14 +124,14 @@ class BitwiseTests: XCTestCase {
         XCTAssertEqual(UInt64.max.mask, UInt64.max)
     }
 
-    func testUInt_rank() {
-        XCTAssertEqual(UInt(0x0000000000000000).rank, 0)
-        XCTAssertEqual(UInt(0x0000000080000000).rank, 32)
-        XCTAssertEqual(UInt(0x00000000FFFFFFFF).rank, 32)
-        XCTAssertEqual(UInt(0x0000000100000000).rank, 33)
-        XCTAssertEqual(UInt(0x00000001FFFFFFFF).rank, 33)
-        XCTAssertEqual(UInt(0x0000000200000000).rank, 34)
-        XCTAssertEqual(UInt.max.rank, 64)
+    func testUInt_width() {
+        XCTAssertEqual(UInt(0x0000000000000000).width, 0)
+        XCTAssertEqual(UInt(0x0000000080000000).width, 32)
+        XCTAssertEqual(UInt(0x00000000FFFFFFFF).width, 32)
+        XCTAssertEqual(UInt(0x0000000100000000).width, 33)
+        XCTAssertEqual(UInt(0x00000001FFFFFFFF).width, 33)
+        XCTAssertEqual(UInt(0x0000000200000000).width, 34)
+        XCTAssertEqual(UInt.max.width, 64)
     }
 
     func testUInt_mask() {

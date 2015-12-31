@@ -31,12 +31,12 @@ class DigitsTests: XCTestCase {
         XCTAssertEqual(low, Digit.max - 1)
         XCTAssertEqual(high, 1)
 
-        (high, low) = Digit.fullMultiply(1 << Digit.halfShift, 2)
-        XCTAssertEqual(low, 1 << (Digit.halfShift + 1))
+        (high, low) = Digit.fullMultiply(Digit(1).upshifted, 2)
+        XCTAssertEqual(low, Digit(1).upshifted * 2)
         XCTAssertEqual(high, 0)
 
-        (high, low) = Digit.fullMultiply(2, 1 << Digit.halfShift)
-        XCTAssertEqual(low, 1 << (Digit.halfShift + 1))
+        (high, low) = Digit.fullMultiply(2, Digit(1).upshifted)
+        XCTAssertEqual(low, Digit(1).upshifted * 2)
         XCTAssertEqual(high, 0)
 
         (high, low) = Digit.fullMultiply(Digit.max, Digit.max)
@@ -44,12 +44,12 @@ class DigitsTests: XCTestCase {
         XCTAssertEqual(high, Digit.max - 1)
 
         let half = Digit.max.low
-        (high, low) = Digit.fullMultiply(half << Digit.halfShift, half)
-        XCTAssertEqual(low, 1 << Digit.halfShift)
+        (high, low) = Digit.fullMultiply(half.upshifted, half)
+        XCTAssertEqual(low, Digit(1).upshifted)
         XCTAssertEqual(high, half - 1)
 
-        (high, low) = Digit.fullMultiply(half, half << Digit.halfShift)
-        XCTAssertEqual(low, 1 << Digit.halfShift)
+        (high, low) = Digit.fullMultiply(half, half.upshifted)
+        XCTAssertEqual(low, Digit(1).upshifted)
         XCTAssertEqual(high, half - 1)
     }
 
