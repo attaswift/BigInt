@@ -73,7 +73,10 @@ extension BigUInt: CollectionType {
             if i < _end {
                 _digits[i] = digit
                 if digit == 0 && i == _end - 1 {
-                    shrink()
+                    while _digits.last == 0 {
+                        _digits.removeLast()
+                    }
+                    _end = _digits.count
                 }
             }
             else {
