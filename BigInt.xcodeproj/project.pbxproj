@@ -22,6 +22,8 @@
 		BB64E7341C2F76FF00C18269 /* BitwiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E7321C2F76FF00C18269 /* BitwiseTests.swift */; };
 		BB64E7361C2F831000C18269 /* DigitsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E7351C2F831000C18269 /* DigitsTests.swift */; };
 		BB64E7371C2F831000C18269 /* DigitsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E7351C2F831000C18269 /* DigitsTests.swift */; };
+		BB68F6511C34B6190008776E /* ProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB68F6501C34B6190008776E /* ProfileTests.swift */; };
+		BB68F6521C34B6190008776E /* ProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB68F6501C34B6190008776E /* ProfileTests.swift */; };
 		BB6EF3CC1C2F993600ABFA71 /* BigUIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EF3CB1C2F993600ABFA71 /* BigUIntTests.swift */; };
 		BB6EF3CD1C2F993600ABFA71 /* BigUIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EF3CB1C2F993600ABFA71 /* BigUIntTests.swift */; };
 		BB6EF3D31C2FC60300ABFA71 /* BigIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E6FF1C2F490000C18269 /* BigIntTests.swift */; };
@@ -58,6 +60,7 @@
 		BB64E72F1C2F653900C18269 /* Bitwise Hacks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bitwise Hacks.swift"; sourceTree = "<group>"; };
 		BB64E7321C2F76FF00C18269 /* BitwiseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BitwiseTests.swift; sourceTree = "<group>"; };
 		BB64E7351C2F831000C18269 /* DigitsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DigitsTests.swift; sourceTree = "<group>"; };
+		BB68F6501C34B6190008776E /* ProfileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTests.swift; sourceTree = "<group>"; };
 		BB6EF3CB1C2F993600ABFA71 /* BigUIntTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BigUIntTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -133,6 +136,7 @@
 				BB64E7321C2F76FF00C18269 /* BitwiseTests.swift */,
 				BB64E7351C2F831000C18269 /* DigitsTests.swift */,
 				BB6EF3CB1C2F993600ABFA71 /* BigUIntTests.swift */,
+				BB68F6501C34B6190008776E /* ProfileTests.swift */,
 				BB64E6FF1C2F490000C18269 /* BigIntTests.swift */,
 				BB64E7011C2F490000C18269 /* Info.plist */,
 			);
@@ -326,6 +330,7 @@
 				BB64E7001C2F490000C18269 /* BigIntTests.swift in Sources */,
 				BB6EF3CC1C2F993600ABFA71 /* BigUIntTests.swift in Sources */,
 				BB64E7331C2F76FF00C18269 /* BitwiseTests.swift in Sources */,
+				BB68F6511C34B6190008776E /* ProfileTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,6 +353,7 @@
 				BB64E7341C2F76FF00C18269 /* BitwiseTests.swift in Sources */,
 				BB64E7371C2F831000C18269 /* DigitsTests.swift in Sources */,
 				BB6EF3CD1C2F993600ABFA71 /* BigUIntTests.swift in Sources */,
+				BB68F6521C34B6190008776E /* ProfileTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,6 +407,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_SWIFT_FLAGS = "-DProfile";
 				SDKROOT = iphoneos;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
