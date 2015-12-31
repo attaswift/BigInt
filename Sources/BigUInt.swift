@@ -455,6 +455,36 @@ extension BigUInt {
         r.multiplyInPlaceByDigit(y)
         return r
     }
+
+    /// Add `x * y` to this integer, optionally shifted by `shift` digits to the right.
+    public mutating func multiplyAndAddInPlace(x: BigUInt, _ y: Digit, shift: Int = 0) {
+        precondition(shift >= 0)
+        guard y != 0 && x.count > 0 else { return }
+        guard y != 1 else { self.addInPlace(x, shift: shift); return }
+        lift()
+        var mulCarry: Digit = 0
+        var addCarry = false
+        let xc = x.count
+        var xi = 0
+        while xi < xc || addCarry || mulCarry > 0 {
+            let (h, l) = Digit.fullMultiply(x[xi], y)
+            let (low, o) = Digit.addWithOverflow(l, mulCarry)
+            mulCarry = (o ? h + 1 : h)
+
+            let ai = shift + xi
+            let (sum1, so1) = Digit.addWithOverflow(self[ai], low)
+            if addCarry {
+                let (sum2, so2) = Digit.addWithOverflow(sum1, 1)
+                self[ai] = sum2
+                addCarry = so1 || so2
+            }
+            else {
+                self[ai] = sum1
+                addCarry = so1
+            }
+            xi += 1
+        }
+    }
 }
 
 @warn_unused_result
@@ -472,7 +502,7 @@ public func *(x: BigUInt, y: BigUInt) -> BigUInt {
         let right = (xc < yc ? x : y)
         var result = BigUInt()
         for i in (0 ..< right.count).reverse() {
-            result.addInPlace(left.multiplyByDigit(right[i]), shift: i)
+            result.multiplyAndAddInPlace(left, right[i], shift: i)
         }
         return result
     }
