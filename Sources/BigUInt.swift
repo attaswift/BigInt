@@ -32,17 +32,7 @@ public struct BigUInt {
     }
 
     public init<I: UnsignedIntegerType>(_ integer: I) {
-        var digits = Array<Digit>()
-        var remaining = integer.toUIntMax()
-        var rank = Int(remaining.rank)
-        let chunk = 8 * sizeof(Digit)
-        while rank >= chunk {
-            digits.append(Digit(remaining & UIntMax(Digit.max)))
-            remaining >>= UIntMax(chunk)
-            rank -= chunk
-        }
-        digits.append(Digit(remaining))
-        self.init(digits)
+        self.init(Digit.fromUIntMax(integer.toUIntMax()))
     }
 
     public init<I: SignedIntegerType>(_ integer: I) {

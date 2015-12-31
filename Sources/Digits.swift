@@ -9,19 +9,50 @@
 import Foundation
 
 #if TinyDigits
-public typealias Digit = UInt8
+    public typealias Digit = UIntMax
+//    public typealias Digit = UInt8
 #else
-public typealias Digit = UIntMax
+    public typealias Digit = UIntMax
 #endif
+
+public protocol BigWord: Comparable, Hashable {
+    static func fromUIntMax(i: UIntMax) -> [Self]
+
+    static func fullMultiply(x: Self, _ y: Self) -> (high: Self, low: Self)
+    static func fullDivide(xh: Self, _ xl: Self, _ y: Self) -> (div: Self, mod: Self)
+
+    static var width: Self { get }
+}
+
+extension UIntMax: BigWord {
+    public static func fromUIntMax(i: UIntMax) -> [UIntMax] {
+        return [i]
+    }
+}
+
+extension UInt8 {
+    public static func fromUIntMax(i: UIntMax) -> [UInt8] {
+        var digits = Array<UInt8>()
+        var remaining = i
+        var rank = remaining.rank
+        while rank >= 8 {
+            digits.append(UInt8(remaining & UIntMax(UInt8.max)))
+            remaining >>= 8
+            rank -= 8
+        }
+        digits.append(UInt8(remaining))
+        return digits
+    }
+}
 
 //MARK: Digit multiplication
 
 extension Digit {
-    internal static var width: Digit { return Digit(8 * sizeof(Digit)) }
+    public static var width: Digit { return Digit(8 * sizeof(Digit)) }
 
     /// Return a tuple with the high and low digits of the product of `x` and `y`.
     @warn_unused_result
-    internal static func fullMultiply(x: Digit, _ y: Digit) -> (high: Digit, low: Digit) {
+    public static func fullMultiply(x: Digit, _ y: Digit) -> (high: Digit, low: Digit) {
         let (a, b) = x.split
         let (c, d) = y.split
 
