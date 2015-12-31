@@ -32,7 +32,7 @@ public struct BigUInt {
     }
 
     public init<I: UnsignedIntegerType>(_ integer: I) {
-        self.init(Digit.fromUIntMax(integer.toUIntMax()))
+        self.init(Digit.digitsFromUIntMax(integer.toUIntMax()))
     }
 
     public init<I: SignedIntegerType>(_ integer: I) {

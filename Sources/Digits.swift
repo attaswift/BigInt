@@ -28,7 +28,7 @@ public protocol ShiftOperationsType {
 
 public protocol BigDigit: UnsignedIntegerType, BitwiseOperationsType, ShiftOperationsType {
     init(_ v: Int)
-    static func fromUIntMax(i: UIntMax) -> [Self]
+    static func digitsFromUIntMax(i: UIntMax) -> [Self]
 
     static func fullMultiply(x: Self, _ y: Self) -> (high: Self, low: Self)
     static func fullDivide(xh: Self, _ xl: Self, _ y: Self) -> (div: Self, mod: Self)
@@ -47,12 +47,12 @@ extension BigDigit {
 
 extension UInt64: BigDigit {
     public static var width: Int { return 64 }
-    public static func fromUIntMax(i: UIntMax) -> [UIntMax] { return [i] }
+    public static func digitsFromUIntMax(i: UIntMax) -> [UIntMax] { return [i] }
 }
 
 extension UInt32: BigDigit {
     public static var width: Int { return 32 }
-    public static func fromUIntMax(i: UIntMax) -> [UInt32] { return [UInt32(i.low), UInt32(i.high)] }
+    public static func digitsFromUIntMax(i: UIntMax) -> [UInt32] { return [UInt32(i.low), UInt32(i.high)] }
 
     // Somewhat surprisingly, these specializations do not help make UInt32 reach UInt64's performance.
     // (They are 4-42% faster in benchmarks, but UInt64 is 2-3 times faster still.)
@@ -71,7 +71,7 @@ extension UInt32: BigDigit {
 
 extension UInt8: BigDigit {
     public static var width: Int { return 8 }
-    public static func fromUIntMax(i: UIntMax) -> [UInt8] {
+    public static func digitsFromUIntMax(i: UIntMax) -> [UInt8] {
         var digits = Array<UInt8>()
         var remaining = i
         var width = remaining.width
