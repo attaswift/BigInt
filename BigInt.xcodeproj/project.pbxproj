@@ -61,6 +61,7 @@
 		BB64E7321C2F76FF00C18269 /* BitwiseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BitwiseTests.swift; sourceTree = "<group>"; };
 		BB64E7351C2F831000C18269 /* DigitsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DigitsTests.swift; sourceTree = "<group>"; };
 		BB68F6501C34B6190008776E /* ProfileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTests.swift; sourceTree = "<group>"; };
+		BB6BB5501C36F5940054459A /* Demo.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Demo.playground; sourceTree = "<group>"; };
 		BB6EF3CB1C2F993600ABFA71 /* BigUIntTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BigUIntTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -101,6 +102,7 @@
 		BB64E6E61C2F48FF00C18269 = {
 			isa = PBXGroup;
 			children = (
+				BB6BB5501C36F5940054459A /* Demo.playground */,
 				BB64E6F21C2F490000C18269 /* Sources */,
 				BB64E6FE1C2F490000C18269 /* Tests */,
 				BB64E6F11C2F490000C18269 /* Products */,
