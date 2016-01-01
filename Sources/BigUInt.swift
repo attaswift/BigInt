@@ -905,3 +905,14 @@ public func %(x: BigUInt, y: BigUInt) -> BigUInt {
 
 public func /=(inout x: BigUInt, y: BigUInt) { x = x / y }
 public func %=(inout x: BigUInt, y: BigUInt) { x = x % y }
+
+public func sqrt(value: BigUInt) -> BigUInt {
+    // This implementation uses Newton's method.
+    var x = value
+    while true {
+        let y = (x + value / x) >> 1
+        if x == y || x == y - 1 { break }
+        x = y
+    }
+    return x
+}

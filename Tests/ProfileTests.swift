@@ -116,7 +116,34 @@ class ProfileTests: XCTestCase {
             XCTAssertEqual(mods[i], 0, "div = \(divs[i]), mod = \(mods[i]) for divisor = \(divisors[i])")
         }
         checkFactorial(fact, n: 1 << power - 1)
+    }
 
+    func testSquareRoot() {
+        func randomBigInt(digits: Int) -> BigUInt {
+            let p = UnsafeMutablePointer<UInt64>.alloc(digits)
+            arc4random_buf(p, digits * sizeof(UInt64))
+
+            var result: BigUInt = 0
+            for i in 0 ..< digits {
+                result[i] = p[i]
+            }
+            p.destroy()
+            return result
+        }
+        var numbers: [BigUInt] = (1...100).map { _ in randomBigInt(30) }
+        var roots: [BigUInt] = []
+        self.measure {
+            roots.removeAll()
+            for number in numbers {
+                let root = sqrt(number)
+                roots.append(root)
+            }
+        }
+
+        for i in 0..<numbers.count {
+            XCTAssertLessThanOrEqual(roots[i] * roots[i], numbers[i])
+            XCTAssertGreaterThan((roots[i] + 1) * (roots[i] + 1), numbers[i])
+        }
     }
 }
 #endif
