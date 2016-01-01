@@ -131,39 +131,95 @@ extension BigUInt {
 
 extension BigUInt: CustomStringConvertible {
 
-    public init?(_ text: String) {
-        var digits: [Digit] = []
-
-        let charsPerDigit = 2 * sizeof(Digit)
-
-        var piece = ""
-        for c in text.characters.reverse() {
-            piece.insert(c, atIndex: piece.startIndex)
-            if piece.characters.count == charsPerDigit {
-                guard let d = Digit(piece, radix: 16) else { return nil }
-                digits.append(d)
-                piece = ""
+    private static func charsPerDigitForRadix(radix: Int) -> (chars: Int, power: Digit) {
+        var power: Digit = 1
+        var overflow = false
+        var count = 0
+        while !overflow {
+            let (p, o) = Digit.multiplyWithOverflow(power, Digit(radix))
+            overflow = o
+            if !o || p == 0 {
+                count += 1
+                power = p
             }
         }
-        guard let d = Digit("0" + piece, radix: 16) else { return nil }
-        digits.append(d)
-        self.init(digits)
+        return (count, power)
+    }
+
+    public init?(_ text: String, radix: Int = 10) {
+        precondition(radix > 1)
+        let (charsPerDigit, power) = BigUInt.charsPerDigitForRadix(radix)
+
+        var digits: [Digit] = []
+        var piece: String = ""
+        var count = 0
+        for c in text.characters.reverse() {
+            piece.insert(c, atIndex: piece.startIndex)
+            count += 1
+            if count == charsPerDigit {
+                guard let d = Digit(piece, radix: radix) else { return nil }
+                digits.append(d)
+                piece = ""
+                count = 0
+            }
+        }
+        if !piece.isEmpty {
+            guard let d = Digit(piece, radix: radix) else { return nil }
+            digits.append(d)
+        }
+
+        if power == 0 {
+            self.init(digits)
+        }
+        else {
+            self.init()
+            for d in digits.reverse() {
+                self.multiplyInPlaceByDigit(power)
+                self.addDigitInPlace(d)
+            }
+        }
     }
 
     public var description: String {
-        var result = ""
-        let parts = self.map { String($0, radix: 16, uppercase: true) }
+        return String(self, radix: 10)
+    }
+}
+
+extension String {
+    public init(_ v: BigUInt) { self.init(v, radix: 10, uppercase: false) }
+    
+    public init(_ v: BigUInt, radix: Int, uppercase: Bool = false) {
+        precondition(radix > 1)
+        let (charsPerDigit, power) = BigUInt.charsPerDigitForRadix(radix)
+
+        guard !v.isEmpty else { self = "0"; return }
+
+        var parts: [String]
+        if power == 0 {
+            parts = v.map { String($0, radix: radix, uppercase: uppercase) }
+        }
+        else {
+            parts = []
+            var rest = v
+            while !rest.isZero {
+                let mod = rest.divideInPlaceByDigit(power)
+                parts.append(String(mod, radix: radix, uppercase: uppercase))
+            }
+        }
+        assert(!parts.isEmpty)
+
+        self = ""
         var first = true
         for part in parts.reverse() {
-            let zeroes = 2 * sizeof(Digit) - part.characters.count
+            let zeroes = charsPerDigit - part.characters.count
+            assert(zeroes >= 0)
             if !first && zeroes > 0 {
                 // Insert leading zeroes for mid-digits
-                result += String(count: zeroes, repeatedValue: "0" as Character)
+                self += String(count: zeroes, repeatedValue: "0" as Character)
             }
             first = false
-            result += part
+            self += part
         }
-        return result.isEmpty ? "0" : result
     }
 }
 

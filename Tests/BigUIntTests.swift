@@ -37,31 +37,19 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(b4._end, 3)
 
         let b5 = BigUInt(UIntMax(0x1827364554637281))
-        XCTAssertEqual(String(b5), "1827364554637281")
+        XCTAssertEqual(String(b5, radix: 16), "1827364554637281")
 
         let b6 = BigUInt(UInt32(0x12345678))
-        XCTAssertEqual(String(b6), "12345678")
+        XCTAssertEqual(String(b6, radix: 16), "12345678")
 
         let b7 = BigUInt(IntMax(0x1827364554637281))
-        XCTAssertEqual(String(b7), "1827364554637281")
+        XCTAssertEqual(String(b7, radix: 16), "1827364554637281")
 
         let b8 = BigUInt(Int16(0x1234))
-        XCTAssertEqual(String(b8), "1234")
+        XCTAssertEqual(String(b8, radix: 16), "1234")
 
         let b9: BigUInt = 0x1827364554637281
-        XCTAssertEqual(String(b9), "1827364554637281")
-
-        let b10 = BigUInt("1")!
-        XCTAssertEqual(String(b10), "1")
-
-        let b11 = BigUInt("1234567890ABCDEF")!
-        XCTAssertEqual(String(b11), "1234567890ABCDEF")
-
-        let b12 = BigUInt("Not a number")
-        XCTAssertNil(b12)
-
-        let b13 = BigUInt("X")
-        XCTAssertNil(b13)
+        XCTAssertEqual(String(b9, radix: 16), "1827364554637281")
     }
 
     func testCollection() {
@@ -141,11 +129,58 @@ class BigUIntTests: XCTestCase {
     }
 
     func testConversionToString() {
+        let sample = BigUInt("123456789ABCDEFEDCBA98765432123456789ABCDEF", radix: 16)!
+        // Radix = 10
         XCTAssertEqual(String(BigUInt()), "0")
         XCTAssertEqual(String(BigUInt(1)), "1")
-        XCTAssertEqual(String(BigUInt(0x1001)), "1001")
-        XCTAssertEqual(String(BigUInt(0x0102030405060708)), "102030405060708")
+        XCTAssertEqual(String(BigUInt(100)), "100")
+        XCTAssertEqual(String(BigUInt(12345)), "12345")
+        XCTAssertEqual(String(BigUInt(123456789)), "123456789")
+        XCTAssertEqual(String(sample), "425693205796080237694414176550132631862392541400559")
+
+        // Radix = 16
+        XCTAssertEqual(String(BigUInt(0x1001), radix: 16), "1001")
+        XCTAssertEqual(String(BigUInt(0x0102030405060708), radix: 16), "102030405060708")
+        XCTAssertEqual(String(sample, radix: 16), "123456789abcdefedcba98765432123456789abcdef")
+        XCTAssertEqual(String(sample, radix: 16, uppercase: true), "123456789ABCDEFEDCBA98765432123456789ABCDEF")
+
+        // Radix = 2
+        XCTAssertEqual(String(BigUInt(12), radix: 2), "1100")
+        XCTAssertEqual(String(BigUInt(123), radix: 2), "1111011")
+        XCTAssertEqual(String(BigUInt(1234), radix: 2), "10011010010")
+        XCTAssertEqual(String(sample, radix: 2), "1001000110100010101100111100010011010101111001101111011111110110111001011101010011000011101100101010000110010000100100011010001010110011110001001101010111100110111101111")
+
+        // Radix = 31
+        XCTAssertEqual(String(BigUInt(30), radix: 31), "u")
+        XCTAssertEqual(String(BigUInt(31), radix: 31), "10")
+        XCTAssertEqual(String(BigUInt("10000000000000000", radix: 16)!, radix: 31), "nd075ib45k86g")
+        XCTAssertEqual(String(BigUInt("2908B5129F59DB6A41", radix: 16)!, radix: 31), "100000000000000")
+        XCTAssertEqual(String(sample, radix: 31), "ptf96helfaqi7ogc3jbonmccrhmnc2b61s")
     }
+
+    func testConversionFromString() {
+        let sample = "123456789ABCDEFEDCBA98765432123456789ABCDEF"
+
+        XCTAssertEqual(BigUInt("1")!, 1)
+        XCTAssertEqual(BigUInt("123456789ABCDEF", radix: 16)!, 0x123456789ABCDEF)
+        XCTAssertEqual(BigUInt("1000000000000000000000"), BigUInt("3635C9ADC5DEA00000", radix: 16))
+        XCTAssertEqual(BigUInt("10000000000000000", radix: 16), BigUInt("18446744073709551616"))
+        XCTAssertEqual(BigUInt(sample, radix: 16)!, BigUInt("425693205796080237694414176550132631862392541400559")!)
+
+        XCTAssertNil(BigUInt("Not a number"))
+        XCTAssertNil(BigUInt("X"))
+        XCTAssertNil(BigUInt("12349A"))
+        XCTAssertNil(BigUInt("000000000000000000000000A000"))
+        XCTAssertNil(BigUInt("00A0000000000000000000000000"))
+        XCTAssertNil(BigUInt("00 0000000000000000000000000"))
+        XCTAssertNil(BigUInt("\u{4e00}\u{4e03}")) // Chinese numerals "1", "7"
+
+        XCTAssertEqual(BigUInt("u", radix: 31)!, 30)
+        XCTAssertEqual(BigUInt("10", radix: 31)!, 31)
+        XCTAssertEqual(BigUInt("100000000000000", radix: 31)!, BigUInt("2908B5129F59DB6A41", radix: 16)!)
+        XCTAssertEqual(BigUInt("nd075ib45k86g", radix: 31)!, BigUInt("10000000000000000", radix: 16)!)
+        XCTAssertEqual(BigUInt("ptf96helfaqi7ogc3jbonmccrhmnc2b61s", radix: 31)!, BigUInt(sample, radix: 16)!)
+}
 
     func testLowHigh() {
         let a = BigUInt([0, 1, 2, 3])
@@ -238,8 +273,8 @@ class BigUIntTests: XCTestCase {
     }
 
     func testNegation() {
-        let b = BigUInt("0123456789ABCDEFFEDCBA9876543210")!
-        XCTAssertEqual(~b, BigUInt("FEDCBA98765432100123456789ABCDEF")!)
+        let b = BigUInt("0123456789ABCDEFFEDCBA9876543210", radix: 16)!
+        XCTAssertEqual(~b, BigUInt("FEDCBA98765432100123456789ABCDEF", radix: 16)!)
     }
 
     func testAddition() {
@@ -315,11 +350,11 @@ class BigUIntTests: XCTestCase {
         let d = BigUInt([full, full, full]).multiplyByDigit(full)
         XCTAssertEqual(d, BigUInt([1, full, full, full - 1]))
 
-        let e = BigUInt("11111111111111111111111111111111")!.multiplyByDigit(15)
-        XCTAssertEqual(e, BigUInt("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")!)
+        let e = BigUInt("11111111111111111111111111111111", radix: 16)!.multiplyByDigit(15)
+        XCTAssertEqual(e, BigUInt("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", radix: 16)!)
 
-        let f = BigUInt("11111111111111111111111111111112")!.multiplyByDigit(15)
-        XCTAssertEqual(f, BigUInt("10000000000000000000000000000000E")!)
+        let f = BigUInt("11111111111111111111111111111112", radix: 16)!.multiplyByDigit(15)
+        XCTAssertEqual(f, BigUInt("10000000000000000000000000000000E", radix: 16)!)
     }
 
     func testMultiplication() {
@@ -352,11 +387,11 @@ class BigUIntTests: XCTestCase {
             BigUInt([1, 2]) * BigUInt([2, 1]),
             BigUInt([2, 5, 2]))
 
-        var b = BigUInt("2637AB28")!
-        b *= BigUInt("164B")!
-        XCTAssertEqual(b, BigUInt("353FB0494B8"))
+        var b = BigUInt("2637AB28", radix: 16)!
+        b *= BigUInt("164B", radix: 16)!
+        XCTAssertEqual(b, BigUInt("353FB0494B8", radix: 16))
 
-        XCTAssertEqual(BigUInt("16B60")! * BigUInt("33E28")!, BigUInt("49A5A0700")!)
+        XCTAssertEqual(BigUInt("16B60", radix: 16)! * BigUInt("33E28", radix: 16)!, BigUInt("49A5A0700", radix: 16)!)
     }
 
     func testDivision() {
