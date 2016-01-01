@@ -22,6 +22,8 @@ internal let widthTable: [UInt8] = [
 ]
 
 extension UInt8 {
+    public static var width: Int { return 8 }
+
     public var low: UInt8 { return self & 0xF }
     public var high: UInt8 { return self >> 4 }
     public var split: (high: UInt8, low: UInt8) { return (high, low) }
@@ -33,11 +35,13 @@ extension UInt8 {
     }
 }
 extension UInt16 {
-    var low: UInt16 { return self & 0xFF }
-    var high: UInt16 { return self >> 8 }
-    var split: (high: UInt16, low: UInt16) { return (high, low) }
+    public static var width: Int { return 16 }
 
-    var width: Int {
+    public var low: UInt16 { return self & 0xFF }
+    public var high: UInt16 { return self >> 8 }
+    public var split: (high: UInt16, low: UInt16) { return (high, low) }
+
+    public var width: Int {
         return high == 0 ? UInt8(low).width : UInt8(high).width + 8
     }
     var mask: UInt16 {
@@ -46,6 +50,8 @@ extension UInt16 {
     }
 }
 extension UInt32 {
+    public static var width: Int { return 32 }
+
     public var low: UInt32 { return self & 0xFFFF }
     public var high: UInt32 { return self >> 16 }
     public var split: (high: UInt32, low: UInt32) { return (high, low) }
@@ -59,6 +65,8 @@ extension UInt32 {
     }
 }
 extension UInt64 {
+    public static var width: Int { return 64 }
+
     public var low: UInt64 { return self & 0xFFFFFFFF }
     public var high: UInt64 { return self >> 32 }
     public var split: (high: UInt64, low: UInt64) { return (high, low) }

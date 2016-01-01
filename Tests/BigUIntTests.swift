@@ -128,6 +128,20 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(d, BigUInt())
     }
 
+    func testSlice() {
+        let value = BigUInt([0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20])
+        let slice = value[3..<6]
+
+        XCTAssertEqual(slice.count, 3)
+        XCTAssertEqual(slice.startIndex, 0)
+        XCTAssertEqual(slice.endIndex, 3)
+
+        XCTAssertTrue(slice.elementsEqual([6, 8, 10]))
+        XCTAssertEqual(slice[0], 6)
+        XCTAssertEqual(slice[1], 8)
+        XCTAssertEqual(slice[2], 10)
+    }
+
     func testConversionToString() {
         let sample = BigUInt("123456789ABCDEFEDCBA98765432123456789ABCDEF", radix: 16)!
         // Radix = 10
@@ -230,6 +244,15 @@ class BigUIntTests: XCTestCase {
         XCTAssertTrue(BigUInt([1, 2, 3, 4, 5, 6]).low.high < BigUInt([3, 5]))
     }
 
+    func testIsZero() {
+        let b = BigUInt([0, 0, 0, 1])
+
+        XCTAssertFalse(b.isZero)
+        XCTAssertTrue(b.low.isZero)
+        XCTAssertTrue(b.high.low.isZero)
+        XCTAssertFalse(b.high.high.isZero)
+    }
+
     func testHashing() {
         var hashes: [Int] = []
         hashes.append(BigUInt([]).hashValue)
@@ -249,32 +272,36 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(hashes.count, Set(hashes).count)
     }
 
-    func testIsZero() {
-        let b = BigUInt([0, 0, 0, 1])
+    func testBitwise() {
+        let a = BigUInt("1234567890ABCDEF13579BDF2468ACE", radix: 16)!
+        let b = BigUInt("ECA8642FDB97531FEDCBA0987654321", radix: 16)!
 
-        XCTAssertFalse(b.isZero)
-        XCTAssertTrue(b.low.isZero)
-        XCTAssertTrue(b.high.low.isZero)
-        XCTAssertFalse(b.high.high.isZero)
-    }
+        //                                    a = 01234567890ABCDEF13579BDF2468ACE
+        //                                    b = 0ECA8642FDB97531FEDCBA0987654321
+        XCTAssertEqual(String(~a,    radix: 16), "fedcba9876f543210eca86420db97531")
+        XCTAssertEqual(String(a | b, radix: 16),  "febc767fdbbfdfffffdfbbdf767cbef")
+        XCTAssertEqual(String(a & b, radix: 16),    "2044289083410f014380982440200")
+        XCTAssertEqual(String(a ^ b, radix: 16),  "fe9c32574b3c9ef0fe9c3b47523c9ef")
 
-    func testSlice() {
-        let value = BigUInt([0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20])
-        let slice = value[3..<6]
+        let ffff = BigUInt(Array(count: 30, repeatedValue: Digit.max))
+        XCTAssertEqual(~ffff, 0)
+        XCTAssertEqual(a | ffff, ffff)
+        XCTAssertEqual(a | 0, a)
+        XCTAssertEqual(a & a, a)
+        XCTAssertEqual(a & 0, 0)
+        XCTAssertEqual(a & ffff, a)
+        XCTAssertEqual(~(a | b), (~a & ~b))
+        XCTAssertEqual(~(a & b), (~a | ~b))
+        XCTAssertEqual(a ^ a, 0)
+        XCTAssertEqual((a ^ b) ^ b, a)
+        XCTAssertEqual((a ^ b) ^ a, b)
 
-        XCTAssertEqual(slice.count, 3)
-        XCTAssertEqual(slice.startIndex, 0)
-        XCTAssertEqual(slice.endIndex, 3)
+        var z = a * b
+        z |= a
+        z &= b
+        z ^= ffff
+        XCTAssertEqual(z, (((a * b) | a) & b) ^ ffff)
 
-        XCTAssertTrue(slice.elementsEqual([6, 8, 10]))
-        XCTAssertEqual(slice[0], 6)
-        XCTAssertEqual(slice[1], 8)
-        XCTAssertEqual(slice[2], 10)
-    }
-
-    func testNegation() {
-        let b = BigUInt("0123456789ABCDEFFEDCBA9876543210", radix: 16)!
-        XCTAssertEqual(~b, BigUInt("FEDCBA98765432100123456789ABCDEF", radix: 16)!)
     }
 
     func testAddition() {
@@ -302,6 +329,13 @@ class BigUIntTests: XCTestCase {
 
         b += 2
         XCTAssertEqual(b, BigUInt([5, 3, 2]))
+
+        b = BigUInt([Digit.max, 2, Digit.max])
+        b.increment()
+        XCTAssertEqual(b, BigUInt([0, 3, Digit.max]))
+
+        XCTAssertEqual(BigUInt([Digit.max - 5, Digit.max, 4, Digit.max]).addDigit(6), BigUInt([0, 0, 5, Digit.max]))
+
     }
 
     func testShiftedAddition() {
@@ -317,6 +351,30 @@ class BigUIntTests: XCTestCase {
     }
 
     func testSubtraction() {
+        var a1 = BigUInt([1, 2, 3, 4])
+        XCTAssertFalse(a1.subtractDigitInPlaceWithOverflow(3, shift: 1))
+        XCTAssertEqual(a1, BigUInt([1, Digit.max, 2, 4]))
+
+        let (diff, overflow) = BigUInt([1, 2, 3, 4]).subtractDigitWithOverflow(2)
+        XCTAssertEqual(diff, BigUInt([Digit.max, 1, 3, 4]))
+        XCTAssertFalse(overflow)
+
+        var a2 = BigUInt([1, 2, 3, 4])
+        XCTAssertTrue(a2.subtractDigitInPlaceWithOverflow(5, shift: 3))
+        XCTAssertEqual(a2, BigUInt([1, 2, 3, Digit.max]))
+
+        var a3 = BigUInt([1, 2, 3, 4])
+        a3.subtractDigitInPlace(4, shift: 3)
+        XCTAssertEqual(a3, BigUInt([1, 2, 3]))
+
+        var a4 = BigUInt([1, 2, 3, 4])
+        a4.decrement()
+        XCTAssertEqual(a4, BigUInt([0, 2, 3, 4]))
+        a4.decrement()
+        XCTAssertEqual(a4, BigUInt([Digit.max, 1, 3, 4]))
+
+        XCTAssertEqual(BigUInt([1, 2, 3, 4]).subtractDigit(5), BigUInt([Digit.max - 3, 1, 3, 4]))
+
         XCTAssertEqual(BigUInt(0) - BigUInt(0), BigUInt(0))
 
         var b = BigUInt([1, 2, 3, 4])
@@ -358,40 +416,137 @@ class BigUIntTests: XCTestCase {
     }
 
     func testMultiplication() {
-        XCTAssertEqual(
-            BigUInt([1, 2, 3, 4]) * BigUInt(),
-            BigUInt())
-        XCTAssertEqual(
-            BigUInt() * BigUInt([1, 2, 3, 4]),
-            BigUInt())
-        XCTAssertEqual(
-            BigUInt([1, 2, 3, 4]) * BigUInt([2]),
-            BigUInt([2, 4, 6, 8]))
-        XCTAssertEqual(
-            BigUInt([2]) * BigUInt([1, 2, 3, 4]),
-            BigUInt([2, 4, 6, 8]))
-        XCTAssertEqual(
-            BigUInt([1, 2, 3, 4]) * BigUInt([0, 1]),
-            BigUInt([0, 1, 2, 3, 4]))
-        XCTAssertEqual(
-            BigUInt([0, 1]) * BigUInt([1, 2, 3, 4]),
-            BigUInt([0, 1, 2, 3, 4]))
-        XCTAssertEqual(
-            BigUInt([4, 3, 2, 1]) * BigUInt([1, 2, 3, 4]),
-            BigUInt([4, 11, 20, 30, 20, 11, 4]))
-        // 999 * 99 = 98901
-        XCTAssertEqual(
-            BigUInt([Digit.max, Digit.max, Digit.max]) * BigUInt([Digit.max, Digit.max]),
-            BigUInt([1, 0, Digit.max, Digit.max - 1, Digit.max]))
-        XCTAssertEqual(
-            BigUInt([1, 2]) * BigUInt([2, 1]),
-            BigUInt([2, 5, 2]))
+        func test() {
+            XCTAssertEqual(
+                BigUInt([1, 2, 3, 4]) * BigUInt(),
+                BigUInt())
+            XCTAssertEqual(
+                BigUInt() * BigUInt([1, 2, 3, 4]),
+                BigUInt())
+            XCTAssertEqual(
+                BigUInt([1, 2, 3, 4]) * BigUInt([2]),
+                BigUInt([2, 4, 6, 8]))
+            XCTAssertEqual(
+                BigUInt([2]) * BigUInt([1, 2, 3, 4]),
+                BigUInt([2, 4, 6, 8]))
+            XCTAssertEqual(
+                BigUInt([1, 2, 3, 4]) * BigUInt([0, 1]),
+                BigUInt([0, 1, 2, 3, 4]))
+            XCTAssertEqual(
+                BigUInt([0, 1]) * BigUInt([1, 2, 3, 4]),
+                BigUInt([0, 1, 2, 3, 4]))
+            XCTAssertEqual(
+                BigUInt([4, 3, 2, 1]) * BigUInt([1, 2, 3, 4]),
+                BigUInt([4, 11, 20, 30, 20, 11, 4]))
+            // 999 * 99 = 98901
+            XCTAssertEqual(
+                BigUInt([Digit.max, Digit.max, Digit.max]) * BigUInt([Digit.max, Digit.max]),
+                BigUInt([1, 0, Digit.max, Digit.max - 1, Digit.max]))
+            XCTAssertEqual(
+                BigUInt([1, 2]) * BigUInt([2, 1]),
+                BigUInt([2, 5, 2]))
 
-        var b = BigUInt("2637AB28", radix: 16)!
-        b *= BigUInt("164B", radix: 16)!
-        XCTAssertEqual(b, BigUInt("353FB0494B8", radix: 16))
+            var b = BigUInt("2637AB28", radix: 16)!
+            b *= BigUInt("164B", radix: 16)!
+            XCTAssertEqual(b, BigUInt("353FB0494B8", radix: 16))
+            
+            XCTAssertEqual(BigUInt("16B60", radix: 16)! * BigUInt("33E28", radix: 16)!, BigUInt("49A5A0700", radix: 16)!)
+        }
 
-        XCTAssertEqual(BigUInt("16B60", radix: 16)! * BigUInt("33E28", radix: 16)!, BigUInt("49A5A0700", radix: 16)!)
+        test()
+        // Disable brute force multiplication.
+        let limit = BigUInt.directMultiplicationLimit
+        BigUInt.directMultiplicationLimit = 0
+        defer { BigUInt.directMultiplicationLimit = limit }
+
+        test()
+    }
+
+    func testLeftShifts() {
+        let sample = BigUInt("123456789ABCDEF1234567891631832727633", radix: 16)!
+
+        var a = sample
+
+        a <<= 0
+        XCTAssertEqual(a, sample)
+
+        a = sample
+        a <<= 1
+        XCTAssertEqual(a, 2 * sample)
+
+        a = sample
+        a <<= Digit.width
+        XCTAssertEqual(a.count, sample.count + 1)
+        XCTAssertEqual(a[0], 0)
+        XCTAssertEqual(a[1...sample.count + 1], sample)
+
+        a = sample
+        a <<= 100 * Digit.width
+        XCTAssertEqual(a.count, sample.count + 100)
+        XCTAssertEqual(a[0..<100], 0)
+        XCTAssertEqual(a[100...sample.count + 100], sample)
+
+        a = sample
+        a <<= 100 * Digit.width + 2
+        XCTAssertEqual(a.count, sample.count + 100)
+        XCTAssertEqual(a[0..<100], 0)
+        XCTAssertEqual(a[100...sample.count + 100], sample << 2)
+
+        a = sample
+        a <<= Digit.width - 1
+        XCTAssertEqual(a.count, sample.count + 1)
+        XCTAssertEqual(a, BigUInt([0] + Array(sample)) / 2)
+
+        XCTAssertEqual(sample << 4, 16 * sample)
+        XCTAssertEqual(sample << (2 * Digit.width), BigUInt([0, 0] + Array(sample)))
+        XCTAssertEqual(sample << (2 * Digit.width + 2), BigUInt([0, 0] + Array(4 * sample)))
+    }
+
+    func testRightShifts() {
+        let sample = BigUInt("123456789ABCDEF1234567891631832727633", radix: 16)!
+
+        var a = sample
+
+        a >>= 0
+        XCTAssertEqual(a, sample)
+
+        a = sample
+        a >>= 1
+        XCTAssertEqual(a, sample / 2)
+
+        a = sample
+        a >>= Digit.width
+        XCTAssertEqual(a, sample[1..<sample.count])
+
+        a = sample
+        a >>= Digit.width + 2
+        XCTAssertEqual(a, sample[1..<sample.count] / 4)
+
+        a = sample
+        a >>= sample.count * Digit.width
+        XCTAssertEqual(a, 0)
+
+        XCTAssertEqual(sample >> 0, sample)
+        XCTAssertEqual(sample >> 3, sample / 8)
+        XCTAssertEqual(sample >> Digit.width, sample[1..<sample.count])
+        XCTAssertEqual(sample >> (Digit.width + 3), sample[1..<sample.count] / 8)
+        XCTAssertEqual(sample >> (100 * Digit.width), 0)
+    }
+
+    func testWidth() {
+        XCTAssertEqual(BigUInt(0).width, 0)
+        XCTAssertEqual(BigUInt(1).width, 1)
+        XCTAssertEqual(BigUInt(Digit.max).width, Digit.width)
+        XCTAssertEqual(BigUInt([Digit.max, 1]).width, Digit.width + 1)
+        XCTAssertEqual(BigUInt([2, 12]).width, Digit.width + 4)
+        XCTAssertEqual(BigUInt([1, Digit.max]).width, 2 * Digit.width)
+
+        XCTAssertEqual(BigUInt(0).numberOfLeadingZeroes, 0)
+        XCTAssertEqual(BigUInt(1).numberOfLeadingZeroes, Digit.width - 1)
+        XCTAssertEqual(BigUInt(Digit.max).numberOfLeadingZeroes, 0)
+        XCTAssertEqual(BigUInt([Digit.max, 1]).numberOfLeadingZeroes, Digit.width - 1)
+        XCTAssertEqual(BigUInt([14, Digit.max]).numberOfLeadingZeroes, 0)
+
     }
 
     func testDivision() {
@@ -402,7 +557,7 @@ class BigUIntTests: XCTestCase {
             XCTAssertLessThan(mod, y, "x:\(x) = div:\(div) * y:\(y) + mod:\(mod)", file: file, line: line)
             XCTAssertEqual(div * y + mod, x, "x:\(x) = div:\(div) * y:\(y) + mod:\(mod)", file: file, line: line)
         }
-        // These cases exercise all code paths in the division for Digit == UInt8.
+        // These cases exercise all code paths in the division when Digit is UInt8 or UInt64.
         test([], [1])
         test([1], [1])
         test([1], [2])
@@ -418,7 +573,17 @@ class BigUIntTests: XCTestCase {
         test([2, 4, 6, 8], [1, 2])
         test([2, 3, 4, 5], [4, 5])
         test([Digit.max, Digit.max - 1, Digit.max], [Digit.max, Digit.max])
+        test([0, Digit.max, Digit.max - 1], [Digit.max, Digit.max])
         test([0, 0, 0, 0, 0, Digit.max / 2 + 1, Digit.max / 2], [1, 0, 0, Digit.max / 2 + 1])
+
+        XCTAssertEqual(BigUInt(328) / BigUInt(21), BigUInt(15))
+        XCTAssertEqual(BigUInt(328) % BigUInt(21), BigUInt(13))
+
+        var a = BigUInt(328)
+        a /= 21
+        XCTAssertEqual(a, 15)
+        a %= 7
+        XCTAssertEqual(a, 1)
 
         #if false
             for y0 in Array(1 ... Int(Digit.max)).reverse() {
@@ -457,16 +622,17 @@ class BigUIntTests: XCTestCase {
             let b = balancedFactorial(level: level - 1, offset: 2 * offset + 1)
             return a * b
         }
-        var balanced = balancedFactorial(level: power, offset: 0)
+        let balanced = balancedFactorial(level: power, offset: 0)
 
         XCTAssertEqual(backward, forward)
         XCTAssertEqual(balanced, forward)
-        for i in 1 ..< (1 << power) {
-            let (div, mod) = BigUInt.divmod(balanced, BigUInt(i))
-            XCTAssertEqual(mod, 0)
-            balanced = div
-        }
-        XCTAssertEqual(balanced, 1)
-    }
 
+        var remaining = balanced
+        for i in 1 ..< (1 << power) {
+            let (div, mod) = BigUInt.divmod(remaining, BigUInt(i))
+            XCTAssertEqual(mod, 0)
+            remaining = div
+        }
+        XCTAssertEqual(remaining, 1)
+    }
 }

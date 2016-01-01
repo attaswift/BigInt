@@ -33,6 +33,7 @@ public protocol BigDigit: UnsignedIntegerType, BitwiseOperationsType, ShiftOpera
     static func fullMultiply(x: Self, _ y: Self) -> (high: Self, low: Self)
     static func fullDivide(xh: Self, _ xl: Self, _ y: Self) -> (div: Self, mod: Self)
 
+    static var max: Self { get }
     static var width: Int { get }
     var width: Int { get }
 
@@ -46,12 +47,10 @@ extension BigDigit {
 }
 
 extension UInt64: BigDigit {
-    public static var width: Int { return 64 }
     public static func digitsFromUIntMax(i: UIntMax) -> [UIntMax] { return [i] }
 }
 
 extension UInt32: BigDigit {
-    public static var width: Int { return 32 }
     public static func digitsFromUIntMax(i: UIntMax) -> [UInt32] { return [UInt32(i.low), UInt32(i.high)] }
 
     // Somewhat surprisingly, these specializations do not help make UInt32 reach UInt64's performance.
@@ -68,9 +67,22 @@ extension UInt32: BigDigit {
     }
 }
 
+extension UInt16: BigDigit {
+    public static func digitsFromUIntMax(i: UIntMax) -> [UInt16] {
+        var digits = Array<UInt16>()
+        var remaining = i
+        var width = remaining.width
+        while width >= 16 {
+            digits.append(UInt16(remaining & UIntMax(UInt16.max)))
+            remaining >>= 16
+            width -= 16
+        }
+        digits.append(UInt16(remaining))
+        return digits
+    }
+}
 
 extension UInt8: BigDigit {
-    public static var width: Int { return 8 }
     public static func digitsFromUIntMax(i: UIntMax) -> [UInt8] {
         var digits = Array<UInt8>()
         var remaining = i

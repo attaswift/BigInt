@@ -17,21 +17,22 @@ public struct BigInt {
         self.negative = (abs.isZero ? false : negative)
     }
 
-    public init(_ value: IntMax) {
-        if value == IntMax.min {
-            self.negative = true
-            self.abs = BigUInt(UIntMax(IntMax.max)) + 1
-        }
-        else if value < 0 {
-            self.negative = true
-            self.abs = BigUInt(UIntMax(-value))
-        }
-        else {
-            self.negative = false
-            self.abs = BigUInt(UIntMax(value))
-        }
+    public init<I: UnsignedIntegerType>(_ integer: I) {
+        self.init(abs: BigUInt(integer), negative: false)
     }
 
+    public init<I: SignedIntegerType>(_ integer: I) {
+        let i = integer.toIntMax()
+        if i == IntMax.min {
+            self.init(abs: BigUInt(IntMax.max) + 1, negative: true)
+        }
+        else if i < 0 {
+            self.init(abs: BigUInt(-i), negative: true)
+        }
+        else {
+            self.init(abs: BigUInt(i), negative: false)
+        }
+    }
 }
 extension BigInt: IntegerLiteralConvertible {
     public init(integerLiteral value: IntMax) {
@@ -54,6 +55,13 @@ public func <(a: BigInt, b: BigInt) -> Bool {
         return true
     case (true, true):
         return a.abs > b.abs
+    }
+}
+
+extension BigInt: Hashable {
+    public var hashValue: Int {
+        let v = abs.hashValue
+        return negative ? ~v : v
     }
 }
 
@@ -94,6 +102,16 @@ public func *(a: BigInt, b: BigInt) -> BigInt {
     return BigInt(abs: a.abs * b.abs, negative: a.negative != b.negative)
 }
 
+public func /(a: BigInt, b: BigInt) -> BigInt {
+    return BigInt(abs: a.abs / b.abs, negative: a.negative != b.negative)
+}
+
+public func %(a: BigInt, b: BigInt) -> BigInt {
+    return BigInt(abs: a.abs % b.abs, negative: a.negative)
+}
+
 public func +=(inout a: BigInt, b: BigInt) { a = a + b }
 public func -=(inout a: BigInt, b: BigInt) { a = a - b }
 public func *=(inout a: BigInt, b: BigInt) { a = a * b }
+public func /=(inout a: BigInt, b: BigInt) { a = a / b }
+public func %=(inout a: BigInt, b: BigInt) { a = a % b }

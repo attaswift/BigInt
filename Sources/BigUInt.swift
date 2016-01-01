@@ -73,10 +73,7 @@ extension BigUInt: CollectionType {
             if i < _end {
                 _digits[i] = digit
                 if digit == 0 && i == _end - 1 {
-                    while _digits.last == 0 {
-                        _digits.removeLast()
-                    }
-                    _end = _digits.count
+                    shrink()
                 }
             }
             else {
@@ -121,9 +118,11 @@ extension BigUInt {
     }
 
     internal mutating func shrink() {
-        while _end > _start && _digits[_end - 1] == 0 {
-            _end -= 1
+        assert(isTop)
+        while _digits.last == 0 {
+            _digits.removeLast()
         }
+        _end = _digits.count
     }
 }
 
@@ -413,7 +412,7 @@ extension BigUInt {
     }
 
     @warn_unused_result
-    public func subtractDigitWithOverflow(d: Digit, shift: Int = 0) -> (BigUInt, Bool) {
+    public func subtractDigitWithOverflow(d: Digit, shift: Int = 0) -> (BigUInt, overflow: Bool) {
         var result = self
         let overflow = result.subtractDigitInPlaceWithOverflow(d, shift: shift)
         return (result, overflow)
@@ -543,6 +542,10 @@ extension BigUInt {
     }
 }
 
+extension BigUInt {
+    static var directMultiplicationLimit: Int = 1024
+}
+
 @warn_unused_result
 public func *(x: BigUInt, y: BigUInt) -> BigUInt {
     let xc = x.count
@@ -552,7 +555,7 @@ public func *(x: BigUInt, y: BigUInt) -> BigUInt {
     if yc == 1 { return x.multiplyByDigit(y[0]) }
     if xc == 1 { return y.multiplyByDigit(x[0]) }
 
-    if min(xc, yc) <= 1024 {
+    if min(xc, yc) <= BigUInt.directMultiplicationLimit {
         // Long multiplication.
         let left = (xc < yc ? y : x)
         let right = (xc < yc ? x : y)
@@ -619,14 +622,19 @@ public func <<= (inout b: BigUInt, amount: Int) {
     let down = Digit(Digit.width) - up
 
     b.lift()
-    var lowbits: Digit = 0
-    for i in 0..<b.count {
-        let digit = b[i]
-        b[i] = digit << up | lowbits
-        lowbits = digit >> down
+    if up > 0 {
+        var i = 0
+        var lowbits: Digit = 0
+        while i < b.count || lowbits > 0 {
+            let digit = b[i]
+            b[i] = digit << up | lowbits
+            lowbits = digit >> down
+            i += 1
+        }
     }
     if ext > 0 && b.count > 0 {
         b._digits.insertContentsOf(Array<Digit>(count: ext, repeatedValue: 0), at: 0)
+        b._end = b._digits.count
     }
 }
 
@@ -634,19 +642,20 @@ public func << (b: BigUInt, amount: Int) -> BigUInt {
     precondition(amount >= 0)
     guard amount > 0 else { return b }
 
-    var result = BigUInt()
     let ext = amount / Digit.width // External shift amount (new digits)
     let up = Digit(amount % Digit.width) // Internal shift amount (subdigit shift)
     let down = Digit(Digit.width) - up
 
+    var result = BigUInt()
     if up > 0 {
+        var i = 0
         var lowbits: Digit = 0
-        for i in 0..<b.count {
+        while i < b.count || lowbits > 0 {
             let digit = b[i]
             result[i + ext] = digit << up | lowbits
             lowbits = digit >> down
+            i += 1
         }
-        result[b.count] = lowbits
     }
     else {
         for i in 0..<b.count {
@@ -664,17 +673,26 @@ public func >>= (inout b: BigUInt, amount: Int) {
     let down = Digit(amount % Digit.width) // Internal shift amount (subdigit shift)
     let up = Digit(Digit.width) - down
 
-    if ext >= b.count { b = BigUInt() }
+    if ext >= b.count {
+        b = BigUInt()
+        return
+    }
 
     b.lift()
-    var highbits: Digit = 0
-    for i in ext..<b.count {
-        let digit = b[i]
-        b[i - ext] = highbits | digit >> down
-        highbits = digit << up
-    }
+
     if ext > 0 {
-        b._digits.removeRange(Range(start: b.count - ext, end: b.count))
+        b._digits.removeRange(Range(start: 0, end: ext))
+        b._end = b._digits.count
+    }
+    if down > 0 {
+        var i = b.count - 1
+        var highbits: Digit = 0
+        while i >= 0 {
+            let digit = b[i]
+            b[i] = highbits | digit >> down
+            highbits = digit << up
+            i -= 1
+        }
         b.shrink()
     }
 }
@@ -807,7 +825,9 @@ extension BigUInt {
             while p.0 > r || (p.0 == r && p.1 > x.2) {
                 q -= 1
                 let (a, ao) = Digit.addWithOverflow(r, y.0)
-                if ao { return q }
+                if ao {
+                    return q
+                }
                 r = a
                 let (s, so) = Digit.subtractWithOverflow(p.1, y.1)
                 if so { p.0 -= 1 }

@@ -15,27 +15,37 @@ class BitwiseTests: XCTestCase {
         let n: UInt8 = 0x12
         XCTAssertEqual(n.high, 0x1)
         XCTAssertEqual(n.low, 0x2)
+        XCTAssertEqual(n.split.low, n.low)
+        XCTAssertEqual(n.split.high, n.high)
     }
 
     func testUInt16_high_low() {
         let n: UInt16 = 0x1234
         XCTAssertEqual(n.high, 0x12)
         XCTAssertEqual(n.low, 0x34)
+        XCTAssertEqual(n.split.low, n.low)
+        XCTAssertEqual(n.split.high, n.high)
     }
     func testUInt32_high_low() {
         let n: UInt32 = 0x12345678
         XCTAssertEqual(n.high, 0x1234)
         XCTAssertEqual(n.low, 0x5678)
+        XCTAssertEqual(n.split.low, n.low)
+        XCTAssertEqual(n.split.high, n.high)
     }
     func testUInt64_high_low() {
         let n: UInt64 = 0x0123456789ABCDEF
         XCTAssertEqual(n.high, 0x01234567)
         XCTAssertEqual(n.low, 0x89ABCDEF)
+        XCTAssertEqual(n.split.low, n.low)
+        XCTAssertEqual(n.split.high, n.high)
     }
     func testUInt_high_low() {
         let n: UInt = 0x0123456789ABCDEF
         XCTAssertEqual(n.high, 0x01234567)
         XCTAssertEqual(n.low, 0x89ABCDEF)
+        XCTAssertEqual(n.split.low, n.low)
+        XCTAssertEqual(n.split.high, n.high)
     }
 
     func testUInt8_width() {
