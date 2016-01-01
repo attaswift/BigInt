@@ -52,6 +52,15 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(String(b9, radix: 16), "1827364554637281")
     }
 
+    func testInitFromLiterals() {
+        XCTAssertEqual(42 as BigUInt, BigUInt(42))
+        XCTAssertEqual("42" as BigUInt, BigUInt(42))
+
+        // I have no idea how to exercise these in the wild
+        XCTAssertEqual(BigUInt(unicodeScalarLiteral: UnicodeScalar(52)), BigUInt(4))
+        XCTAssertEqual(BigUInt(extendedGraphemeClusterLiteral: "4"), BigUInt(4))
+    }
+
     func testCollection() {
         let b0 = BigUInt()
         XCTAssertEqual(b0.count, 0)

@@ -34,11 +34,55 @@ public struct BigInt {
         }
     }
 }
+
+extension BigInt {
+    public init?(_ text: String, radix: Int = 10) {
+        if text.characters.first == "-" {
+            guard let abs = BigUInt(text.substringFromIndex(text.startIndex.successor()), radix: radix) else { return nil }
+            self.abs = abs
+            self.negative = true
+        }
+        else {
+            guard let abs = BigUInt(text, radix: radix) else { return nil }
+            self.abs = abs
+            self.negative = false
+        }
+    }
+}
+
+extension String {
+    public init(_ value: BigInt, radix: Int = 10, uppercase: Bool = false) {
+        self = String(value.abs, radix: radix, uppercase: uppercase)
+        if value.negative {
+            self = "-" + self
+        }
+    }
+}
+
+extension BigInt: CustomStringConvertible {
+    public var description: String { return String(self, radix: 10) }
+}
+
 extension BigInt: IntegerLiteralConvertible {
     public init(integerLiteral value: IntMax) {
         self.init(value)
     }
 }
+
+extension BigInt: StringLiteralConvertible {
+    public init(unicodeScalarLiteral value: UnicodeScalar) {
+        self = BigInt(String(value), radix: 10)!
+    }
+
+    public init(extendedGraphemeClusterLiteral value: String) {
+        self = BigInt(value, radix: 10)!
+    }
+
+    public init(stringLiteral value: StringLiteralType) {
+        self = BigInt(value, radix: 10)!
+    }
+}
+
 
 extension BigInt: Comparable {
 }

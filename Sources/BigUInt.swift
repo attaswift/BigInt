@@ -41,11 +41,25 @@ public struct BigUInt {
     }
 }
 
-//MARK: Initializers
+//MARK: Literals
 
 extension BigUInt: IntegerLiteralConvertible {
     public init(integerLiteral value: UInt64) {
         self.init(value.toUIntMax())
+    }
+}
+
+extension BigUInt: StringLiteralConvertible {
+    public init(unicodeScalarLiteral value: UnicodeScalar) {
+        self = BigUInt(String(value), radix: 10)!
+    }
+
+    public init(extendedGraphemeClusterLiteral value: String) {
+        self = BigUInt(value, radix: 10)!
+    }
+
+    public init(stringLiteral value: StringLiteralType) {
+        self = BigUInt(value, radix: 10)!
     }
 }
 
