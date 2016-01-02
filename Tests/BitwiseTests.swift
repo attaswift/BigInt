@@ -48,110 +48,98 @@ class BitwiseTests: XCTestCase {
         XCTAssertEqual(n.split.high, n.high)
     }
 
-    func testUInt8_width() {
+    func testTables() {
+        XCTAssertEqual(leadingZeroesTable.count, 256)
+        XCTAssertEqual(trailingZeroesTable.count, 256)
+    }
+
+    func testUInt8_leadingZeroes() {
         for i in 0...255 {
-            let width = UInt8(i).width
-            XCTAssertLessThanOrEqual(width, 8)
-            XCTAssertGreaterThan(1 << Int(width), i)
-            if i > 0 {
-                XCTAssertLessThanOrEqual(1 << Int(width - 1), i)
-            }
+            let v = UInt8(i)
+            let leading = UInt8(v.leadingZeroes)
+
+            guard v != 0 else { XCTAssertEqual(leading, 8); continue }
+
+            XCTAssertLessThanOrEqual(leading, 8)
+            XCTAssertEqual((v << leading) >> leading, v)
+            XCTAssertNotEqual((v << leading) & 0x80, 0)
         }
     }
 
-    func testUInt8_mask() {
+    func testUInt8_trailingZeroes() {
         for i in 0...255 {
-            let num = UInt8(i)
-            let mask = num.mask
-            XCTAssertEqual(num & mask, num)
-            if mask > 0 {
-                XCTAssertNotEqual(num & (mask / 2), num)
-            }
+            let v = UInt8(i)
+            let trailing = UInt8(v.trailingZeroes)
+
+            guard v != 0 else { XCTAssertEqual(trailing, 8); continue }
+
+            XCTAssertLessThanOrEqual(trailing, 8)
+            XCTAssertEqual((v >> trailing) << trailing, v)
+            XCTAssertNotEqual((v >> trailing) & 0x01, 0, "v = \(v)")
         }
     }
 
-    func testRankTable() {
-        XCTAssertEqual(widthTable.count, 256)
+    func testUInt16_leadingZeroes() {
+        XCTAssertEqual(UInt16.max.leadingZeroes, 0)
+        XCTAssertEqual(UInt16(0x01FF).leadingZeroes, 7)
+        XCTAssertEqual(UInt16(0x008F).leadingZeroes, 8)
+        XCTAssertEqual(UInt16(0x007F).leadingZeroes, 9)
+        XCTAssertEqual(UInt16(0x0000).leadingZeroes, 16)
     }
 
-    func testUInt16_width() {
-        XCTAssertEqual(UInt16(0x0000).width, 0)
-        XCTAssertEqual(UInt16(0x0080).width, 8)
-        XCTAssertEqual(UInt16(0x00FF).width, 8)
-        XCTAssertEqual(UInt16(0x0100).width, 9)
-        XCTAssertEqual(UInt16(0x01FF).width, 9)
-        XCTAssertEqual(UInt16(0x0200).width, 10)
-        XCTAssertEqual(UInt16(0xFFFF).width, 16)
+    func testUInt32_leadingZeroes() {
+        XCTAssertEqual(UInt32.max.leadingZeroes, 0)
+        XCTAssertEqual(UInt32(0x0001FFFF).leadingZeroes, 15)
+        XCTAssertEqual(UInt32(0x00008FFF).leadingZeroes, 16)
+        XCTAssertEqual(UInt32(0x00007FFF).leadingZeroes, 17)
+        XCTAssertEqual(UInt32(0x00000000).leadingZeroes, 32)
     }
 
-    func testUInt16_mask() {
-        XCTAssertEqual(UInt16(0x0000).mask, 0x0000)
-        XCTAssertEqual(UInt16(0x0080).mask, 0x00FF)
-        XCTAssertEqual(UInt16(0x00FF).mask, 0x00FF)
-        XCTAssertEqual(UInt16(0x0100).mask, 0x01FF)
-        XCTAssertEqual(UInt16(0x01FF).mask, 0x01FF)
-        XCTAssertEqual(UInt16(0x0200).mask, 0x03FF)
-        XCTAssertEqual(UInt16(0xFFFF).mask, 0xFFFF)
+    func testUInt64_leadingZeroes() {
+        XCTAssertEqual(UInt64.max.leadingZeroes, 0)
+        XCTAssertEqual(UInt64(0x00000001FFFFFFFF).leadingZeroes, 31)
+        XCTAssertEqual(UInt64(0x000000008FFFFFFF).leadingZeroes, 32)
+        XCTAssertEqual(UInt64(0x000000007FFFFFFF).leadingZeroes, 33)
+        XCTAssertEqual(UInt64(0x0000000000000000).leadingZeroes, 64)
     }
 
-    func testUInt32_width() {
-        XCTAssertEqual(UInt32(0x00000000).width, 0)
-        XCTAssertEqual(UInt32(0x00008000).width, 16)
-        XCTAssertEqual(UInt32(0x0000FFFF).width, 16)
-        XCTAssertEqual(UInt32(0x00010000).width, 17)
-        XCTAssertEqual(UInt32(0x0001FFFF).width, 17)
-        XCTAssertEqual(UInt32(0x00020000).width, 18)
-        XCTAssertEqual(UInt32(0xFFFFFFFF).width, 32)
+    func testUInt_leadingZeroes() {
+        XCTAssertEqual(UInt.max.leadingZeroes, 0)
+        XCTAssertEqual(UInt(0x00000001FFFFFFFF).leadingZeroes, 31)
+        XCTAssertEqual(UInt(0x000000008FFFFFFF).leadingZeroes, 32)
+        XCTAssertEqual(UInt(0x000000007FFFFFFF).leadingZeroes, 33)
+        XCTAssertEqual(UInt(0x0000000000000000).leadingZeroes, 64)
     }
 
-    func testUInt32_mask() {
-        XCTAssertEqual(UInt32(0x00000000).mask, 0x00000000)
-        XCTAssertEqual(UInt32(0x00008000).mask, 0x0000FFFF)
-        XCTAssertEqual(UInt32(0x0000FFFF).mask, 0x0000FFFF)
-        XCTAssertEqual(UInt32(0x00010000).mask, 0x0001FFFF)
-        XCTAssertEqual(UInt32(0x0001FFFF).mask, 0x0001FFFF)
-        XCTAssertEqual(UInt32(0x00020000).mask, 0x0003FFFF)
-        XCTAssertEqual(UInt32(0xFFFFFFFF).mask, 0xFFFFFFFF)
+    func testUInt16_trailingZeroes() {
+        XCTAssertEqual(UInt16.max.trailingZeroes, 0)
+        XCTAssertEqual(UInt16(0xFF80).trailingZeroes, 7)
+        XCTAssertEqual(UInt16(0xFF00).trailingZeroes, 8)
+        XCTAssertEqual(UInt16(0xFE00).trailingZeroes, 9)
+        XCTAssertEqual(UInt16(0x0000).trailingZeroes, 16)
     }
 
-    func testUInt64_width() {
-        XCTAssertEqual(UInt64(0x0000000000000000).width, 0)
-        XCTAssertEqual(UInt64(0x0000000080000000).width, 32)
-        XCTAssertEqual(UInt64(0x00000000FFFFFFFF).width, 32)
-        XCTAssertEqual(UInt64(0x0000000100000000).width, 33)
-        XCTAssertEqual(UInt64(0x00000001FFFFFFFF).width, 33)
-        XCTAssertEqual(UInt64(0x0000000200000000).width, 34)
-        XCTAssertEqual(UInt64.max.width, 64)
+    func testUInt32_trailingZeroes() {
+        XCTAssertEqual(UInt32.max.trailingZeroes, 0)
+        XCTAssertEqual(UInt32(0xFFFF8000).trailingZeroes, 15)
+        XCTAssertEqual(UInt32(0xFFF10000).trailingZeroes, 16)
+        XCTAssertEqual(UInt32(0xFFFE0000).trailingZeroes, 17)
+        XCTAssertEqual(UInt32(0x00000000).trailingZeroes, 32)
     }
 
-    func testUInt64_mask() {
-        XCTAssertEqual(UInt64(0x0000000000000000).mask, 0x0000000000000000)
-        XCTAssertEqual(UInt64(0x0000000080000000).mask, 0x00000000FFFFFFFF)
-        XCTAssertEqual(UInt64(0x00000000FFFFFFFF).mask, 0x00000000FFFFFFFF)
-        XCTAssertEqual(UInt64(0x0000000100000000).mask, 0x00000001FFFFFFFF)
-        XCTAssertEqual(UInt64(0x00000001FFFFFFFF).mask, 0x00000001FFFFFFFF)
-        XCTAssertEqual(UInt64(0x0000000200000000).mask, 0x00000003FFFFFFFF)
-        XCTAssertEqual(UInt64.max.mask, UInt64.max)
+    func testUInt64_trailingZeroes() {
+        XCTAssertEqual(UInt64.max.trailingZeroes, 0)
+        XCTAssertEqual((0xFFFFFFFF80000000 as UInt64).trailingZeroes, 31)
+        XCTAssertEqual((0xFFFFFFF100000000 as UInt64).trailingZeroes, 32)
+        XCTAssertEqual((0xFFFFFFFE00000000 as UInt64).trailingZeroes, 33)
+        XCTAssertEqual((0x0000000000000000 as UInt64).trailingZeroes, 64)
     }
 
-    func testUInt_width() {
-        XCTAssertEqual(UInt(0x0000000000000000).width, 0)
-        XCTAssertEqual(UInt(0x0000000080000000).width, 32)
-        XCTAssertEqual(UInt(0x00000000FFFFFFFF).width, 32)
-        XCTAssertEqual(UInt(0x0000000100000000).width, 33)
-        XCTAssertEqual(UInt(0x00000001FFFFFFFF).width, 33)
-        XCTAssertEqual(UInt(0x0000000200000000).width, 34)
-        XCTAssertEqual(UInt.max.width, 64)
+    func testUInt_trailingZeroes() {
+        XCTAssertEqual(UInt.max.trailingZeroes, 0)
+        XCTAssertEqual((0xFFFFFFFF80000000 as UInt).trailingZeroes, 31)
+        XCTAssertEqual((0xFFFFFFF100000000 as UInt).trailingZeroes, 32)
+        XCTAssertEqual((0xFFFFFFFE00000000 as UInt).trailingZeroes, 33)
+        XCTAssertEqual((0x0000000000000000 as UInt).trailingZeroes, 64)
     }
-
-    func testUInt_mask() {
-        XCTAssertEqual(UInt(0x0000000000000000).mask, 0x0000000000000000)
-        XCTAssertEqual(UInt(0x0000000080000000).mask, 0x00000000FFFFFFFF)
-        XCTAssertEqual(UInt(0x00000000FFFFFFFF).mask, 0x00000000FFFFFFFF)
-        XCTAssertEqual(UInt(0x0000000100000000).mask, 0x00000001FFFFFFFF)
-        XCTAssertEqual(UInt(0x00000001FFFFFFFF).mask, 0x00000001FFFFFFFF)
-        XCTAssertEqual(UInt(0x0000000200000000).mask, 0x00000003FFFFFFFF)
-        XCTAssertEqual(UInt.max.mask, UInt.max)
-    }
-
 }

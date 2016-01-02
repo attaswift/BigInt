@@ -8,11 +8,6 @@
 
 import Foundation
 
-//#if TinyDigits
-//    public typealias Digit = UInt8
-//#else
-//    public typealias Digit = UInt64
-//#endif
 public typealias Digit = UInt64
 
 public protocol ShiftOperationsType {
@@ -26,7 +21,7 @@ public protocol ShiftOperationsType {
     func >>=(inout a: Self, b: Self)
 }
 
-public protocol BigDigit: UnsignedIntegerType, BitwiseOperationsType, ShiftOperationsType {
+internal protocol BigDigit: UnsignedIntegerType, BitwiseOperationsType, ShiftOperationsType {
     init(_ v: Int)
     static func digitsFromUIntMax(i: UIntMax) -> [Self]
 
@@ -35,7 +30,11 @@ public protocol BigDigit: UnsignedIntegerType, BitwiseOperationsType, ShiftOpera
 
     static var max: Self { get }
     static var width: Int { get }
-    var width: Int { get }
+
+    /// The number of leading zero bits in the binary representation of this digit.
+    var leadingZeroes: Int { get }
+    /// The number of trailing zero bits in the binary representation of this digit.
+    var trailingZeroes: Int { get }
 
     var low: Self { get }
     var high: Self { get }
@@ -47,19 +46,19 @@ extension BigDigit {
 }
 
 extension UInt64: BigDigit {
-    public static func digitsFromUIntMax(i: UIntMax) -> [UIntMax] { return [i] }
+    internal static func digitsFromUIntMax(i: UIntMax) -> [UIntMax] { return [i] }
 }
 
 extension UInt32: BigDigit {
-    public static func digitsFromUIntMax(i: UIntMax) -> [UInt32] { return [UInt32(i.low), UInt32(i.high)] }
+    internal static func digitsFromUIntMax(i: UIntMax) -> [UInt32] { return [UInt32(i.low), UInt32(i.high)] }
 
     // Somewhat surprisingly, these specializations do not help make UInt32 reach UInt64's performance.
     // (They are 4-42% faster in benchmarks, but UInt64 is 2-3 times faster still.)
-    public static func fullMultiply(x: UInt32, _ y: UInt32) -> (high: UInt32, low: UInt32) {
+    internal static func fullMultiply(x: UInt32, _ y: UInt32) -> (high: UInt32, low: UInt32) {
         let p = UInt64(x) * UInt64(y)
         return (UInt32(p.high), UInt32(p.low))
     }
-    public static func fullDivide(xh: UInt32, _ xl: UInt32, _ y: UInt32) -> (div: UInt32, mod: UInt32) {
+    internal static func fullDivide(xh: UInt32, _ xl: UInt32, _ y: UInt32) -> (div: UInt32, mod: UInt32) {
         let x = UInt64(xh) << 32 + UInt64(xl)
         let div = x / UInt64(y)
         let mod = x % UInt64(y)
@@ -68,10 +67,10 @@ extension UInt32: BigDigit {
 }
 
 extension UInt16: BigDigit {
-    public static func digitsFromUIntMax(i: UIntMax) -> [UInt16] {
+    internal static func digitsFromUIntMax(i: UIntMax) -> [UInt16] {
         var digits = Array<UInt16>()
         var remaining = i
-        var width = remaining.width
+        var width = UIntMax.width - remaining.leadingZeroes
         while width >= 16 {
             digits.append(UInt16(remaining & UIntMax(UInt16.max)))
             remaining >>= 16
@@ -83,10 +82,10 @@ extension UInt16: BigDigit {
 }
 
 extension UInt8: BigDigit {
-    public static func digitsFromUIntMax(i: UIntMax) -> [UInt8] {
+    internal static func digitsFromUIntMax(i: UIntMax) -> [UInt8] {
         var digits = Array<UInt8>()
         var remaining = i
-        var width = remaining.width
+        var width = UIntMax.width - remaining.leadingZeroes
         while width >= 8 {
             digits.append(UInt8(remaining & UIntMax(UInt8.max)))
             remaining >>= 8
@@ -102,7 +101,7 @@ extension UInt8: BigDigit {
 extension BigDigit {
     /// Return a tuple with the high and low digits of the product of `x` and `y`.
     @warn_unused_result
-    public static func fullMultiply(x: Self, _ y: Self) -> (high: Self, low: Self) {
+    internal static func fullMultiply(x: Self, _ y: Self) -> (high: Self, low: Self) {
         let (a, b) = x.split
         let (c, d) = y.split
 
@@ -123,7 +122,7 @@ extension BigDigit {
     /// - Requires: `u1 < v`, so that the result will fit in a single digit.
     /// - Complexity: O(1) with 2 divisions, 6 multiplications and ~12 or so additions/subtractions.
     @warn_unused_result
-    public static func fullDivide(u1: Self, _ u0: Self, _ v: Self) -> (div: Self, mod: Self) {
+    internal static func fullDivide(u1: Self, _ u0: Self, _ v: Self) -> (div: Self, mod: Self) {
         // Division is complicated; doing it with single-digit operations is maddeningly complicated.
         // This is a Swift adaptation for "divlu2" in Hacker's Delight,
         // which is in turn a C adaptation of Knuth's Algorithm D (TAOCP vol 2, 4.3.1).
@@ -157,8 +156,8 @@ extension BigDigit {
         }
 
         // Normalize u and v such that v has no leading zeroes.
-        let w = Self(v.width) // width of v
-        let z = Self(Self.width) - w // number of leading zeroes in v
+        let z = Self(v.leadingZeroes)
+        let w = Self(Self.width) - z
         let vn = v << z
 
         let un32 = (z == 0 ? u1 : (u1 << z) | (u0 >> w)) // No bits are lost

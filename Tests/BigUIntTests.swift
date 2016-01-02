@@ -550,12 +550,17 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(BigUInt([2, 12]).width, Digit.width + 4)
         XCTAssertEqual(BigUInt([1, Digit.max]).width, 2 * Digit.width)
 
-        XCTAssertEqual(BigUInt(0).numberOfLeadingZeroes, 0)
-        XCTAssertEqual(BigUInt(1).numberOfLeadingZeroes, Digit.width - 1)
-        XCTAssertEqual(BigUInt(Digit.max).numberOfLeadingZeroes, 0)
-        XCTAssertEqual(BigUInt([Digit.max, 1]).numberOfLeadingZeroes, Digit.width - 1)
-        XCTAssertEqual(BigUInt([14, Digit.max]).numberOfLeadingZeroes, 0)
+        XCTAssertEqual(BigUInt(0).leadingZeroes, 0)
+        XCTAssertEqual(BigUInt(1).leadingZeroes, Digit.width - 1)
+        XCTAssertEqual(BigUInt(Digit.max).leadingZeroes, 0)
+        XCTAssertEqual(BigUInt([Digit.max, 1]).leadingZeroes, Digit.width - 1)
+        XCTAssertEqual(BigUInt([14, Digit.max]).leadingZeroes, 0)
 
+        XCTAssertEqual(BigUInt(0).trailingZeroes, 0)
+        XCTAssertEqual(BigUInt(1 << Digit(Digit.width - 1)).trailingZeroes, Digit.width - 1)
+        XCTAssertEqual(BigUInt(Digit.max).trailingZeroes, 0)
+        XCTAssertEqual(BigUInt([0, 1]).trailingZeroes, Digit.width)
+        XCTAssertEqual(BigUInt([0, 1 << Digit(Digit.width - 1)]).trailingZeroes, 2 * Digit.width - 1)
     }
 
     func testDivision() {

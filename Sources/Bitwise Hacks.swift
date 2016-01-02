@@ -8,17 +8,60 @@
 
 import Foundation
 
-/// For all `i` less than 256, `widthTable[i]` is the number of bits necessary to store the binary representation of `i`.
-internal let widthTable: [UInt8] = [
-    0,
-    1,
-    2, 2,
-    3, 3, 3, 3,
+/// For all `i` less than 256, `leadingZeroesTable[i]` is the number of leading zero bits in `i`'s 8-bit representation.
+/// I.e., the minimum number of bits necessary to represent `i` is `8 - leadingZeroes[i]`.
+internal let leadingZeroesTable: [UInt8] = [
+    8,
+    7,
+    6, 6,
+    5, 5, 5, 5,
     4, 4, 4, 4, 4, 4, 4, 4,
-    5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-    6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-    8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
+    3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+]
+/// For all `i` less than 256, `trailingZeroesTable[i]` is the number of trailing zero bits in `i`'s 8-bit representation.
+internal let trailingZeroesTable: [UInt8] = [
+    /*0*/ 8, 0,
+    /*1*/ 1, 0,
+    /*2*/ 2, 0, /*1*/ 1, 0,
+    /*3*/ 3, 0, /*1*/ 1, 0,
+                /*2*/ 2, 0, 1, 0,
+    /*4*/ 4, 0, /*1*/ 1, 0,
+                /*2*/ 2, 0, 1, 0,
+                /*3*/ 3, 0, 1, 0, 2, 0, 1, 0,
+    /*5*/ 5, 0, /*1*/ 1, 0,
+                /*2*/ 2, 0, 1, 0,
+                /*3*/ 3, 0, 1, 0, 2, 0, 1, 0,
+                /*4*/ 4, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
+    /*6*/ 6, 0, /*1*/ 1, 0,
+                /*2*/ 2, 0, 1, 0,
+                /*3*/ 3, 0, 1, 0, 2, 0, 1, 0,
+                /*4*/ 4, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
+                /*5*/ 5, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0, 4, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
+
+    /*7*/ 7, 0, /*1*/ 1, 0,
+                /*2*/ 2, 0, 1, 0,
+                /*3*/ 3, 0, 1, 0, 2, 0, 1, 0,
+                /*4*/ 4, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
+                /*5*/ 5, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0, 4, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
+                /*6*/ 6, 0, 1, 0,
+                            2, 0, 1, 0,
+                            3, 0, 1, 0, 2, 0, 1, 0,
+                            4, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
+                            5, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0, 4, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
 ]
 
 extension UInt8 {
@@ -28,11 +71,8 @@ extension UInt8 {
     public var high: UInt8 { return self >> 4 }
     public var split: (high: UInt8, low: UInt8) { return (high, low) }
 
-    public var width: Int { return Int(widthTable[Int(self)]) }
-    var mask: UInt8 {
-        if width == 8 { return .max }
-        return (1 << UInt8(width)) - 1
-    }
+    internal var leadingZeroes: Int { return Int(leadingZeroesTable[Int(self)]) }
+    internal var trailingZeroes: Int { return Int(trailingZeroesTable[Int(self)]) }
 }
 extension UInt16 {
     public static var width: Int { return 16 }
@@ -41,13 +81,8 @@ extension UInt16 {
     public var high: UInt16 { return self >> 8 }
     public var split: (high: UInt16, low: UInt16) { return (high, low) }
 
-    public var width: Int {
-        return high == 0 ? UInt8(low).width : UInt8(high).width + 8
-    }
-    var mask: UInt16 {
-        if width == 16 { return .max }
-        return (1 << UInt16(width)) - 1
-    }
+    internal var leadingZeroes: Int { return high == 0 ? 8 + UInt8(low).leadingZeroes : UInt8(high).leadingZeroes }
+    internal var trailingZeroes: Int { return low == 0 ? 8 + UInt8(high).trailingZeroes : UInt8(low).trailingZeroes }
 }
 extension UInt32 {
     public static var width: Int { return 32 }
@@ -56,13 +91,8 @@ extension UInt32 {
     public var high: UInt32 { return self >> 16 }
     public var split: (high: UInt32, low: UInt32) { return (high, low) }
 
-    public var width: Int {
-        return high == 0 ? UInt16(low).width : UInt16(high).width + 16
-    }
-    var mask: UInt32 {
-        if width == 32 { return .max }
-        return (1 << UInt32(width)) - 1
-    }
+    internal var leadingZeroes: Int { return high == 0 ? 16 + UInt16(low).leadingZeroes : UInt16(high).leadingZeroes }
+    internal var trailingZeroes: Int { return low == 0 ? 16 + UInt16(high).trailingZeroes : UInt16(low).trailingZeroes }
 }
 extension UInt64 {
     public static var width: Int { return 64 }
@@ -71,13 +101,8 @@ extension UInt64 {
     public var high: UInt64 { return self >> 32 }
     public var split: (high: UInt64, low: UInt64) { return (high, low) }
 
-    public var width: Int {
-        return high == 0 ? UInt32(low).width : UInt32(high).width + 32
-    }
-    var mask: UInt64 {
-        if width == 64 { return .max }
-        return (1 << UInt64(width)) - 1
-    }
+    internal var leadingZeroes: Int { return high == 0 ? 32 + UInt32(low).leadingZeroes : UInt32(high).leadingZeroes }
+    internal var trailingZeroes: Int { return low == 0 ? 32 + UInt32(high).trailingZeroes : UInt32(low).trailingZeroes }
 }
 
 extension UInt {
@@ -92,13 +117,6 @@ extension UInt {
     var split: (high: UInt, low: UInt) { return (high, low) }
     static let halfShift: UInt = 32
 
-    var width: Int {
-        precondition(sizeof(UInt) == 8)
-        return high == 0 ? UInt32(low).width : UInt32(high).width + 32
-    }
-    var mask: UInt {
-        precondition(sizeof(UInt) == 8)
-        if width == 64 { return .max }
-        return (1 << UInt(width)) - 1
-    }
+    internal var leadingZeroes: Int { return high == 0 ? 32 + UInt32(low).leadingZeroes : UInt32(high).leadingZeroes }
+    internal var trailingZeroes: Int { return low == 0 ? 32 + UInt32(high).trailingZeroes : UInt32(low).trailingZeroes }
 }

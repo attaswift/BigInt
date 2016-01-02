@@ -303,6 +303,34 @@ extension BigUInt: Hashable {
 
 //MARK: Bitwise operations
 
+extension BigUInt {
+    /// The minimum number of bits required to represent this integer in binary.
+    /// - Returns: 0 if self.isZero; otherwise floor(log2(2 * self + 1)).
+    public var width: Int {
+        guard count > 0 else { return 0 }
+        return count * Digit.width - self[count - 1].leadingZeroes
+    }
+
+    /// The number of leading zero bits in the binary representation of this integer in base `2^Digit.width`.
+    /// This is useful when you need to normalize a `BigUInt` such that the top bit of its most significant digit is 1.
+    /// - Note: 0 is considered to have zero leading zero bits.
+    /// - Returns: A value in `0...(Digit.width - 1)`.
+    /// - SeeAlso: width
+    public var leadingZeroes: Int {
+        guard count > 0 else { return 0 }
+        return self[count - 1].leadingZeroes
+    }
+
+    /// The number of trailing zero bits in the binary representation of this integer. 
+    /// - Note: 0 is considered to have zero trailing zero bits.
+    /// - Returns: A value in `0...width`.
+    public var trailingZeroes: Int {
+        guard count > 0 else { return 0 }
+        let i = self.indexOf { $0 != 0 }!
+        return i * Digit.width + self[i].trailingZeroes
+    }
+}
+
 public prefix func ~(a: BigUInt) -> BigUInt {
     return BigUInt(a.map { ~$0 })
 }
@@ -742,15 +770,6 @@ public func >> (b: BigUInt, amount: Int) -> BigUInt {
 //MARK: Quotient and Remainder
 
 extension BigUInt {
-    public var width: Int {
-        guard count > 0 else { return 0 }
-        return (count - 1) * Digit.width + self[count - 1].width
-    }
-    public var numberOfLeadingZeroes: Int {
-        guard count > 0 else { return 0 }
-        return Int(Digit.width - self[count - 1].width)
-    }
-
     /// Divides this integer by `y`, leaving the quotient in its place and returning the remainder.
     /// - Complexity: O(count)
     @warn_unused_result
@@ -855,7 +874,7 @@ extension BigUInt {
         // which is what makes this entire approach viable.
         // To satisfy this requirement, we can simply normalize the division by multiplying
         // both the divisor and the dividend by the same (small) factor.
-        let z = y.numberOfLeadingZeroes
+        let z = y.leadingZeroes
         let divisor = y << z
         var remainder = x << z // We'll calculate the remainder in the normalized dividend.
         var quotient = BigUInt()
