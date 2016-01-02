@@ -909,7 +909,7 @@ public func %=(inout x: BigUInt, y: BigUInt) { x = x % y }
 public func sqrt(value: BigUInt) -> BigUInt {
     // This implementation uses Newton's method.
     guard !value.isZero else { return BigUInt() }
-    var x = value
+    var x = BigUInt(1) << ((value.width + 1) / 2)
     while true {
         let y = (x + value / x) >> 1
         if x == y || x == y - 1 { break }

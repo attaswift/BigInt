@@ -29,10 +29,10 @@ class ProfileTests: XCTestCase {
             n2 = BigUInt(1)
             for i in 0..<200000 {
                 if i & 1 == 0 {
-                    n1 = n1 + n2
+                    n1 += n2
                 }
                 else {
-                    n2 = n1 + n2
+                    n2 += n1
                 }
             }
         }
@@ -130,7 +130,7 @@ class ProfileTests: XCTestCase {
             p.destroy()
             return result
         }
-        var numbers: [BigUInt] = (1...100).map { _ in randomBigInt(30) }
+        var numbers: [BigUInt] = (1...1000).map { _ in randomBigInt(60) }
         var roots: [BigUInt] = []
         self.measure {
             roots.removeAll()
