@@ -936,3 +936,46 @@ public func sqrt(value: BigUInt) -> BigUInt {
     }
     return x
 }
+
+extension BigUInt {
+
+    /// Returns the greatest common divisor of `a` and `b`.
+    /// - Complexity: O(count^2) where count = max(a.count, b.count)
+    public static func gcd(a: BigUInt, _ b: BigUInt) -> BigUInt {
+        // This is Stein's algorithm: https://en.wikipedia.org/wiki/Binary_GCD_algorithm
+        if a.isZero || b.isZero { return BigUInt() }
+
+        let az = a.trailingZeroes
+        let bz = b.trailingZeroes
+        let twos = min(az, bz)
+
+        var (x, y) = (a >> az, b >> bz)
+        if x < y { swap(&x, &y) }
+
+        while !x.isZero {
+            assert(x >= y && y[0] & 1 == 1)
+            x >>= x.trailingZeroes
+            if x < y { swap(&x, &y) }
+            x -= y
+        }
+        return y << twos
+    }
+
+    /// Returns the remainder of `base` raised to the power `exponent` under `modulus`.
+    /// - Complexity: O(exponent.count * modulus.count^2)
+    public static func powmod(base: BigUInt, _ exponent: BigUInt, modulus: BigUInt) -> BigUInt {
+        // https://en.wikipedia.org/wiki/Modular_exponentiation#Right-to-left_binary_method
+        if modulus == 1 { return 0 }
+        var result = BigUInt(1)
+        var b = base % modulus
+        var e = exponent
+        while e > 0 {
+            if e[0] & 1 == 1 {
+                result = (result * b) % modulus
+            }
+            e >>= 1
+            b = (b * b) % modulus
+        }
+        return result
+    }
+}
