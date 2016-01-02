@@ -953,7 +953,6 @@ extension BigUInt {
         if x < y { swap(&x, &y) }
 
         while !x.isZero {
-            assert(x >= y && y[0] & 1 == 1)
             x >>= x.trailingZeroes
             if x < y { swap(&x, &y) }
             x -= y

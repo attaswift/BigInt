@@ -31,9 +31,29 @@
 				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
 				<dict>
 					<key>baselineAverage</key>
-					<real>2.6484</real>
+					<real>2.464</real>
 					<key>baselineIntegrationDisplayName</key>
-					<string>2016-01-01 21:51:28</string>
+					<string>2016-01-02 22:12:43</string>
+				</dict>
+			</dict>
+			<key>testGCD()</key>
+			<dict>
+				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
+				<dict>
+					<key>baselineAverage</key>
+					<real>2.445</real>
+					<key>baselineIntegrationDisplayName</key>
+					<string>2016-01-02 22:12:27</string>
+				</dict>
+			</dict>
+			<key>testModularExponentiation()</key>
+			<dict>
+				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
+				<dict>
+					<key>baselineAverage</key>
+					<real>2.095</real>
+					<key>baselineIntegrationDisplayName</key>
+					<string>2016-01-02 22:12:51</string>
 				</dict>
 			</dict>
 			<key>testMultiplicationByDigit()</key>

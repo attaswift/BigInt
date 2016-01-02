@@ -118,18 +118,19 @@ class ProfileTests: XCTestCase {
         checkFactorial(fact, n: 1 << power - 1)
     }
 
-    func testSquareRoot() {
-        func randomBigInt(digits: Int) -> BigUInt {
-            let p = UnsafeMutablePointer<UInt64>.alloc(digits)
-            arc4random_buf(p, digits * sizeof(UInt64))
+    func randomBigInt(digits: Int) -> BigUInt {
+        let p = UnsafeMutablePointer<UInt64>.alloc(digits)
+        arc4random_buf(p, digits * sizeof(UInt64))
 
-            var result: BigUInt = 0
-            for i in 0 ..< digits {
-                result[i] = p[i]
-            }
-            p.destroy()
-            return result
+        var result: BigUInt = 0
+        for i in 0 ..< digits {
+            result[i] = p[i]
         }
+        p.destroy()
+        return result
+    }
+
+    func testSquareRoot() {
         var numbers: [BigUInt] = (1...1000).map { _ in randomBigInt(60) }
         var roots: [BigUInt] = []
         self.measure {
@@ -143,6 +144,39 @@ class ProfileTests: XCTestCase {
         for i in 0..<numbers.count {
             XCTAssertLessThanOrEqual(roots[i] * roots[i], numbers[i])
             XCTAssertGreaterThan((roots[i] + 1) * (roots[i] + 1), numbers[i])
+        }
+    }
+
+    func testModularExponentiation() {
+        let m15 = (BigUInt(1) << 1279) - 1
+
+        let tests = (1..<25).map { _ in randomBigInt(1279 / Digit.width) }
+        self.measure {
+            for test in tests {
+                assert(test < m15)
+                let x = BigUInt.powmod(test, m15, modulus: m15)
+                XCTAssertEqual(x, test)
+            }
+        }
+    }
+
+    func testGCD() {
+        var fibo: [BigUInt] = [0, 1]
+        for i in 0..<99998 {
+            fibo.append(fibo[i] + fibo[i + 1])
+        }
+
+        self.measure {
+            for _ in 0..<10 {
+                let i = Int(50000 + arc4random_uniform(50000))
+                let j = Int(50000 + arc4random_uniform(50000))
+                let bi = BigUInt(i)
+                let bj = BigUInt(j)
+
+                let g1 = BigUInt.gcd(fibo[i], fibo[j])
+                let g2 = Int(BigUInt.gcd(bi, bj)[0])
+                XCTAssertEqual(g1, fibo[g2])
+            }
         }
     }
 }

@@ -666,4 +666,54 @@ class BigUIntTests: XCTestCase {
         checkSqrt(sample * sample - 1)
         checkSqrt(sample * sample + 1)
     }
+
+    func testGCD() {
+        XCTAssertEqual(BigUInt.gcd(0, 2982891), 0)
+        XCTAssertEqual(BigUInt.gcd(2982891, 0), 0)
+        XCTAssertEqual(BigUInt.gcd(0, 0), 0)
+
+        XCTAssertEqual(BigUInt.gcd(4, 6), 2)
+        XCTAssertEqual(BigUInt.gcd(15, 10), 5)
+        XCTAssertEqual(BigUInt.gcd(8 * 3 * 25 * 7, 2 * 9 * 5 * 49), 2 * 3 * 5 * 7)
+
+        var fibo: [BigUInt] = [0, 1]
+        for i in 0...10000 {
+            fibo.append(fibo[i] + fibo[i + 1])
+        }
+
+        XCTAssertEqual(BigUInt.gcd(fibo[100], fibo[101]), 1)
+        XCTAssertEqual(BigUInt.gcd(fibo[1000], fibo[1001]), 1)
+        XCTAssertEqual(BigUInt.gcd(fibo[10000], fibo[10001]), 1)
+
+        XCTAssertEqual(BigUInt.gcd(3 * 5 * 7 * 9, 5 * 7 * 7), 5 * 7)
+        XCTAssertEqual(BigUInt.gcd(fibo[4], fibo[2]), fibo[2])
+        XCTAssertEqual(BigUInt.gcd(fibo[3 * 5 * 7 * 9], fibo[5 * 7 * 7 * 9]), fibo[5 * 7 * 9])
+        XCTAssertEqual(BigUInt.gcd(fibo[7 * 17 * 83], fibo[6 * 17 * 83]), fibo[17 * 83])
+    }
+
+    func testModularExponentiation() {
+        XCTAssertEqual(BigUInt.powmod(2, 11, modulus: 1), 0)
+        XCTAssertEqual(BigUInt.powmod(2, 11, modulus: 1000), 48)
+
+        func test(a a: BigUInt, p: BigUInt, file: String = __FILE__, line: UInt = __LINE__) {
+            // For all primes p and integers a, a % p == a^p % p. (Fermat's Little Theorem)
+            let x = a % p
+            let y = BigUInt.powmod(x, p, modulus: p)
+            XCTAssertEqual(x, y, file: file, line: line)
+        }
+
+        // Here are some primes
+        let m61 = (BigUInt(1) << 61) - 1
+        let m127 = (BigUInt(1) << 127) - 1
+        let m521 = (BigUInt(1) << 521) - 1
+
+        test(a: 2, p: m127)
+        test(a: 1 << 42, p: m127)
+        test(a: 1 << 42 + 1, p: m127)
+        test(a: m61, p: m127)
+        test(a: m61 + 1, p: m127)
+        test(a: m61, p: m521)
+        test(a: m61 + 1, p: m521)
+        test(a: m127, p: m521)
+    }
 }
