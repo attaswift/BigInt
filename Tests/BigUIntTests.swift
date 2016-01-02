@@ -648,6 +648,7 @@ class BigUIntTests: XCTestCase {
     func testSqrt() {
         let sample = BigUInt("123456789ABCDEF1234567891631832727633", radix: 16)!
 
+        XCTAssertEqual(sqrt(BigUInt(0)), 0)
         XCTAssertEqual(sqrt(BigUInt(256)), 16)
 
         func checkSqrt(value: BigUInt, file: String = __FILE__, line: UInt = __LINE__) {
