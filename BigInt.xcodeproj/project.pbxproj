@@ -47,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BB2CFBC31C3876A10082692D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BB64E6F01C2F490000C18269 /* BigInt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BigInt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB64E6F51C2F490000C18269 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB64E6FA1C2F490000C18269 /* BigIntTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BigIntTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,6 +103,7 @@
 		BB64E6E61C2F48FF00C18269 = {
 			isa = PBXGroup;
 			children = (
+				BB2CFBC31C3876A10082692D /* README.md */,
 				BB6BB5501C36F5940054459A /* Demo.playground */,
 				BB64E6F21C2F490000C18269 /* Sources */,
 				BB64E6FE1C2F490000C18269 /* Tests */,
