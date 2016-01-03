@@ -569,7 +569,7 @@ class BigUIntTests: XCTestCase {
         func test(a: [Digit], _ b: [Digit], file: String = __FILE__, line: UInt = __LINE__) {
             let x = BigUInt(a)
             let y = BigUInt(b)
-            let (div, mod) = BigUInt.divmod(x, y)
+            let (div, mod) = x.divide(y)
             XCTAssertLessThan(mod, y, "x:\(x) = div:\(div) * y:\(y) + mod:\(mod)", file: file, line: line)
             XCTAssertEqual(div * y + mod, x, "x:\(x) = div:\(div) * y:\(y) + mod:\(mod)", file: file, line: line)
         }
@@ -645,7 +645,7 @@ class BigUIntTests: XCTestCase {
 
         var remaining = balanced
         for i in 1 ..< (1 << power) {
-            let (div, mod) = BigUInt.divmod(remaining, BigUInt(i))
+            let (div, mod) = remaining.divide(BigUInt(i))
             XCTAssertEqual(mod, 0)
             remaining = div
         }

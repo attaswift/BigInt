@@ -789,7 +789,8 @@ public func >> (b: BigUInt, amount: Int) -> BigUInt {
 //MARK: Quotient and Remainder
 
 extension BigUInt {
-    /// Divides this integer by `y`, leaving the quotient in its place and returning the remainder.
+    /// Divide this integer by the digit `y`, leaving the quotient in its place and returning the remainder.
+    /// - Requires: y > 0
     /// - Complexity: O(count)
     @warn_unused_result
     public mutating func divideInPlaceByDigit(y: Digit) -> Digit {
@@ -807,19 +808,23 @@ extension BigUInt {
         return remainder
     }
 
+    /// Divide this integer by the digit `y` and return the resulting quotient and remainder.
     @warn_unused_result
-    public static func divmodByDigit(x: BigUInt, _ y: Digit) -> (div: BigUInt, mod: Digit) {
-        var div = x
+    /// - Requires: y > 0
+    /// - Returns: (div, mod) where div = floor(x/y), mod = x - div * y
+    /// - Complexity: O(x.count)
+    public func divideByDigit(y: Digit) -> (div: BigUInt, mod: Digit) {
+        var div = self
         let mod = div.divideInPlaceByDigit(y)
         return (div, mod)
     }
 
-    /// Divide `x` by `y` and return the resulting quotient and remainder.
+    /// Divide this integer by `y` and return the resulting quotient and remainder.
     /// - Requires: y > 0
     /// - Returns: (div, mod) where div = floor(x/y), mod = x - div * y
     /// - Complexity: O(x.count * y.count)
     @warn_unused_result
-    public static func divmod(x: BigUInt, _ y: BigUInt) -> (div: BigUInt, mod: BigUInt) {
+    public func divide(y: BigUInt) -> (div: BigUInt, mod: BigUInt) {
         // This is a Swift adaptation of "divmnu" from Hacker's Delight, which is in
         // turn a C adaptation of Knuth's Algorithm D (TAOCP vol 2, 4.3.1).
 
@@ -827,12 +832,12 @@ extension BigUInt {
 
         // First, let's take care of the easy cases.
 
-        if x.count < y.count {
-            return (0, x)
+        if self.count < y.count {
+            return (0, self)
         }
         if y.count == 1 {
             // The single-digit case reduces to a simpler loop.
-            let (div, mod) = divmodByDigit(x, y[0])
+            let (div, mod) = divideByDigit(y[0])
             return (div, BigUInt(mod))
         }
         
@@ -895,7 +900,7 @@ extension BigUInt {
         // both the divisor and the dividend by the same (small) factor.
         let z = y.leadingZeroes
         let divisor = y << z
-        var remainder = x << z // We'll calculate the remainder in the normalized dividend.
+        var remainder = self << z // We'll calculate the remainder in the normalized dividend.
         var quotient = BigUInt()
         assert(divisor.count == y.count && divisor.last!.high > 0)
 
@@ -931,19 +936,34 @@ extension BigUInt {
     }
 }
 
+/// Divide `x` by `y` and return the quotient.
+/// - Note: Use `x.divide(y)` if you also need the remainder.
 @warn_unused_result
 public func /(x: BigUInt, y: BigUInt) -> BigUInt {
-    return BigUInt.divmod(x, y).div
+    return x.divide(y).div
 }
 
+/// Divide `x` by `y` and return the remainder.
+/// - Note: Use `x.divide(y)` if you also need the remainder.
 @warn_unused_result
 public func %(x: BigUInt, y: BigUInt) -> BigUInt {
-    return BigUInt.divmod(x, y).mod
+    return x.divide(y).mod
 }
 
-public func /=(inout x: BigUInt, y: BigUInt) { x = x / y }
-public func %=(inout x: BigUInt, y: BigUInt) { x = x % y }
+/// Divide `x` by `y` and store the quotient of the result in `x`.
+/// - Note: Use `x.divide(y)` if you also need the remainder.
+public func /=(inout x: BigUInt, y: BigUInt) {
+    x = x.divide(y).div
+}
 
+/// Divide `x` by `y` and store the remainder of the result in `x`.
+/// - Note: Use `x.divide(y)` if you also need the remainder.
+public func %=(inout x: BigUInt, y: BigUInt) {
+    x = x.divide(y).mod
+}
+
+/// Returns the integer square root of a big integer; i.e., the largest integer whose square isn't greater than `value`.
+/// - Returns: floor(sqrt(value))
 @warn_unused_result
 public func sqrt(value: BigUInt) -> BigUInt {
     // This implementation uses Newton's method.

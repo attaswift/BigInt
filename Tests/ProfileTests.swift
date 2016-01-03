@@ -9,6 +9,132 @@
 import XCTest
 import BigInt
 
+func randomBigInt(digits: Int) -> BigUInt {
+    let p = UnsafeMutablePointer<UInt64>.alloc(digits)
+    arc4random_buf(p, digits * sizeof(UInt64))
+
+    var result: BigUInt = 0
+    for i in 0 ..< digits {
+        result[i] = p[i]
+    }
+    p.destroy()
+    return result
+}
+
+func randomArray(digits: Int) -> [UInt32] {
+    let p = UnsafeMutablePointer<UInt32>.alloc(digits)
+    arc4random_buf(p, digits * sizeof(UInt32))
+
+    var result: [UInt32] = []
+    for i in 0 ..< digits {
+        result.append(p[i])
+    }
+    p.destroy()
+    return result
+}
+
+func directMultiply(inout a: [UInt32], _ y: UInt32) {
+    guard y != 0 else { a = []; return }
+    guard y != 1 else { return }
+    var carry: UInt32 = 0
+    let c = a.count
+    for i in 0..<c {
+        let p = UInt64(a[i].toIntMax() * y.toIntMax())
+        let (h, l) = p.split
+        let (low, o) = UInt32.addWithOverflow(UInt32(l), carry)
+        a[i] = low
+        carry = (o ? UInt32(h) + 1 : UInt32(h))
+    }
+    if carry > 0 {
+        a.append(carry)
+    }
+}
+
+protocol DigitType: IntegerType {
+    init(_ v: UInt64)
+}
+
+extension UInt32: DigitType {}
+
+func genericMultiply<I: DigitType>(inout a: [I], _ y: I) {
+    guard y != 0 else { a = []; return }
+    guard y != 1 else { return }
+    var carry: I = 0
+    let c = a.count
+    for i in 0..<c {
+        let p = UInt64(a[i].toIntMax() * y.toIntMax())
+        let (h, l) = p.split
+        let (low, o) = I.addWithOverflow(I(l), carry)
+        a[i] = low
+        carry = (o ? I(h) + 1 : I(h))
+    }
+    if carry > 0 {
+        a.append(carry)
+    }
+}
+
+extension Array where Element: DigitType {
+    mutating func extensionMultiply(y: Element) {
+        guard y != 0 else { self = []; return }
+        guard y != 1 else { return }
+        var carry: Element = 0
+        let c = self.count
+        for i in 0..<c {
+            let p = UInt64(self[i].toIntMax() * y.toIntMax())
+            let (h, l) = p.split
+            let (low, o) = Element.addWithOverflow(Element(l), carry)
+            self[i] = low
+            carry = (o ? Element(h) + 1 : Element(h))
+        }
+        if carry > 0 {
+            self.append(carry)
+        }
+    }
+}
+
+struct Foo<Digit: DigitType> {
+    var digits: [Digit] = []
+
+    subscript(index: Int) -> Digit {
+        get { return digits[index] }
+        set { digits[index] = newValue }
+    }
+
+    mutating func structMultiply1(y: Digit) {
+        guard y != 0 else { digits = []; return }
+        guard y != 1 else { return }
+        var carry: Digit = 0
+        let c = digits.count
+        for i in 0..<c {
+            let p = UInt64(digits[i].toIntMax() * y.toIntMax())
+            let (h, l) = p.split
+            let (low, o) = Digit.addWithOverflow(Digit(l), carry)
+            digits[i] = low
+            carry = (o ? Digit(h) + 1 : Digit(h))
+        }
+        if carry > 0 {
+            digits.append(carry)
+        }
+    }
+    mutating func structMultiply2(y: Digit) {
+        guard y != 0 else { digits = []; return }
+        guard y != 1 else { return }
+        var carry: Digit = 0
+        let c = digits.count
+        for i in 0..<c {
+            let p = UInt64(self[i].toIntMax() * y.toIntMax())
+            let (h, l) = p.split
+            let (low, o) = Digit.addWithOverflow(Digit(l), carry)
+            self[i] = low
+            carry = (o ? Digit(h) + 1 : Digit(h))
+        }
+        if carry > 0 {
+            digits.append(carry)
+        }
+    }
+}
+
+
 #if Profile
 class ProfileTests: XCTestCase {
     typealias Digit = BigUInt.Digit
@@ -21,6 +147,56 @@ class ProfileTests: XCTestCase {
             round += 1
         }
     }
+
+    #if false
+    lazy var random = randomArray(100)
+
+    func testAdditionWithDirectFunction() {
+        self.measure {
+            var x = self.random
+            for _ in 0..<100000 {
+                directMultiply(&x, 73)
+            }
+        }
+    }
+
+    func testAdditionWithGenericFunction() {
+        self.measure {
+            var x: [UInt32] = self.random
+            for _ in 0..<100000 {
+                genericMultiply(&x, 73)
+            }
+        }
+    }
+
+    func testAdditionWithGenericExtensionMethod() {
+        self.measure {
+            var x: [UInt32] = self.random
+            for _ in 0..<100000 {
+                x.extensionMultiply(73)
+            }
+        }
+    }
+
+    func testAAdditionWithGenericStruct() {
+        self.measure {
+            var x = Foo<UInt32>()
+            x.digits = self.random
+            for _ in 0..<100000 {
+                x.structMultiply1(73)
+            }
+        }
+    }
+    func testAAdditionWithGenericStructSubscript() {
+        self.measure {
+            var x = Foo<UInt32>()
+            x.digits = self.random
+            for _ in 0..<100000 {
+                x.structMultiply2(73)
+            }
+        }
+    }
+    #endif
 
     func testFibonacciAddition() {
         var n1 = BigUInt(1)
@@ -43,7 +219,7 @@ class ProfileTests: XCTestCase {
     func checkFactorial(fact: BigUInt, n: Int, file: String = __FILE__, line: UInt = __LINE__) {
         var remaining = fact
         for i in 1...n {
-            let (div, mod) = BigUInt.divmod(remaining, BigUInt(i))
+            let (div, mod) = remaining.divide(BigUInt(i))
             XCTAssertEqual(mod, 0, "for divisor = \(i)", file: file, line: line)
             remaining = div
         }
@@ -107,7 +283,7 @@ class ProfileTests: XCTestCase {
             mods.removeAll()
             self.startMeasuring()
             for divisor in divisors {
-                let (div, mod) = BigUInt.divmod(fact, divisor)
+                let (div, mod) = fact.divide(divisor)
                 divs.append(div)
                 mods.append(mod)
             }
@@ -117,18 +293,6 @@ class ProfileTests: XCTestCase {
             XCTAssertEqual(mods[i], 0, "div = \(divs[i]), mod = \(mods[i]) for divisor = \(divisors[i])")
         }
         checkFactorial(fact, n: 1 << power - 1)
-    }
-
-    func randomBigInt(digits: Int) -> BigUInt {
-        let p = UnsafeMutablePointer<UInt64>.alloc(digits)
-        arc4random_buf(p, digits * sizeof(UInt64))
-
-        var result: BigUInt = 0
-        for i in 0 ..< digits {
-            result[i] = p[i]
-        }
-        p.destroy()
-        return result
     }
 
     func testSquareRoot() {
