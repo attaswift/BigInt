@@ -308,7 +308,7 @@ extension BigUInt: Hashable {
 
 extension BigUInt {
     /// The minimum number of bits required to represent this integer in binary.
-    /// - Returns: 0 if self.isZero; otherwise floor(log2(2 * self + 1)).
+    /// - Returns: floor(log2(2 * self + 1))
     public var width: Int {
         guard count > 0 else { return 0 }
         return count * Digit.width - self[count - 1].leadingZeroes
