@@ -37,16 +37,18 @@ public struct BigInt {
 
 extension BigInt {
     public init?(_ text: String, radix: Int = 10) {
+        var text = text
+        var negative = false
         if text.characters.first == "-" {
-            guard let abs = BigUInt(text.substringFromIndex(text.startIndex.successor()), radix: radix) else { return nil }
-            self.abs = abs
-            self.negative = true
+            negative = true
+            text = text.substringFromIndex(text.startIndex.successor())
         }
-        else {
-            guard let abs = BigUInt(text, radix: radix) else { return nil }
-            self.abs = abs
-            self.negative = false
+        else if text.characters.first == "+" {
+            text = text.substringFromIndex(text.startIndex.successor())
         }
+        guard let abs = BigUInt(text, radix: radix) else { return nil }
+        self.abs = abs
+        self.negative = negative
     }
 }
 

@@ -27,12 +27,31 @@ class BigIntTests: XCTestCase {
         XCTAssertFalse(b.negative)
 
         XCTAssertEqual(BigInt(UIntMax.max).abs, BigUInt(UIntMax.max))
+
+        let b2: BigInt = "+300"
+        XCTAssertEqual(b2.abs, 300)
+        XCTAssertFalse(b2.negative)
+
+        let b3: BigInt = "-300"
+        XCTAssertEqual(b3.abs, 300)
+        XCTAssertTrue(b3.negative)
+
+        XCTAssertNil(BigInt("Not a number"))
+
+        XCTAssertEqual(BigInt(unicodeScalarLiteral: UnicodeScalar(52)), BigInt(4))
+        XCTAssertEqual(BigInt(extendedGraphemeClusterLiteral: "4"), BigInt(4))
     }
 
     func testSign() {
         XCTAssertTrue(BigInt(-1).negative)
         XCTAssertFalse(BigInt(0).negative)
         XCTAssertFalse(BigInt(1).negative)
+    }
+
+    func testConversionToString() {
+        let b = BigInt(-256)
+        XCTAssertEqual(b.description, "-256")
+        XCTAssertEqual(String(b, radix: 16, uppercase: true), "-100")
     }
 
     func testComparable() {
