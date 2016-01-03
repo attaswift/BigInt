@@ -72,8 +72,8 @@ extension BigUInt: CollectionType {
     public var startIndex: Int { return 0 }
     public var endIndex: Int { return count }
 
-    public func generate() -> DigitsGenerator<Digit> {
-        return DigitsGenerator(digits: _digits, end: _end, index: _start)
+    public func generate() -> DigitGenerator<Digit> {
+        return DigitGenerator(digits: _digits, end: _end, index: _start)
     }
 
     public subscript(index: Int) -> Digit {
@@ -108,7 +108,7 @@ extension BigUInt: CollectionType {
     }
 }
 
-public struct DigitsGenerator<Digit>: GeneratorType {
+public struct DigitGenerator<Digit>: GeneratorType {
     internal let digits: [Digit]
     internal let end: Int
     internal var index: Int
