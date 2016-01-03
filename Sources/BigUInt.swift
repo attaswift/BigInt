@@ -9,6 +9,7 @@
 import Foundation
 
 public struct BigUInt {
+    /// The type representing a digit in `BigUInt`'s underlying number system.
     public typealias Digit = UInt64
     
     internal var _digits: [Digit]
@@ -25,18 +26,23 @@ public struct BigUInt {
         self._end = end
     }
 
+    /// Initializes a new BigUInt with value 0.
     public init() {
         self.init([])
     }
 
+    /// Initializes a new BigUInt with the specified digits. The digits are ordered from least to most significant.
     public init(_ digits: [Digit]) {
         self.init(digits: digits, start: 0, end: digits.count)
     }
 
+    /// Initializes a new BigUInt that has the supplied value.
     public init<I: UnsignedIntegerType>(_ integer: I) {
         self.init(Digit.digitsFromUIntMax(integer.toUIntMax()))
     }
 
+    /// Initializes a new BigUInt that has the supplied value.
+    /// - Required: integer >= 0
     public init<I: SignedIntegerType>(_ integer: I) {
         precondition(integer >= 0)
         self.init(UIntMax(integer.toIntMax()))
@@ -68,14 +74,27 @@ extension BigUInt: StringLiteralConvertible {
 //MARK: CollectionType
 
 extension BigUInt: CollectionType {
+    /// The number of digits in this integer, excluding leading zero digits.
     public var count: Int { return _end - _start }
+    /// The index of the first digit, starting from the least significant. (This is always zero.)
     public var startIndex: Int { return 0 }
+    /// The index of the digit after the most significant digit in this integer.
     public var endIndex: Int { return count }
 
+    /// Return a generator over the digits of this integer, starting at the least significant digit.
     public func generate() -> DigitGenerator<Digit> {
         return DigitGenerator(digits: _digits, end: _end, index: _start)
     }
 
+    /// Get or set a digit at a given position.
+    /// - Note: Unlike a normal collection, it is OK for the index to be greater than or equal to `count`.
+    ///   The subscripting getter returns zero for indexes beyond the most significant digit.
+    ///   Setting these digits automatically appends new elements to the underlying digit array.
+    /// - Requires: index >= 0
+    /// - Complexity: The getter is O(1). The setter is O(1) if the conditions below are true; otherwise it's O(count).
+    ///    - The integer's storage is not shared with another integer
+    ///    - The integer wasn't created as a slice of another integer
+    ///    - `index < count`
     public subscript(index: Int) -> Digit {
         get {
             precondition(index >= 0)
@@ -101,6 +120,7 @@ extension BigUInt: CollectionType {
         }
     }
 
+    /// Returns an integer built from the digits of this integer in the given range.
     public subscript(range: Range<Int>) -> BigUInt {
         get {
             return BigUInt(digits: _digits, start: _start + range.startIndex, end: _start + range.endIndex)
@@ -108,6 +128,7 @@ extension BigUInt: CollectionType {
     }
 }
 
+/// The digit generator for a big integer.
 public struct DigitGenerator<Digit>: GeneratorType {
     internal let digits: [Digit]
     internal let end: Int
@@ -125,7 +146,10 @@ public struct DigitGenerator<Digit>: GeneratorType {
 //MARK: Lift and shrink
 
 extension BigUInt {
+    /// True iff this integer is not a slice.
     internal var isTop: Bool { return _start == 0 && _end == _digits.count }
+
+    /// Ensures that this integer is not a slice, allocating a new digit array if necessary.
     internal mutating func lift() {
         guard !isTop else { return }
         _digits = Array(self)
@@ -133,6 +157,7 @@ extension BigUInt {
         _end = _digits.count
     }
 
+    /// Gets rid of leading zero digits in the digit array.
     internal mutating func shrink() {
         assert(isTop)
         while _digits.last == 0 {
@@ -146,6 +171,9 @@ extension BigUInt {
 
 extension BigUInt: CustomStringConvertible {
 
+    /// Calculates the number of numerals in a given radix that fit inside a single `Digit`.
+    /// - Returns: (chars, power) where `chars` is highest that satisfy `radix^chars <= 2^Digit.width`. `power` is zero
+    ///   if radix is a power of two; otherwise `power == radix^chars`.
     private static func charsPerDigitForRadix(radix: Int) -> (chars: Int, power: Digit) {
         var power: Digit = 1
         var overflow = false
@@ -161,6 +189,13 @@ extension BigUInt: CustomStringConvertible {
         return (count, power)
     }
 
+    /// Initialize a big integer from an ASCII representation in a given radix. Numerals above `9` are represented by
+    /// letters from the English alphabet.
+    ///
+    /// - Requires: `radix > 1 && radix < 36`
+    /// - Parameter `text`: A string consisting of characters corresponding to numerals in the given radix. (0-9, a-z, A-Z)
+    /// - Parameter `radix`: The base of the number system to use, or 10 if unspecified.
+    /// - Returns: The integer represented by `text`, or nil if `text` contains a character that does not represent a numeral in `radix`.
     public init?(_ text: String, radix: Int = 10) {
         precondition(radix > 1)
         let (charsPerDigit, power) = BigUInt.charsPerDigitForRadix(radix)
@@ -202,7 +237,14 @@ extension BigUInt: CustomStringConvertible {
 
 extension String {
     public init(_ v: BigUInt) { self.init(v, radix: 10, uppercase: false) }
-    
+
+    /// Create an instance representing v in the given radix (base).
+    ///
+    /// Numerals greater than 9 are represented as letters from the English alphabet,
+    /// starting with `a` if `uppercase` is false or `A` otherwise.
+    ///
+    /// - Requires: radix > 1 && radix <= 36
+    /// - Complexity: O(count) when radix is a power of two; otherwise O(count^2).
     public init(_ v: BigUInt, radix: Int, uppercase: Bool = false) {
         precondition(radix > 1)
         let (charsPerDigit, power) = BigUInt.charsPerDigitForRadix(radix)
@@ -241,29 +283,44 @@ extension String {
 //MARK: Low and High
 
 extension BigUInt {
+    /// Split this integer into a high-order and a low-order part.
+    /// - Requires: count > 1
+    /// - Returns: `(low, high)` such that 
+    ///   - `self == low.add(high, shift: middleIndex)`
+    ///   - `high.width <= floor(width / 2)`
+    ///   - `low.width <= ceil(width / 2)`
+    /// - Complexity: Typically O(1), but O(count) in the worst case, because high-order zero digits need to be removed after the split.
     internal var split: (high: BigUInt, low: BigUInt) {
         precondition(count > 1)
-        let mid = _start + (count + 1) / 2
-        return (
-            BigUInt(digits: _digits, start: mid, end: _end),
-            BigUInt(digits: _digits, start: _start, end: mid)
-        )
+        let mid = middleIndex
+        return (self[mid ..< count], self[0 ..< mid])
     }
 
-    /// Returns the low-order half of this BigUInt.
+    /// Index of the digit at the middle of this integer.
+    /// - Returns: The index of the digit that is least significant in `self.high`.
+    internal var middleIndex: Int {
+        return (count + 1) / 2
+    }
+
+    /// The low-order half of this BigUInt.
+    /// - Returns: `self[0 ..< middleIndex]`
+    /// - Requires: count > 1
     internal var low: BigUInt {
-        return split.low
+        return self[0 ..< middleIndex]
     }
 
-    /// Returns the high-order half of this BigUInt.
+    /// The high-order half of this BigUInt.
+    /// - Returns: `self[middleIndex ..< count]`
+    /// - Requires: count > 1
     internal var high: BigUInt {
-        return split.high
+        return self[middleIndex ..< count]
     }
 }
 
 //MARK: Comparable
 
 extension BigUInt: Comparable {
+    /// Compare `a` to `b` and return an `NSComparisonResult` indicating their order.
     @warn_unused_result
     public static func compare(a: BigUInt, _ b: BigUInt) -> NSComparisonResult {
         if a.count != b.count { return a.count > b.count ? .OrderedDescending : .OrderedAscending }
@@ -286,6 +343,8 @@ public func <(a: BigUInt, b: BigUInt) -> Bool {
 }
 
 extension BigUInt {
+    /// Return true iff this integer is zero.
+    /// - Complexity: O(1)
     var isZero: Bool {
         return count == 0
     }
@@ -295,6 +354,7 @@ extension BigUInt {
 
 extension BigUInt: Hashable {
     public var hashValue: Int {
+        // 
         var hash: UInt64 = UInt64(count).byteSwapped
         for i in 0..<count {
             let shift: UInt64 = ((UInt64(i) << 5) - UInt64(i)) & 63
@@ -311,6 +371,7 @@ extension BigUInt: Hashable {
 extension BigUInt {
     /// The minimum number of bits required to represent this integer in binary.
     /// - Returns: floor(log2(2 * self + 1))
+    /// - Complexity: O(1)
     public var width: Int {
         guard count > 0 else { return 0 }
         return count * Digit.width - self[count - 1].leadingZeroes
@@ -321,6 +382,7 @@ extension BigUInt {
     /// - Note: 0 is considered to have zero leading zero bits.
     /// - Returns: A value in `0...(Digit.width - 1)`.
     /// - SeeAlso: width
+    /// - Complexity: O(1)
     public var leadingZeroes: Int {
         guard count > 0 else { return 0 }
         return self[count - 1].leadingZeroes
@@ -329,6 +391,7 @@ extension BigUInt {
     /// The number of trailing zero bits in the binary representation of this integer. 
     /// - Note: 0 is considered to have zero trailing zero bits.
     /// - Returns: A value in `0...width`.
+    /// - Complexity: O(count)
     public var trailingZeroes: Int {
         guard count > 0 else { return 0 }
         let i = self.indexOf { $0 != 0 }!
@@ -336,11 +399,15 @@ extension BigUInt {
     }
 }
 
+/// Return the ones' complement of `a`.
+/// - Complexity: O(a.count)
 @warn_unused_result
 public prefix func ~(a: BigUInt) -> BigUInt {
     return BigUInt(a.map { ~$0 })
 }
 
+/// Calculate the bitwise OR of `a` and `b` and return the result.
+/// - Complexity: O(max(a.count, b.count))
 @warn_unused_result
 public func | (a: BigUInt, b: BigUInt) -> BigUInt {
     var result = BigUInt()
@@ -350,6 +417,8 @@ public func | (a: BigUInt, b: BigUInt) -> BigUInt {
     return result
 }
 
+/// Calculate the bitwise AND of `a` and `b` and return the result.
+/// - Complexity: O(max(a.count, b.count))
 @warn_unused_result
 public func & (a: BigUInt, b: BigUInt) -> BigUInt {
     var result = BigUInt()
@@ -359,6 +428,8 @@ public func & (a: BigUInt, b: BigUInt) -> BigUInt {
     return result
 }
 
+/// Calculate the bitwise OR of `a` and `b` and return the result.
+/// - Complexity: O(max(a.count, b.count))
 @warn_unused_result
 public func ^ (a: BigUInt, b: BigUInt) -> BigUInt {
     var result = BigUInt()
@@ -368,12 +439,20 @@ public func ^ (a: BigUInt, b: BigUInt) -> BigUInt {
     return result
 }
 
+/// Calculate the bitwise OR of `a` and `b`, and store the result in `a`.
+/// - Complexity: O(max(a.count, b.count))
 public func |= (inout a: BigUInt, b: BigUInt) {
     a = a | b
 }
+
+/// Calculate the bitwise AND of `a` and `b`, and store the result in `a`.
+/// - Complexity: O(max(a.count, b.count))
 public func &= (inout a: BigUInt, b: BigUInt) {
     a = a & b
 }
+
+/// Calculate the bitwise XOR of `a` and `b`, and store the result in `a`.
+/// - Complexity: O(max(a.count, b.count))
 public func ^= (inout a: BigUInt, b: BigUInt) {
     a = a ^ b
 }
@@ -382,6 +461,9 @@ public func ^= (inout a: BigUInt, b: BigUInt) {
 //MARK: Addition
 
 extension BigUInt {
+    /// Add the digit `d` to this integer in place.
+    /// `d` is shifted `shift` digits to the left before being added.
+    /// - Complexity: O(max(count, shift))
     public mutating func addDigitInPlace(d: Digit, shift: Int = 0) {
         precondition(shift >= 0)
         lift()
@@ -395,6 +477,19 @@ extension BigUInt {
         }
     }
 
+    /// Add the digit `d` to this integer and return the result.
+    /// `d` is shifted `shift` digits to the left before being added.
+    /// - Complexity: O(max(count, shift))
+    @warn_unused_result
+    public func addDigit(d: Digit, shift: Int = 0) -> BigUInt {
+        var r = self
+        r.addDigitInPlace(d, shift: shift)
+        return r
+    }
+
+    /// Add `b` to this integer in place.
+    /// `b` is shifted `shift` digits to the left before being added.
+    /// - Complexity: O(max(count, b.count + shift))
     public mutating func addInPlace(b: BigUInt, shift: Int = 0) {
         precondition(shift >= 0)
         lift()
@@ -416,6 +511,9 @@ extension BigUInt {
         }
     }
 
+    /// Add `b` to this integer and return the result.
+    /// `b` is shifted `shift` digits to the left before being added.
+    /// - Complexity: O(max(count, b.count + shift))
     @warn_unused_result
     public func add(b: BigUInt, shift: Int = 0) -> BigUInt {
         var r = self
@@ -423,23 +521,23 @@ extension BigUInt {
         return r
     }
 
-    @warn_unused_result
-    public func addDigit(d: Digit, shift: Int = 0) -> BigUInt {
-        var r = self
-        r.addDigitInPlace(d, shift: shift)
-        return r
-    }
-
+    /// Increment this integer by one. If `shift` is non-zero, it selects
+    /// the digit that is to be incremented.
+    /// - Complexity: O(count + shift)
     public mutating func increment(shift shift: Int = 0) {
         self.addDigitInPlace(1, shift: shift)
     }
 }
 
+/// Add `a` and `b` together and return the result.
+/// - Complexity: O(max(a.count, b.count))
 @warn_unused_result
 public func +(a: BigUInt, b: BigUInt) -> BigUInt {
     return a.add(b)
 }
 
+/// Add `a` and `b` together, and store the sum in `a`.
+/// - Complexity: O(max(a.count, b.count))
 public func +=(inout a: BigUInt, b: BigUInt) {
     a.addInPlace(b, shift: 0)
 }
@@ -447,6 +545,10 @@ public func +=(inout a: BigUInt, b: BigUInt) {
 //MARK: Subtraction
 
 extension BigUInt {
+    /// Subtract a digit `d` from this integer in place, returning a flag that is true if the operation
+    /// caused an arithmetic overflow. `d` is shifted `shift` digits to the left before being subtracted.
+    /// - Note: If the result is true, then `self` becomes the two's complement of the absolute difference.
+    /// - Complexity: O(count)
     @warn_unused_result
     public mutating func subtractDigitInPlaceWithOverflow(d: Digit, shift: Int = 0) -> Bool {
         precondition(shift >= 0)
@@ -462,6 +564,10 @@ extension BigUInt {
         return carry > 0
     }
 
+    /// Subtract a digit `d` from this integer, returning the difference and a flag that is true if the operation 
+    /// caused an arithmetic overflow. `d` is shifted `shift` digits to the left before being subtracted.
+    /// - Note: If `overflow` is true, then the returned value is the two's complement of the absolute difference.
+    /// - Complexity: O(count)
     @warn_unused_result
     public func subtractDigitWithOverflow(d: Digit, shift: Int = 0) -> (BigUInt, overflow: Bool) {
         var result = self
@@ -469,11 +575,19 @@ extension BigUInt {
         return (result, overflow)
     }
 
+    /// Subtract a digit `d` from this integer in place.
+    /// `d` is shifted `shift` digits to the left before being subtracted.
+    /// - Requires: self >= d * 2^shift
+    /// - Complexity: O(count)
     public mutating func subtractDigitInPlace(d: Digit, shift: Int = 0) {
         let overflow = subtractDigitInPlaceWithOverflow(d, shift: shift)
         precondition(!overflow)
     }
 
+    /// Subtract a digit `d` from this integer and return the result.
+    /// `d` is shifted `shift` digits to the left before being subtracted.
+    /// - Requires: self >= d * 2^shift
+    /// - Complexity: O(count)
     @warn_unused_result
     public func subtractDigit(d: Digit, shift: Int = 0) -> BigUInt {
         var result = self
@@ -481,6 +595,10 @@ extension BigUInt {
         return result
     }
 
+    /// Subtract `b` from this integer in place, and return true iff the operation caused an
+    /// arithmetic overflow. `b` is shifted `shift` digits to the left before being subtracted.
+    /// - Note: If the result is true, then `self` becomes the twos' complement of the absolute difference.
+    /// - Complexity: O(count)
     @warn_unused_result
     public mutating func subtractInPlaceWithOverflow(b: BigUInt, shift: Int = 0) -> Bool {
         precondition(shift >= 0)
@@ -504,18 +622,30 @@ extension BigUInt {
         return carry
     }
 
+    /// Subtract `b` from this integer, returning the difference and a flag that is true if the operation caused an 
+    /// arithmetic overflow. `b` is shifted `shift` digits to the left before being subtracted.
+    /// - Note: If `overflow` is true, then the result value is the twos' complement of the absolute value of the difference.
+    /// - Complexity: O(count)
     @warn_unused_result
-    public func subtractWithOverflow(b: BigUInt, shift: Int = 0) -> (BigUInt, Bool) {
+    public func subtractWithOverflow(b: BigUInt, shift: Int = 0) -> (BigUInt, overflow: Bool) {
         var result = self
         let overflow = result.subtractInPlaceWithOverflow(b, shift: shift)
         return (result, overflow)
     }
 
+    /// Subtract `b` from this integer in place.
+    /// `b` is shifted `shift` digits to the left before being subtracted.
+    /// - Requires: self >= b * 2^shift
+    /// - Complexity: O(count)
     public mutating func subtractInPlace(b: BigUInt, shift: Int = 0) {
         let overflow = subtractInPlaceWithOverflow(b, shift: shift)
         precondition(!overflow)
     }
 
+    /// Subtract `b` from this integer, and return the difference. 
+    /// `b` is shifted `shift` digits to the left before being subtracted.
+    /// - Requires: self >= b * 2^shift
+    /// - Complexity: O(count)
     @warn_unused_result
     public func subtract(b: BigUInt, shift: Int = 0) -> BigUInt {
         var result = self
@@ -523,16 +653,25 @@ extension BigUInt {
         return result
     }
 
+    /// Decrement this integer by one.
+    /// - Requires: !isZero
+    /// - Complexity: O(count)
     public mutating func decrement(shift shift: Int = 0) {
         self.subtractDigitInPlace(1, shift: shift)
     }
 }
 
+/// Subtract `b` from `a` and return the result.
+/// - Requires: a >= b
+/// - Complexity: O(a.count)
 @warn_unused_result
 public func -(a: BigUInt, b: BigUInt) -> BigUInt {
     return a.subtract(b)
 }
 
+/// Subtract `b` from `a` and store the result in `a`.
+/// - Requires: a >= b
+/// - Complexity: O(a.count)
 public func -=(inout a: BigUInt, b: BigUInt) {
     a.subtractInPlace(b, shift: 0)
 }
@@ -540,6 +679,8 @@ public func -=(inout a: BigUInt, b: BigUInt) {
 //MARK: Multiplication
 
 extension BigUInt {
+    /// Multiply this big integer by a single digit, and store the result in place of the original big integer.
+    /// - Complexity: O(count)
     public mutating func multiplyInPlaceByDigit(y: Digit) {
         guard y != 0 else { self = 0; return }
         guard y != 1 else { return }
@@ -555,6 +696,8 @@ extension BigUInt {
         self[c] = carry
     }
 
+    /// Multiply this big integer by a single digit, and return the result.
+    /// - Complexity: O(count)
     @warn_unused_result
     public func multiplyByDigit(y: Digit) -> BigUInt {
         var r = self
@@ -562,7 +705,10 @@ extension BigUInt {
         return r
     }
 
-    /// Add `x * y` to this integer, optionally shifted by `shift` digits to the right.
+    /// Multiply `x` by `y`, and add the result to this integer, optionally shifted `shift` digits to the left.
+    /// - Note: This is the fused multiply/shift/add operation; it is more efficient than doing the components 
+    ///   individually. (The fused operation doesn't need to allocate space for temporary big integers.)
+    /// - Complexity: O(count)
     public mutating func multiplyAndAddInPlace(x: BigUInt, _ y: Digit, shift: Int = 0) {
         precondition(shift >= 0)
         guard y != 0 && x.count > 0 else { return }
@@ -594,9 +740,14 @@ extension BigUInt {
 }
 
 extension BigUInt {
+    /// Multiplication switches to an asymptotically better recursive algorithm when arguments have more digits than this limit.
     static var directMultiplicationLimit: Int = 1024
 }
 
+/// Multiply `a` by `b` and store the result in `a`.
+/// - Note: This uses the naive O(n^2) multiplication algorithm unless both arguments have more than
+///   `BugUInt.directMultiplicationLimit` digits.
+/// - Complexity: O(n^log2(3))
 @warn_unused_result
 public func *(x: BigUInt, y: BigUInt) -> BigUInt {
     let xc = x.count
@@ -620,17 +771,17 @@ public func *(x: BigUInt, y: BigUInt) -> BigUInt {
     if yc < xc {
         let (xh, xl) = x.split
         var r = xl * y
-        r.addInPlace(xh * y, shift: (xc + 1) / 2)
+        r.addInPlace(xh * y, shift: x.middleIndex)
         return r
     }
     else if xc < yc {
         let (yh, yl) = y.split
         var r = yl * x
-        r.addInPlace(yh * x, shift: (yc + 1) / 2)
+        r.addInPlace(yh * x, shift: y.middleIndex)
         return r
     }
 
-    let shift = (xc + 1) / 2
+    let shift = x.middleIndex
 
     // Karatsuba multiplication:
     // x * y = <a,b> * <c,d> = <ac, ac + bd - (a-b)(c-d), bd> (ignoring carry)
@@ -658,12 +809,15 @@ public func *(x: BigUInt, y: BigUInt) -> BigUInt {
     return r
 }
 
+/// Multiply `a` by `b` and store the result in `a`.
 public func *=(inout a: BigUInt, b: BigUInt) {
     a = a * b
 }
 
 //MARK: Bitwise Shifts
 
+/// Shift a big integer to the right by `amount` bits and store the result in place.
+/// - Complexity: O(count)
 public func <<= (inout b: BigUInt, amount: Int) {
     typealias Digit = BigUInt.Digit
 
@@ -691,6 +845,9 @@ public func <<= (inout b: BigUInt, amount: Int) {
     }
 }
 
+/// Shift a big integer to the left by `amount` bits and return the result.
+/// - Returns: b * 2^amount
+/// - Complexity: O(count)
 @warn_unused_result
 public func << (b: BigUInt, amount: Int) -> BigUInt {
     typealias Digit = BigUInt.Digit
@@ -721,6 +878,8 @@ public func << (b: BigUInt, amount: Int) -> BigUInt {
     return result
 }
 
+/// Shift a big integer to the right by `amount` bits and store the result in place.
+/// - Complexity: O(count)
 public func >>= (inout b: BigUInt, amount: Int) {
     typealias Digit = BigUInt.Digit
 
@@ -755,6 +914,9 @@ public func >>= (inout b: BigUInt, amount: Int) {
     }
 }
 
+/// Shift a big integer to the right by `amount` bits and return the result.
+/// - Returns: b / 2^amount
+/// - Complexity: O(count)
 @warn_unused_result
 public func >> (b: BigUInt, amount: Int) -> BigUInt {
     typealias Digit = BigUInt.Digit
@@ -809,10 +971,10 @@ extension BigUInt {
     }
 
     /// Divide this integer by the digit `y` and return the resulting quotient and remainder.
-    @warn_unused_result
     /// - Requires: y > 0
     /// - Returns: (div, mod) where div = floor(x/y), mod = x - div * y
     /// - Complexity: O(x.count)
+    @warn_unused_result
     public func divideByDigit(y: Digit) -> (div: BigUInt, mod: Digit) {
         var div = self
         let mod = div.divideInPlaceByDigit(y)
