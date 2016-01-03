@@ -8,17 +8,6 @@
 
 import Foundation
 
-public protocol ShiftOperationsType {
-    @warn_unused_result
-    func <<(a: Self, b: Self) -> Self
-
-    @warn_unused_result
-    func >>(a: Self, b: Self) -> Self
-
-    func <<=(inout a: Self, b: Self)
-    func >>=(inout a: Self, b: Self)
-}
-
 internal protocol BigDigit: UnsignedIntegerType, BitwiseOperationsType, ShiftOperationsType {
     init(_ v: Int)
 
@@ -46,6 +35,11 @@ internal protocol BigDigit: UnsignedIntegerType, BitwiseOperationsType, ShiftOpe
 
 extension BigDigit {
     var upshifted: Self { return self << (Self(Self.width) / 2) }
+
+    init(high: Self, low: Self) {
+        assert(low.high == 0 && high.high == 0)
+        self = high.upshifted | low
+    }
 }
 
 extension UInt64: BigDigit {
@@ -105,7 +99,7 @@ extension UInt8: BigDigit {
     }
 }
 
-//MARK: Digit multiplication
+//MARK: Full-width multiplication and division
 
 extension BigDigit {
     /// Return a tuple with the high and low digits of the product of `x` and `y`.
@@ -120,11 +114,6 @@ extension BigDigit {
         let (low, lo) = Self.addWithOverflow(b * d, mv.low.upshifted)
         let high = a * c + mv.high + (mo ? Self(1).upshifted : 0) + (lo ? 1 : 0)
         return (high, low)
-    }
-
-    private init(high: Self, low: Self) {
-        assert(low.high == 0 && high.high == 0)
-        self = high.upshifted | low
     }
 
     /// Divide the two-digit number `(u1, u0)` by a single digit `v` and return the quotient and remainder.

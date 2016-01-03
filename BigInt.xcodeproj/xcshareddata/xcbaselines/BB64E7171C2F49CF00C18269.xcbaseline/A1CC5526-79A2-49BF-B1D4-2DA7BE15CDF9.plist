@@ -11,9 +11,9 @@
 				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
 				<dict>
 					<key>baselineAverage</key>
-					<real>0.44316</real>
+					<real>0.39685</real>
 					<key>baselineIntegrationDisplayName</key>
-					<string>2016-01-03 14:47:03</string>
+					<string>2016-01-03 18:16:42</string>
 				</dict>
 			</dict>
 			<key>testDivision()</key>
@@ -21,9 +21,9 @@
 				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
 				<dict>
 					<key>baselineAverage</key>
-					<real>0.75378</real>
+					<real>0.68031</real>
 					<key>baselineIntegrationDisplayName</key>
-					<string>2016-01-03 14:47:03</string>
+					<string>2016-01-03 18:16:42</string>
 				</dict>
 			</dict>
 			<key>testFibonacciAddition()</key>
@@ -31,9 +31,9 @@
 				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
 				<dict>
 					<key>baselineAverage</key>
-					<real>2.6415</real>
+					<real>2.4616</real>
 					<key>baselineIntegrationDisplayName</key>
-					<string>2016-01-03 14:47:03</string>
+					<string>2016-01-03 18:16:42</string>
 				</dict>
 			</dict>
 			<key>testGCD()</key>
@@ -41,9 +41,9 @@
 				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
 				<dict>
 					<key>baselineAverage</key>
-					<real>2.8477</real>
+					<real>2.4919</real>
 					<key>baselineIntegrationDisplayName</key>
-					<string>2016-01-03 14:47:03</string>
+					<string>2016-01-03 18:16:42</string>
 				</dict>
 			</dict>
 			<key>testModularExponentiation()</key>
@@ -51,9 +51,9 @@
 				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
 				<dict>
 					<key>baselineAverage</key>
-					<real>2.2694</real>
+					<real>2.041</real>
 					<key>baselineIntegrationDisplayName</key>
-					<string>2016-01-03 14:47:03</string>
+					<string>2016-01-03 18:16:42</string>
 				</dict>
 			</dict>
 			<key>testMultiplicationByDigit()</key>
@@ -61,9 +61,9 @@
 				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
 				<dict>
 					<key>baselineAverage</key>
-					<real>0.94378</real>
+					<real>0.87534</real>
 					<key>baselineIntegrationDisplayName</key>
-					<string>2016-01-03 14:47:03</string>
+					<string>2016-01-03 18:16:42</string>
 				</dict>
 			</dict>
 			<key>testSquareRoot()</key>
@@ -71,9 +71,9 @@
 				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
 				<dict>
 					<key>baselineAverage</key>
-					<real>0.51819</real>
+					<real>0.47787</real>
 					<key>baselineIntegrationDisplayName</key>
-					<string>2016-01-03 14:47:03</string>
+					<string>2016-01-03 18:16:42</string>
 				</dict>
 			</dict>
 		</dict>
