@@ -51,7 +51,7 @@ class ProfileTests: XCTestCase {
 
     func testMultiplicationByDigit() {
         var fact = BigUInt()
-        let n = 16383
+        let n = 32767
         self.measure {
             fact = BigUInt(1)
             for i in 1...n {
@@ -71,7 +71,7 @@ class ProfileTests: XCTestCase {
             return a * b
         }
 
-        let power = 14
+        let power = 15
 
         var fact = BigUInt()
         self.measure {

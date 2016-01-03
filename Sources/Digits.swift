@@ -66,7 +66,7 @@ extension UInt32: BigDigit {
         let p = UInt64(x) * UInt64(y)
         return (UInt32(p.high), UInt32(p.low))
     }
-    @warn_unused_result
+    @warn_unused_result 
     internal static func fullDivide(xh: UInt32, _ xl: UInt32, _ y: UInt32) -> (div: UInt32, mod: UInt32) {
         let x = UInt64(xh) << 32 + UInt64(xl)
         let div = x / UInt64(y)
