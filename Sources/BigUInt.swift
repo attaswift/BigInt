@@ -262,6 +262,7 @@ extension BigUInt {
 //MARK: Comparable
 
 extension BigUInt: Comparable {
+    @warn_unused_result
     public static func compare(a: BigUInt, _ b: BigUInt) -> NSComparisonResult {
         if a.count != b.count { return a.count > b.count ? .OrderedDescending : .OrderedAscending }
         for i in (0..<a.count).reverse() {
@@ -273,9 +274,11 @@ extension BigUInt: Comparable {
     }
 }
 
+@warn_unused_result
 public func ==(a: BigUInt, b: BigUInt) -> Bool {
     return BigUInt.compare(a, b) == .OrderedSame
 }
+@warn_unused_result
 public func <(a: BigUInt, b: BigUInt) -> Bool {
     return BigUInt.compare(a, b) == .OrderedAscending
 }
@@ -331,10 +334,12 @@ extension BigUInt {
     }
 }
 
+@warn_unused_result
 public prefix func ~(a: BigUInt) -> BigUInt {
     return BigUInt(a.map { ~$0 })
 }
 
+@warn_unused_result
 public func | (a: BigUInt, b: BigUInt) -> BigUInt {
     var result = BigUInt()
     for i in (0 ..< max(a.count, b.count)).reverse() {
@@ -343,6 +348,7 @@ public func | (a: BigUInt, b: BigUInt) -> BigUInt {
     return result
 }
 
+@warn_unused_result
 public func & (a: BigUInt, b: BigUInt) -> BigUInt {
     var result = BigUInt()
     for i in (0 ..< max(a.count, b.count)).reverse() {
@@ -351,6 +357,7 @@ public func & (a: BigUInt, b: BigUInt) -> BigUInt {
     return result
 }
 
+@warn_unused_result
 public func ^ (a: BigUInt, b: BigUInt) -> BigUInt {
     var result = BigUInt()
     for i in (0 ..< max(a.count, b.count)).reverse() {
@@ -680,6 +687,7 @@ public func <<= (inout b: BigUInt, amount: Int) {
     }
 }
 
+@warn_unused_result
 public func << (b: BigUInt, amount: Int) -> BigUInt {
     precondition(amount >= 0)
     guard amount > 0 else { return b }
@@ -739,6 +747,7 @@ public func >>= (inout b: BigUInt, amount: Int) {
     }
 }
 
+@warn_unused_result
 public func >> (b: BigUInt, amount: Int) -> BigUInt {
     precondition(amount >= 0)
     guard amount > 0 else { return b }
@@ -925,6 +934,7 @@ public func %(x: BigUInt, y: BigUInt) -> BigUInt {
 public func /=(inout x: BigUInt, y: BigUInt) { x = x / y }
 public func %=(inout x: BigUInt, y: BigUInt) { x = x % y }
 
+@warn_unused_result
 public func sqrt(value: BigUInt) -> BigUInt {
     // This implementation uses Newton's method.
     guard !value.isZero else { return BigUInt() }
@@ -941,6 +951,7 @@ extension BigUInt {
 
     /// Returns the greatest common divisor of `a` and `b`.
     /// - Complexity: O(count^2) where count = max(a.count, b.count)
+    @warn_unused_result
     public static func gcd(a: BigUInt, _ b: BigUInt) -> BigUInt {
         // This is Stein's algorithm: https://en.wikipedia.org/wiki/Binary_GCD_algorithm
         if a.isZero || b.isZero { return BigUInt() }
@@ -962,6 +973,7 @@ extension BigUInt {
 
     /// Returns the remainder of `base` raised to the power `exponent` under `modulus`.
     /// - Complexity: O(exponent.count * modulus.count^2)
+    @warn_unused_result
     public static func powmod(base: BigUInt, _ exponent: BigUInt, modulus: BigUInt) -> BigUInt {
         // https://en.wikipedia.org/wiki/Modular_exponentiation#Right-to-left_binary_method
         if modulus == 1 { return 0 }
