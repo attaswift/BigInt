@@ -10,6 +10,8 @@ import XCTest
 @testable import BigInt
 
 class BigUIntTests: XCTestCase {
+    typealias Digit = BigUInt.Digit
+
     func testInit() {
         let b0 = BigUInt()
         XCTAssertEqual(b0._digits, [])

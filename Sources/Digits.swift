@@ -8,8 +8,6 @@
 
 import Foundation
 
-public typealias Digit = UInt64
-
 public protocol ShiftOperationsType {
     @warn_unused_result
     func <<(a: Self, b: Self) -> Self

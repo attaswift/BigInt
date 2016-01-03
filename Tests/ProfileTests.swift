@@ -11,6 +11,7 @@ import BigInt
 
 #if Profile
 class ProfileTests: XCTestCase {
+    typealias Digit = BigUInt.Digit
 
     func measure(autostart autostart: Bool = true, block: Void->Void) {
         var round = 0

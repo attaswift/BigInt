@@ -9,6 +9,8 @@
 import Foundation
 
 public struct BigUInt {
+    public typealias Digit = UInt64
+    
     internal var _digits: [Digit]
     internal var _start: Int
     internal var _end: Int
@@ -70,7 +72,7 @@ extension BigUInt: CollectionType {
     public var startIndex: Int { return 0 }
     public var endIndex: Int { return count }
 
-    public func generate() -> DigitsGenerator {
+    public func generate() -> DigitsGenerator<Digit> {
         return DigitsGenerator(digits: _digits, end: _end, index: _start)
     }
 
@@ -106,7 +108,7 @@ extension BigUInt: CollectionType {
     }
 }
 
-public struct DigitsGenerator: GeneratorType {
+public struct DigitsGenerator<Digit>: GeneratorType {
     internal let digits: [Digit]
     internal let end: Int
     internal var index: Int
@@ -663,6 +665,8 @@ public func *=(inout a: BigUInt, b: BigUInt) {
 //MARK: Bitwise Shifts
 
 public func <<= (inout b: BigUInt, amount: Int) {
+    typealias Digit = BigUInt.Digit
+
     precondition(amount >= 0)
     guard amount > 0 else { return }
 
@@ -689,6 +693,8 @@ public func <<= (inout b: BigUInt, amount: Int) {
 
 @warn_unused_result
 public func << (b: BigUInt, amount: Int) -> BigUInt {
+    typealias Digit = BigUInt.Digit
+
     precondition(amount >= 0)
     guard amount > 0 else { return b }
 
@@ -716,6 +722,8 @@ public func << (b: BigUInt, amount: Int) -> BigUInt {
 }
 
 public func >>= (inout b: BigUInt, amount: Int) {
+    typealias Digit = BigUInt.Digit
+
     precondition(amount >= 0)
     guard amount > 0 else { return }
 
@@ -749,6 +757,8 @@ public func >>= (inout b: BigUInt, amount: Int) {
 
 @warn_unused_result
 public func >> (b: BigUInt, amount: Int) -> BigUInt {
+    typealias Digit = BigUInt.Digit
+
     precondition(amount >= 0)
     guard amount > 0 else { return b }
 
