@@ -23,9 +23,14 @@ public protocol ShiftOperationsType {
 
 internal protocol BigDigit: UnsignedIntegerType, BitwiseOperationsType, ShiftOperationsType {
     init(_ v: Int)
+
+    @warn_unused_result
     static func digitsFromUIntMax(i: UIntMax) -> [Self]
 
+    @warn_unused_result
     static func fullMultiply(x: Self, _ y: Self) -> (high: Self, low: Self)
+
+    @warn_unused_result
     static func fullDivide(xh: Self, _ xl: Self, _ y: Self) -> (div: Self, mod: Self)
 
     static var max: Self { get }
@@ -46,18 +51,22 @@ extension BigDigit {
 }
 
 extension UInt64: BigDigit {
+    @warn_unused_result
     internal static func digitsFromUIntMax(i: UIntMax) -> [UIntMax] { return [i] }
 }
 
 extension UInt32: BigDigit {
+    @warn_unused_result
     internal static func digitsFromUIntMax(i: UIntMax) -> [UInt32] { return [UInt32(i.low), UInt32(i.high)] }
 
     // Somewhat surprisingly, these specializations do not help make UInt32 reach UInt64's performance.
     // (They are 4-42% faster in benchmarks, but UInt64 is 2-3 times faster still.)
+    @warn_unused_result
     internal static func fullMultiply(x: UInt32, _ y: UInt32) -> (high: UInt32, low: UInt32) {
         let p = UInt64(x) * UInt64(y)
         return (UInt32(p.high), UInt32(p.low))
     }
+    @warn_unused_result
     internal static func fullDivide(xh: UInt32, _ xl: UInt32, _ y: UInt32) -> (div: UInt32, mod: UInt32) {
         let x = UInt64(xh) << 32 + UInt64(xl)
         let div = x / UInt64(y)
@@ -67,6 +76,7 @@ extension UInt32: BigDigit {
 }
 
 extension UInt16: BigDigit {
+    @warn_unused_result
     internal static func digitsFromUIntMax(i: UIntMax) -> [UInt16] {
         var digits = Array<UInt16>()
         var remaining = i
@@ -82,6 +92,7 @@ extension UInt16: BigDigit {
 }
 
 extension UInt8: BigDigit {
+    @warn_unused_result
     internal static func digitsFromUIntMax(i: UIntMax) -> [UInt8] {
         var digits = Array<UInt8>()
         var remaining = i
