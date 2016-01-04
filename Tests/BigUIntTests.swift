@@ -727,4 +727,55 @@ class BigUIntTests: XCTestCase {
         test(a: m61 + 1, p: m521)
         test(a: m127, p: m521)
     }
+
+    func data(bytes: Array<UInt8>) -> NSData {
+        var result: NSData? = nil
+        bytes.withUnsafeBufferPointer { p in
+            result = NSData(bytes: p.baseAddress, length: p.count)
+        }
+        return result!
+    }
+
+    func testConversionFromData() {
+        XCTAssertEqual(BigUInt(data([])), 0)
+        XCTAssertEqual(BigUInt(data([0])), 0)
+        XCTAssertEqual(BigUInt(data([0, 0, 0, 0, 0, 0, 0, 0])), 0)
+        XCTAssertEqual(BigUInt(data([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])), 0)
+        XCTAssertEqual(BigUInt(data([1])), 1)
+        XCTAssertEqual(BigUInt(data([2])), 2)
+        XCTAssertEqual(BigUInt(data([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1])), 1)
+        XCTAssertEqual(BigUInt(data([0x01, 0x02, 0x03, 0x04, 0x05])), 0x0102030405)
+        XCTAssertEqual(BigUInt(data([0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08])), 0x0102030405060708)
+        XCTAssertEqual(
+            BigUInt(data([0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A])),
+            BigUInt(0x0102) << 64 + BigUInt(0x030405060708090A))
+        XCTAssertEqual(
+            BigUInt(data([0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])),
+            BigUInt(1) << 80)
+        XCTAssertEqual(
+            BigUInt(data([0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10])),
+            BigUInt(0x0102030405060708) << 64 + BigUInt(0x090A0B0C0D0E0F10))
+
+        // The following test produced "expression was too complex" error on Swift 2.2.1
+        let d = data([0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11])
+        var b = BigUInt(1) << 128
+        b += BigUInt(0x0203040506070809) << 64
+        b += BigUInt(0x0A0B0C0D0E0F1011)
+        XCTAssertEqual(BigUInt(d), b)
+    }
+
+    func testConversionToData() {
+        func test(b: BigUInt, _ d: Array<UInt8>, file: String = __FILE__, line: UInt = __LINE__) {
+            let expected = data(d)
+            let actual = b.serialize()
+            XCTAssertEqual(actual, expected, file: file, line: line)
+            XCTAssertEqual(BigUInt(actual), b, file: file, line: line)
+        }
+
+        test(BigUInt(), [])
+        test(BigUInt(1), [0x01])
+        test(BigUInt(2), [0x02])
+        test(BigUInt(0x0102030405060708), [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08])
+        test(BigUInt(0x01) << 64 + BigUInt(0x0203040506070809), [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 09])
+    }
 }

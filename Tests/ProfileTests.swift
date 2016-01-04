@@ -11,30 +11,6 @@ import BigInt
 
 #if Profile
 
-func randomBigInt(digits: Int) -> BigUInt {
-    let p = UnsafeMutablePointer<UInt64>.alloc(digits)
-    arc4random_buf(p, digits * sizeof(UInt64))
-
-    var result: BigUInt = 0
-    for i in 0 ..< digits {
-        result[i] = p[i]
-    }
-    p.destroy()
-    return result
-}
-
-func randomArray(digits: Int) -> [UInt32] {
-    let p = UnsafeMutablePointer<UInt32>.alloc(digits)
-    arc4random_buf(p, digits * sizeof(UInt32))
-
-    var result: [UInt32] = []
-    for i in 0 ..< digits {
-        result.append(p[i])
-    }
-    p.destroy()
-    return result
-}
-
 class ProfileTests: XCTestCase {
     typealias Digit = BigUInt.Digit
 
@@ -145,7 +121,7 @@ class ProfileTests: XCTestCase {
     }
 
     func testSquareRoot() {
-        var numbers: [BigUInt] = (1...1000).map { _ in randomBigInt(60) }
+        var numbers: [BigUInt] = (1...1000).map { _ in BigUInt.randomIntegerWithMaximumWidth(60 * sizeof(Digit) * 8) }
         var roots: [BigUInt] = []
         self.measure {
             roots.removeAll()
@@ -163,8 +139,7 @@ class ProfileTests: XCTestCase {
 
     func testModularExponentiation() {
         let m15 = (BigUInt(1) << 1279) - 1
-
-        let tests = (1..<25).map { _ in randomBigInt(1279 / (8 * sizeof(Digit))) }
+        let tests = (1..<25).map { _ in BigUInt.randomIntegerWithMaximumWidth(1279) }
         self.measure {
             for test in tests {
                 assert(test < m15)
