@@ -150,17 +150,22 @@ class ProfileTests: XCTestCase {
     }
 
     func testGCD() {
+        // This test relies on the fact that if fibo(i) is the ith Fibonacci number, then
+        // gcd(fibo(i), fibo(j)) == fibo(gcd(i, j))
+        let limit = 80_000
         var fibo: [BigUInt] = [0, 1]
-        for i in 0..<99998 {
+        for i in 0 ..< limit - 2 {
             fibo.append(fibo[i] + fibo[i + 1])
         }
 
+        let count = 10
+
+        let j = limit / 2
+        let bj = BigUInt(j)
+
         self.measure {
-            for _ in 0..<10 {
-                let i = Int(50000 + arc4random_uniform(50000))
-                let j = Int(50000 + arc4random_uniform(50000))
+            for i in limit - count ..< limit {
                 let bi = BigUInt(i)
-                let bj = BigUInt(j)
 
                 let g1 = BigUInt.gcd(fibo[i], fibo[j])
                 let g2 = Int(BigUInt.gcd(bi, bj)[0])
