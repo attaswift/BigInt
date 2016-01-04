@@ -164,7 +164,7 @@ class ProfileTests: XCTestCase {
     func testModularExponentiation() {
         let m15 = (BigUInt(1) << 1279) - 1
 
-        let tests = (1..<25).map { _ in randomBigInt(1279 / Digit.width) }
+        let tests = (1..<25).map { _ in randomBigInt(1279 / (8 * sizeof(Digit))) }
         self.measure {
             for test in tests {
                 assert(test < m15)
