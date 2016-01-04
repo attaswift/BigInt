@@ -65,57 +65,57 @@ internal let trailingZeroesTable: [UInt8] = [
 ]
 
 extension UInt8 {
-    public static var width: Int { return 8 }
+    internal static var width: Int { return 8 }
 
-    public var low: UInt8 { return self & 0xF }
-    public var high: UInt8 { return self >> 4 }
-    public var split: (high: UInt8, low: UInt8) { return (high, low) }
+    internal var low: UInt8 { return self & 0xF }
+    internal var high: UInt8 { return self >> 4 }
+    internal var split: (high: UInt8, low: UInt8) { return (high, low) }
 
     internal var leadingZeroes: Int { return Int(leadingZeroesTable[Int(self)]) }
     internal var trailingZeroes: Int { return Int(trailingZeroesTable[Int(self)]) }
 }
 extension UInt16 {
-    public static var width: Int { return 16 }
+    internal static var width: Int { return 16 }
 
-    public var low: UInt16 { return self & 0xFF }
-    public var high: UInt16 { return self >> 8 }
-    public var split: (high: UInt16, low: UInt16) { return (high, low) }
+    internal var low: UInt16 { return self & 0xFF }
+    internal var high: UInt16 { return self >> 8 }
+    internal var split: (high: UInt16, low: UInt16) { return (high, low) }
 
     internal var leadingZeroes: Int { return high == 0 ? 8 + UInt8(low).leadingZeroes : UInt8(high).leadingZeroes }
     internal var trailingZeroes: Int { return low == 0 ? 8 + UInt8(high).trailingZeroes : UInt8(low).trailingZeroes }
 }
 extension UInt32 {
-    public static var width: Int { return 32 }
+    internal static var width: Int { return 32 }
 
-    public var low: UInt32 { return self & 0xFFFF }
-    public var high: UInt32 { return self >> 16 }
-    public var split: (high: UInt32, low: UInt32) { return (high, low) }
+    internal var low: UInt32 { return self & 0xFFFF }
+    internal var high: UInt32 { return self >> 16 }
+    internal var split: (high: UInt32, low: UInt32) { return (high, low) }
 
     internal var leadingZeroes: Int { return high == 0 ? 16 + UInt16(low).leadingZeroes : UInt16(high).leadingZeroes }
     internal var trailingZeroes: Int { return low == 0 ? 16 + UInt16(high).trailingZeroes : UInt16(low).trailingZeroes }
 }
 extension UInt64 {
-    public static var width: Int { return 64 }
+    internal static var width: Int { return 64 }
 
-    public var low: UInt64 { return self & 0xFFFFFFFF }
-    public var high: UInt64 { return self >> 32 }
-    public var split: (high: UInt64, low: UInt64) { return (high, low) }
+    internal var low: UInt64 { return self & 0xFFFFFFFF }
+    internal var high: UInt64 { return self >> 32 }
+    internal var split: (high: UInt64, low: UInt64) { return (high, low) }
 
     internal var leadingZeroes: Int { return high == 0 ? 32 + UInt32(low).leadingZeroes : UInt32(high).leadingZeroes }
     internal var trailingZeroes: Int { return low == 0 ? 32 + UInt32(high).trailingZeroes : UInt32(low).trailingZeroes }
 }
 
 extension UInt {
-    var low: UInt {
+    internal var low: UInt {
         precondition(sizeof(UInt) == 8)
         return self & 0xFFFFFFFF
     }
-    var high: UInt {
+    internal var high: UInt {
         precondition(sizeof(UInt) == 8)
         return self >> 32
     }
-    var split: (high: UInt, low: UInt) { return (high, low) }
-    static let halfShift: UInt = 32
+    internal var split: (high: UInt, low: UInt) { return (high, low) }
+    internal static let halfShift: UInt = 32
 
     internal var leadingZeroes: Int { return high == 0 ? 32 + UInt32(low).leadingZeroes : UInt32(high).leadingZeroes }
     internal var trailingZeroes: Int { return low == 0 ? 32 + UInt32(high).trailingZeroes : UInt32(low).trailingZeroes }
