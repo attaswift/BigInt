@@ -80,9 +80,9 @@ extension BigUInt {
         //
         // Here is the code for the 3/2 division:
 
-        /// Return the 3/2-sized quotient `x/y` as a single Digit.
+        /// Return the quotient of the 3/2-digit division `x/y` as a single `Digit`.
         /// - Requires: (x.0, x.1) <= y && y.0.high != 0
-        /// - Returns: Digit.max when the quotient doesn't fit in a single digit, or an exact value.
+        /// - Returns: The exact value when it fits in a single `Digit`, otherwise `Digit.max`.
         func approximateQuotient(x x: (Digit, Digit, Digit), y: (Digit, Digit)) -> Digit {
             // Start with q = (x.0, x.1) / y.0, (or Digit.max on overflow)
             var q: Digit
@@ -129,16 +129,16 @@ extension BigUInt {
         let d1 = divisor[dc - 1]
         let d0 = divisor[dc - 2]
         for j in (dc ... remainder.count).reverse() {
-            // Approximate dividing the top dc digits of remainder using the topmost 3/2 digits.
+            // Approximate dividing the top dc+1 digits of `remainder` using the topmost 3/2 digits.
             let r2 = remainder[j]
             let r1 = remainder[j - 1]
             let r0 = remainder[j - 2]
             let q = approximateQuotient(x: (r2, r1, r0), y: (d1, d0))
 
-            // Multiply q with the whole divisor and subtract the result from remainder.
+            // Multiply the entire divisor with `q` and subtract the result from remainder.
             // Normalization ensures the 3/2 quotient will either be exact for the full division, or
             // it may overshoot by at most 1, in which case the product will be greater
-            // than remainder.
+            // than the remainder.
             let product = divisor.multiplyByDigit(q)
             if product <= remainder[j - dc ... j] {
                 remainder.subtractInPlace(product, shift: j - dc)
@@ -169,13 +169,13 @@ public func %(x: BigUInt, y: BigUInt) -> BigUInt {
     return x.divide(y).mod
 }
 
-/// Divide `x` by `y` and store the quotient of the result in `x`.
+/// Divide `x` by `y` and store the quotient in `x`.
 /// - Note: Use `x.divide(y)` if you also need the remainder.
 public func /=(inout x: BigUInt, y: BigUInt) {
     x = x.divide(y).div
 }
 
-/// Divide `x` by `y` and store the remainder of the result in `x`.
+/// Divide `x` by `y` and store the remainder in `x`.
 /// - Note: Use `x.divide(y)` if you also need the remainder.
 public func %=(inout x: BigUInt, y: BigUInt) {
     x = x.divide(y).mod
