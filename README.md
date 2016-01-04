@@ -11,37 +11,43 @@ as a dependency.
 
 [GMP]: https://gmplib.org
 
-Two big integer types are included: `BigUInt` and `BigInt`, the latter being the signed variant.
+Two big integer types are included: [`BigUInt`][BigUInt] and [`BigInt`][BigInt], 
+the latter being the signed variant.
 Both of these are Swift structs with copy-on-write value semantics, and they can be used much 
 like any other integer type.
 
 The library provides implementations for some of the most frequently useful functions on 
 big integers, including
 
-- All functionality from `Comparable` and `Hashable`
-- The full set of arithmetic operators: `+`, `-`, `*`, `/`, `%`, `+=`, `-=`, `*=`, `/=`, `%=`
-  - Addition and subtraction have variants that allow for shifting the digits of the second 
-    operand on the fly.
-  - Unsigned subtraction will trap when the result would be negative. (There are variants 
-    that return an overflow flag.)
-  - Multiplication uses brute force for numbers up to 1024 digits, then switches to Karatsuba's recursive method. 
+- All functionality from [`Comparable`][comparison] and [`Hashable`][hashing]
+
+- [The full set of arithmetic operators][addition]: `+`, `-`, `*`, `/`, `%`, `+=`, `-=`, `*=`, `/=`, `%=`
+  - [Addition][addition] and [subtraction][subtraction] have variants that allow for 
+    shifting the digits of the second operand on the fly.
+  - Unsigned subtraction will trap when the result would be negative. 
+    ([There are variants][subtraction] that return an overflow flag.)
+  - [Multiplication][star] uses brute force for numbers up to 1024 digits, then switches to Karatsuba's recursive method. 
     (This limit is configurable, see `BigUInt.directMultiplicationLimit`.) 
-    A fused multiply-add method is also available.
+  - A [fused multiply-add][fused] method is also available, along with other [special-case variants][multiplication].
   - Division uses Knuth's Algorithm D, with its 3/2 digits wide quotient approximation. 
     It will trap when the divisor is zero. `BigUInt.divmod` returns the quotient and
     remainder at once; this is faster than calculating them separately.
-- Bitwise operators: `~`, `|`, `&`, `^`, `|=`, `&=`, `^=`, plus the following read-only properties:
-  - `width`: the minimum number of bits required to store the integer,
-  - `trailingZeroes`: the number of trailing zero bits in the binary representation,
-  - `leadingZeroes`: the number of leading zero bits (when the last digit isn't full),
-- Shift operators: `>>`, `<<`, `>>=`, `<<=`
-  - Left shifts need to allocate memory to extend the digit array, so it's probably not a good idea
-   to left shift a `BigUInt` by 2^50 bits.
-- Radix conversion between `String`s and big integers up to base 36 (using repeated divisions).
+
+- [Bitwise operators][bitwise]: `~`, `|`, `&`, `^`, `|=`, `&=`, `^=`, plus the following read-only properties:
+  - [`width`][width]: the minimum number of bits required to store the integer,
+  - [`trailingZeroes`][trailingZeroes]: the number of trailing zero bits in the binary representation,
+  - [`leadingZeroes`][leadingZeroes]: the number of leading zero bits (when the last digit isn't full),
+
+- [Shift operators][shift]: `>>`, `<<`, `>>=`, `<<=`
+
+- Radix conversion to/from [`String`s][radix1] and [big integers][radix2] up to base 36 (using repeated divisions).
   - Big integers use this to implement `StringLiteralConvertible` (in base 10).
-- `sqrt(n)`: The square root of an integer (using Newton's method)
-- `BigUInt.gcd(n, m)`: The greatest common divisor of two integers (Stein's algorithm)
-- `BigUInt.powmod(base, exponent, modulus)`: Modular exponentiation (right-to-left binary method):
+  
+- [`sqrt(n)`][sqrt]: The square root of an integer (using Newton's method).
+
+- [`BigUInt.gcd(n, m)`][GCD]: The greatest common divisor of two integers (Stein's algorithm).
+  
+- [`BigUInt.powmod(base, exponent, modulus)`][powmod]: Modular exponentiation (right-to-left binary method).
 
 The implementations are intended to be reasonably efficient, but they are unlikely to be
 competitive with GMP at all, even when I happened to implement an algorithm with same asymptotic
@@ -49,19 +55,26 @@ behavior as GMP. (I haven't performed a comparison benchmark, though.)
 
 The library has 100% unit test coverage.
 
+## API Documentation
+
+Generated API docs are available at http://lorentey.github.io/BigInt/api.
+
+## Implementation notes
+
 I haven't found (64,64)->128 multiplication or (128,64)->64 division operations in Swift, so 
 the module has implementations for those in terms of the standard single-width `*` and `/` 
 operators. (I suspect there are LLVM intrinsics for double-width arithmetics that are probably
 accessible somehow, though.) This sounds slow, but 64-bit digits are still considerably faster
 than 32-bit, even though the latter can use direct 64-bit arithmetic to implement these primitives.
 
-`BigInt` consists of a `BigUInt` absolute value and a sign bit, both of which are accessible as public read-write properties. 
+[`BigInt`][BigInt] consists of an [absolute value][abs] and a [sign bit][negative], both of which are accessible as public read-write properties. 
 
-`BigUInt` is a `MutableCollectionType` of its 64-bit digits, with the least significant digit at 
-index 0. As a convenience, `BigUInt` allows you to subscript it with indexes at or above its `count`.
-The subscript operator returns 0 for out-of-bound `get`s and automatically extends the array on 
-out-of-bound `set`s. This makes memory management simpler.
+[`BigUInt`][BigUInt] is a `MutableCollectionType` of its 64-bit digits, with the least significant 
+digit at index 0. As a convenience, [`BigUInt`][BigUInt] allows you to subscript it with indexes at
+or above its `count`. [The subscript operator][subscript] returns 0 for out-of-bound `get`s and
+automatically extends the array on out-of-bound `set`s. This makes memory management simpler.
 
+[subscript]: https://github.com/lorentey/BigInt/blob/master/Sources/BigUInt.swift#L127-L150
 
 ## Why is there no generic `BigInt<Digit>` type?
 
@@ -78,6 +91,31 @@ performance. Unfortunately, the same is not true for `BigUInt`'s methods.
 
 Of course, as a last resort, we could just duplicate the code to create a separate
 generic variant that was slower but more flexible.
+
+
+[BigUInt]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html
+[BigInt]: http://lorentey.github.io/BigInt/api/Structs/BigInt.html
+[comparison]: http://lorentey.github.io/BigInt/api/Functions.html#/Comparison
+[hashing]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Hashing
+[addition]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Addition
+[subtraction]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Subtraction
+[star]: http://lorentey.github.io/BigInt/api/Functions.html#/s:ZF6BigIntoi1mFTVS_7BigUIntS0__S0_
+[fused]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUInt21multiplyAndAddInPlaceFRS0_FTS0_VSs6UInt645shiftSi_T_
+[multiplication]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Multiplication
+[division]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Division
+[bitwise]: http://lorentey.github.io/BigInt/api/Functions.html#/Bitwise%20Operators
+[width]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:vV6BigInt7BigUInt5widthSi
+[leadingZeroes]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:vV6BigInt7BigUInt13leadingZeroesSi
+[trailingZeroes]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:vV6BigInt7BigUInt14trailingZeroesSi
+[shift]: http://lorentey.github.io/BigInt/api/Functions.html#/Shift%20Operators
+[radix1]: http://lorentey.github.io/BigInt/api/Extensions/String.html#/s:FE6BigIntSScFMSSFTVS_7BigUInt5radixSi9uppercaseSb_SS
+[radix2]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUIntcFMS0_FTSS5radixSi_GSqS0__
+[sqrt]: http://lorentey.github.io/BigInt/api/Functions.html#/s:F6BigInt4sqrtFVS_7BigUIntS0_
+[GCD]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:ZFV6BigInt7BigUInt3gcdFMS0_FTS0_S0__S0_
+[powmod]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:ZFV6BigInt7BigUInt6powmodFMS0_FTS0_S0_7modulusS0__S0_
+[abs]: http://lorentey.github.io/BigInt/api/Structs/BigInt.html#/s:vV6BigInt6BigInt3absVS_7BigUInt
+[negative]: http://lorentey.github.io/BigInt/api/Structs/BigInt.html#/s:vV6BigInt6BigInt8negativeSb
+
 
 ## Obligatory demonstration with a factorial function
 
