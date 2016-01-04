@@ -1,7 +1,7 @@
 # BigInt
 
 This repository provides [integer types of arbitrary width][wiki] implemented
-in 100% pure Swift. The representation is in base 2^64, using `Array<UInt64>`.
+in 100% pure Swift. The underlying representation is in base 2^64, using `Array<UInt64>`.
                                                                   
 [wiki]: https://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic
 
@@ -54,7 +54,7 @@ The implementations are intended to be reasonably efficient, but they are unlike
 competitive with GMP at all, even when I happened to implement an algorithm with same asymptotic
 behavior as GMP. (I haven't performed a comparison benchmark, though.)
 
-The library has 100% unit test coverage. (But sadly this does not indicate that there are no bugs
+The library has 100% unit test coverage. (But sadly this does not imply that there are no bugs
 in it.)
 
 ## API Documentation
@@ -90,11 +90,11 @@ implement these primitives.
 
 ### Why is there no generic `BigInt<Digit>` type?
 
-The types provided by `BigInt` are not parametric---this is very much intentional, as 
+The types provided by `BigInt` are not parametric—this is very much intentional, as 
 Swift 2.2.1 generics cost us dearly at runtime in this use case. In every approach I tried,
 making arbitrary-precision arithmetic operations work with a generic `Digit` type parameter 
 resulted in code that was literally *ten times slower*. If you can make the algorithms generic
-without affecting performance, please enlighten me!
+without affecting performance, [please enlighten me][twitter]!
 
 This is an area that I plan to investigate more, as it would be useful to have generic
 implementations for arbitrary-width arithmetic operations. (Polynomial division and decimal bases
