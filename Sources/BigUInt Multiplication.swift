@@ -74,16 +74,25 @@ extension BigUInt {
             xi += 1
         }
     }
-}
 
-extension BigUInt {
+    /// Multiply this integer by `y` and return the result.
+    ///
+    /// - Note: This uses the naive O(n^2) multiplication algorithm unless both arguments have more than
+    ///   `BigUInt.directMultiplicationLimit` digits.
+    /// - Complexity: O(n^log2(3))
+    @warn_unused_result
+    public func multiply(y: BigUInt) -> BigUInt {
+        // This method is mostly defined for symmetry with the rest of the arithmetic operations.
+        return self * y
+    }
+
     /// Multiplication switches to an asymptotically better recursive algorithm when arguments have more digits than this limit.
     public static var directMultiplicationLimit: Int = 1024
 }
 
 //MARK: Multiplication
 
-/// Multiply `a` by `b` and store the result in `a`.
+/// Multiply `a` by `b` and return the result.
 ///
 /// - Note: This uses the naive O(n^2) multiplication algorithm unless both arguments have more than
 ///   `BigUInt.directMultiplicationLimit` digits.

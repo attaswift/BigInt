@@ -438,6 +438,9 @@ class BigUIntTests: XCTestCase {
                 BigUInt([1, 2, 3, 4]) * BigUInt([2]),
                 BigUInt([2, 4, 6, 8]))
             XCTAssertEqual(
+                BigUInt([1, 2, 3, 4]).multiply(BigUInt([2])),
+                BigUInt([2, 4, 6, 8]))
+            XCTAssertEqual(
                 BigUInt([2]) * BigUInt([1, 2, 3, 4]),
                 BigUInt([2, 4, 6, 8]))
             XCTAssertEqual(
