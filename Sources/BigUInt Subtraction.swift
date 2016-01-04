@@ -9,8 +9,11 @@
 import Foundation
 
 extension BigUInt {
+    //MARK: Subtraction
+
     /// Subtract a digit `d` from this integer in place, returning a flag that is true if the operation
     /// caused an arithmetic overflow. `d` is shifted `shift` digits to the left before being subtracted.
+    ///
     /// - Note: If the result is true, then `self` becomes the two's complement of the absolute difference.
     /// - Complexity: O(count)
     @warn_unused_result
@@ -30,6 +33,7 @@ extension BigUInt {
 
     /// Subtract a digit `d` from this integer, returning the difference and a flag that is true if the operation
     /// caused an arithmetic overflow. `d` is shifted `shift` digits to the left before being subtracted.
+    ///
     /// - Note: If `overflow` is true, then the returned value is the two's complement of the absolute difference.
     /// - Complexity: O(count)
     @warn_unused_result
@@ -41,6 +45,7 @@ extension BigUInt {
 
     /// Subtract a digit `d` from this integer in place.
     /// `d` is shifted `shift` digits to the left before being subtracted.
+    ///
     /// - Requires: self >= d * 2^shift
     /// - Complexity: O(count)
     public mutating func subtractDigitInPlace(d: Digit, shift: Int = 0) {
@@ -50,6 +55,7 @@ extension BigUInt {
 
     /// Subtract a digit `d` from this integer and return the result.
     /// `d` is shifted `shift` digits to the left before being subtracted.
+    ///
     /// - Requires: self >= d * 2^shift
     /// - Complexity: O(count)
     @warn_unused_result
@@ -61,6 +67,7 @@ extension BigUInt {
 
     /// Subtract `b` from this integer in place, and return true iff the operation caused an
     /// arithmetic overflow. `b` is shifted `shift` digits to the left before being subtracted.
+    ///
     /// - Note: If the result is true, then `self` becomes the twos' complement of the absolute difference.
     /// - Complexity: O(count)
     @warn_unused_result
@@ -88,6 +95,7 @@ extension BigUInt {
 
     /// Subtract `b` from this integer, returning the difference and a flag that is true if the operation caused an
     /// arithmetic overflow. `b` is shifted `shift` digits to the left before being subtracted.
+    ///
     /// - Note: If `overflow` is true, then the result value is the twos' complement of the absolute value of the difference.
     /// - Complexity: O(count)
     @warn_unused_result
@@ -99,6 +107,7 @@ extension BigUInt {
 
     /// Subtract `b` from this integer in place.
     /// `b` is shifted `shift` digits to the left before being subtracted.
+    ///
     /// - Requires: self >= b * 2^shift
     /// - Complexity: O(count)
     public mutating func subtractInPlace(b: BigUInt, shift: Int = 0) {
@@ -108,6 +117,7 @@ extension BigUInt {
 
     /// Subtract `b` from this integer, and return the difference.
     /// `b` is shifted `shift` digits to the left before being subtracted.
+    ///
     /// - Requires: self >= b * 2^shift
     /// - Complexity: O(count)
     @warn_unused_result
@@ -118,6 +128,7 @@ extension BigUInt {
     }
 
     /// Decrement this integer by one.
+    ///
     /// - Requires: !isZero
     /// - Complexity: O(count)
     public mutating func decrement(shift shift: Int = 0) {
@@ -125,7 +136,10 @@ extension BigUInt {
     }
 }
 
+//MARK: Subtraction
+
 /// Subtract `b` from `a` and return the result.
+///
 /// - Requires: a >= b
 /// - Complexity: O(a.count)
 @warn_unused_result
@@ -134,6 +148,7 @@ public func -(a: BigUInt, b: BigUInt) -> BigUInt {
 }
 
 /// Subtract `b` from `a` and store the result in `a`.
+///
 /// - Requires: a >= b
 /// - Complexity: O(a.count)
 public func -=(inout a: BigUInt, b: BigUInt) {

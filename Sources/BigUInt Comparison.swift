@@ -8,9 +8,9 @@
 
 import Foundation
 
-//MARK: Comparable
-
 extension BigUInt: Comparable {
+    //MARK: Comparison
+    
     /// Compare `a` to `b` and return an `NSComparisonResult` indicating their order.
     @warn_unused_result
     public static func compare(a: BigUInt, _ b: BigUInt) -> NSComparisonResult {
@@ -24,6 +24,8 @@ extension BigUInt: Comparable {
     }
 }
 
+//MARK: Comparison
+
 @warn_unused_result
 public func ==(a: BigUInt, b: BigUInt) -> Bool {
     return BigUInt.compare(a, b) == .OrderedSame
@@ -35,6 +37,7 @@ public func <(a: BigUInt, b: BigUInt) -> Bool {
 
 extension BigUInt {
     /// Return true iff this integer is zero.
+    ///
     /// - Complexity: O(1)
     var isZero: Bool {
         return count == 0

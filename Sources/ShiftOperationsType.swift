@@ -10,6 +10,7 @@ import Foundation
 
 // This protocol is missing from stdlib for some reason.
 
+/// Describes a type that supports all the standard shift operators.
 public protocol ShiftOperationsType {
     @warn_unused_result
     func <<(a: Self, b: Self) -> Self

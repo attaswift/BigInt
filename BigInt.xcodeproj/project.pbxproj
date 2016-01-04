@@ -35,8 +35,8 @@
 		BBB59D8F1C398B76006F684C /* BigUInt Square Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D8D1C398B76006F684C /* BigUInt Square Root.swift */; };
 		BBB59D911C398B95006F684C /* BigUInt Division.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D901C398B95006F684C /* BigUInt Division.swift */; };
 		BBB59D921C398B95006F684C /* BigUInt Division.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D901C398B95006F684C /* BigUInt Division.swift */; };
-		BBB59D941C398BB1006F684C /* BigUInt Bitwise Shifts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D931C398BB1006F684C /* BigUInt Bitwise Shifts.swift */; };
-		BBB59D951C398BB1006F684C /* BigUInt Bitwise Shifts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D931C398BB1006F684C /* BigUInt Bitwise Shifts.swift */; };
+		BBB59D941C398BB1006F684C /* BigUInt Shifts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D931C398BB1006F684C /* BigUInt Shifts.swift */; };
+		BBB59D951C398BB1006F684C /* BigUInt Shifts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D931C398BB1006F684C /* BigUInt Shifts.swift */; };
 		BBB59D971C398BCE006F684C /* BigUInt Multiplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D961C398BCE006F684C /* BigUInt Multiplication.swift */; };
 		BBB59D981C398BCE006F684C /* BigUInt Multiplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D961C398BCE006F684C /* BigUInt Multiplication.swift */; };
 		BBB59D9A1C398BE9006F684C /* BigUInt Subtraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D991C398BE9006F684C /* BigUInt Subtraction.swift */; };
@@ -94,7 +94,7 @@
 		BBB59D8A1C398B58006F684C /* BigUInt Modular Exponentiation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BigUInt Modular Exponentiation.swift"; sourceTree = "<group>"; };
 		BBB59D8D1C398B76006F684C /* BigUInt Square Root.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BigUInt Square Root.swift"; sourceTree = "<group>"; };
 		BBB59D901C398B95006F684C /* BigUInt Division.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BigUInt Division.swift"; sourceTree = "<group>"; };
-		BBB59D931C398BB1006F684C /* BigUInt Bitwise Shifts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BigUInt Bitwise Shifts.swift"; sourceTree = "<group>"; };
+		BBB59D931C398BB1006F684C /* BigUInt Shifts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BigUInt Shifts.swift"; sourceTree = "<group>"; };
 		BBB59D961C398BCE006F684C /* BigUInt Multiplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BigUInt Multiplication.swift"; sourceTree = "<group>"; };
 		BBB59D991C398BE9006F684C /* BigUInt Subtraction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BigUInt Subtraction.swift"; sourceTree = "<group>"; };
 		BBB59D9C1C398C02006F684C /* BigUInt Addition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BigUInt Addition.swift"; sourceTree = "<group>"; };
@@ -173,7 +173,7 @@
 				BBB59DA81C398CA8006F684C /* BigUInt Hashing.swift */,
 				BBB59DA21C398C54006F684C /* BigUInt Radix Conversion.swift */,
 				BBB59D9F1C398C24006F684C /* BigUInt Bitwise Ops.swift */,
-				BBB59D931C398BB1006F684C /* BigUInt Bitwise Shifts.swift */,
+				BBB59D931C398BB1006F684C /* BigUInt Shifts.swift */,
 				BBB59D9C1C398C02006F684C /* BigUInt Addition.swift */,
 				BBB59D991C398BE9006F684C /* BigUInt Subtraction.swift */,
 				BBB59D961C398BCE006F684C /* BigUInt Multiplication.swift */,
@@ -373,7 +373,7 @@
 			files = (
 				BBB59D911C398B95006F684C /* BigUInt Division.swift in Sources */,
 				BBB59DA01C398C24006F684C /* BigUInt Bitwise Ops.swift in Sources */,
-				BBB59D941C398BB1006F684C /* BigUInt Bitwise Shifts.swift in Sources */,
+				BBB59D941C398BB1006F684C /* BigUInt Shifts.swift in Sources */,
 				BBB59D8B1C398B58006F684C /* BigUInt Modular Exponentiation.swift in Sources */,
 				BBB59DA91C398CA8006F684C /* BigUInt Hashing.swift in Sources */,
 				BBB59D9D1C398C02006F684C /* BigUInt Addition.swift in Sources */,
@@ -407,21 +407,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BBB59D921C398B95006F684C /* BigUInt Division.swift in Sources */,
-				BBB59DA11C398C24006F684C /* BigUInt Bitwise Ops.swift in Sources */,
-				BBB59D951C398BB1006F684C /* BigUInt Bitwise Shifts.swift in Sources */,
-				BBB59D8C1C398B58006F684C /* BigUInt Modular Exponentiation.swift in Sources */,
-				BBB59DAA1C398CA8006F684C /* BigUInt Hashing.swift in Sources */,
-				BBB59D9E1C398C02006F684C /* BigUInt Addition.swift in Sources */,
-				BBB59D891C398B26006F684C /* BigUInt GCD.swift in Sources */,
-				BBB59D9B1C398BE9006F684C /* BigUInt Subtraction.swift in Sources */,
 				BB64E7281C2F4A7A00C18269 /* BigUInt.swift in Sources */,
 				BBB59DA71C398C8E006F684C /* BigUInt Comparison.swift in Sources */,
-				BBB59D8F1C398B76006F684C /* BigUInt Square Root.swift in Sources */,
-				BB64E72B1C2F592B00C18269 /* BigDigit.swift in Sources */,
-				BBB59D981C398BCE006F684C /* BigUInt Multiplication.swift in Sources */,
-				BBB59DAD1C398D69006F684C /* ShiftOperationsType.swift in Sources */,
+				BBB59DAA1C398CA8006F684C /* BigUInt Hashing.swift in Sources */,
 				BBB59DA41C398C54006F684C /* BigUInt Radix Conversion.swift in Sources */,
+				BBB59DA11C398C24006F684C /* BigUInt Bitwise Ops.swift in Sources */,
+				BBB59D951C398BB1006F684C /* BigUInt Shifts.swift in Sources */,
+				BBB59D9E1C398C02006F684C /* BigUInt Addition.swift in Sources */,
+				BBB59D9B1C398BE9006F684C /* BigUInt Subtraction.swift in Sources */,
+				BBB59D981C398BCE006F684C /* BigUInt Multiplication.swift in Sources */,
+				BBB59D921C398B95006F684C /* BigUInt Division.swift in Sources */,
+				BBB59D8F1C398B76006F684C /* BigUInt Square Root.swift in Sources */,
+				BBB59D891C398B26006F684C /* BigUInt GCD.swift in Sources */,
+				BBB59D8C1C398B58006F684C /* BigUInt Modular Exponentiation.swift in Sources */,
+				BB64E72B1C2F592B00C18269 /* BigDigit.swift in Sources */,
+				BBB59DAD1C398D69006F684C /* ShiftOperationsType.swift in Sources */,
 				BB64E72E1C2F60F500C18269 /* BigInt.swift in Sources */,
 				BB64E7311C2F653900C18269 /* Bitwise Hacks.swift in Sources */,
 			);

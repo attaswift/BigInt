@@ -9,7 +9,10 @@
 import Foundation
 
 extension BigUInt {
+    //MARK: Modular Exponentiation
+    
     /// Returns the remainder of `base` raised to the power `exponent` under `modulus`.
+    ///
     /// - Complexity: O(exponent.count * modulus.count^2)
     @warn_unused_result
     public static func powmod(base: BigUInt, _ exponent: BigUInt, modulus: BigUInt) -> BigUInt {

@@ -8,7 +8,10 @@
 
 import Foundation
 
+//MARK: Square Root
+
 /// Returns the integer square root of a big integer; i.e., the largest integer whose square isn't greater than `value`.
+///
 /// - Returns: floor(sqrt(value))
 @warn_unused_result
 public func sqrt(value: BigUInt) -> BigUInt {

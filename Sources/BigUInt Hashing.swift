@@ -9,8 +9,10 @@
 import Foundation
 
 extension BigUInt: Hashable {
+    //MARK: Hashing
+
+    /// The hash value.
     public var hashValue: Int {
-        //
         var hash: UInt64 = UInt64(count).byteSwapped
         for i in 0..<count {
             let shift: UInt64 = ((UInt64(i) << 5) - UInt64(i)) & 63

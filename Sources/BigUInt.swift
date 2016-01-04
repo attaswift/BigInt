@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// An arbitary precision unsigned integer type.
 public struct BigUInt {
     /// The type representing a digit in `BigUInt`'s underlying number system.
     public typealias Digit = UInt64
@@ -42,22 +43,25 @@ public struct BigUInt {
     }
 
     /// Initializes a new BigUInt that has the supplied value.
-    /// - Required: integer >= 0
+    ///
+    /// - Requires: integer >= 0
     public init<I: SignedIntegerType>(_ integer: I) {
         precondition(integer >= 0)
         self.init(UIntMax(integer.toIntMax()))
     }
 }
 
-//MARK: Literals
-
 extension BigUInt: IntegerLiteralConvertible {
+    //MARK: Init from Integer literals
+    
     public init(integerLiteral value: UInt64) {
         self.init(value.toUIntMax())
     }
 }
 
 extension BigUInt: StringLiteralConvertible {
+    //MARK: Init from String literals
+
     public init(unicodeScalarLiteral value: UnicodeScalar) {
         self = BigUInt(String(value), radix: 10)!
     }
@@ -71,9 +75,9 @@ extension BigUInt: StringLiteralConvertible {
     }
 }
 
-//MARK: Lift and shrink
-
 extension BigUInt {
+    //MARK: Lift and shrink
+    
     /// True iff this integer is not a slice.
     internal var isTop: Bool { return _start == 0 && _end == _digits.count }
 
@@ -95,9 +99,9 @@ extension BigUInt {
     }
 }
 
-//MARK: CollectionType
-
 extension BigUInt: CollectionType {
+    //MARK: CollectionType
+    
     /// The number of digits in this integer, excluding leading zero digits.
     public var count: Int { return _end - _start }
     /// The index of the first digit, starting from the least significant. (This is always zero.)
@@ -111,6 +115,7 @@ extension BigUInt: CollectionType {
     }
 
     /// Get or set a digit at a given position.
+    ///
     /// - Note: Unlike a normal collection, it is OK for the index to be greater than or equal to `count`.
     ///   The subscripting getter returns zero for indexes beyond the most significant digit.
     ///   Setting these digits automatically appends new elements to the underlying digit array.
@@ -166,10 +171,11 @@ public struct DigitGenerator<Digit>: GeneratorType {
     }
 }
 
-//MARK: Low and High
-
 extension BigUInt {
+    //MARK: Low and High
+    
     /// Split this integer into a high-order and a low-order part.
+    ///
     /// - Requires: count > 1
     /// - Returns: `(low, high)` such that 
     ///   - `self == low.add(high, shift: middleIndex)`
@@ -183,12 +189,14 @@ extension BigUInt {
     }
 
     /// Index of the digit at the middle of this integer.
+    ///
     /// - Returns: The index of the digit that is least significant in `self.high`.
     internal var middleIndex: Int {
         return (count + 1) / 2
     }
 
     /// The low-order half of this BigUInt.
+    ///
     /// - Returns: `self[0 ..< middleIndex]`
     /// - Requires: count > 1
     internal var low: BigUInt {
@@ -196,6 +204,7 @@ extension BigUInt {
     }
 
     /// The high-order half of this BigUInt.
+    ///
     /// - Returns: `self[middleIndex ..< count]`
     /// - Requires: count > 1
     internal var high: BigUInt {

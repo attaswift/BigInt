@@ -8,8 +8,12 @@
 
 import Foundation
 
+
 extension BigUInt {
+    //MARK: Division
+
     /// Divide this integer by the digit `y`, leaving the quotient in its place and returning the remainder.
+    ///
     /// - Requires: y > 0
     /// - Complexity: O(count)
     @warn_unused_result
@@ -29,6 +33,7 @@ extension BigUInt {
     }
 
     /// Divide this integer by the digit `y` and return the resulting quotient and remainder.
+    ///
     /// - Requires: y > 0
     /// - Returns: (div, mod) where div = floor(x/y), mod = x - div * y
     /// - Complexity: O(x.count)
@@ -40,6 +45,7 @@ extension BigUInt {
     }
 
     /// Divide this integer by `y` and return the resulting quotient and remainder.
+    ///
     /// - Requires: y > 0
     /// - Returns: (div, mod) where div = floor(x/y), mod = x - div * y
     /// - Complexity: O(x.count * y.count)
@@ -81,6 +87,7 @@ extension BigUInt {
         // Here is the code for the 3/2 division:
 
         /// Return the quotient of the 3/2-digit division `x/y` as a single `Digit`.
+        ///
         /// - Requires: (x.0, x.1) <= y && y.0.high != 0
         /// - Returns: The exact value when it fits in a single `Digit`, otherwise `Digit.max`.
         func approximateQuotient(x x: (Digit, Digit, Digit), y: (Digit, Digit)) -> Digit {
@@ -155,7 +162,10 @@ extension BigUInt {
     }
 }
 
+//MARK: Division
+
 /// Divide `x` by `y` and return the quotient.
+///
 /// - Note: Use `x.divide(y)` if you also need the remainder.
 @warn_unused_result
 public func /(x: BigUInt, y: BigUInt) -> BigUInt {
@@ -163,6 +173,7 @@ public func /(x: BigUInt, y: BigUInt) -> BigUInt {
 }
 
 /// Divide `x` by `y` and return the remainder.
+///
 /// - Note: Use `x.divide(y)` if you also need the remainder.
 @warn_unused_result
 public func %(x: BigUInt, y: BigUInt) -> BigUInt {
@@ -170,12 +181,14 @@ public func %(x: BigUInt, y: BigUInt) -> BigUInt {
 }
 
 /// Divide `x` by `y` and store the quotient in `x`.
+///
 /// - Note: Use `x.divide(y)` if you also need the remainder.
 public func /=(inout x: BigUInt, y: BigUInt) {
     x = x.divide(y).div
 }
 
 /// Divide `x` by `y` and store the remainder in `x`.
+///
 /// - Note: Use `x.divide(y)` if you also need the remainder.
 public func %=(inout x: BigUInt, y: BigUInt) {
     x = x.divide(y).mod

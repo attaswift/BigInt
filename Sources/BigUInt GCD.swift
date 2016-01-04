@@ -9,7 +9,10 @@
 import Foundation
 
 extension BigUInt {
+    //MARK: Greatest Common Divisor
+    
     /// Returns the greatest common divisor of `a` and `b`.
+    ///
     /// - Complexity: O(count^2) where count = max(a.count, b.count)
     @warn_unused_result
     public static func gcd(a: BigUInt, _ b: BigUInt) -> BigUInt {

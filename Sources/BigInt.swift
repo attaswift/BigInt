@@ -8,8 +8,11 @@
 
 import Foundation
 
+/// An arbitary precision unsigned integer type.
 public struct BigInt {
+    /// The absolute value of this integer.
     public var abs: BigUInt
+    /// True iff the value of this integer is negative.
     public var negative: Bool
 
     public init(abs: BigUInt, negative: Bool = false) {

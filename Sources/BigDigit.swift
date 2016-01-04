@@ -117,6 +117,7 @@ extension BigDigit {
     }
 
     /// Divide the two-digit number `(u1, u0)` by a single digit `v` and return the quotient and remainder.
+    ///
     /// - Requires: `u1 < v`, so that the result will fit in a single digit.
     /// - Complexity: O(1) with 2 divisions, 6 multiplications and ~12 or so additions/subtractions.
     @warn_unused_result
@@ -127,6 +128,7 @@ extension BigDigit {
         precondition(u1 < v)
 
         /// Find the half-digit quotient in `(uh, ul) / vn`, which must be normalized.
+        ///
         /// - Requires: uh < vn && ul.high == 0 && vn.width = width(Digit)
         func quotient(uh: Self, _ ul: Self, _ vn: Self) -> (Self, ()) { // Strange return type is workaround for compiler bug
             let (vn1, vn0) = vn.split
@@ -142,6 +144,7 @@ extension BigDigit {
             return (q - 2, ())
         }
         /// Divide 3 half-digits by 2 half-digits to get a half-digit quotient and a full-digit remainder.
+        ///
         /// - Requires: uh < vn && ul.high == 0 && vn.width = width(Digit)
         func divmod(uh: Self, _ ul: Self, _ v: Self) -> (div: Self, mod: Self) {
             let q = quotient(uh, ul, v).0

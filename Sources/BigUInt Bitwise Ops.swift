@@ -8,8 +8,12 @@
 
 import Foundation
 
+
 extension BigUInt {
+    //MARK: Bitwise Operations
+
     /// The minimum number of bits required to represent this integer in binary.
+    ///
     /// - Returns: floor(log2(2 * self + 1))
     /// - Complexity: O(1)
     public var width: Int {
@@ -19,6 +23,7 @@ extension BigUInt {
 
     /// The number of leading zero bits in the binary representation of this integer in base `2^Digit.width`.
     /// This is useful when you need to normalize a `BigUInt` such that the top bit of its most significant digit is 1.
+    ///
     /// - Note: 0 is considered to have zero leading zero bits.
     /// - Returns: A value in `0...(Digit.width - 1)`.
     /// - SeeAlso: width
@@ -29,6 +34,7 @@ extension BigUInt {
     }
 
     /// The number of trailing zero bits in the binary representation of this integer.
+    ///
     /// - Note: 0 is considered to have zero trailing zero bits.
     /// - Returns: A value in `0...width`.
     /// - Complexity: O(count)
@@ -39,7 +45,10 @@ extension BigUInt {
     }
 }
 
+//MARK: Bitwise Operators
+
 /// Return the ones' complement of `a`.
+///
 /// - Complexity: O(a.count)
 @warn_unused_result
 public prefix func ~(a: BigUInt) -> BigUInt {
@@ -47,6 +56,7 @@ public prefix func ~(a: BigUInt) -> BigUInt {
 }
 
 /// Calculate the bitwise OR of `a` and `b` and return the result.
+///
 /// - Complexity: O(max(a.count, b.count))
 @warn_unused_result
 public func | (a: BigUInt, b: BigUInt) -> BigUInt {
@@ -58,6 +68,7 @@ public func | (a: BigUInt, b: BigUInt) -> BigUInt {
 }
 
 /// Calculate the bitwise AND of `a` and `b` and return the result.
+///
 /// - Complexity: O(max(a.count, b.count))
 @warn_unused_result
 public func & (a: BigUInt, b: BigUInt) -> BigUInt {
@@ -69,6 +80,7 @@ public func & (a: BigUInt, b: BigUInt) -> BigUInt {
 }
 
 /// Calculate the bitwise OR of `a` and `b` and return the result.
+///
 /// - Complexity: O(max(a.count, b.count))
 @warn_unused_result
 public func ^ (a: BigUInt, b: BigUInt) -> BigUInt {
@@ -80,18 +92,21 @@ public func ^ (a: BigUInt, b: BigUInt) -> BigUInt {
 }
 
 /// Calculate the bitwise OR of `a` and `b`, and store the result in `a`.
+///
 /// - Complexity: O(max(a.count, b.count))
 public func |= (inout a: BigUInt, b: BigUInt) {
     a = a | b
 }
 
 /// Calculate the bitwise AND of `a` and `b`, and store the result in `a`.
+///
 /// - Complexity: O(max(a.count, b.count))
 public func &= (inout a: BigUInt, b: BigUInt) {
     a = a & b
 }
 
 /// Calculate the bitwise XOR of `a` and `b`, and store the result in `a`.
+///
 /// - Complexity: O(max(a.count, b.count))
 public func ^= (inout a: BigUInt, b: BigUInt) {
     a = a ^ b

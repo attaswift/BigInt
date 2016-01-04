@@ -9,7 +9,11 @@
 import Foundation
 
 extension BigUInt {
+
+    //MARK: Multiplication
+
     /// Multiply this big integer by a single digit, and store the result in place of the original big integer.
+    ///
     /// - Complexity: O(count)
     public mutating func multiplyInPlaceByDigit(y: Digit) {
         guard y != 0 else { self = 0; return }
@@ -27,6 +31,7 @@ extension BigUInt {
     }
 
     /// Multiply this big integer by a single digit, and return the result.
+    ///
     /// - Complexity: O(count)
     @warn_unused_result
     public func multiplyByDigit(y: Digit) -> BigUInt {
@@ -36,8 +41,10 @@ extension BigUInt {
     }
 
     /// Multiply `x` by `y`, and add the result to this integer, optionally shifted `shift` digits to the left.
+    ///
     /// - Note: This is the fused multiply/shift/add operation; it is more efficient than doing the components
     ///   individually. (The fused operation doesn't need to allocate space for temporary big integers.)
+    /// - Returns: `self` is set to `self + (x * y) << (shift * 2^Digit.width)`
     /// - Complexity: O(count)
     public mutating func multiplyAndAddInPlace(x: BigUInt, _ y: Digit, shift: Int = 0) {
         precondition(shift >= 0)
@@ -71,12 +78,15 @@ extension BigUInt {
 
 extension BigUInt {
     /// Multiplication switches to an asymptotically better recursive algorithm when arguments have more digits than this limit.
-    static var directMultiplicationLimit: Int = 1024
+    public static var directMultiplicationLimit: Int = 1024
 }
 
+//MARK: Multiplication
+
 /// Multiply `a` by `b` and store the result in `a`.
+///
 /// - Note: This uses the naive O(n^2) multiplication algorithm unless both arguments have more than
-///   `BugUInt.directMultiplicationLimit` digits.
+///   `BigUInt.directMultiplicationLimit` digits.
 /// - Complexity: O(n^log2(3))
 @warn_unused_result
 public func *(x: BigUInt, y: BigUInt) -> BigUInt {

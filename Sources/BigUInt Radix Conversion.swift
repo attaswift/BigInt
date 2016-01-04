@@ -8,9 +8,13 @@
 
 import Foundation
 
+
 extension BigUInt: CustomStringConvertible {
 
+    //MARK: Radix Conversion
+
     /// Calculates the number of numerals in a given radix that fit inside a single `Digit`.
+    ///
     /// - Returns: (chars, power) where `chars` is highest that satisfy `radix^chars <= 2^Digit.width`. `power` is zero
     ///   if radix is a power of two; otherwise `power == radix^chars`.
     private static func charsPerDigitForRadix(radix: Int) -> (chars: Int, power: Digit) {
