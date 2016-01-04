@@ -302,7 +302,7 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(a & 0, 0)
         XCTAssertEqual(a & ffff, a)
         XCTAssertEqual(~(a | b), (~a & ~b))
-        XCTAssertEqual(~(a & b), (~a | ~b))
+        XCTAssertEqual(~(a & b), (~a | ~b)[0..<(a&b).count])
         XCTAssertEqual(a ^ a, 0)
         XCTAssertEqual((a ^ b) ^ b, a)
         XCTAssertEqual((a ^ b) ^ a, b)
@@ -474,7 +474,7 @@ class BigUIntTests: XCTestCase {
     }
 
     func testLeftShifts() {
-        let sample = BigUInt("123456789ABCDEF1234567891631832727633", radix: 16)!
+        let sample = BigUInt("123456789ABCDEF01234567891631832727633", radix: 16)!
 
         var a = sample
 
@@ -570,8 +570,12 @@ class BigUIntTests: XCTestCase {
             let x = BigUInt(a)
             let y = BigUInt(b)
             let (div, mod) = x.divide(y)
-            XCTAssertLessThan(mod, y, "x:\(x) = div:\(div) * y:\(y) + mod:\(mod)", file: file, line: line)
-            XCTAssertEqual(div * y + mod, x, "x:\(x) = div:\(div) * y:\(y) + mod:\(mod)", file: file, line: line)
+            if mod >= y {
+                XCTFail("x:\(x) = div:\(div) * y:\(y) + mod:\(mod)", file: file, line: line)
+            }
+            if div * y + mod != x {
+                XCTFail("x:\(x) = div:\(div) * y:\(y) + mod:\(mod)", file: file, line: line)
+            }
         }
         // These cases exercise all code paths in the division when Digit is UInt8 or UInt64.
         test([], [1])
@@ -591,6 +595,8 @@ class BigUIntTests: XCTestCase {
         test([Digit.max, Digit.max - 1, Digit.max], [Digit.max, Digit.max])
         test([0, Digit.max, Digit.max - 1], [Digit.max, Digit.max])
         test([0, 0, 0, 0, 0, Digit.max / 2 + 1, Digit.max / 2], [1, 0, 0, Digit.max / 2 + 1])
+        test([0, Digit.max - 1, Digit.max / 2 + 1], [Digit.max, Digit.max / 2 + 1])
+        test([0, 0, 0x41 << Digit(Digit.width - 8)], [Digit.max, 1 << Digit(Digit.width - 1)])
 
         XCTAssertEqual(BigUInt(328) / BigUInt(21), BigUInt(15))
         XCTAssertEqual(BigUInt(328) % BigUInt(21), BigUInt(13))
@@ -602,14 +608,14 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(a, 1)
 
         #if false
-            for y0 in Array(1 ... Int(Digit.max)).reverse() {
-                for y1 in Array(0 ... Int(Digit.max)).reverse() {
-                    for x0 in Array(1 ... Int(Digit.max)).reverse() {
-                        for x1 in Array(0 ... Int(Digit.max)).reverse() {
-                            for x2 in Array(0 ... Int(Digit.max)).reverse() {
+            for x0 in (0 ... Int(Digit.max)) {
+                for x1 in (0 ... Int(Digit.max)).reverse() {
+                    for y0 in (0 ... Int(Digit.max)).reverse() {
+                        for y1 in (1 ... Int(Digit.max)).reverse() {
+                            for x2 in (1 ... y1).reverse() {
                                 test(
-                                    [Digit(x2), Digit(x1), Digit(x0)],
-                                    [Digit(y1), Digit(y0)])
+                                    [Digit(x0), Digit(x1), Digit(x2)],
+                                    [Digit(y0), Digit(y1)])
                             }
                         }
                     }

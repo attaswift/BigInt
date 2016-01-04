@@ -9,6 +9,8 @@
 import XCTest
 import BigInt
 
+#if Profile
+
 func randomBigInt(digits: Int) -> BigUInt {
     let p = UnsafeMutablePointer<UInt64>.alloc(digits)
     arc4random_buf(p, digits * sizeof(UInt64))
@@ -135,7 +137,6 @@ struct Foo<Digit: DigitType> {
 }
 
 
-#if Profile
 class ProfileTests: XCTestCase {
     typealias Digit = BigUInt.Digit
 

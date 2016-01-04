@@ -61,21 +61,23 @@ extension BigUInt {
             return (div, BigUInt(mod))
         }
 
-        // This function simply performs the long division algorithm we learned in school.
-        // It works by successively calculating the remainder of the top y.count digits of x
-        // under y, and subtracting it from the top of x while remembering the quotient.
+        // In the hard cases, we will simply perform the long division algorithm we
+        // learned in school. It works by successively calculating the single-digit quotient of 
+        // the top y.count + 1 digits of x divided by y, replacing the top of x with the remainder, 
+        // and repeating the process one digit lower.
         //
-        // The tricky part is that the algorithm needs to be able to divide two equal-sized
-        // big integers, but we only have a primitive for dividing two digits by a single
+        // The tricky part is that the algorithm needs to be able to do n+1/n digit divisions,
+        // but we only have a primitive for dividing two digits by a single
         // digit. (Remember that this step is also tricky when we do it on paper!)
         //
         // The solution is that the long division can be approximated by a single fullDivide
         // using just the most significant digits. We can then use multiplications and
         // subtractions to refine the approximation until we get the correct quotient digit.
-
+        //
         // We could do this by doing a simple 2/1 fullDivide, but Knuth goes one step further,
         // and implements a 3/2 division. This results in an exact approximation in the
-        // vast majority of cases, eliminating the need for some long subtractions.
+        // vast majority of cases, eliminating an extra subtraction over big integers.
+        //
         // Here is the code for the 3/2 division:
 
         /// Return the 3/2-sized quotient `x/y` as a single Digit.
@@ -97,20 +99,18 @@ extension BigUInt {
                 r = m
             }
             // Now refine q by considering x.2 and y.1.
-            // Note that since y is normalized, q - x/y is between 0 and 2.
-            var p = Digit.fullMultiply(q, y.1)
-            while p.0 > r || (p.0 == r && p.1 > x.2) {
-                q -= 1
-                let (a, ao) = Digit.addWithOverflow(r, y.0)
-                if ao {
-                    return q
-                }
-                r = a
-                let (s, so) = Digit.subtractWithOverflow(p.1, y.1)
-                if so { p.0 -= 1 }
-                p.1 = s
-            }
-            return q
+            // Note that since y is normalized, q * y - x is between 0 and 2.
+            let (ph, pl) = Digit.fullMultiply(q, y.1)
+            if ph < r || (ph == r && pl <= x.2) { return q }
+
+            let (r1, ro) = Digit.addWithOverflow(r, y.0)
+            if ro { return q - 1 }
+
+            let (pl1, so) = Digit.subtractWithOverflow(pl, y.1)
+            let ph1 = (so ? ph - 1 : ph)
+
+            if ph1 < r1 || (ph1 == r1 && pl1 <= x.2) { return q - 1 }
+            return q - 2
         }
 
         // The function above requires that the divisor's most significant digit is larger than
@@ -140,7 +140,6 @@ extension BigUInt {
             // it may overshoot by at most 1, in which case the product will be greater
             // than remainder.
             let product = divisor.multiplyByDigit(q)
-            assert(remainder.isTop) // Or all the copying will lead to a 850% slowdown.
             if product <= remainder[j - dc ... j] {
                 remainder.subtractInPlace(product, shift: j - dc)
                 quotient[j - dc] = q
