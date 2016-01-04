@@ -1,7 +1,7 @@
 # BigInt
 
 This repository provides [integer types of arbitrary width][wiki] implemented
-in pure Swift. The representation is in base 2^64, using `Array<UInt64>`.
+in 100% pure Swift. The representation is in base 2^64, using `Array<UInt64>`.
                                                                   
 [wiki]: https://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic
 
@@ -30,7 +30,8 @@ big integers, including
     (This limit is configurable, see `BigUInt.directMultiplicationLimit`.) 
   - A [fused multiply-add][fused] method is also available, along with other [special-case variants][multiplication].
   - Division uses Knuth's Algorithm D, with its 3/2 digits wide quotient approximation. 
-    It will trap when the divisor is zero. `BigUInt.divmod` returns the quotient and
+    It will trap when the divisor is zero. 
+  - [`BigUInt.divide`][divide] returns the quotient and
     remainder at once; this is faster than calculating them separately.
 
 - [Bitwise operators][bitwise]: `~`, `|`, `&`, `^`, `|=`, `&=`, `^=`, plus the following read-only properties:
@@ -53,35 +54,47 @@ The implementations are intended to be reasonably efficient, but they are unlike
 competitive with GMP at all, even when I happened to implement an algorithm with same asymptotic
 behavior as GMP. (I haven't performed a comparison benchmark, though.)
 
-The library has 100% unit test coverage.
+The library has 100% unit test coverage. (But sadly this does not indicate that there are no bugs
+in it.)
 
 ## API Documentation
 
 Generated API docs are available at http://lorentey.github.io/BigInt/api.
 
+## License
+
+BigInt can be used, distributed and modified under [the MIT license][license].
+
 ## Implementation notes
 
-I haven't found (64,64)->128 multiplication or (128,64)->64 division operations in Swift, so 
-the module has implementations for those in terms of the standard single-width `*` and `/` 
-operators. (I suspect there are LLVM intrinsics for double-width arithmetics that are probably
-accessible somehow, though.) This sounds slow, but 64-bit digits are still considerably faster
-than 32-bit, even though the latter can use direct 64-bit arithmetic to implement these primitives.
-
-[`BigInt`][BigInt] consists of an [absolute value][abs] and a [sign bit][negative], both of which are accessible as public read-write properties. 
+[`BigInt`][BigInt] is just a tiny wrapper around a `BigUInt` [absolute value][abs] and a 
+[sign bit][negative], both of which are accessible as public read-write properties. 
 
 [`BigUInt`][BigUInt] is a `MutableCollectionType` of its 64-bit digits, with the least significant 
 digit at index 0. As a convenience, [`BigUInt`][BigUInt] allows you to subscript it with indexes at
 or above its `count`. [The subscript operator][subscript] returns 0 for out-of-bound `get`s and
 automatically extends the array on out-of-bound `set`s. This makes memory management simpler.
 
-[subscript]: https://github.com/lorentey/BigInt/blob/master/Sources/BigUInt.swift#L127-L150
+### How does the module implement double-width multiplication and division? 
 
-## Why is there no generic `BigInt<Digit>` type?
+I haven't found (64,64)->128 multiplication or (128,64)->64 division operations
+in Swift, so [the module has generic implementations for them][fullmuldiv] in terms of the standard
+single-width `*` and `/` operators. I suspect there are LLVM intrinsics for full-width 
+arithmetics that are probably accessible somehow, though. ([Let me know][twitter] if you know how!)
+
+This sounds slow, but 64-bit digits are
+still considerably faster than 32-bit, even though the latter can use direct 64-bit arithmetic to
+implement these primitives.
+
+[fullmuldiv]: https://github.com/lorentey/BigInt/blob/v1.0.0/Sources/BigDigit.swift#L104-L177
+
+### Why is there no generic `BigInt<Digit>` type?
 
 The types provided by `BigInt` are not parametric---this is very much intentional, as 
 Swift 2.2.1 generics cost us dearly at runtime in this use case. In every approach I tried,
 making arbitrary-precision arithmetic operations work with a generic `Digit` type parameter 
-resulted in code that was literally *ten times slower*.
+resulted in code that was literally *ten times slower*. If you can make the algorithms generic
+without affecting performance, please enlighten me!
 
 This is an area that I plan to investigate more, as it would be useful to have generic
 implementations for arbitrary-width arithmetic operations. (Polynomial division and decimal bases
@@ -92,7 +105,8 @@ performance. Unfortunately, the same is not true for `BigUInt`'s methods.
 Of course, as a last resort, we could just duplicate the code to create a separate
 generic variant that was slower but more flexible.
 
-
+[license]: https://github.com/lorentey/BigInt/blob/master/LICENSE.md
+[twitter]: https://twitter.com/lorentey
 [BigUInt]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html
 [BigInt]: http://lorentey.github.io/BigInt/api/Structs/BigInt.html
 [comparison]: http://lorentey.github.io/BigInt/api/Functions.html#/Comparison
@@ -103,6 +117,7 @@ generic variant that was slower but more flexible.
 [fused]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUInt21multiplyAndAddInPlaceFRS0_FTS0_VSs6UInt645shiftSi_T_
 [multiplication]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Multiplication
 [division]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Division
+[divide]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUInt6divideFS0_FS0_T3divS0_3modS0__
 [bitwise]: http://lorentey.github.io/BigInt/api/Functions.html#/Bitwise%20Operators
 [width]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:vV6BigInt7BigUInt5widthSi
 [leadingZeroes]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:vV6BigInt7BigUInt13leadingZeroesSi
@@ -115,6 +130,7 @@ generic variant that was slower but more flexible.
 [powmod]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:ZFV6BigInt7BigUInt6powmodFMS0_FTS0_S0_7modulusS0__S0_
 [abs]: http://lorentey.github.io/BigInt/api/Structs/BigInt.html#/s:vV6BigInt6BigInt3absVS_7BigUInt
 [negative]: http://lorentey.github.io/BigInt/api/Structs/BigInt.html#/s:vV6BigInt6BigInt8negativeSb
+[subscript]: https://github.com/lorentey/BigInt/blob/v1.0.0/Sources/BigUInt.swift#L127-L150
 
 
 ## Obligatory demonstration with a factorial function
