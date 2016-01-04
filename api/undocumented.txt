@@ -1,0 +1,42 @@
+BigUInt.swift
+	public init(integerLiteral value: UInt64)
+	public init(unicodeScalarLiteral value: UnicodeScalar)
+	public init(extendedGraphemeClusterLiteral value: String)
+	public init(stringLiteral value: StringLiteralType)
+	public mutating func next() -> Digit?
+BigUInt Comparison.swift
+	public func ==(a: BigUInt, b: BigUInt) -> Bool
+	public func <(a: BigUInt, b: BigUInt) -> Bool
+BigUInt Radix Conversion.swift
+	public var description: String
+	public init(_ v: BigUInt) { self.init(v, radix: 10, uppercase: false) }
+ShiftOperationsType.swift
+	func <<(a: Self, b: Self) -> Self
+	func >>(a: Self, b: Self) -> Self
+	func <<=(inout a: Self, b: Self)
+	func >>=(inout a: Self, b: Self)
+BigInt.swift
+	public init(abs: BigUInt, negative: Bool = false)
+	public init<I: UnsignedIntegerType>(_ integer: I)
+	public init<I: SignedIntegerType>(_ integer: I)
+	public init?(_ text: String, radix: Int = 10)
+	public init(_ value: BigInt, radix: Int = 10, uppercase: Bool = false)
+	public var description: String { return String(self, radix: 10) }
+	public init(integerLiteral value: IntMax)
+	public init(unicodeScalarLiteral value: UnicodeScalar)
+	public init(extendedGraphemeClusterLiteral value: String)
+	public init(stringLiteral value: StringLiteralType)
+	public func ==(a: BigInt, b: BigInt) -> Bool
+	public func <(a: BigInt, b: BigInt) -> Bool
+	public var hashValue: Int
+	public func +(a: BigInt, b: BigInt) -> BigInt
+	public prefix func -(a: BigInt) -> BigInt
+	public func -(a: BigInt, b: BigInt) -> BigInt
+	public func *(a: BigInt, b: BigInt) -> BigInt
+	public func /(a: BigInt, b: BigInt) -> BigInt
+	public func %(a: BigInt, b: BigInt) -> BigInt
+	public func +=(inout a: BigInt, b: BigInt) { a = a + b }
+	public func -=(inout a: BigInt, b: BigInt) { a = a - b }
+	public func *=(inout a: BigInt, b: BigInt) { a = a * b }
+	public func /=(inout a: BigInt, b: BigInt) { a = a / b }
+	public func %=(inout a: BigInt, b: BigInt) { a = a % b }

@@ -1,0 +1,2031 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>BigUInt Struct Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+
+    <a name="//apple_ref/swift/Struct/BigUInt" class="dashAnchor"></a>
+
+    <a title="BigUInt Struct Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="../index.html">
+          BigInt Docs
+        </a>
+         (70% documented)
+      </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/lorentey/BigInt">
+            <img class="header-icon" src="../img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="dash-feed://https%3A%2F%2Florentey%2Egithub%2Eio%2FBigInt%2Freference%2Fdocsets%2FBigInt%2Exml">
+            <img class="header-icon" src="../img/dash.png"/>
+            Install in Dash
+          </a>
+        </p>
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="../index.html">BigInt Reference</a>
+      <img class="carat" src="../img/carat.png" />
+      BigUInt Struct Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/String.html">String</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi1rFTVS_6BigIntS0__S0_">%(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi1rFTVS_7BigUIntS0__S0_">%(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi2reFTRVS_6BigIntS0__T_">%=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi2reFTRVS_7BigUIntS0__T_">%=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi1aFTVS_7BigUIntS0__S0_">&amp;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi2aeFTRVS_7BigUIntS0__T_">&amp;=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi1mFTVS_6BigIntS0__S0_">*(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi1mFTVS_7BigUIntS0__S0_">*(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi2meFTRVS_6BigIntS0__T_">*=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi2meFTRVS_7BigUIntS0__T_">*=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi1pFTVS_7BigUIntS0__S0_">+(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi1pFTVS_6BigIntS0__S0_">+(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi2peFTRVS_7BigUIntS0__T_">+=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi2peFTRVS_6BigIntS0__T_">+=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntop1sFVS_6BigIntS0_">-(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi1sFTVS_6BigIntS0__S0_">-(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi1sFTVS_7BigUIntS0__S0_">-(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi2seFTRVS_7BigUIntS0__T_">-=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi2seFTRVS_6BigIntS0__T_">-=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi1dFTVS_6BigIntS0__S0_">/(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi1dFTVS_7BigUIntS0__S0_">/(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi2deFTRVS_7BigUIntS0__T_">/=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi2deFTRVS_6BigIntS0__T_">/=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi1lFTVS_7BigUIntS0__Sb">&lt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi1lFTVS_6BigIntS0__Sb">&lt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi2llFTVS_7BigUIntSi_S0_">&lt;&lt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi3lleFTRVS_7BigUIntSi_T_">&lt;&lt;=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi2eeFTVS_6BigIntS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi2eeFTVS_7BigUIntS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi2ggFTVS_7BigUIntSi_S0_">&gt;&gt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi3ggeFTRVS_7BigUIntSi_T_">&gt;&gt;=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi1xFTVS_7BigUIntS0__S0_">^(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi2xeFTRVS_7BigUIntS0__T_">^=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:F6BigInt4sqrtFVS_7BigUIntS0_">sqrt(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi1oFTVS_7BigUIntS0__S0_">|(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntoi2oeFTRVS_7BigUIntS0__T_">|=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:ZF6BigIntop1tFVS_7BigUIntS0_">~(_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/ShiftOperationsType.html">ShiftOperationsType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Structs.html">Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/BigInt.html">BigInt</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/BigUInt.html">BigUInt</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/DigitGenerator.html">DigitGenerator</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content">
+            <h1>BigUInt</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">BigUInt</span></code></pre>
+
+                </div>
+              </div>
+            <p>An arbitary precision unsigned integer type.</p>
+
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:V6BigInt7BigUInt5Digit"></a>
+                    <a name="//apple_ref/swift/Alias/Digit" class="dashAnchor"></a>
+                    <a class="token" href="#/s:V6BigInt7BigUInt5Digit">Digit</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The type representing a digit in <code><a href="../Structs/BigUInt.html">BigUInt</a></code>&rsquo;s underlying number system.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">Digit</span> <span class="o">=</span> <span class="kt">UInt64</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt.swift#L14">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUIntcFMS0_FT_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUIntcFMS0_FT_S0_">init()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initializes a new BigUInt with value 0.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt.swift#L31-L33">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUIntcFMS0_FGSaVSs6UInt64_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUIntcFMS0_FGSaVSs6UInt64_S0_">init(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initializes a new BigUInt with the specified digits. The digits are ordered from least to most significant.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">digits</span><span class="p">:</span> <span class="p">[</span><span class="kt">Digit</span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt.swift#L36-L38">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUIntcuRq_Ss19UnsignedIntegerType_FMS0_Fq_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUIntcuRq_Ss19UnsignedIntegerType_FMS0_Fq_S0_">init(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initializes a new BigUInt that has the supplied value.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">init</span><span class="o">&lt;</span><span class="kt">I</span><span class="p">:</span> <span class="kt">UnsignedIntegerType</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">integer</span><span class="p">:</span> <span class="kt">I</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt.swift#L41-L43">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUIntcuRq_Ss17SignedIntegerType_FMS0_Fq_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUIntcuRq_Ss17SignedIntegerType_FMS0_Fq_S0_">init(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initializes a new BigUInt that has the supplied value.</p>
+
+<div class="aside aside-requires">
+    <p class="aside-title">Requires</p>
+    integer &gt;= 0
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">init</span><span class="o">&lt;</span><span class="kt">I</span><span class="p">:</span> <span class="kt">SignedIntegerType</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">integer</span><span class="p">:</span> <span class="kt">I</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt.swift#L48-L51">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Init%20from%20Integer%20literals"></a>
+                <a name="//apple_ref/swift/Section/Init from Integer literals" class="dashAnchor"></a>
+                <a href="#/Init%20from%20Integer%20literals">
+                  <h3 class="section-name">Init from Integer literals</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUIntcFMS0_FT14integerLiteralVSs6UInt64_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(integerLiteral:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUIntcFMS0_FT14integerLiteralVSs6UInt64_S0_">init(integerLiteral:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">BigUInt</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt.swift#L57-L59">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Init%20from%20String%20literals"></a>
+                <a name="//apple_ref/swift/Section/Init from String literals" class="dashAnchor"></a>
+                <a href="#/Init%20from%20String%20literals">
+                  <h3 class="section-name">Init from String literals</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUIntcFMS0_FT20unicodeScalarLiteralSc_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(unicodeScalarLiteral:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUIntcFMS0_FT20unicodeScalarLiteralSc_S0_">init(unicodeScalarLiteral:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">BigUInt</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt.swift#L65-L67">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUIntcFMS0_FT30extendedGraphemeClusterLiteralSS_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(extendedGraphemeClusterLiteral:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUIntcFMS0_FT30extendedGraphemeClusterLiteralSS_S0_">init(extendedGraphemeClusterLiteral:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">BigUInt</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt.swift#L69-L71">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUIntcFMS0_FT13stringLiteralSS_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(stringLiteral:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUIntcFMS0_FT13stringLiteralSS_S0_">init(stringLiteral:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">BigUInt</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt.swift#L73-L75">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/CollectionType"></a>
+                <a name="//apple_ref/swift/Section/CollectionType" class="dashAnchor"></a>
+                <a href="#/CollectionType">
+                  <h3 class="section-name">CollectionType</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV6BigInt7BigUInt5countSi"></a>
+                    <a name="//apple_ref/swift/Property/count" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6BigInt7BigUInt5countSi">count</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The number of digits in this integer, excluding leading zero digits.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">count</span><span class="p">:</span> <span class="kt">Int</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_end</span> <span class="o">-</span> <span class="n">_start</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt.swift#L106">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV6BigInt7BigUInt10startIndexSi"></a>
+                    <a name="//apple_ref/swift/Property/startIndex" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6BigInt7BigUInt10startIndexSi">startIndex</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The index of the first digit, starting from the least significant. (This is always zero.)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">startIndex</span><span class="p">:</span> <span class="kt">Int</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">0</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt.swift#L108">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV6BigInt7BigUInt8endIndexSi"></a>
+                    <a name="//apple_ref/swift/Property/endIndex" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6BigInt7BigUInt8endIndexSi">endIndex</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The index of the digit after the most significant digit in this integer.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">endIndex</span><span class="p">:</span> <span class="kt">Int</span> <span class="p">{</span> <span class="k">return</span> <span class="n">count</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt.swift#L110">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUInt8generateFS0_FT_GVS_14DigitGeneratorVSs6UInt64_"></a>
+                    <a name="//apple_ref/swift/Method/generate()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUInt8generateFS0_FT_GVS_14DigitGeneratorVSs6UInt64_">generate()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Return a generator over the digits of this integer, starting at the least significant digit.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">generate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">DigitGenerator</span><span class="o">&lt;</span><span class="kt">Digit</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt.swift#L113-L115">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Comparison"></a>
+                <a name="//apple_ref/swift/Section/Comparison" class="dashAnchor"></a>
+                <a href="#/Comparison">
+                  <h3 class="section-name">Comparison</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFV6BigInt7BigUInt7compareFMS0_FTS0_S0__OSC18NSComparisonResult"></a>
+                    <a name="//apple_ref/swift/Method/compare(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFV6BigInt7BigUInt7compareFMS0_FTS0_S0__OSC18NSComparisonResult">compare(_:_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Compare <code>a</code> to <code>b</code> and return an <code>NSComparisonResult</code> indicating their order.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">compare</span><span class="p">(</span><span class="nv">a</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">,</span> <span class="n">_</span> <span class="nv">b</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSComparisonResult</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Comparison.swift#L16-L24">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Hashing"></a>
+                <a name="//apple_ref/swift/Section/Hashing" class="dashAnchor"></a>
+                <a href="#/Hashing">
+                  <h3 class="section-name">Hashing</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV6BigInt7BigUInt9hashValueSi"></a>
+                    <a name="//apple_ref/swift/Property/hashValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6BigInt7BigUInt9hashValueSi">hashValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The hash value.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">hashValue</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Hashing.swift#L15-L24">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Radix%20Conversion"></a>
+                <a name="//apple_ref/swift/Section/Radix Conversion" class="dashAnchor"></a>
+                <a href="#/Radix%20Conversion">
+                  <h3 class="section-name">Radix Conversion</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUIntcFMS0_FTSS5radixSi_GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(_:radix:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUIntcFMS0_FTSS5radixSi_GSqS0__">init(_:radix:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialize a big integer from an ASCII representation in a given radix. Numerals above <code>9</code> are represented by
+letters from the English alphabet.</p>
+
+<div class="aside aside-requires">
+    <p class="aside-title">Requires</p>
+    <code>radix &gt; 1 &amp;&amp; radix &lt; 36</code>
+
+</div>
+
+<div class="aside aside-parameter">
+    <p class="aside-title">Parameter</p>
+    Parameter <code>text</code>: A string consisting of characters corresponding to numerals in the given radix. (0-9, a-z, A-Z)
+
+</div>
+
+<div class="aside aside-parameter">
+    <p class="aside-title">Parameter</p>
+    Parameter <code>radix</code>: The base of the number system to use, or 10 if unspecified.
+
+</div>
+
+<div class="aside aside-returns">
+    <p class="aside-title">Returns</p>
+    The integer represented by <code>text</code>, or nil if <code>text</code> contains a character that does not represent a numeral in <code>radix</code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">?(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">radix</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The integer represented by <code>text</code>, or nil if <code>text</code> contains a character that does not represent a numeral in <code>radix</code>.</p>
+
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Radix Conversion.swift#L42-L74">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV6BigInt7BigUInt11descriptionSS"></a>
+                    <a name="//apple_ref/swift/Property/description" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6BigInt7BigUInt11descriptionSS">description</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">BigUInt</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Radix Conversion.swift#L76-L78">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Bitwise%20Operations"></a>
+                <a name="//apple_ref/swift/Section/Bitwise Operations" class="dashAnchor"></a>
+                <a href="#/Bitwise%20Operations">
+                  <h3 class="section-name">Bitwise Operations</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV6BigInt7BigUInt5widthSi"></a>
+                    <a name="//apple_ref/swift/Property/width" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6BigInt7BigUInt5widthSi">width</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The minimum number of bits required to represent this integer in binary.</p>
+
+<div class="aside aside-returns">
+    <p class="aside-title">Returns</p>
+    floor(log2(2 * self + 1))
+
+</div>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(1)
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">width</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>floor(log2(2 * self + 1))</p>
+
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Bitwise Ops.swift#L19-L22">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV6BigInt7BigUInt13leadingZeroesSi"></a>
+                    <a name="//apple_ref/swift/Property/leadingZeroes" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6BigInt7BigUInt13leadingZeroesSi">leadingZeroes</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The number of leading zero bits in the binary representation of this integer in base <code>2^Digit.width</code>.
+This is useful when you need to normalize a <code><a href="../Structs/BigUInt.html">BigUInt</a></code> such that the top bit of its most significant digit is 1.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    0 is considered to have zero leading zero bits.
+
+</div>
+
+<div class="aside aside-returns">
+    <p class="aside-title">Returns</p>
+    A value in <code>0...(Digit.width - 1)</code>.
+
+</div>
+
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    width
+
+</div>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(1)
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">leadingZeroes</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A value in <code>0...(Digit.width - 1)</code>.</p>
+
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Bitwise Ops.swift#L31-L34">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV6BigInt7BigUInt14trailingZeroesSi"></a>
+                    <a name="//apple_ref/swift/Property/trailingZeroes" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6BigInt7BigUInt14trailingZeroesSi">trailingZeroes</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The number of trailing zero bits in the binary representation of this integer.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    0 is considered to have zero trailing zero bits.
+
+</div>
+
+<div class="aside aside-returns">
+    <p class="aside-title">Returns</p>
+    A value in <code>0...width</code>.
+
+</div>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(count)
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">trailingZeroes</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A value in <code>0...width</code>.</p>
+
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Bitwise Ops.swift#L41-L45">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Addition"></a>
+                <a name="//apple_ref/swift/Section/Addition" class="dashAnchor"></a>
+                <a href="#/Addition">
+                  <h3 class="section-name">Addition</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUInt15addDigitInPlaceFRS0_FTVSs6UInt645shiftSi_T_"></a>
+                    <a name="//apple_ref/swift/Method/addDigitInPlace(_:shift:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUInt15addDigitInPlaceFRS0_FTVSs6UInt645shiftSi_T_">addDigitInPlace(_:shift:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Add the digit <code>d</code> to this integer in place.
+<code>d</code> is shifted <code>shift</code> digits to the left before being added.</p>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(max(count, shift))
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">addDigitInPlace</span><span class="p">(</span><span class="nv">d</span><span class="p">:</span> <span class="kt">Digit</span><span class="p">,</span> <span class="nv">shift</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Addition.swift#L18-L29">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUInt8addDigitFS0_FTVSs6UInt645shiftSi_S0_"></a>
+                    <a name="//apple_ref/swift/Method/addDigit(_:shift:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUInt8addDigitFS0_FTVSs6UInt645shiftSi_S0_">addDigit(_:shift:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Add the digit <code>d</code> to this integer and return the result.
+<code>d</code> is shifted <code>shift</code> digits to the left before being added.</p>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(max(count, shift))
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">addDigit</span><span class="p">(</span><span class="nv">d</span><span class="p">:</span> <span class="kt">Digit</span><span class="p">,</span> <span class="nv">shift</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">BigUInt</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Addition.swift#L36-L40">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUInt10addInPlaceFRS0_FTS0_5shiftSi_T_"></a>
+                    <a name="//apple_ref/swift/Method/addInPlace(_:shift:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUInt10addInPlaceFRS0_FTS0_5shiftSi_T_">addInPlace(_:shift:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Add <code>b</code> to this integer in place.
+<code>b</code> is shifted <code>shift</code> digits to the left before being added.</p>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(max(count, b.count + shift))
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">addInPlace</span><span class="p">(</span><span class="nv">b</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">,</span> <span class="nv">shift</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Addition.swift#L46-L65">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUInt3addFS0_FTS0_5shiftSi_S0_"></a>
+                    <a name="//apple_ref/swift/Method/add(_:shift:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUInt3addFS0_FTS0_5shiftSi_S0_">add(_:shift:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Add <code>b</code> to this integer and return the result.
+<code>b</code> is shifted <code>shift</code> digits to the left before being added.</p>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(max(count, b.count + shift))
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span><span class="nv">b</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">,</span> <span class="nv">shift</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">BigUInt</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Addition.swift#L72-L76">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUInt9incrementFRS0_FT5shiftSi_T_"></a>
+                    <a name="//apple_ref/swift/Method/increment(shift:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUInt9incrementFRS0_FT5shiftSi_T_">increment(shift:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Increment this integer by one. If <code>shift</code> is non-zero, it selects
+the digit that is to be incremented.</p>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(count + shift)
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">increment</span><span class="p">(</span><span class="n">shift</span> <span class="nv">shift</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Addition.swift#L82-L84">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Subtraction"></a>
+                <a name="//apple_ref/swift/Section/Subtraction" class="dashAnchor"></a>
+                <a href="#/Subtraction">
+                  <h3 class="section-name">Subtraction</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUInt32subtractDigitInPlaceWithOverflowFRS0_FTVSs6UInt645shiftSi_Sb"></a>
+                    <a name="//apple_ref/swift/Method/subtractDigitInPlaceWithOverflow(_:shift:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUInt32subtractDigitInPlaceWithOverflowFRS0_FTVSs6UInt645shiftSi_Sb">subtractDigitInPlaceWithOverflow(_:shift:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Subtract a digit <code>d</code> from this integer in place, returning a flag that is true if the operation
+caused an arithmetic overflow. <code>d</code> is shifted <code>shift</code> digits to the left before being subtracted.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    If the result is true, then <code>self</code> becomes the two&rsquo;s complement of the absolute difference.
+
+</div>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(count)
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">subtractDigitInPlaceWithOverflow</span><span class="p">(</span><span class="nv">d</span><span class="p">:</span> <span class="kt">Digit</span><span class="p">,</span> <span class="nv">shift</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Subtraction.swift#L20-L32">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUInt25subtractDigitWithOverflowFS0_FTVSs6UInt645shiftSi_TS0_8overflowSb_"></a>
+                    <a name="//apple_ref/swift/Method/subtractDigitWithOverflow(_:shift:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUInt25subtractDigitWithOverflowFS0_FTVSs6UInt645shiftSi_TS0_8overflowSb_">subtractDigitWithOverflow(_:shift:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Subtract a digit <code>d</code> from this integer, returning the difference and a flag that is true if the operation
+caused an arithmetic overflow. <code>d</code> is shifted <code>shift</code> digits to the left before being subtracted.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    If <code>overflow</code> is true, then the returned value is the two&rsquo;s complement of the absolute difference.
+
+</div>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(count)
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">subtractDigitWithOverflow</span><span class="p">(</span><span class="nv">d</span><span class="p">:</span> <span class="kt">Digit</span><span class="p">,</span> <span class="nv">shift</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="kt">BigUInt</span><span class="p">,</span> <span class="nv">overflow</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Subtraction.swift#L40-L44">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUInt20subtractDigitInPlaceFRS0_FTVSs6UInt645shiftSi_T_"></a>
+                    <a name="//apple_ref/swift/Method/subtractDigitInPlace(_:shift:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUInt20subtractDigitInPlaceFRS0_FTVSs6UInt645shiftSi_T_">subtractDigitInPlace(_:shift:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Subtract a digit <code>d</code> from this integer in place.
+<code>d</code> is shifted <code>shift</code> digits to the left before being subtracted.</p>
+
+<div class="aside aside-requires">
+    <p class="aside-title">Requires</p>
+    self &gt;= d * 2^shift
+
+</div>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(count)
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">subtractDigitInPlace</span><span class="p">(</span><span class="nv">d</span><span class="p">:</span> <span class="kt">Digit</span><span class="p">,</span> <span class="nv">shift</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Subtraction.swift#L51-L54">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUInt13subtractDigitFS0_FTVSs6UInt645shiftSi_S0_"></a>
+                    <a name="//apple_ref/swift/Method/subtractDigit(_:shift:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUInt13subtractDigitFS0_FTVSs6UInt645shiftSi_S0_">subtractDigit(_:shift:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Subtract a digit <code>d</code> from this integer and return the result.
+<code>d</code> is shifted <code>shift</code> digits to the left before being subtracted.</p>
+
+<div class="aside aside-requires">
+    <p class="aside-title">Requires</p>
+    self &gt;= d * 2^shift
+
+</div>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(count)
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">subtractDigit</span><span class="p">(</span><span class="nv">d</span><span class="p">:</span> <span class="kt">Digit</span><span class="p">,</span> <span class="nv">shift</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">BigUInt</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Subtraction.swift#L62-L66">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUInt27subtractInPlaceWithOverflowFRS0_FTS0_5shiftSi_Sb"></a>
+                    <a name="//apple_ref/swift/Method/subtractInPlaceWithOverflow(_:shift:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUInt27subtractInPlaceWithOverflowFRS0_FTS0_5shiftSi_Sb">subtractInPlaceWithOverflow(_:shift:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Subtract <code>b</code> from this integer in place, and return true iff the operation caused an
+arithmetic overflow. <code>b</code> is shifted <code>shift</code> digits to the left before being subtracted.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    If the result is true, then <code>self</code> becomes the twos&rsquo; complement of the absolute difference.
+
+</div>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(count)
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">subtractInPlaceWithOverflow</span><span class="p">(</span><span class="nv">b</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">,</span> <span class="nv">shift</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Subtraction.swift#L74-L94">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUInt20subtractWithOverflowFS0_FTS0_5shiftSi_TS0_8overflowSb_"></a>
+                    <a name="//apple_ref/swift/Method/subtractWithOverflow(_:shift:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUInt20subtractWithOverflowFS0_FTS0_5shiftSi_TS0_8overflowSb_">subtractWithOverflow(_:shift:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Subtract <code>b</code> from this integer, returning the difference and a flag that is true if the operation caused an
+arithmetic overflow. <code>b</code> is shifted <code>shift</code> digits to the left before being subtracted.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    If <code>overflow</code> is true, then the result value is the twos&rsquo; complement of the absolute value of the difference.
+
+</div>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(count)
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">subtractWithOverflow</span><span class="p">(</span><span class="nv">b</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">,</span> <span class="nv">shift</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="kt">BigUInt</span><span class="p">,</span> <span class="nv">overflow</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Subtraction.swift#L102-L106">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUInt15subtractInPlaceFRS0_FTS0_5shiftSi_T_"></a>
+                    <a name="//apple_ref/swift/Method/subtractInPlace(_:shift:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUInt15subtractInPlaceFRS0_FTS0_5shiftSi_T_">subtractInPlace(_:shift:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Subtract <code>b</code> from this integer in place.
+<code>b</code> is shifted <code>shift</code> digits to the left before being subtracted.</p>
+
+<div class="aside aside-requires">
+    <p class="aside-title">Requires</p>
+    self &gt;= b * 2^shift
+
+</div>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(count)
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">subtractInPlace</span><span class="p">(</span><span class="nv">b</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">,</span> <span class="nv">shift</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Subtraction.swift#L113-L116">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUInt8subtractFS0_FTS0_5shiftSi_S0_"></a>
+                    <a name="//apple_ref/swift/Method/subtract(_:shift:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUInt8subtractFS0_FTS0_5shiftSi_S0_">subtract(_:shift:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Subtract <code>b</code> from this integer, and return the difference.
+<code>b</code> is shifted <code>shift</code> digits to the left before being subtracted.</p>
+
+<div class="aside aside-requires">
+    <p class="aside-title">Requires</p>
+    self &gt;= b * 2^shift
+
+</div>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(count)
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">subtract</span><span class="p">(</span><span class="nv">b</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">,</span> <span class="nv">shift</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">BigUInt</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Subtraction.swift#L124-L128">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUInt9decrementFRS0_FT5shiftSi_T_"></a>
+                    <a name="//apple_ref/swift/Method/decrement(shift:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUInt9decrementFRS0_FT5shiftSi_T_">decrement(shift:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Decrement this integer by one.</p>
+
+<div class="aside aside-requires">
+    <p class="aside-title">Requires</p>
+    !isZero
+
+</div>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(count)
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">decrement</span><span class="p">(</span><span class="n">shift</span> <span class="nv">shift</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Subtraction.swift#L134-L136">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Multiplication"></a>
+                <a name="//apple_ref/swift/Section/Multiplication" class="dashAnchor"></a>
+                <a href="#/Multiplication">
+                  <h3 class="section-name">Multiplication</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUInt22multiplyInPlaceByDigitFRS0_FVSs6UInt64T_"></a>
+                    <a name="//apple_ref/swift/Method/multiplyInPlaceByDigit(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUInt22multiplyInPlaceByDigitFRS0_FVSs6UInt64T_">multiplyInPlaceByDigit(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Multiply this big integer by a single digit, and store the result in place of the original big integer.</p>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(count)
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">multiplyInPlaceByDigit</span><span class="p">(</span><span class="nv">y</span><span class="p">:</span> <span class="kt">Digit</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Multiplication.swift#L18-L31">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUInt15multiplyByDigitFS0_FVSs6UInt64S0_"></a>
+                    <a name="//apple_ref/swift/Method/multiplyByDigit(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUInt15multiplyByDigitFS0_FVSs6UInt64S0_">multiplyByDigit(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Multiply this big integer by a single digit, and return the result.</p>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(count)
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">multiplyByDigit</span><span class="p">(</span><span class="nv">y</span><span class="p">:</span> <span class="kt">Digit</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">BigUInt</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Multiplication.swift#L37-L41">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUInt21multiplyAndAddInPlaceFRS0_FTS0_VSs6UInt645shiftSi_T_"></a>
+                    <a name="//apple_ref/swift/Method/multiplyAndAddInPlace(_:_:shift:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUInt21multiplyAndAddInPlaceFRS0_FTS0_VSs6UInt645shiftSi_T_">multiplyAndAddInPlace(_:_:shift:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Multiply <code>x</code> by <code>y</code>, and add the result to this integer, optionally shifted <code>shift</code> digits to the left.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    This is the fused multiply/shift/add operation; it is more efficient than doing the components
+individually. (The fused operation doesn&rsquo;t need to allocate space for temporary big integers.)
+
+</div>
+
+<div class="aside aside-returns">
+    <p class="aside-title">Returns</p>
+    <code>self</code> is set to <code>self + (x * y) &lt;&lt; (shift * 2^Digit.width)</code>
+
+</div>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(count)
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">multiplyAndAddInPlace</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">,</span> <span class="n">_</span> <span class="nv">y</span><span class="p">:</span> <span class="kt">Digit</span><span class="p">,</span> <span class="nv">shift</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>self</code> is set to <code>self + (x * y) &lt;&lt; (shift * 2^Digit.width)</code></p>
+
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Multiplication.swift#L49-L76">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvV6BigInt7BigUInt25directMultiplicationLimitSi"></a>
+                    <a name="//apple_ref/swift/Variable/directMultiplicationLimit" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvV6BigInt7BigUInt25directMultiplicationLimitSi">directMultiplicationLimit</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Multiplication switches to an asymptotically better recursive algorithm when arguments have more digits than this limit.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">directMultiplicationLimit</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">1024</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Multiplication.swift#L81">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Division"></a>
+                <a name="//apple_ref/swift/Section/Division" class="dashAnchor"></a>
+                <a href="#/Division">
+                  <h3 class="section-name">Division</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUInt20divideInPlaceByDigitFRS0_FVSs6UInt64S1_"></a>
+                    <a name="//apple_ref/swift/Method/divideInPlaceByDigit(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUInt20divideInPlaceByDigitFRS0_FVSs6UInt64S1_">divideInPlaceByDigit(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Divide this integer by the digit <code>y</code>, leaving the quotient in its place and returning the remainder.</p>
+
+<div class="aside aside-requires">
+    <p class="aside-title">Requires</p>
+    y &gt; 0
+
+</div>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(count)
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">divideInPlaceByDigit</span><span class="p">(</span><span class="nv">y</span><span class="p">:</span> <span class="kt">Digit</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Digit</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Division.swift#L20-L33">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUInt13divideByDigitFS0_FVSs6UInt64T3divS0_3modS1__"></a>
+                    <a name="//apple_ref/swift/Method/divideByDigit(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUInt13divideByDigitFS0_FVSs6UInt64T3divS0_3modS1__">divideByDigit(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Divide this integer by the digit <code>y</code> and return the resulting quotient and remainder.</p>
+
+<div class="aside aside-requires">
+    <p class="aside-title">Requires</p>
+    y &gt; 0
+
+</div>
+
+<div class="aside aside-returns">
+    <p class="aside-title">Returns</p>
+    (div, mod) where div = floor(x/y), mod = x - div * y
+
+</div>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(x.count)
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">divideByDigit</span><span class="p">(</span><span class="nv">y</span><span class="p">:</span> <span class="kt">Digit</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nv">div</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">,</span> <span class="nv">mod</span><span class="p">:</span> <span class="kt">Digit</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>(div, mod) where div = floor(x/y), mod = x - div * y</p>
+
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Division.swift#L41-L45">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUInt6divideFS0_FS0_T3divS0_3modS0__"></a>
+                    <a name="//apple_ref/swift/Method/divide(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUInt6divideFS0_FS0_T3divS0_3modS0__">divide(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Divide this integer by <code>y</code> and return the resulting quotient and remainder.</p>
+
+<div class="aside aside-requires">
+    <p class="aside-title">Requires</p>
+    y &gt; 0
+
+</div>
+
+<div class="aside aside-returns">
+    <p class="aside-title">Returns</p>
+    (div, mod) where div = floor(x/y), mod = x - div * y
+
+</div>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(x.count * y.count)
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">divide</span><span class="p">(</span><span class="nv">y</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nv">div</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">,</span> <span class="nv">mod</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>(div, mod) where div = floor(x/y), mod = x - div * y</p>
+
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Division.swift#L53-L162">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Greatest%20Common%20Divisor"></a>
+                <a name="//apple_ref/swift/Section/Greatest Common Divisor" class="dashAnchor"></a>
+                <a href="#/Greatest%20Common%20Divisor">
+                  <h3 class="section-name">Greatest Common Divisor</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFV6BigInt7BigUInt3gcdFMS0_FTS0_S0__S0_"></a>
+                    <a name="//apple_ref/swift/Method/gcd(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFV6BigInt7BigUInt3gcdFMS0_FTS0_S0__S0_">gcd(_:_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the greatest common divisor of <code>a</code> and <code>b</code>.</p>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(count^2) where count = max(a.count, b.count)
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">gcd</span><span class="p">(</span><span class="nv">a</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">,</span> <span class="n">_</span> <span class="nv">b</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">BigUInt</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt GCD.swift#L18-L35">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Modular%20Exponentiation"></a>
+                <a name="//apple_ref/swift/Section/Modular Exponentiation" class="dashAnchor"></a>
+                <a href="#/Modular%20Exponentiation">
+                  <h3 class="section-name">Modular Exponentiation</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFV6BigInt7BigUInt6powmodFMS0_FTS0_S0_7modulusS0__S0_"></a>
+                    <a name="//apple_ref/swift/Method/powmod(_:_:modulus:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFV6BigInt7BigUInt6powmodFMS0_FTS0_S0_7modulusS0__S0_">powmod(_:_:modulus:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the remainder of <code>base</code> raised to the power <code>exponent</code> under <code>modulus</code>.</p>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(exponent.count * modulus.count^2)
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">powmod</span><span class="p">(</span><span class="nv">base</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">,</span> <span class="n">_</span> <span class="nv">exponent</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">,</span> <span class="nv">modulus</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">BigUInt</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/master/Sources/BigUInt Modular Exponentiation.swift#L18-L32">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2016 <a class="link" href="https://twitter.com/lorentey" target="_blank" rel="external">Károly Lőrentey</a>. All rights reserved. (Last updated: 2016-01-04)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.5.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>
