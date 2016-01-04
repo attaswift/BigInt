@@ -778,4 +778,45 @@ class BigUIntTests: XCTestCase {
         test(BigUInt(0x0102030405060708), [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08])
         test(BigUInt(0x01) << 64 + BigUInt(0x0203040506070809), [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 09])
     }
+
+    func testRandomIntegerWithMaximumWidth() {
+        XCTAssertEqual(BigUInt.randomIntegerWithMaximumWidth(0), 0)
+
+        let randomByte = BigUInt.randomIntegerWithMaximumWidth(8)
+        XCTAssertLessThan(randomByte, 256)
+
+        for _ in 0 ..< 100 {
+            XCTAssertLessThanOrEqual(BigUInt.randomIntegerWithMaximumWidth(1024).width, 1024)
+        }
+
+        // Verify that all widths <= maximum are produced
+        var widths: Set<Int> = [0, 1, 2, 3]
+        var i = 0
+        while !widths.isEmpty {
+            let random = BigUInt.randomIntegerWithMaximumWidth(3)
+            XCTAssertLessThanOrEqual(random.width, 3)
+            widths.remove(random.width)
+            i += 1
+            if i > 4096 {
+                XCTFail("randomIntegerWithMaximumWidth doesn't seem random")
+                break
+            }
+        }
+    }
+
+    func testRandomIntegerWithExactWidth() {
+        XCTAssertEqual(BigUInt.randomIntegerWithExactWidth(0), 0)
+        XCTAssertEqual(BigUInt.randomIntegerWithExactWidth(1), 1)
+
+        for _ in 0 ..< 1024 {
+            let randomByte = BigUInt.randomIntegerWithExactWidth(8)
+            XCTAssertEqual(randomByte.width, 8)
+            XCTAssertLessThan(randomByte, 256)
+            XCTAssertGreaterThanOrEqual(randomByte, 128)
+        }
+
+        for _ in 0 ..< 100 {
+            XCTAssertEqual(BigUInt.randomIntegerWithExactWidth(1024).width, 1024)
+        }
+    }
 }
