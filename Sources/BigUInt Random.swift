@@ -42,4 +42,13 @@ extension BigUInt {
         result[(width - 1) / Digit.width] |= 1 << Digit((width - 1) % Digit.width)
         return result
     }
+
+    @warn_unused_result
+    public static func randomIntegerWithLimit(limit: BigUInt) -> BigUInt {
+        let width = limit.width
+        while true {
+            let random = randomIntegerWithMaximumWidth(width)
+            if random < limit { return random }
+        }
+    }
 }
