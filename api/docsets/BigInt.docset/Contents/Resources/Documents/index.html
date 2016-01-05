@@ -19,7 +19,7 @@
         <a class="header-link" href="index.html">
           BigInt Docs
         </a>
-         (70% documented)
+         (100% documented)
       </p>
     
         <p class="header-col header-col--secondary">
@@ -201,8 +201,28 @@
             
             <a href='#bigint' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h1 id='bigint'>BigInt</h1>
 
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#api">API Documentation</a></li>
+<li><a href="#license">License</a></li>
+<li><a href="#notes">Implementation Notes</a>
+
+<ul>
+<li><a href="#fullwidth">Full-width multiplication and division primitives</a></li>
+<li><a href="#generics">Why is there no generic <code>BigInt&lt;Digit&gt;</code> type?</a></li>
+</ul></li>
+<li><a href="#samples">Calculation Samples</a>
+
+<ul>
+<li><a href="#factorial">Obligatory factorial demo</a></li>
+<li><a href="#rsa">RSA Cryptography</a></li>
+<li><a href="#pi">Calculating the Digits of π</a></li>
+</ul></li>
+</ul>
+<a href='#a_name_overview_overview_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='a_name_overview_overview_a'><a name="overview">Overview</a></h2>
+
 <p>This repository provides <a href="https://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic">integer types of arbitrary width</a> implemented
-in pure Swift. The representation is in base 2^64, using <code>Array&lt;UInt64&gt;</code>.</p>
+in 100% pure Swift. The underlying representation is in base 2^64, using <code>Array&lt;UInt64&gt;</code>.</p>
 
 <p>This module is handy when you need an integer type that&rsquo;s wider than <code>UIntMax</code>, but 
 you don&rsquo;t want to add <a href="https://gmplib.org">The GNU Multiple Precision Arithmetic Library</a> 
@@ -229,7 +249,8 @@ shifting the digits of the second operand on the fly.</li>
 (This limit is configurable, see <code>BigUInt.directMultiplicationLimit</code>.)</li>
 <li>A <a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUInt21multiplyAndAddInPlaceFRS0_FTS0_VSs6UInt645shiftSi_T_">fused multiply-add</a> method is also available, along with other <a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Multiplication">special-case variants</a>.</li>
 <li>Division uses Knuth&rsquo;s Algorithm D, with its 3/2 digits wide quotient approximation. 
-It will trap when the divisor is zero. <code>BigUInt.divmod</code> returns the quotient and
+It will trap when the divisor is zero.</li>
+<li><a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUInt6divideFS0_FS0_T3divS0_3modS0__"><code>BigUInt.divide</code></a> returns the quotient and
 remainder at once; this is faster than calculating them separately.</li>
 </ul></li>
 <li><p><a href="http://lorentey.github.io/BigInt/api/Functions.html#/Bitwise%20Operators">Bitwise operators</a>: <code>~</code>, <code>|</code>, <code>&amp;</code>, <code>^</code>, <code>|=</code>, <code>&amp;=</code>, <code>^=</code>, plus the following read-only properties:</p>
@@ -240,6 +261,8 @@ remainder at once; this is faster than calculating them separately.</li>
 <li><a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:vV6BigInt7BigUInt13leadingZeroesSi"><code>leadingZeroes</code></a>: the number of leading zero bits (when the last digit isn&rsquo;t full),</li>
 </ul></li>
 <li><p><a href="http://lorentey.github.io/BigInt/api/Functions.html#/Shift%20Operators">Shift operators</a>: <code>&gt;&gt;</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;=</code>, <code>&lt;&lt;=</code></p></li>
+<li><p>Methods to <a href="http://lorentey.github.io/BigInt/gh-pages/api/Structs/BigUInt.html#/NSData%20Conversion">convert <code>NSData</code> to big integers</a> and vice versa.</p></li>
+<li><p>Support for <a href="http://lorentey.github.io/BigInt/gh-pages/api/Structs/BigUInt.html#/Random%20Integers">generating random integers</a> of specified maximum width or magnitude.</p></li>
 <li><p>Radix conversion to/from <a href="http://lorentey.github.io/BigInt/api/Extensions/String.html#/s:FE6BigIntSScFMSSFTVS_7BigUInt5radixSi9uppercaseSb_SS"><code>String</code>s</a> and <a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUIntcFMS0_FTSS5radixSi_GSqS0__">big integers</a> up to base 36 (using repeated divisions).</p>
 
 <ul>
@@ -248,36 +271,48 @@ remainder at once; this is faster than calculating them separately.</li>
 <li><p><a href="http://lorentey.github.io/BigInt/api/Functions.html#/s:F6BigInt4sqrtFVS_7BigUIntS0_"><code>sqrt(n)</code></a>: The square root of an integer (using Newton&rsquo;s method).</p></li>
 <li><p><a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:ZFV6BigInt7BigUInt3gcdFMS0_FTS0_S0__S0_"><code>BigUInt.gcd(n, m)</code></a>: The greatest common divisor of two integers (Stein&rsquo;s algorithm).</p></li>
 <li><p><a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:ZFV6BigInt7BigUInt6powmodFMS0_FTS0_S0_7modulusS0__S0_"><code>BigUInt.powmod(base, exponent, modulus)</code></a>: Modular exponentiation (right-to-left binary method).</p></li>
+<li><p><a href="http://lorentey.github.io/BigInt/gh-pages/api/Structs/BigUInt.html#/s:FV6BigInt7BigUInt7inverseFS0_FS0_GSqS0__"><code>BigUInt.inverse(modulus)</code></a>: Multiplicative inverse in modulo arithmetic (extended Euclidean algorithm).</p></li>
+<li><p><a href="http://lorentey.github.io/BigInt/gh-pages/api/Structs/BigUInt.html#/Primality%20Testing"><code>BigUInt.isPrime()</code></a>: Miller–Rabin primality test.</p></li>
 </ul>
 
 <p>The implementations are intended to be reasonably efficient, but they are unlikely to be
 competitive with GMP at all, even when I happened to implement an algorithm with same asymptotic
 behavior as GMP. (I haven&rsquo;t performed a comparison benchmark, though.)</p>
 
-<p>The library has 100% unit test coverage.</p>
-<a href='#api_documentation' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='api_documentation'>API Documentation</h2>
+<p>The library has 100% unit test coverage. Sadly this does not imply that there are no bugs
+in it.</p>
+<a href='#a_name_api_api_documentation_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='a_name_api_api_documentation_a'><a name="api">API Documentation</a></h2>
 
 <p>Generated API docs are available at <a href="http://lorentey.github.io/BigInt/api">http://lorentey.github.io/BigInt/api</a>.</p>
-<a href='#implementation_notes' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='implementation_notes'>Implementation notes</h2>
+<a href='#a_name_license_license_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='a_name_license_license_a'><a name="license">License</a></h2>
 
-<p>I haven&rsquo;t found (64,64)-&gt;128 multiplication or (128,64)-&gt;64 division operations in Swift, so 
-the module has implementations for those in terms of the standard single-width <code>*</code> and <code>/</code> 
-operators. (I suspect there are LLVM intrinsics for double-width arithmetics that are probably
-accessible somehow, though.) This sounds slow, but 64-bit digits are still considerably faster
-than 32-bit, even though the latter can use direct 64-bit arithmetic to implement these primitives.</p>
+<p>BigInt can be used, distributed and modified under <a href="https://github.com/lorentey/BigInt/blob/master/LICENSE.md">the MIT license</a>.</p>
+<a href='#a_name_notes_implementation_notes_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='a_name_notes_implementation_notes_a'><a name="notes">Implementation notes</a></h2>
 
-<p><a href="http://lorentey.github.io/BigInt/api/Structs/BigInt.html"><code>BigInt</code></a> consists of an <a href="http://lorentey.github.io/BigInt/api/Structs/BigInt.html#/s:vV6BigInt6BigInt3absVS_7BigUInt">absolute value</a> and a <a href="http://lorentey.github.io/BigInt/api/Structs/BigInt.html#/s:vV6BigInt6BigInt8negativeSb">sign bit</a>, both of which are accessible as public read-write properties. </p>
+<p><a href="http://lorentey.github.io/BigInt/api/Structs/BigInt.html"><code>BigInt</code></a> is just a tiny wrapper around a <code>BigUInt</code> <a href="http://lorentey.github.io/BigInt/api/Structs/BigInt.html#/s:vV6BigInt6BigInt3absVS_7BigUInt">absolute value</a> and a 
+<a href="http://lorentey.github.io/BigInt/api/Structs/BigInt.html#/s:vV6BigInt6BigInt8negativeSb">sign bit</a>, both of which are accessible as public read-write properties. </p>
 
 <p><a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html"><code>BigUInt</code></a> is a <code>MutableCollectionType</code> of its 64-bit digits, with the least significant 
 digit at index 0. As a convenience, <a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html"><code>BigUInt</code></a> allows you to subscript it with indexes at
-or above its <code>count</code>. <a href="https://github.com/lorentey/BigInt/blob/master/Sources/BigUInt.swift#L127-L150">The subscript operator</a> returns 0 for out-of-bound <code>get</code>s and
+or above its <code>count</code>. <a href="https://github.com/lorentey/BigInt/blob/v1.0.0/Sources/BigUInt.swift#L127-L150">The subscript operator</a> returns 0 for out-of-bound <code>get</code>s and
 automatically extends the array on out-of-bound <code>set</code>s. This makes memory management simpler.</p>
-<a href='#why_is_there_no_generic_code_bigint_lt_digit_gt_code_type' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='why_is_there_no_generic_code_bigint_lt_digit_gt_code_type'>Why is there no generic <code>BigInt&lt;Digit&gt;</code> type?</h2>
+<a href='#a_name_fullwidth_full_width_multiplication_and_division_primitives_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='a_name_fullwidth_full_width_multiplication_and_division_primitives_a'><a name="fullwidth">Full-width multiplication and division primitives</a></h3>
 
-<p>The types provided by <code>BigInt</code> are not parametric&mdash;this is very much intentional, as 
+<p>I haven&rsquo;t found (64,64)-&gt;128 multiplication or (128,64)-&gt;64 division operations
+in Swift, so <a href="https://github.com/lorentey/BigInt/blob/v1.0.0/Sources/BigDigit.swift#L104-L177">the module has generic implementations for them</a> in terms of the standard
+single-width <code>*</code> and <code>/</code> operators. I suspect there are LLVM intrinsics for full-width 
+arithmetics that are probably accessible somehow, though. (<a href="https://twitter.com/lorentey">Let me know</a> if you know how!)</p>
+
+<p>This sounds slow, but 64-bit digits are
+still considerably faster than 32-bit, even though the latter can use direct 64-bit arithmetic to
+implement these primitives.</p>
+<a href='#a_name_generics_why_is_there_no_generic_code_bigint_lt_digit_gt_code_type_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='a_name_generics_why_is_there_no_generic_code_bigint_lt_digit_gt_code_type_a'><a name="generics">Why is there no generic <code>BigInt&lt;Digit&gt;</code> type?</a></h3>
+
+<p>The types provided by <code>BigInt</code> are not parametric—this is very much intentional, as 
 Swift 2.2.1 generics cost us dearly at runtime in this use case. In every approach I tried,
 making arbitrary-precision arithmetic operations work with a generic <code>Digit</code> type parameter 
-resulted in code that was literally <em>ten times slower</em>.</p>
+resulted in code that was literally <em>ten times slower</em>. If you can make the algorithms generic
+without such a huge performance hit, <a href="https://twitter.com/lorentey">please enlighten me</a>!</p>
 
 <p>This is an area that I plan to investigate more, as it would be useful to have generic
 implementations for arbitrary-width arithmetic operations. (Polynomial division and decimal bases
@@ -287,7 +322,10 @@ performance. Unfortunately, the same is not true for <code>BigUInt</code>&rsquo;
 
 <p>Of course, as a last resort, we could just duplicate the code to create a separate
 generic variant that was slower but more flexible.</p>
-<a href='#obligatory_demonstration_with_a_factorial_function' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='obligatory_demonstration_with_a_factorial_function'>Obligatory demonstration with a factorial function</h2>
+<a href='#a_name_samples_calculation_samples_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='a_name_samples_calculation_samples_a'><a name="samples">Calculation Samples</a></h2>
+<a href='#a_name_factorial_obligatory_factorial_demo_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='a_name_factorial_obligatory_factorial_demo_a'><a name="factorial">Obligatory Factorial Demo</a></h3>
+
+<p>It is easy to use <code>BigInt</code> to calculate the factorial function for any integer:</p>
 <pre class="highlight plaintext"><code>import BigInt
 
 func factorial(n: Int) -&gt; BigInt {
@@ -300,47 +338,203 @@ func factorial(n: Int) -&gt; BigInt {
 }
 
 print(factorial(10))
-362880
+==&gt; 362880
 
 print(factorial(100))
-93326215443944152681699238856266700490715968264381621468592963895217599993229915
-6089414639761565182862536979208272237582511852109168640000000000000000000000
+==&gt; 93326215443944152681699238856266700490715968264381621468592963895217599993229915
+    6089414639761565182862536979208272237582511852109168640000000000000000000000
 
 print(factorial(1000))
-40238726007709377354370243392300398571937486421071463254379991042993851239862902
-05920442084869694048004799886101971960586316668729948085589013238296699445909974
-24504087073759918823627727188732519779505950995276120874975462497043601418278094
-64649629105639388743788648733711918104582578364784997701247663288983595573543251
-31853239584630755574091142624174743493475534286465766116677973966688202912073791
-43853719588249808126867838374559731746136085379534524221586593201928090878297308
-43139284440328123155861103697680135730421616874760967587134831202547858932076716
-91324484262361314125087802080002616831510273418279777047846358681701643650241536
-91398281264810213092761244896359928705114964975419909342221566832572080821333186
-11681155361583654698404670897560290095053761647584772842188967964624494516076535
-34081989013854424879849599533191017233555566021394503997362807501378376153071277
-61926849034352625200015888535147331611702103968175921510907788019393178114194545
-25722386554146106289218796022383897147608850627686296714667469756291123408243920
-81601537808898939645182632436716167621791689097799119037540312746222899880051954
-44414282012187361745992642956581746628302955570299024324153181617210465832036786
-90611726015878352075151628422554026517048330422614397428693306169089796848259012
-54583271682264580665267699586526822728070757813918581788896522081643483448259932
-66043367660176999612831860788386150279465955131156552036093988180612138558600301
-43569452722420634463179746059468257310379008402443243846565724501440282188525247
-09351906209290231364932734975655139587205596542287497740114133469627154228458623
-77387538230483865688976461927383814900140767310446640259899490222221765904339901
-88601856652648506179970235619389701786004081188972991831102117122984590164192106
-88843871218556461249607987229085192968193723886426148396573822911231250241866493
-53143970137428531926649875337218940694281434118520158014123344828015051399694290
-15348307764456909907315243327828826986460278986432113908350621709500259738986355
-42771967428222487575867657523442202075736305694988250879689281627538488633969099
-59826280956121450994871701244516461260379029309120889086942028510640182154399457
-15680594187274899809425474217358240106367740459574178516082923013535808184009699
-63725242305608559037006242712434169090041536901059339838357779394109700277534720
-00000000000000000000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000000000000000000000000000000000000000000000
-00000
+==&gt; 40238726007709377354370243392300398571937486421071463254379991042993851239862902
+    05920442084869694048004799886101971960586316668729948085589013238296699445909974
+    24504087073759918823627727188732519779505950995276120874975462497043601418278094
+    64649629105639388743788648733711918104582578364784997701247663288983595573543251
+    31853239584630755574091142624174743493475534286465766116677973966688202912073791
+    43853719588249808126867838374559731746136085379534524221586593201928090878297308
+    43139284440328123155861103697680135730421616874760967587134831202547858932076716
+    91324484262361314125087802080002616831510273418279777047846358681701643650241536
+    91398281264810213092761244896359928705114964975419909342221566832572080821333186
+    11681155361583654698404670897560290095053761647584772842188967964624494516076535
+    34081989013854424879849599533191017233555566021394503997362807501378376153071277
+    61926849034352625200015888535147331611702103968175921510907788019393178114194545
+    25722386554146106289218796022383897147608850627686296714667469756291123408243920
+    81601537808898939645182632436716167621791689097799119037540312746222899880051954
+    44414282012187361745992642956581746628302955570299024324153181617210465832036786
+    90611726015878352075151628422554026517048330422614397428693306169089796848259012
+    54583271682264580665267699586526822728070757813918581788896522081643483448259932
+    66043367660176999612831860788386150279465955131156552036093988180612138558600301
+    43569452722420634463179746059468257310379008402443243846565724501440282188525247
+    09351906209290231364932734975655139587205596542287497740114133469627154228458623
+    77387538230483865688976461927383814900140767310446640259899490222221765904339901
+    88601856652648506179970235619389701786004081188972991831102117122984590164192106
+    88843871218556461249607987229085192968193723886426148396573822911231250241866493
+    53143970137428531926649875337218940694281434118520158014123344828015051399694290
+    15348307764456909907315243327828826986460278986432113908350621709500259738986355
+    42771967428222487575867657523442202075736305694988250879689281627538488633969099
+    59826280956121450994871701244516461260379029309120889086942028510640182154399457
+    15680594187274899809425474217358240106367740459574178516082923013535808184009699
+    63725242305608559037006242712434169090041536901059339838357779394109700277534720
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000
 </code></pre>
+
+<p>Well, I guess that&rsquo;s all right, but it&rsquo;s not very interesting. Let&rsquo;s try something more useful.</p>
+<a href='#a_name_rsa_rsa_cryptography_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='a_name_rsa_rsa_cryptography_a'><a name="rsa">RSA Cryptography</a></h3>
+
+<p>The <code>BigInt</code> module provides all necessary parts to implement an (overly)
+simple <a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)">RSA cryptography system</a>.</p>
+
+<p>Let&rsquo;s start with a simple function that generates a random n-bit prime. The module 
+includes a function to generate random integers of a specific size, and also an 
+<code>isPrime</code> method that performs the Miller–Rabin primality test. These are all we need:</p>
+<pre class="highlight plaintext"><code>func generatePrime(width: Int) -&gt; BigUInt {
+    while true {
+        var random = BigUInt.randomIntegerWithExactWidth(width)
+        random |= BigUInt(1)
+        if random.isPrime() {
+            return random
+        }
+    }
+}
+
+let p = generatePrime(1024)
+==&gt; 13308187650642192396256419911012544845370493728424936791561478318443071617242872
+    81980956747087187419914435169914161116601678883358611076800743580556055714173922
+    08406194264346635072293912609713085260354070700055888678514690878149253177960273
+    775659537560220378850112471985434373425534121373466492101182463962031
+
+let q = generatePrime(1024)
+==&gt; 17072954422657145489547308812333368925007949054501204983863958355897172093173783
+    10108226596943999553784252564650624766276133157586733504784616138305701168410157
+    80784336308507083874651158029602582993233111593356512531869546706885170044355115
+    669728424124141763799008880327106952436883614887277350838425336156327
+</code></pre>
+
+<p>Cool! Now that we have two large primes, we can produce an RSA public/private keypair
+out of them.</p>
+<pre class="highlight plaintext"><code>typealias Key = (modulus: BigUInt, exponent: BigUInt)
+
+let n = p * q
+==&gt; 22721008120758282530010953362926306641542233757318103044313144976976529789946696
+    15454966720907712515917481418981591379647635391260569349099666410127279690367978
+    81184375533755888994370640857883754985364288413796100527262763202679037134021810
+    57933883525572232242690805678883227791774442041516929419640051653934584376704034
+    63953169772816907280591934423237977258358097846511079947337857778137177570668391
+    57455417707100275487770399281417352829897118140972240757708561027087217205975220
+    02207275447810167397968435583004676293892340103729490987263776871467057582629588
+    916498579594964478080508868267360515953225283461208420137
+
+let e: BigUInt = 65537
+let phi = (p - 1) * (q - 1)
+let d = e.inverse(phi)!     // d * e % phi == 1
+==&gt; 13964664343869014759736350480776837992604500903989703383202366291905558996277719
+    77822086142456362972689566985925179681282432115598451765899180050962461295573831
+    37069237934291884106584820998146965085531433195106686745474222222620986858696591
+    69836532468835154412554521152103642453158895363417640676611704542784576974374954
+    45789456921660619938185093118762690200980720312508614337759620606992462563490422
+    76669559556568917533268479190948959560397579572761529852891246283539604545691244
+    89999692877158676643042118662613875863504016129837099223040687512684532694527109
+    80742873307409704484365002175294665608486688146261327793
+
+let publicKey: Key = (n, e)
+let privateKey: Key = (n, d)
+</code></pre>
+
+<p>In RSA, modular exponentiation is used to encrypt (and decrypt) messages.</p>
+<pre class="highlight plaintext"><code>func encrypt(message: BigUInt, key: Key) -&gt; BigUInt {
+    return BigUInt.powmod(message, key.exponent, modulus: key.modulus)
+}
+</code></pre>
+
+<p>Let&rsquo;s try out our new keypair by converting a string into UTF-8, interpreting
+the resulting binary representation as a big integer, and encrypting it with the
+public key. <code>BigUInt</code> has an initializer that takes an <code>NSData</code>, so this is pretty 
+easy to do:</p>
+<pre class="highlight plaintext"><code>let secret: BigUInt = BigUInt("Arbitrary precision arithmetic is fun!".dataUsingEncoding(NSUTF8StringEncoding)!)
+==&gt; 83323446846105976078466731524728681905293067701804838925389198929123912971229457
+    68818568737
+
+let cyphertext = encrypt(secret, key: publicKey)
+==&gt; 95186982543485985200666516508066093880038842892337880561554910904277290917831453
+    54854954722744805432145474047391353716305176389470779020645959135298322520888633
+    61674945129099575943384767330342554525120384485469428048962027149169876127890306
+    77028183904699491962050888974524603226290836984166164759586952419343589385279641
+    47999991283152843977988979846238236160274201261075188190509539751990119132013021
+    74866638595734222867005089157198503204192264814750832072844208520394603054901706
+    06024394731371973402595826456435944968439153664617188570808940022471990638468783
+    49208193955207336172861151720299024935127021719852700882
+</code></pre>
+
+<p>Well, it looks encrypted all right, but can we get the original message back? 
+In theory, encrypting the cyphertext with the private key returns the cleartext.
+Let&rsquo;s see:</p>
+<pre class="highlight plaintext"><code>let plaintext = encrypt(cyphertext, key: privateKey)
+==&gt; 83323446846105976078466731524728681905293067701804838925389198929123912971229457
+    68818568737
+
+let received = String(data: plaintext.serialize(), encoding: NSUTF8StringEncoding)
+==&gt; "Arbitrary precision arithmetic is fun!"
+</code></pre>
+
+<p>Yay! This is truly terrific, but please don&rsquo;t use this example code in an actual 
+cryptography system. RSA has lots of subtle (and some not so subtle) complications
+that we ignored to keep this example short.</p>
+<a href='#a_name_pi_calculating_the_digits_of_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='a_name_pi_calculating_the_digits_of_a'><a name="pi">Calculating the Digits of π</a></h3>
+
+<p>Another fun activity to try with <code>BigInt</code>s is to generate the digits of π.
+Let&rsquo;s try implementing <a href="http://www.cs.ox.ac.uk/jeremy.gibbons/publications/spigot.pdf">Jeremy Gibbon&rsquo;s spigot algorithm</a>. 
+This is a rather slow algorithm as π-generators go, but it makes up for it with its grooviness
+factor: it&rsquo;s remarkably short, it only uses (big) integer arithmetic, and every iteration
+produces a single new digit in the base-10 representation of π. This naturally leads to an
+implementation as an infinite <code>GeneratorType</code>:</p>
+<pre class="highlight plaintext"><code>func digitsOfPi() -&gt; AnyGenerator&lt;Int&gt; {
+    var q: BigUInt = 1
+    var r: BigUInt = 180
+    var t: BigUInt = 60
+    var i: UInt64 = 2 // Does not overflow until digit #826_566_842
+    return anyGenerator {
+        let u: UInt64 = 3 * (3 * i + 1) * (3 * i + 2)
+        let y = (q.multiplyByDigit(27 * i - 12) + 5 * r) / (5 * t)
+        (q, r, t) = (
+            10 * q.multiplyByDigit(i * (2 * i - 1)),
+            10 * (q.multiplyByDigit(5 * i - 2) + r - y * t).multiplyByDigit(u),
+            t.multiplyByDigit(u))
+        i += 1
+        return Int(y[0])
+    }
+}
+</code></pre>
+
+<p>Well, that was surprisingly easy. But does it work? Of course it does!</p>
+<pre class="highlight plaintext"><code>var digits = "π ≈ "
+var count = 0
+for digit in digitsOfPi() {
+    assert(digit &lt; 10)
+    digits += String(digit)
+    count += 1
+    if count == 1 { digits += "." }
+    if count == 1000 { break }
+}
+
+digits
+==&gt; π ≈ 3.14159265358979323846264338327950288419716939937510582097494459230781640628
+    62089986280348253421170679821480865132823066470938446095505822317253594081284811
+    17450284102701938521105559644622948954930381964428810975665933446128475648233786
+    78316527120190914564856692346034861045432664821339360726024914127372458700660631
+    55881748815209209628292540917153643678925903600113305305488204665213841469519415
+    11609433057270365759591953092186117381932611793105118548074462379962749567351885
+    75272489122793818301194912983367336244065664308602139494639522473719070217986094
+    37027705392171762931767523846748184676694051320005681271452635608277857713427577
+    89609173637178721468440901224953430146549585371050792279689258923542019956112129
+    02196086403441815981362977477130996051870721134999999837297804995105973173281609
+    63185950244594553469083026425223082533446850352619311881710100031378387528865875
+    33208381420617177669147303598253490428755468731159562863882353787593751957781857
+    780532171226806613001927876611195909216420198
+</code></pre>
+
+<p>Now go and have some fun with big integers on your own!</p>
 
           </div>
         </section>
@@ -349,7 +543,7 @@ print(factorial(1000))
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2016 <a class="link" href="https://twitter.com/lorentey" target="_blank" rel="external">Károly Lőrentey</a>. All rights reserved. (Last updated: 2016-01-04)</p>
+      <p>&copy; 2016 <a class="link" href="https://twitter.com/lorentey" target="_blank" rel="external">Károly Lőrentey</a>. All rights reserved. (Last updated: 2016-01-05)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.5.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

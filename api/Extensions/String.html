@@ -20,7 +20,7 @@
         <a class="header-link" href="../index.html">
           BigInt Docs
         </a>
-         (70% documented)
+         (100% documented)
       </p>
     
         <p class="header-col header-col--secondary">
@@ -227,19 +227,25 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Initialize a new string with the base-10 representation of an unsigned big integer.</p>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(v.count^2)
+
+</div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">struct</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">v</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">)</span> <span class="p">{</span> <span class="k">self</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nv">radix</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="nv">uppercase</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/v1.0.0/Sources/BigUInt Radix Conversion.swift#L0">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/960eabecd7669719ada51cf2a46a11d6039a27cb/Sources/BigUInt Radix Conversion.swift#L86">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -257,7 +263,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Create an instance representing v in the given radix (base).</p>
+                        <p>Initialize a new string representing an unsigned big integer in the given radix (base).</p>
 
 <p>Numerals greater than 9 are represented as letters from the English alphabet,
 starting with <code>a</code> if <code>uppercase</code> is false or <code>A</code> otherwise.</p>
@@ -284,7 +290,7 @@ starting with <code>a</code> if <code>uppercase</code> is false or <code>A</code
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/v1.0.0/Sources/BigUInt Radix Conversion.swift#L91-L123">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/960eabecd7669719ada51cf2a46a11d6039a27cb/Sources/BigUInt Radix Conversion.swift#L95-L127">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -306,19 +312,34 @@ starting with <code>a</code> if <code>uppercase</code> is false or <code>A</code
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Initialize a new string representing a signed big integer in the given radix (base).</p>
+
+<p>Numerals greater than 9 are represented as letters from the English alphabet,
+starting with <code>a</code> if <code>uppercase</code> is false or <code>A</code> otherwise.</p>
+
+<div class="aside aside-requires">
+    <p class="aside-title">Requires</p>
+    radix &gt; 1 &amp;&amp; radix &lt;= 36
+
+</div>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(count) when radix is a power of two; otherwise O(count^2).
+
+</div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">struct</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">BigInt</span><span class="p">,</span> <span class="nv">radix</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="nv">uppercase</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/v1.0.0/Sources/BigInt.swift#L59-L64">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/960eabecd7669719ada51cf2a46a11d6039a27cb/Sources/BigInt.swift#L84-L89">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -331,7 +352,7 @@ starting with <code>a</code> if <code>uppercase</code> is false or <code>A</code
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2016 <a class="link" href="https://twitter.com/lorentey" target="_blank" rel="external">Károly Lőrentey</a>. All rights reserved. (Last updated: 2016-01-04)</p>
+      <p>&copy; 2016 <a class="link" href="https://twitter.com/lorentey" target="_blank" rel="external">Károly Lőrentey</a>. All rights reserved. (Last updated: 2016-01-05)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.5.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
