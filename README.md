@@ -219,7 +219,7 @@ print(factorial(1000))
 
 ### <a name="rsa">RSA Cryptography</a>
 
-The `BigInt` module provides all necessary parts to implement an (overly!)
+The `BigInt` module provides all necessary parts to implement an (overly)
 simplistic RSA cryptography system.
 
 Let's start with a simple function that generates a random n-bit prime. The module 
@@ -322,7 +322,7 @@ let received = String(data: plaintext.serialize(), encoding: NSUTF8StringEncodin
 ==> "Arbitrary precision arithmetic is fun!"
 ```
 
-While this is really awesome, please don't use this example code for an actual 
+While this is really awesome, please don't use this example code in an actual 
 cryptography system. RSA has lots of subtle (and not so subtle) complexities that 
 we ignored to keep this example short.
 
