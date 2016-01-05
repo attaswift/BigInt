@@ -1,5 +1,18 @@
 # BigInt
 
+* [Overview](#overview)
+* [API Documentation](#api)
+* [License](#license)
+* [Implementation Notes](#notes)
+    * [Full-width multiplication and division primitives](#fullwidth)
+    * [Why is there no generic `BigInt<Digit>` type?](#generics)
+* [Calculation Samples](#samples)
+	* [Obligatory factorial demo](#factorial)
+	* [RSA Cryptography](#rsa)
+	* [Calculating the Digits of π](#pi)
+
+## <a name="overview">Overview</a>
+
 This repository provides [integer types of arbitrary width][wiki] implemented
 in 100% pure Swift. The underlying representation is in base 2^64, using `Array<UInt64>`.
                                                                   
@@ -41,9 +54,9 @@ big integers, including
 
 - [Shift operators][shift]: `>>`, `<<`, `>>=`, `<<=`
 
-- Methods to convert `NSData` to big integers and vice versa.
+- Methods to [convert `NSData` to big integers][data] and vice versa.
 
-- Support for generating random integers of specified maximum width or magnitude.
+- Support for [generating random integers][random] of specified maximum width or magnitude.
 
 - Radix conversion to/from [`String`s][radix1] and [big integers][radix2] up to base 36 (using repeated divisions).
   - Big integers use this to implement `StringLiteralConvertible` (in base 10).
@@ -54,24 +67,24 @@ big integers, including
   
 - [`BigUInt.powmod(base, exponent, modulus)`][powmod]: Modular exponentiation (right-to-left binary method).
 - [`BigUInt.inverse(modulus)`][inverse]: Multiplicative inverse in modulo arithmetic (extended Euclidean algorithm).
-- [`BigUInt.isPrime()`][prime]: Miller–Rabin primality test
+- [`BigUInt.isPrime()`][prime]: Miller–Rabin primality test.
 
 The implementations are intended to be reasonably efficient, but they are unlikely to be
 competitive with GMP at all, even when I happened to implement an algorithm with same asymptotic
 behavior as GMP. (I haven't performed a comparison benchmark, though.)
 
-The library has 100% unit test coverage. (But sadly this does not imply that there are no bugs
-in it.)
+The library has 100% unit test coverage. Sadly this does not imply that there are no bugs
+in it.
 
-## API Documentation
+## <a name="api">API Documentation</a>
 
 Generated API docs are available at http://lorentey.github.io/BigInt/api.
 
-## License
+## <a name="license">License</a>
 
 BigInt can be used, distributed and modified under [the MIT license][license].
 
-## Implementation notes
+## <a name="notes">Implementation notes</a>
 
 [`BigInt`][BigInt] is just a tiny wrapper around a `BigUInt` [absolute value][abs] and a 
 [sign bit][negative], both of which are accessible as public read-write properties. 
@@ -81,7 +94,7 @@ digit at index 0. As a convenience, [`BigUInt`][BigUInt] allows you to subscript
 or above its `count`. [The subscript operator][subscript] returns 0 for out-of-bound `get`s and
 automatically extends the array on out-of-bound `set`s. This makes memory management simpler.
 
-### How does the module implement double-width multiplication and division? 
+### <a name="fullwidth">Full-width multiplication and division primitives</a>
 
 I haven't found (64,64)->128 multiplication or (128,64)->64 division operations
 in Swift, so [the module has generic implementations for them][fullmuldiv] in terms of the standard
@@ -94,13 +107,13 @@ implement these primitives.
 
 [fullmuldiv]: https://github.com/lorentey/BigInt/blob/v1.0.0/Sources/BigDigit.swift#L104-L177
 
-### Why is there no generic `BigInt<Digit>` type?
+### <a name="generics">Why is there no generic `BigInt<Digit>` type?</a>
 
 The types provided by `BigInt` are not parametric—this is very much intentional, as 
 Swift 2.2.1 generics cost us dearly at runtime in this use case. In every approach I tried,
 making arbitrary-precision arithmetic operations work with a generic `Digit` type parameter 
 resulted in code that was literally *ten times slower*. If you can make the algorithms generic
-without affecting performance, [please enlighten me][twitter]!
+without such a huge performance hit, [please enlighten me][twitter]!
 
 This is an area that I plan to investigate more, as it would be useful to have generic
 implementations for arbitrary-width arithmetic operations. (Polynomial division and decimal bases
@@ -129,21 +142,23 @@ generic variant that was slower but more flexible.
 [leadingZeroes]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:vV6BigInt7BigUInt13leadingZeroesSi
 [trailingZeroes]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:vV6BigInt7BigUInt14trailingZeroesSi
 [shift]: http://lorentey.github.io/BigInt/api/Functions.html#/Shift%20Operators
+[data]: http://lorentey.github.io/BigInt/gh-pages/api/Structs/BigUInt.html#/NSData%20Conversion
+[random]: http://lorentey.github.io/BigInt/gh-pages/api/Structs/BigUInt.html#/Random%20Integers
 [radix1]: http://lorentey.github.io/BigInt/api/Extensions/String.html#/s:FE6BigIntSScFMSSFTVS_7BigUInt5radixSi9uppercaseSb_SS
 [radix2]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUIntcFMS0_FTSS5radixSi_GSqS0__
 [sqrt]: http://lorentey.github.io/BigInt/api/Functions.html#/s:F6BigInt4sqrtFVS_7BigUIntS0_
 [GCD]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:ZFV6BigInt7BigUInt3gcdFMS0_FTS0_S0__S0_
 [powmod]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:ZFV6BigInt7BigUInt6powmodFMS0_FTS0_S0_7modulusS0__S0_
-[inverse]: https://TODO
-[prime]: https://TODO
+[inverse]: http://lorentey.github.io/BigInt/gh-pages/api/Structs/BigUInt.html#/s:FV6BigInt7BigUInt7inverseFS0_FS0_GSqS0__
+[prime]: http://lorentey.github.io/BigInt/gh-pages/api/Structs/BigUInt.html#/Primality%20Testing
 [abs]: http://lorentey.github.io/BigInt/api/Structs/BigInt.html#/s:vV6BigInt6BigInt3absVS_7BigUInt
 [negative]: http://lorentey.github.io/BigInt/api/Structs/BigInt.html#/s:vV6BigInt6BigInt8negativeSb
 [subscript]: https://github.com/lorentey/BigInt/blob/v1.0.0/Sources/BigUInt.swift#L127-L150
 
 
-## Calculation Samples
+## <a name="samples">Calculation Samples</a>
 
-### Obligatory factorial demo
+### <a name="factorial">Obligatory Factorial Demo</a>
 
 It is easy to use `BigInt` to calculate the factorial function for any integer:
 
@@ -202,10 +217,10 @@ print(factorial(1000))
     00000
 ```
 
-### RSA Cryptography
+### <a name="rsa">RSA Cryptography</a>
 
-The `BigInt` module includes all tools to implement an (overly!) simplistic 
-RSA cryptography system.
+The `BigInt` module provides all necessary parts to implement an (overly!)
+simplistic RSA cryptography system.
 
 Let's start with a simple function that generates a random n-bit prime. The module 
 includes a function to generate random integers of a specific size, and also an 
@@ -234,8 +249,10 @@ let q = generatePrime(1024)
     80784336308507083874651158029602582993233111593356512531869546706885170044355115
     669728424124141763799008880327106952436883614887277350838425336156327
 ```
+
 Cool! Now that we have two large primes, we can produce an RSA public/private keypair
 out of them.
+
 ```Swift
 typealias Key = (modulus: BigUInt, exponent: BigUInt)
 
@@ -264,16 +281,20 @@ let d = e.inverse(phi)!     // d * e % phi == 1
 let publicKey: Key = (n, e)
 let privateKey: Key = (n, d)
 ```
+
 In RSA, modular exponentiation is used to encrypt (and decrypt) messages.
+
 ```Swift
 func encrypt(message: BigUInt, key: Key) -> BigUInt {
     return BigUInt.powmod(message, key.exponent, modulus: key.modulus)
 }
 ```
+
 Let's try out our new keypair by converting a string into UTF-8, interpreting
 the resulting binary representation as a big integer, and encrypting it with the
 public key. `BigUInt` has an initializer that takes an `NSData`, so this is pretty 
 easy to do:
+
 ```Swift
 let secret: BigUInt = BigUInt("Arbitrary precision arithmetic is fun!".dataUsingEncoding(NSUTF8StringEncoding)!)
 ==> 83323446846105976078466731524728681905293067701804838925389198929123912971229457
@@ -289,7 +310,9 @@ let cyphertext = encrypt(secret, key: publicKey)
     06024394731371973402595826456435944968439153664617188570808940022471990638468783
     49208193955207336172861151720299024935127021719852700882
 ```
+
 We can get the original message back by encrypting the cyphertext with the private key:
+
 ```Swift
 let plaintext = encrypt(cyphertext, key: privateKey)
 ==> 83323446846105976078466731524728681905293067701804838925389198929123912971229457
@@ -298,17 +321,18 @@ let plaintext = encrypt(cyphertext, key: privateKey)
 let received = String(data: plaintext.serialize(), encoding: NSUTF8StringEncoding)
 ==> "Arbitrary precision arithmetic is fun!"
 ```
+
 While this is really awesome, please don't use this example code for an actual 
 cryptography system. RSA has lots of subtle (and not so subtle) complexities that 
 we ignored to keep this example short.
 
-### Calculating the digits of π
+### <a name="pi">Calculating the Digits of π</a>
 
-Another fun application of `BigInt`s is generating the digits of π.
+Another fun activity to try with `BigInt`s is to generate the digits of π.
 Let's try implementing [Jeremy Gibbon's spigot algorithm][spigot]. 
-This is a rather slow algorithm as π-generators go, but it makes up for it in its grooviness
+This is a rather slow algorithm as π-generators go, but it makes up for it with its grooviness
 factor: it's remarkably short, it only uses (big) integer arithmetic, and every iteration
-produces a new digit in the base-10 representation of π. This naturally leads to an
+produces a single new digit in the base-10 representation of π. This naturally leads to an
 implementation as an infinite `GeneratorType`:
 
 [spigot]: http://www.cs.ox.ac.uk/jeremy.gibbons/publications/spigot.pdf
@@ -332,7 +356,7 @@ func digitsOfPi() -> AnyGenerator<Int> {
 }
 ```
 
-Well, that was surprisingly easy. But does it work? You bet:
+Well, that was surprisingly easy. But does it work? Of course it does!
 
 ```Swift
 var digits = "π ≈ "
@@ -346,7 +370,6 @@ for digit in digitsOfPi() {
 }
 
 digits
-==> 83323446846105976078466731524728681905293067701804838925389198929123912971229457
 ==> π ≈ 3.14159265358979323846264338327950288419716939937510582097494459230781640628
     62089986280348253421170679821480865132823066470938446095505822317253594081284811
     17450284102701938521105559644622948954930381964428810975665933446128475648233786
@@ -361,3 +384,5 @@ digits
     33208381420617177669147303598253490428755468731159562863882353787593751957781857
     780532171226806613001927876611195909216420198
 ```
+
+Now go and have some fun with big integers on your own!
