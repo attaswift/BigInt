@@ -65,9 +65,9 @@ big integers, including
 
 - [`BigUInt.gcd(n, m)`][GCD]: The greatest common divisor of two integers (Stein's algorithm).
   
-- [`BigUInt.powmod(base, exponent, modulus)`][powmod]: Modular exponentiation (right-to-left binary method).
-- [`BigUInt.inverse(modulus)`][inverse]: Multiplicative inverse in modulo arithmetic (extended Euclidean algorithm).
-- [`BigUInt.isPrime()`][prime]: Miller–Rabin primality test.
+- [`base.power(exponent, modulus)`][powmod]: Modular exponentiation (right-to-left binary method).
+- [`n.inverse(modulus)`][inverse]: Multiplicative inverse in modulo arithmetic (extended Euclidean algorithm).
+- [`n.isPrime()`][prime]: Miller–Rabin primality test.
 
 The implementations are intended to be reasonably efficient, but they are unlikely to be
 competitive with GMP at all, even when I happened to implement an algorithm with same asymptotic
@@ -290,7 +290,7 @@ In RSA, modular exponentiation is used to encrypt (and decrypt) messages.
 
 ```Swift
 func encrypt(message: BigUInt, key: Key) -> BigUInt {
-    return BigUInt.powmod(message, key.exponent, modulus: key.modulus)
+    return message.power(key.exponent, modulus: key.modulus)
 }
 ```
 
@@ -316,7 +316,7 @@ let cyphertext = encrypt(secret, key: publicKey)
 ```
 
 Well, it looks encrypted all right, but can we get the original message back? 
-In theory, encrypting the cyphertext with the private key returns the cleartext.
+In theory, encrypting the cyphertext with the private key returns the original message.
 Let's see:
 
 ```Swift

@@ -44,7 +44,7 @@ extension BigUInt {
         let r = dec.trailingZeroes
         let d = dec >> r
 
-        var test = BigUInt.powmod(base, d, modulus: self)
+        var test = base.power(d, modulus: self)
         if test == 1 || test == self - 1 { return true }
 
         for _ in 1 ..< r {

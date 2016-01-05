@@ -52,7 +52,7 @@ let privateKey: Key = (n, d)
 //: [oaep]: https://en.wikipedia.org/wiki/Optimal_asymmetric_encryption_padding
 
 func encrypt(message: BigUInt, key: Key) -> BigUInt {
-    return BigUInt.powmod(message, key.exponent, modulus: key.modulus)
+    return message.power(key.exponent, modulus: key.modulus)
 }
 
 //: Let's try encrypting some message with the public key.

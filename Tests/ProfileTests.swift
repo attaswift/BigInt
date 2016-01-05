@@ -143,7 +143,7 @@ class ProfileTests: XCTestCase {
         self.measure {
             for test in tests {
                 assert(test < m15)
-                let x = BigUInt.powmod(test, m15, modulus: m15)
+                let x = test.power(m15, modulus: m15)
                 XCTAssertEqual(x, test)
             }
         }

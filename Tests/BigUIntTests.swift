@@ -703,13 +703,13 @@ class BigUIntTests: XCTestCase {
     }
 
     func testModularExponentiation() {
-        XCTAssertEqual(BigUInt.powmod(2, 11, modulus: 1), 0)
-        XCTAssertEqual(BigUInt.powmod(2, 11, modulus: 1000), 48)
+        XCTAssertEqual(BigUInt(2).power(11, modulus: 1), 0)
+        XCTAssertEqual(BigUInt(2).power(11, modulus: 1000), 48)
 
         func test(a a: BigUInt, p: BigUInt, file: String = __FILE__, line: UInt = __LINE__) {
             // For all primes p and integers a, a % p == a^p % p. (Fermat's Little Theorem)
             let x = a % p
-            let y = BigUInt.powmod(x, p, modulus: p)
+            let y = x.power(p, modulus: p)
             XCTAssertEqual(x, y, file: file, line: line)
         }
 

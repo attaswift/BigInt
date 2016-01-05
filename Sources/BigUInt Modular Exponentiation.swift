@@ -13,13 +13,12 @@ extension BigUInt {
     
     /// Returns the remainder of `base` raised to the power `exponent` under `modulus`.
     ///
-    /// - Complexity: O(exponent.count * modulus.count^2)
+    /// - Complexity: O(exponent.count * modulus.count^log2(3)) or so
     @warn_unused_result
-    public static func powmod(base: BigUInt, _ exponent: BigUInt, modulus: BigUInt) -> BigUInt {
-        // https://en.wikipedia.org/wiki/Modular_exponentiation#Right-to-left_binary_method
+    public func power(exponent: BigUInt, modulus: BigUInt) -> BigUInt {
         if modulus == 1 { return 0 }
         var result = BigUInt(1)
-        var b = base % modulus
+        var b = self % modulus
         var e = exponent
         while e > 0 {
             if e[0] & 1 == 1 {
