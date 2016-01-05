@@ -41,6 +41,10 @@ big integers, including
 
 - [Shift operators][shift]: `>>`, `<<`, `>>=`, `<<=`
 
+- Methods to convert `NSData` to big integers and vice versa.
+
+- Support for generating random integers of specified maximum width or magnitude.
+
 - Radix conversion to/from [`String`s][radix1] and [big integers][radix2] up to base 36 (using repeated divisions).
   - Big integers use this to implement `StringLiteralConvertible` (in base 10).
   
@@ -49,6 +53,8 @@ big integers, including
 - [`BigUInt.gcd(n, m)`][GCD]: The greatest common divisor of two integers (Stein's algorithm).
   
 - [`BigUInt.powmod(base, exponent, modulus)`][powmod]: Modular exponentiation (right-to-left binary method).
+- [`BigUInt.inverse(modulus)`][inverse]: Multiplicative inverse in modulo arithmetic (extended Euclidean algorithm).
+- [`BigUInt.isPrime()`][prime]: Miller–Rabin primality test
 
 The implementations are intended to be reasonably efficient, but they are unlikely to be
 competitive with GMP at all, even when I happened to implement an algorithm with same asymptotic
@@ -128,6 +134,8 @@ generic variant that was slower but more flexible.
 [sqrt]: http://lorentey.github.io/BigInt/api/Functions.html#/s:F6BigInt4sqrtFVS_7BigUIntS0_
 [GCD]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:ZFV6BigInt7BigUInt3gcdFMS0_FTS0_S0__S0_
 [powmod]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:ZFV6BigInt7BigUInt6powmodFMS0_FTS0_S0_7modulusS0__S0_
+[inverse]: https://TODO
+[prime]: https://TODO
 [abs]: http://lorentey.github.io/BigInt/api/Structs/BigInt.html#/s:vV6BigInt6BigInt3absVS_7BigUInt
 [negative]: http://lorentey.github.io/BigInt/api/Structs/BigInt.html#/s:vV6BigInt6BigInt8negativeSb
 [subscript]: https://github.com/lorentey/BigInt/blob/v1.0.0/Sources/BigUInt.swift#L127-L150
