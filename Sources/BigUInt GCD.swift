@@ -33,4 +33,27 @@ extension BigUInt {
         }
         return y << twos
     }
+
+    /// Returns the [multiplicative inverse of this integer in modulo `modulus` arithmetic][inverse],
+    /// or `nil` if there is no such number.
+    /// 
+    /// [inverse]: https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm#Modular_integers
+    ///
+    /// - Returns: If `gcd(self, modulus) == 1`, the value returned is an integer `a < modulus` such that `(a * self) % modulus == 1`. If `self` and `modulus` aren't coprime, the return value is nil.
+    /// - Complexity: O(count^3)
+    @warn_unused_result
+    public func inverse(modulus: BigUInt) -> BigUInt? {
+        var t1 = BigInt(0)
+        var t2 = BigInt(1)
+        var r1 = modulus
+        var r2 = self
+        while !r2.isZero {
+            let quotient = r1 / r2
+            (t1, t2) = (t2, t1 - BigInt(quotient) * t2)
+            (r1, r2) = (r2, r1 - quotient * r2)
+        }
+        if r1 > 1 { return nil }
+        if t1 < 0 { return modulus - t1.abs }
+        return t1.abs
+    }
 }
