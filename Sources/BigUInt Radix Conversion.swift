@@ -122,3 +122,13 @@ extension String {
         }
     }
 }
+
+extension BigUInt: CustomPlaygroundQuickLookable {
+    /// Return the playground quick look representation of this integer.
+    @warn_unused_result
+    public func customPlaygroundQuickLook() -> PlaygroundQuickLook {
+        let text = String(self)
+        return PlaygroundQuickLook.Text(text + " (\(self.width) bits)")
+    }
+
+}
