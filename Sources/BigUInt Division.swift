@@ -46,9 +46,9 @@ extension BigUInt {
 
     /// Divide this integer by `y` and return the resulting quotient and remainder.
     ///
-    /// - Requires: y > 0
-    /// - Returns: (div, mod) where div = floor(x/y), mod = x - div * y
-    /// - Complexity: O(x.count * y.count)
+    /// - Requires: `y > 0`
+    /// - Returns: `(div, mod)` where `div = floor(self/y)`, `mod = self - div * y`
+    /// - Complexity: O(count^2)
     @warn_unused_result
     public func divide(y: BigUInt) -> (div: BigUInt, mod: BigUInt) {
         // This is a Swift adaptation of "divmnu" from Hacker's Delight, which is in
