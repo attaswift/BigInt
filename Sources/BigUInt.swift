@@ -53,7 +53,8 @@ public struct BigUInt {
 
 extension BigUInt: IntegerLiteralConvertible {
     //MARK: Init from Integer literals
-    
+
+    /// Initialize a new big integer from an integer literal.
     public init(integerLiteral value: UInt64) {
         self.init(value.toUIntMax())
     }
@@ -62,14 +63,20 @@ extension BigUInt: IntegerLiteralConvertible {
 extension BigUInt: StringLiteralConvertible {
     //MARK: Init from String literals
 
+    /// Initialize a new big integer from a Unicode scalar.
+    /// The scalar must represent a decimal digit.
     public init(unicodeScalarLiteral value: UnicodeScalar) {
         self = BigUInt(String(value), radix: 10)!
     }
 
+    /// Initialize a new big integer from an extended grapheme cluster.
+    /// The cluster must consist of a decimal digit.
     public init(extendedGraphemeClusterLiteral value: String) {
         self = BigUInt(value, radix: 10)!
     }
 
+    /// Initialize a new big integer from a decimal number represented by a string literal of arbitrary length.
+    /// The string must contain only decimal digits.
     public init(stringLiteral value: StringLiteralType) {
         self = BigUInt(value, radix: 10)!
     }
@@ -163,6 +170,8 @@ public struct DigitGenerator<Digit>: GeneratorType {
     internal let end: Int
     internal var index: Int
 
+    /// Return the next digit in the integer, or nil if there are no more digits.
+    /// Returned digits range from least to most significant.
     public mutating func next() -> Digit? {
         guard index < end else { return nil }
         let v = digits[index]

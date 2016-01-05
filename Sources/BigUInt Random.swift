@@ -9,6 +9,8 @@
 import Foundation
 
 extension BigUInt {
+    //MARK: Random Integers
+
     /// Create a big integer consisting of `width` uniformly distributed random bits.
     ///
     /// - Returns: A big integer less than `1 << width`.

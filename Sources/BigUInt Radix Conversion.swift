@@ -73,15 +73,19 @@ extension BigUInt: CustomStringConvertible {
         }
     }
 
+    /// Return the decimal representation of this integer.
     public var description: String {
         return String(self, radix: 10)
     }
 }
 
 extension String {
+    /// Initialize a new string with the base-10 representation of an unsigned big integer.
+    ///
+    /// - Complexity: O(v.count^2)
     public init(_ v: BigUInt) { self.init(v, radix: 10, uppercase: false) }
 
-    /// Create an instance representing v in the given radix (base).
+    /// Initialize a new string representing an unsigned big integer in the given radix (base).
     ///
     /// Numerals greater than 9 are represented as letters from the English alphabet,
     /// starting with `a` if `uppercase` is false or `A` otherwise.
@@ -130,5 +134,4 @@ extension BigUInt: CustomPlaygroundQuickLookable {
         let text = String(self)
         return PlaygroundQuickLook.Text(text + " (\(self.width) bits)")
     }
-
 }

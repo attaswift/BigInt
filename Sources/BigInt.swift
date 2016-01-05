@@ -8,6 +8,8 @@
 
 import Foundation
 
+//MARK: BigInt
+
 /// An arbitary precision unsigned integer type.
 public struct BigInt {
     /// The absolute value of this integer.
@@ -15,15 +17,18 @@ public struct BigInt {
     /// True iff the value of this integer is negative.
     public var negative: Bool
 
+    /// Initializes a new big integer with the provided absolute number and sign flag.
     public init(abs: BigUInt, negative: Bool = false) {
         self.abs = abs
         self.negative = (abs.isZero ? false : negative)
     }
 
+    /// Initializes a new big integer with the same value as the specified integer.
     public init<I: UnsignedIntegerType>(_ integer: I) {
         self.init(abs: BigUInt(integer), negative: false)
     }
 
+    /// Initializes a new big integer with the same value as the specified integer.
     public init<I: SignedIntegerType>(_ integer: I) {
         let i = integer.toIntMax()
         if i == IntMax.min {
@@ -37,6 +42,7 @@ public struct BigInt {
         }
     }
 
+    /// Initializes a new signed big integer with the same value as the specified unsigned big integer.
     public init(_ integer: BigUInt) {
         self.abs = integer
         self.negative = false
@@ -44,6 +50,13 @@ public struct BigInt {
 }
 
 extension BigInt {
+    /// Initialize a big integer from an ASCII representation in a given radix. Numerals above `9` are represented by
+    /// letters from the English alphabet.
+    ///
+    /// - Requires: `radix > 1 && radix < 36`
+    /// - Parameter `text`: A string optionally starting with "-" or "+" followed by characters corresponding to numerals in the given radix. (0-9, a-z, A-Z)
+    /// - Parameter `radix`: The base of the number system to use, or 10 if unspecified.
+    /// - Returns: The integer represented by `text`, or nil if `text` contains a character that does not represent a numeral in `radix`.
     public init?(_ text: String, radix: Int = 10) {
         var text = text
         var negative = false
@@ -61,6 +74,13 @@ extension BigInt {
 }
 
 extension String {
+    /// Initialize a new string representing a signed big integer in the given radix (base).
+    ///
+    /// Numerals greater than 9 are represented as letters from the English alphabet,
+    /// starting with `a` if `uppercase` is false or `A` otherwise.
+    ///
+    /// - Requires: radix > 1 && radix <= 36
+    /// - Complexity: O(count) when radix is a power of two; otherwise O(count^2).
     public init(_ value: BigInt, radix: Int = 10, uppercase: Bool = false) {
         self = String(value.abs, radix: radix, uppercase: uppercase)
         if value.negative {
@@ -70,24 +90,33 @@ extension String {
 }
 
 extension BigInt: CustomStringConvertible {
+    /// Return the decimal representation of this integer.
     public var description: String { return String(self, radix: 10) }
 }
 
 extension BigInt: IntegerLiteralConvertible {
+
+    /// Initialize a new big integer from an integer literal.
     public init(integerLiteral value: IntMax) {
         self.init(value)
     }
 }
 
 extension BigInt: StringLiteralConvertible {
+    /// Initialize a new big integer from a Unicode scalar.
+    /// The scalar must represent a decimal digit.
     public init(unicodeScalarLiteral value: UnicodeScalar) {
         self = BigInt(String(value), radix: 10)!
     }
 
+    /// Initialize a new big integer from an extended grapheme cluster.
+    /// The cluster must consist of a decimal digit.
     public init(extendedGraphemeClusterLiteral value: String) {
         self = BigInt(value, radix: 10)!
     }
 
+    /// Initialize a new big integer from a decimal number represented by a string literal of arbitrary length.
+    /// The string must contain only decimal digits.
     public init(stringLiteral value: StringLiteralType) {
         self = BigInt(value, radix: 10)!
     }
@@ -104,9 +133,13 @@ extension BigInt: CustomPlaygroundQuickLookable {
 
 extension BigInt: Comparable {
 }
+
+/// Return true iff `a` is equal to `b`.
 public func ==(a: BigInt, b: BigInt) -> Bool {
     return a.negative == b.negative && a.abs == b.abs
 }
+
+/// Return true iff `a` is less than `b`.
 public func <(a: BigInt, b: BigInt) -> Bool {
     switch (a.negative, b.negative) {
     case (false, false):
@@ -121,13 +154,14 @@ public func <(a: BigInt, b: BigInt) -> Bool {
 }
 
 extension BigInt: Hashable {
+    /// Return the hash value of this integer.
     public var hashValue: Int {
         let v = abs.hashValue
         return negative ? ~v : v
     }
 }
 
-
+/// Add `a` to `b` and return the result.
 public func +(a: BigInt, b: BigInt) -> BigInt {
     switch (a.negative, b.negative) {
     case (false, false):
@@ -151,29 +185,39 @@ public func +(a: BigInt, b: BigInt) -> BigInt {
     }
 }
 
+/// Negate `a` and return the result.
 public prefix func -(a: BigInt) -> BigInt {
     if a.abs.isZero { return a }
     return BigInt(abs: a.abs, negative: !a.negative)
 }
 
+/// Subtract `b` from `a` and return the result.
 public func -(a: BigInt, b: BigInt) -> BigInt {
     return a + (-b)
 }
 
+/// Multiply `a` with `b` and return the result.
 public func *(a: BigInt, b: BigInt) -> BigInt {
     return BigInt(abs: a.abs * b.abs, negative: a.negative != b.negative)
 }
 
+/// Divide `a` by `b` and return the quotient.
 public func /(a: BigInt, b: BigInt) -> BigInt {
     return BigInt(abs: a.abs / b.abs, negative: a.negative != b.negative)
 }
 
+/// Divide `a` by `b` and return the remainder.
 public func %(a: BigInt, b: BigInt) -> BigInt {
     return BigInt(abs: a.abs % b.abs, negative: a.negative)
 }
 
+/// Add `b` to `a` in place.
 public func +=(inout a: BigInt, b: BigInt) { a = a + b }
+/// Subtract `b` from `a` in place.
 public func -=(inout a: BigInt, b: BigInt) { a = a - b }
+/// Multiply `a` with `b` in place.
 public func *=(inout a: BigInt, b: BigInt) { a = a * b }
+/// Divide `a` by `b` storing the quotient in `a`.
 public func /=(inout a: BigInt, b: BigInt) { a = a / b }
+/// Divide `a` by `b` storing the remainder in `a`.
 public func %=(inout a: BigInt, b: BigInt) { a = a % b }

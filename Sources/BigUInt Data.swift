@@ -9,6 +9,8 @@
 import Foundation
 
 extension BigUInt {
+    //MARK: NSData Conversion
+
     /// Initializes an integer from the bits stored inside a piece of `NSData`.
     /// The data is assumed to be in network (big-endian) byte order.
     public init(_ data: NSData) {

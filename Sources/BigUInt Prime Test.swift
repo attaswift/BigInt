@@ -32,7 +32,11 @@ let pseudoPrimes: [BigUInt] = [
 ]
 
 extension BigUInt {
-    /// Returns true iff this integer passes the strong probable prime test for the specified base.
+    //MARK: Primality Testing
+
+    /// Returns true iff this integer passes the [strong probable prime test][sppt] for the specified base.
+    ///
+    /// [sppt]: https://en.wikipedia.org/wiki/Probable_prime
     public func isStrongProbablePrime(base: BigUInt) -> Bool {
         let dec = self - 1
 
