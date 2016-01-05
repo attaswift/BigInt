@@ -36,6 +36,11 @@ public struct BigInt {
             self.init(abs: BigUInt(i), negative: false)
         }
     }
+
+    public init(_ integer: BigUInt) {
+        self.abs = integer
+        self.negative = false
+    }
 }
 
 extension BigInt {
