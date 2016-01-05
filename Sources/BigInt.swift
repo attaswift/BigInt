@@ -93,6 +93,14 @@ extension BigInt: StringLiteralConvertible {
     }
 }
 
+extension BigInt: CustomPlaygroundQuickLookable {
+    /// Return the playground quick look representation of this integer.
+    @warn_unused_result
+    public func customPlaygroundQuickLook() -> PlaygroundQuickLook {
+        let text = String(self)
+        return PlaygroundQuickLook.Text(text + " (\(self.abs.width) bits)")
+    }
+}
 
 extension BigInt: Comparable {
 }
