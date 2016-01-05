@@ -35,6 +35,7 @@ extension BigUInt {
     ///
     /// - Returns: A big integer for whose width is `width`.
     /// - Note: This function uses `arc4random_buf` to generate random bits.
+    @warn_unused_result
     public static func randomIntegerWithExactWidth(width: Int) -> BigUInt {
         guard width > 1 else { return BigUInt(width) }
         var result = randomIntegerWithMaximumWidth(width - 1)
