@@ -217,10 +217,14 @@ print(factorial(1000))
     00000
 ```
 
+Well, I guess that's all right, but it's not very interesting. Let's try something more useful.
+
 ### <a name="rsa">RSA Cryptography</a>
 
 The `BigInt` module provides all necessary parts to implement an (overly)
-simplistic RSA cryptography system.
+simple [RSA cryptography system][RSA].
+
+[RSA]: https://en.wikipedia.org/wiki/RSA_(cryptosystem)
 
 Let's start with a simple function that generates a random n-bit prime. The module 
 includes a function to generate random integers of a specific size, and also an 
@@ -311,7 +315,9 @@ let cyphertext = encrypt(secret, key: publicKey)
     49208193955207336172861151720299024935127021719852700882
 ```
 
-We can get the original message back by encrypting the cyphertext with the private key:
+Well, it looks encrypted all right, but can we get the original message back? 
+In theory, encrypting the cyphertext with the private key returns the cleartext.
+Let's see:
 
 ```Swift
 let plaintext = encrypt(cyphertext, key: privateKey)
@@ -322,9 +328,9 @@ let received = String(data: plaintext.serialize(), encoding: NSUTF8StringEncodin
 ==> "Arbitrary precision arithmetic is fun!"
 ```
 
-While this is really awesome, please don't use this example code in an actual 
-cryptography system. RSA has lots of subtle (and not so subtle) complexities that 
-we ignored to keep this example short.
+Yay! This is truly terrific, but please don't use this example code in an actual 
+cryptography system. RSA has lots of subtle (and some not so subtle) complications
+that we ignored to keep this example short.
 
 ### <a name="pi">Calculating the Digits of π</a>
 
