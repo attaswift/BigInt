@@ -57,6 +57,8 @@
 		BBB59DB21C3A96F3006F684C /* BigUInt Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DB11C3A96F3006F684C /* BigUInt Data.swift */; };
 		BBB59DB31C3A96F3006F684C /* BigUInt Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DB11C3A96F3006F684C /* BigUInt Data.swift */; };
 		BBB59DB41C3AB693006F684C /* BigUIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EF3CB1C2F993600ABFA71 /* BigUIntTests.swift */; };
+		BBB59DB61C3AC27A006F684C /* BigUInt Prime Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DB51C3AC27A006F684C /* BigUInt Prime Test.swift */; };
+		BBB59DB71C3AC27A006F684C /* BigUInt Prime Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DB51C3AC27A006F684C /* BigUInt Prime Test.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +111,7 @@
 		BBB59DAB1C398D69006F684C /* ShiftOperationsType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftOperationsType.swift; sourceTree = "<group>"; };
 		BBB59DAE1C3A9389006F684C /* BigUInt Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BigUInt Random.swift"; sourceTree = "<group>"; };
 		BBB59DB11C3A96F3006F684C /* BigUInt Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BigUInt Data.swift"; sourceTree = "<group>"; };
+		BBB59DB51C3AC27A006F684C /* BigUInt Prime Test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BigUInt Prime Test.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +192,7 @@
 				BBB59D8A1C398B58006F684C /* BigUInt Modular Exponentiation.swift */,
 				BBB59DB11C3A96F3006F684C /* BigUInt Data.swift */,
 				BBB59DAE1C3A9389006F684C /* BigUInt Random.swift */,
+				BBB59DB51C3AC27A006F684C /* BigUInt Prime Test.swift */,
 				BB64E72C1C2F60F500C18269 /* BigInt.swift */,
 			);
 			path = Sources;
@@ -385,6 +389,7 @@
 				BBB59D8B1C398B58006F684C /* BigUInt Modular Exponentiation.swift in Sources */,
 				BBB59DA91C398CA8006F684C /* BigUInt Hashing.swift in Sources */,
 				BBB59D9D1C398C02006F684C /* BigUInt Addition.swift in Sources */,
+				BBB59DB61C3AC27A006F684C /* BigUInt Prime Test.swift in Sources */,
 				BBB59D881C398B26006F684C /* BigUInt GCD.swift in Sources */,
 				BBB59DAF1C3A9389006F684C /* BigUInt Random.swift in Sources */,
 				BBB59DB21C3A96F3006F684C /* BigUInt Data.swift in Sources */,
@@ -423,6 +428,7 @@
 				BBB59DA41C398C54006F684C /* BigUInt Radix Conversion.swift in Sources */,
 				BBB59DA11C398C24006F684C /* BigUInt Bitwise Ops.swift in Sources */,
 				BBB59D951C398BB1006F684C /* BigUInt Shifts.swift in Sources */,
+				BBB59DB71C3AC27A006F684C /* BigUInt Prime Test.swift in Sources */,
 				BBB59D9E1C398C02006F684C /* BigUInt Addition.swift in Sources */,
 				BBB59DB01C3A9389006F684C /* BigUInt Random.swift in Sources */,
 				BBB59DB31C3A96F3006F684C /* BigUInt Data.swift in Sources */,
