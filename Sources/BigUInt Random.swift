@@ -9,7 +9,7 @@
 import Foundation
 
 extension BigUInt {
-    /// Create a big integer consisting of `width` random bits.
+    /// Create a big integer consisting of `width` uniformly distributed random bits.
     ///
     /// - Returns: A big integer less than `1 << width`.
     /// - Note: This function uses `arc4random_buf` to generate random bits.
@@ -31,9 +31,9 @@ extension BigUInt {
         return BigUInt(NSData(bytesNoCopy: buffer, length: byteCount, freeWhenDone: false))
     }
 
-    /// Create a big integer consisting of `width-1` random bits followed by a one bit.
+    /// Create a big integer consisting of `width-1` uniformly distributed random bits followed by a one bit.
     ///
-    /// - Returns: A big integer for whose width is `width`.
+    /// - Returns: A random big integer whose width is `width`.
     /// - Note: This function uses `arc4random_buf` to generate random bits.
     @warn_unused_result
     public static func randomIntegerWithExactWidth(width: Int) -> BigUInt {
@@ -43,6 +43,10 @@ extension BigUInt {
         return result
     }
 
+    /// Create a uniformly distributed random integer that's less then the specified limit.
+    ///
+    /// - Returns: A random big integer that is less than `limit`.
+    /// - Note: This function uses `arc4random_buf` to generate random bits.
     @warn_unused_result
     public static func randomIntegerWithLimit(limit: BigUInt) -> BigUInt {
         let width = limit.width
