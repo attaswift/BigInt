@@ -39,7 +39,7 @@ extension BigUInt {
     public static func randomIntegerWithExactWidth(width: Int) -> BigUInt {
         guard width > 1 else { return BigUInt(width) }
         var result = randomIntegerWithMaximumWidth(width - 1)
-        result[(width - 1) / Digit.width] = 1 << Digit((width - 1) % Digit.width)
+        result[(width - 1) / Digit.width] |= 1 << Digit((width - 1) % Digit.width)
         return result
     }
 }
