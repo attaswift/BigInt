@@ -816,7 +816,7 @@
 			buildSettings = {
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.github.lorentey.BigIntTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-iOS";
 				PRODUCT_NAME = BigIntTests;
 			};
 			name = Profile;
@@ -830,7 +830,7 @@
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigInt-MacTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-Mac";
 				PRODUCT_NAME = "BigIntTests-Mac";
 				SDKROOT = macosx;
 			};
@@ -969,7 +969,7 @@
 			buildSettings = {
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.github.lorentey.BigIntTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-iOS";
 				PRODUCT_NAME = BigIntTests;
 			};
 			name = Debug;
@@ -979,7 +979,7 @@
 			buildSettings = {
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.github.lorentey.BigIntTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-iOS";
 				PRODUCT_NAME = BigIntTests;
 			};
 			name = Release;
@@ -1037,7 +1037,7 @@
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigInt-MacTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-Mac";
 				PRODUCT_NAME = "BigIntTests-Mac";
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1053,7 +1053,7 @@
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigInt-MacTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-Mac";
 				PRODUCT_NAME = "BigIntTests-Mac";
 				SDKROOT = macosx;
 			};
@@ -1154,7 +1154,7 @@
 			buildSettings = {
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.github.lorentey.BigIntTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-iOS";
 				PRODUCT_NAME = BigIntTests;
 			};
 			name = Test;
@@ -1168,7 +1168,7 @@
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigInt-MacTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-Mac";
 				PRODUCT_NAME = "BigIntTests-Mac";
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
