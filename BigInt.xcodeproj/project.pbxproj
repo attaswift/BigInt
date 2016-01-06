@@ -105,6 +105,7 @@
 		BBDEA4671C3D6DAA00BBEEBC /* BigUInt Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DB11C3A96F3006F684C /* BigUInt Data.swift */; };
 		BBDEA4681C3D6DAA00BBEEBC /* BigUInt Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DAE1C3A9389006F684C /* BigUInt Random.swift */; };
 		BBDEA4691C3D6DAA00BBEEBC /* BigInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E72C1C2F60F500C18269 /* BigInt.swift */; };
+		BBDEA46C1C3D750100BBEEBC /* LICENSE.md in Sources */ = {isa = PBXBuildFile; fileRef = BBDEA46B1C3D750100BBEEBC /* LICENSE.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -168,6 +169,8 @@
 		BBDEA4131C3D6B0E00BBEEBC /* BigInt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BigInt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBDEA4361C3D6CCE00BBEEBC /* BigInt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BigInt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBDEA43F1C3D6CCF00BBEEBC /* BigIntTests-TV.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "BigIntTests-TV.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BBDEA46A1C3D741A00BBEEBC /* BigInt.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; path = BigInt.podspec; sourceTree = "<group>"; };
+		BBDEA46B1C3D750100BBEEBC /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -230,6 +233,8 @@
 			isa = PBXGroup;
 			children = (
 				BB2CFBC31C3876A10082692D /* README.md */,
+				BBDEA46B1C3D750100BBEEBC /* LICENSE.md */,
+				BBDEA46A1C3D741A00BBEEBC /* BigInt.podspec */,
 				BB6BB5501C36F5940054459A /* Demo.playground */,
 				BB64E6F21C2F490000C18269 /* Sources */,
 				BB64E6FE1C2F490000C18269 /* Tests */,
@@ -578,6 +583,7 @@
 				BBB59D9A1C398BE9006F684C /* BigUInt Subtraction.swift in Sources */,
 				BB64E7271C2F4A7A00C18269 /* BigUInt.swift in Sources */,
 				BBB59DA61C398C8E006F684C /* BigUInt Comparison.swift in Sources */,
+				BBDEA46C1C3D750100BBEEBC /* LICENSE.md in Sources */,
 				BBB59D8E1C398B76006F684C /* BigUInt Square Root.swift in Sources */,
 				BB64E72A1C2F592B00C18269 /* BigDigit.swift in Sources */,
 				BBB59D971C398BCE006F684C /* BigUInt Multiplication.swift in Sources */,
