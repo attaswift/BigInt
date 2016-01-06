@@ -105,7 +105,6 @@
 		BBDEA4671C3D6DAA00BBEEBC /* BigUInt Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DB11C3A96F3006F684C /* BigUInt Data.swift */; };
 		BBDEA4681C3D6DAA00BBEEBC /* BigUInt Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DAE1C3A9389006F684C /* BigUInt Random.swift */; };
 		BBDEA4691C3D6DAA00BBEEBC /* BigInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E72C1C2F60F500C18269 /* BigInt.swift */; };
-		BBDEA46C1C3D750100BBEEBC /* LICENSE.md in Sources */ = {isa = PBXBuildFile; fileRef = BBDEA46B1C3D750100BBEEBC /* LICENSE.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -583,7 +582,6 @@
 				BBB59D9A1C398BE9006F684C /* BigUInt Subtraction.swift in Sources */,
 				BB64E7271C2F4A7A00C18269 /* BigUInt.swift in Sources */,
 				BBB59DA61C398C8E006F684C /* BigUInt Comparison.swift in Sources */,
-				BBDEA46C1C3D750100BBEEBC /* LICENSE.md in Sources */,
 				BBB59D8E1C398B76006F684C /* BigUInt Square Root.swift in Sources */,
 				BB64E72A1C2F592B00C18269 /* BigDigit.swift in Sources */,
 				BBB59D971C398BCE006F684C /* BigUInt Multiplication.swift in Sources */,
