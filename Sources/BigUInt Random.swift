@@ -45,7 +45,7 @@ extension BigUInt {
         return result
     }
 
-    /// Create a uniformly distributed random integer that's less then the specified limit.
+    /// Create a uniformly distributed random integer that's less than the specified limit.
     ///
     /// - Returns: A random big integer that is less than `limit`.
     /// - Note: This function uses `arc4random_buf` to generate random bits.
