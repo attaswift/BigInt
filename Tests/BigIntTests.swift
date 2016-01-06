@@ -3,7 +3,7 @@
 //  BigIntTests
 //
 //  Created by Károly Lőrentey on 2015-12-26.
-//  Copyright © 2015 Károly Lőrentey. All rights reserved.
+//  Copyright © 2016 Károly Lőrentey. All rights reserved.
 //
 
 import XCTest
