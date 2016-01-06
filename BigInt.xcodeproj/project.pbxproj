@@ -59,6 +59,52 @@
 		BBB59DB41C3AB693006F684C /* BigUIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EF3CB1C2F993600ABFA71 /* BigUIntTests.swift */; };
 		BBB59DB61C3AC27A006F684C /* BigUInt Prime Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DB51C3AC27A006F684C /* BigUInt Prime Test.swift */; };
 		BBB59DB71C3AC27A006F684C /* BigUInt Prime Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DB51C3AC27A006F684C /* BigUInt Prime Test.swift */; };
+		BBDEA41D1C3D6CA100BBEEBC /* Bitwise Hacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E72F1C2F653900C18269 /* Bitwise Hacks.swift */; };
+		BBDEA41E1C3D6CA100BBEEBC /* ShiftOperationsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DAB1C398D69006F684C /* ShiftOperationsType.swift */; };
+		BBDEA41F1C3D6CA100BBEEBC /* BigDigit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E7291C2F592B00C18269 /* BigDigit.swift */; };
+		BBDEA4201C3D6CA100BBEEBC /* BigUInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E7261C2F4A7A00C18269 /* BigUInt.swift */; };
+		BBDEA4211C3D6CA100BBEEBC /* BigUInt Comparison.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DA51C398C8E006F684C /* BigUInt Comparison.swift */; };
+		BBDEA4221C3D6CA100BBEEBC /* BigUInt Hashing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DA81C398CA8006F684C /* BigUInt Hashing.swift */; };
+		BBDEA4231C3D6CA100BBEEBC /* BigUInt Radix Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DA21C398C54006F684C /* BigUInt Radix Conversion.swift */; };
+		BBDEA4241C3D6CA100BBEEBC /* BigUInt Bitwise Ops.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D9F1C398C24006F684C /* BigUInt Bitwise Ops.swift */; };
+		BBDEA4251C3D6CA100BBEEBC /* BigUInt Shifts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D931C398BB1006F684C /* BigUInt Shifts.swift */; };
+		BBDEA4261C3D6CA100BBEEBC /* BigUInt Addition.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D9C1C398C02006F684C /* BigUInt Addition.swift */; };
+		BBDEA4271C3D6CA100BBEEBC /* BigUInt Subtraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D991C398BE9006F684C /* BigUInt Subtraction.swift */; };
+		BBDEA4281C3D6CA100BBEEBC /* BigUInt Multiplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D961C398BCE006F684C /* BigUInt Multiplication.swift */; };
+		BBDEA4291C3D6CA100BBEEBC /* BigUInt Division.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D901C398B95006F684C /* BigUInt Division.swift */; };
+		BBDEA42A1C3D6CA100BBEEBC /* BigUInt Square Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D8D1C398B76006F684C /* BigUInt Square Root.swift */; };
+		BBDEA42B1C3D6CA100BBEEBC /* BigUInt GCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D871C398B26006F684C /* BigUInt GCD.swift */; };
+		BBDEA42C1C3D6CA100BBEEBC /* BigUInt Exponentiation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D8A1C398B58006F684C /* BigUInt Exponentiation.swift */; };
+		BBDEA42D1C3D6CA100BBEEBC /* BigUInt Prime Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DB51C3AC27A006F684C /* BigUInt Prime Test.swift */; };
+		BBDEA42E1C3D6CA100BBEEBC /* BigUInt Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DB11C3A96F3006F684C /* BigUInt Data.swift */; };
+		BBDEA42F1C3D6CA100BBEEBC /* BigUInt Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DAE1C3A9389006F684C /* BigUInt Random.swift */; };
+		BBDEA4301C3D6CA100BBEEBC /* BigInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E72C1C2F60F500C18269 /* BigInt.swift */; };
+		BBDEA4401C3D6CCF00BBEEBC /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBDEA4361C3D6CCE00BBEEBC /* BigInt.framework */; };
+		BBDEA4511C3D6DA400BBEEBC /* BitwiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E7321C2F76FF00C18269 /* BitwiseTests.swift */; };
+		BBDEA4521C3D6DA400BBEEBC /* DigitsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E7351C2F831000C18269 /* DigitsTests.swift */; };
+		BBDEA4531C3D6DA400BBEEBC /* BigUIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EF3CB1C2F993600ABFA71 /* BigUIntTests.swift */; };
+		BBDEA4541C3D6DA400BBEEBC /* ProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB68F6501C34B6190008776E /* ProfileTests.swift */; };
+		BBDEA4551C3D6DA400BBEEBC /* BigIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E6FF1C2F490000C18269 /* BigIntTests.swift */; };
+		BBDEA4561C3D6DAA00BBEEBC /* Bitwise Hacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E72F1C2F653900C18269 /* Bitwise Hacks.swift */; };
+		BBDEA4571C3D6DAA00BBEEBC /* ShiftOperationsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DAB1C398D69006F684C /* ShiftOperationsType.swift */; };
+		BBDEA4581C3D6DAA00BBEEBC /* BigDigit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E7291C2F592B00C18269 /* BigDigit.swift */; };
+		BBDEA4591C3D6DAA00BBEEBC /* BigUInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E7261C2F4A7A00C18269 /* BigUInt.swift */; };
+		BBDEA45A1C3D6DAA00BBEEBC /* BigUInt Comparison.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DA51C398C8E006F684C /* BigUInt Comparison.swift */; };
+		BBDEA45B1C3D6DAA00BBEEBC /* BigUInt Hashing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DA81C398CA8006F684C /* BigUInt Hashing.swift */; };
+		BBDEA45C1C3D6DAA00BBEEBC /* BigUInt Radix Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DA21C398C54006F684C /* BigUInt Radix Conversion.swift */; };
+		BBDEA45D1C3D6DAA00BBEEBC /* BigUInt Bitwise Ops.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D9F1C398C24006F684C /* BigUInt Bitwise Ops.swift */; };
+		BBDEA45E1C3D6DAA00BBEEBC /* BigUInt Shifts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D931C398BB1006F684C /* BigUInt Shifts.swift */; };
+		BBDEA45F1C3D6DAA00BBEEBC /* BigUInt Addition.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D9C1C398C02006F684C /* BigUInt Addition.swift */; };
+		BBDEA4601C3D6DAA00BBEEBC /* BigUInt Subtraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D991C398BE9006F684C /* BigUInt Subtraction.swift */; };
+		BBDEA4611C3D6DAA00BBEEBC /* BigUInt Multiplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D961C398BCE006F684C /* BigUInt Multiplication.swift */; };
+		BBDEA4621C3D6DAA00BBEEBC /* BigUInt Division.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D901C398B95006F684C /* BigUInt Division.swift */; };
+		BBDEA4631C3D6DAA00BBEEBC /* BigUInt Square Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D8D1C398B76006F684C /* BigUInt Square Root.swift */; };
+		BBDEA4641C3D6DAA00BBEEBC /* BigUInt GCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D871C398B26006F684C /* BigUInt GCD.swift */; };
+		BBDEA4651C3D6DAA00BBEEBC /* BigUInt Exponentiation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D8A1C398B58006F684C /* BigUInt Exponentiation.swift */; };
+		BBDEA4661C3D6DAA00BBEEBC /* BigUInt Prime Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DB51C3AC27A006F684C /* BigUInt Prime Test.swift */; };
+		BBDEA4671C3D6DAA00BBEEBC /* BigUInt Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DB11C3A96F3006F684C /* BigUInt Data.swift */; };
+		BBDEA4681C3D6DAA00BBEEBC /* BigUInt Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DAE1C3A9389006F684C /* BigUInt Random.swift */; };
+		BBDEA4691C3D6DAA00BBEEBC /* BigInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E72C1C2F60F500C18269 /* BigInt.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +121,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = BB64E70E1C2F49CF00C18269;
 			remoteInfo = "BigInt-Mac";
+		};
+		BBDEA4411C3D6CCF00BBEEBC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BB64E6E71C2F48FF00C18269 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BBDEA4351C3D6CCE00BBEEBC;
+			remoteInfo = "BigInt-TV";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -112,6 +165,9 @@
 		BBB59DAE1C3A9389006F684C /* BigUInt Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BigUInt Random.swift"; sourceTree = "<group>"; };
 		BBB59DB11C3A96F3006F684C /* BigUInt Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BigUInt Data.swift"; sourceTree = "<group>"; };
 		BBB59DB51C3AC27A006F684C /* BigUInt Prime Test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BigUInt Prime Test.swift"; sourceTree = "<group>"; };
+		BBDEA4131C3D6B0E00BBEEBC /* BigInt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BigInt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BBDEA4361C3D6CCE00BBEEBC /* BigInt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BigInt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BBDEA43F1C3D6CCF00BBEEBC /* BigIntTests-TV.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "BigIntTests-TV.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +201,28 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BBDEA40F1C3D6B0E00BBEEBC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BBDEA4321C3D6CCE00BBEEBC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BBDEA43C1C3D6CCF00BBEEBC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BBDEA4401C3D6CCF00BBEEBC /* BigInt.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -166,6 +244,9 @@
 				BB64E6FA1C2F490000C18269 /* BigIntTests.xctest */,
 				BB64E70F1C2F49CF00C18269 /* BigInt.framework */,
 				BB64E7181C2F49CF00C18269 /* BigIntTests-Mac.xctest */,
+				BBDEA4131C3D6B0E00BBEEBC /* BigInt.framework */,
+				BBDEA4361C3D6CCE00BBEEBC /* BigInt.framework */,
+				BBDEA43F1C3D6CCF00BBEEBC /* BigIntTests-TV.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -222,6 +303,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		BB64E70C1C2F49CF00C18269 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BBDEA4101C3D6B0E00BBEEBC /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BBDEA4331C3D6CCE00BBEEBC /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -303,6 +398,60 @@
 			productReference = BB64E7181C2F49CF00C18269 /* BigIntTests-Mac.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		BBDEA4121C3D6B0E00BBEEBC /* BigInt-Watch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BBDEA4181C3D6B0E00BBEEBC /* Build configuration list for PBXNativeTarget "BigInt-Watch" */;
+			buildPhases = (
+				BBDEA40E1C3D6B0E00BBEEBC /* Sources */,
+				BBDEA40F1C3D6B0E00BBEEBC /* Frameworks */,
+				BBDEA4101C3D6B0E00BBEEBC /* Headers */,
+				BBDEA4111C3D6B0E00BBEEBC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "BigInt-Watch";
+			productName = "BigInt-Watch";
+			productReference = BBDEA4131C3D6B0E00BBEEBC /* BigInt.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		BBDEA4351C3D6CCE00BBEEBC /* BigInt-TV */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BBDEA4471C3D6CCF00BBEEBC /* Build configuration list for PBXNativeTarget "BigInt-TV" */;
+			buildPhases = (
+				BBDEA4311C3D6CCE00BBEEBC /* Sources */,
+				BBDEA4321C3D6CCE00BBEEBC /* Frameworks */,
+				BBDEA4331C3D6CCE00BBEEBC /* Headers */,
+				BBDEA4341C3D6CCE00BBEEBC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "BigInt-TV";
+			productName = "BigInt-TV";
+			productReference = BBDEA4361C3D6CCE00BBEEBC /* BigInt.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		BBDEA43E1C3D6CCF00BBEEBC /* BigIntTests-TV */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BBDEA44C1C3D6CCF00BBEEBC /* Build configuration list for PBXNativeTarget "BigIntTests-TV" */;
+			buildPhases = (
+				BBDEA43B1C3D6CCF00BBEEBC /* Sources */,
+				BBDEA43C1C3D6CCF00BBEEBC /* Frameworks */,
+				BBDEA43D1C3D6CCF00BBEEBC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BBDEA4421C3D6CCF00BBEEBC /* PBXTargetDependency */,
+			);
+			name = "BigIntTests-TV";
+			productName = "BigInt-TVTests";
+			productReference = BBDEA43F1C3D6CCF00BBEEBC /* BigIntTests-TV.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -325,6 +474,15 @@
 					BB64E7171C2F49CF00C18269 = {
 						CreatedOnToolsVersion = 7.2;
 					};
+					BBDEA4121C3D6B0E00BBEEBC = {
+						CreatedOnToolsVersion = 7.2;
+					};
+					BBDEA4351C3D6CCE00BBEEBC = {
+						CreatedOnToolsVersion = 7.2;
+					};
+					BBDEA43E1C3D6CCF00BBEEBC = {
+						CreatedOnToolsVersion = 7.2;
+					};
 				};
 			};
 			buildConfigurationList = BB64E6EA1C2F48FF00C18269 /* Build configuration list for PBXProject "BigInt" */;
@@ -341,8 +499,11 @@
 			targets = (
 				BB64E6EF1C2F490000C18269 /* BigInt-iOS */,
 				BB64E70E1C2F49CF00C18269 /* BigInt-Mac */,
+				BBDEA4121C3D6B0E00BBEEBC /* BigInt-Watch */,
+				BBDEA4351C3D6CCE00BBEEBC /* BigInt-TV */,
 				BB64E6F91C2F490000C18269 /* BigIntTests-iOS */,
 				BB64E7171C2F49CF00C18269 /* BigIntTests-Mac */,
+				BBDEA43E1C3D6CCF00BBEEBC /* BigIntTests-TV */,
 			);
 		};
 /* End PBXProject section */
@@ -370,6 +531,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		BB64E7161C2F49CF00C18269 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BBDEA4111C3D6B0E00BBEEBC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BBDEA4341C3D6CCE00BBEEBC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BBDEA43D1C3D6CCF00BBEEBC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -457,6 +639,72 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BBDEA40E1C3D6B0E00BBEEBC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BBDEA4251C3D6CA100BBEEBC /* BigUInt Shifts.swift in Sources */,
+				BBDEA41E1C3D6CA100BBEEBC /* ShiftOperationsType.swift in Sources */,
+				BBDEA41D1C3D6CA100BBEEBC /* Bitwise Hacks.swift in Sources */,
+				BBDEA42F1C3D6CA100BBEEBC /* BigUInt Random.swift in Sources */,
+				BBDEA4301C3D6CA100BBEEBC /* BigInt.swift in Sources */,
+				BBDEA42E1C3D6CA100BBEEBC /* BigUInt Data.swift in Sources */,
+				BBDEA42D1C3D6CA100BBEEBC /* BigUInt Prime Test.swift in Sources */,
+				BBDEA42A1C3D6CA100BBEEBC /* BigUInt Square Root.swift in Sources */,
+				BBDEA4221C3D6CA100BBEEBC /* BigUInt Hashing.swift in Sources */,
+				BBDEA42B1C3D6CA100BBEEBC /* BigUInt GCD.swift in Sources */,
+				BBDEA4271C3D6CA100BBEEBC /* BigUInt Subtraction.swift in Sources */,
+				BBDEA4201C3D6CA100BBEEBC /* BigUInt.swift in Sources */,
+				BBDEA4261C3D6CA100BBEEBC /* BigUInt Addition.swift in Sources */,
+				BBDEA4231C3D6CA100BBEEBC /* BigUInt Radix Conversion.swift in Sources */,
+				BBDEA4211C3D6CA100BBEEBC /* BigUInt Comparison.swift in Sources */,
+				BBDEA41F1C3D6CA100BBEEBC /* BigDigit.swift in Sources */,
+				BBDEA4241C3D6CA100BBEEBC /* BigUInt Bitwise Ops.swift in Sources */,
+				BBDEA4291C3D6CA100BBEEBC /* BigUInt Division.swift in Sources */,
+				BBDEA42C1C3D6CA100BBEEBC /* BigUInt Exponentiation.swift in Sources */,
+				BBDEA4281C3D6CA100BBEEBC /* BigUInt Multiplication.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BBDEA4311C3D6CCE00BBEEBC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BBDEA45E1C3D6DAA00BBEEBC /* BigUInt Shifts.swift in Sources */,
+				BBDEA4571C3D6DAA00BBEEBC /* ShiftOperationsType.swift in Sources */,
+				BBDEA4561C3D6DAA00BBEEBC /* Bitwise Hacks.swift in Sources */,
+				BBDEA4681C3D6DAA00BBEEBC /* BigUInt Random.swift in Sources */,
+				BBDEA4691C3D6DAA00BBEEBC /* BigInt.swift in Sources */,
+				BBDEA4671C3D6DAA00BBEEBC /* BigUInt Data.swift in Sources */,
+				BBDEA4661C3D6DAA00BBEEBC /* BigUInt Prime Test.swift in Sources */,
+				BBDEA4631C3D6DAA00BBEEBC /* BigUInt Square Root.swift in Sources */,
+				BBDEA45B1C3D6DAA00BBEEBC /* BigUInt Hashing.swift in Sources */,
+				BBDEA4641C3D6DAA00BBEEBC /* BigUInt GCD.swift in Sources */,
+				BBDEA4601C3D6DAA00BBEEBC /* BigUInt Subtraction.swift in Sources */,
+				BBDEA4591C3D6DAA00BBEEBC /* BigUInt.swift in Sources */,
+				BBDEA45F1C3D6DAA00BBEEBC /* BigUInt Addition.swift in Sources */,
+				BBDEA45C1C3D6DAA00BBEEBC /* BigUInt Radix Conversion.swift in Sources */,
+				BBDEA45A1C3D6DAA00BBEEBC /* BigUInt Comparison.swift in Sources */,
+				BBDEA4581C3D6DAA00BBEEBC /* BigDigit.swift in Sources */,
+				BBDEA45D1C3D6DAA00BBEEBC /* BigUInt Bitwise Ops.swift in Sources */,
+				BBDEA4621C3D6DAA00BBEEBC /* BigUInt Division.swift in Sources */,
+				BBDEA4651C3D6DAA00BBEEBC /* BigUInt Exponentiation.swift in Sources */,
+				BBDEA4611C3D6DAA00BBEEBC /* BigUInt Multiplication.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BBDEA43B1C3D6CCF00BBEEBC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BBDEA4521C3D6DA400BBEEBC /* DigitsTests.swift in Sources */,
+				BBDEA4551C3D6DA400BBEEBC /* BigIntTests.swift in Sources */,
+				BBDEA4531C3D6DA400BBEEBC /* BigUIntTests.swift in Sources */,
+				BBDEA4511C3D6DA400BBEEBC /* BitwiseTests.swift in Sources */,
+				BBDEA4541C3D6DA400BBEEBC /* ProfileTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -469,6 +717,11 @@
 			isa = PBXTargetDependency;
 			target = BB64E70E1C2F49CF00C18269 /* BigInt-Mac */;
 			targetProxy = BB64E71A1C2F49D000C18269 /* PBXContainerItemProxy */;
+		};
+		BBDEA4421C3D6CCF00BBEEBC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BBDEA4351C3D6CCE00BBEEBC /* BigInt-TV */;
+			targetProxy = BBDEA4411C3D6CCF00BBEEBC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -918,6 +1171,218 @@
 			};
 			name = Test;
 		};
+		BBDEA4191C3D6B0E00BBEEBC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Sources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigInt-Watch";
+				PRODUCT_NAME = BigInt;
+				SDKROOT = watchos2.1;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Debug;
+		};
+		BBDEA41A1C3D6B0E00BBEEBC /* Test */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Sources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigInt-Watch";
+				PRODUCT_NAME = BigInt;
+				SDKROOT = watchos2.1;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Test;
+		};
+		BBDEA41B1C3D6B0E00BBEEBC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Sources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigInt-Watch";
+				PRODUCT_NAME = BigInt;
+				SDKROOT = watchos2.1;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Release;
+		};
+		BBDEA41C1C3D6B0E00BBEEBC /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Sources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigInt-Watch";
+				PRODUCT_NAME = BigInt;
+				SDKROOT = watchos2.1;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Profile;
+		};
+		BBDEA4481C3D6CCF00BBEEBC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Sources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigInt-TV";
+				PRODUCT_NAME = BigInt;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		BBDEA4491C3D6CCF00BBEEBC /* Test */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Sources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigInt-TV";
+				PRODUCT_NAME = BigInt;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Test;
+		};
+		BBDEA44A1C3D6CCF00BBEEBC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Sources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigInt-TV";
+				PRODUCT_NAME = BigInt;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		BBDEA44B1C3D6CCF00BBEEBC /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Sources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigInt-TV";
+				PRODUCT_NAME = BigInt;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Profile;
+		};
+		BBDEA44D1C3D6CCF00BBEEBC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-TV";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TVOS_DEPLOYMENT_TARGET = 9.1;
+			};
+			name = Debug;
+		};
+		BBDEA44E1C3D6CCF00BBEEBC /* Test */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-TV";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TVOS_DEPLOYMENT_TARGET = 9.1;
+			};
+			name = Test;
+		};
+		BBDEA44F1C3D6CCF00BBEEBC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-TV";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TVOS_DEPLOYMENT_TARGET = 9.1;
+			};
+			name = Release;
+		};
+		BBDEA4501C3D6CCF00BBEEBC /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-TV";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TVOS_DEPLOYMENT_TARGET = 9.1;
+			};
+			name = Profile;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -975,6 +1440,36 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		BBDEA4181C3D6B0E00BBEEBC /* Build configuration list for PBXNativeTarget "BigInt-Watch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BBDEA4191C3D6B0E00BBEEBC /* Debug */,
+				BBDEA41A1C3D6B0E00BBEEBC /* Test */,
+				BBDEA41B1C3D6B0E00BBEEBC /* Release */,
+				BBDEA41C1C3D6B0E00BBEEBC /* Profile */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		BBDEA4471C3D6CCF00BBEEBC /* Build configuration list for PBXNativeTarget "BigInt-TV" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BBDEA4481C3D6CCF00BBEEBC /* Debug */,
+				BBDEA4491C3D6CCF00BBEEBC /* Test */,
+				BBDEA44A1C3D6CCF00BBEEBC /* Release */,
+				BBDEA44B1C3D6CCF00BBEEBC /* Profile */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		BBDEA44C1C3D6CCF00BBEEBC /* Build configuration list for PBXNativeTarget "BigIntTests-TV" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BBDEA44D1C3D6CCF00BBEEBC /* Debug */,
+				BBDEA44E1C3D6CCF00BBEEBC /* Test */,
+				BBDEA44F1C3D6CCF00BBEEBC /* Release */,
+				BBDEA4501C3D6CCF00BBEEBC /* Profile */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
