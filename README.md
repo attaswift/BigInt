@@ -3,6 +3,7 @@
 * [Overview](#overview)
 * [API Documentation](#api)
 * [License](#license)
+* [Requirements and Integration](#integration)
 * [Implementation Notes](#notes)
     * [Full-width multiplication and division primitives](#fullwidth)
     * [Why is there no generic `BigInt<Digit>` type?](#generics)
@@ -84,6 +85,29 @@ Generated API docs are available at http://lorentey.github.io/BigInt/api.
 ## <a name="license">License</a>
 
 BigInt can be used, distributed and modified under [the MIT license][license].
+
+## <a name="integration">Requirements and Integration</a>
+
+BigInt requires Swift 2.1.1 (Xcode 7.2), and deploys on OS X 10.9, iOS 8, watchOS 2 and tvOS 9.
+
+- **Direct use:**
+  Just clone the Git repo, include project file as a subproject in your own project, and you're done.
+
+- **Swift Package Manager:**
+  BigInt hasn't been tested on prerelease versions of Swift yet, so as of version 1.2.0 there is no SPM support.
+
+- **Carthage:** Put this in your `Cartfile`:
+
+    ```
+github "lorentey/BigInt"
+    ```
+
+- **CocoaPod:** Put this in your `Podfile`:
+
+    ```Ruby
+use_frameworks!
+pod 'BigInt', :git => 'https://github.com/lorentey/BigInt.git'
+    ```
 
 ## <a name="notes">Implementation notes</a>
 
