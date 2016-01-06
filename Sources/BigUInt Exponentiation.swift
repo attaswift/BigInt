@@ -20,11 +20,14 @@ extension BigUInt {
     /// - Note: This function can be unreasonably expensive for large exponents, which is why `exponent` is
     ///         a simple integer value. If you want to calculate big exponents, you'll probably need to use
     ///         the modulo arithmetic variant.
+    /// - Returns: 1 if `exponent == 0`, otherwise `self` raised to `exponent`. (This implies that `0.power(0) == 1`.)
     /// - SeeAlso: `BigUInt.power(_:, modulus:)`
     /// - Complexity: O((exponent * self.count)^log2(3)) or somesuch. The result may require a large amount of memory, too.
     @warn_unused_result
     public func power(exponent: Int) -> BigUInt {
         if exponent == 0 { return 1 }
+        if exponent == 1 { return self }
+        if self.count <= 1 && self[0] <= 1 { return self }
         var result = BigUInt(1)
         var b = self
         var e = exponent

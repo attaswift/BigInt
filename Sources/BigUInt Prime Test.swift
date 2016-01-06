@@ -8,7 +8,9 @@
 
 import Foundation
 
-/// The first several prime numbers.
+/// The first several [prime numbers][primes]. 
+///
+/// [primes]: https://oeis.org/A000040
 let primes: [BigUInt.Digit] = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41]
 
 /// The ith element in this sequence is the smallest composite number that passes the strong probable prime test
@@ -45,12 +47,16 @@ extension BigUInt {
         let d = dec >> r
 
         var test = base.power(d, modulus: self)
-        if test == 1 || test == self - 1 { return true }
+        if test == 1 || test == dec { return true }
 
-        for _ in 1 ..< r {
-            test = (test * test) % self
-            if test == 1 { return false }
-            if test == dec { return true }
+        if r > 0 {
+            for _ in 1 ..< r {
+                test = (test * test) % self
+                if test == 1 {
+                    return false
+                }
+                if test == dec { return true }
+            }
         }
         return false
     }
@@ -78,7 +84,11 @@ extension BigUInt {
 
         // Quickly check for small primes.
         for i in 1 ..< primes.count {
-            if self.divideByDigit(primes[i]).mod == 0 {
+            let p = primes[i]
+            if self.count == 1 && self[0] == p {
+                return true
+            }
+            if self.divideByDigit(p).mod == 0 {
                 return false
             }
         }
@@ -87,19 +97,19 @@ extension BigUInt {
         if self < pseudoPrimes.last! {
             for i in 0 ..< pseudoPrimes.count {
                 guard isStrongProbablePrime(BigUInt(primes[i])) else {
-                    return false
+                    break
                 }
                 if self < pseudoPrimes[i] {
                     // `self` is below the lowest pseudoprime corresponding to the prime bases we tested. It's a prime!
                     return true
                 }
             }
-            fatalError() // Should not get here
+            return false
         }
 
         /// Otherwise do as many rounds of random SPPT as required.
         for _ in 0 ..< rounds {
-            let random = BigUInt.randomIntegerWithLimit(self)
+            let random = BigUInt.randomIntegerLessThan(self)
             guard isStrongProbablePrime(random) else {
                 return false
             }

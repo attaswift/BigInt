@@ -50,11 +50,12 @@ extension BigUInt {
     /// - Returns: A random big integer that is less than `limit`.
     /// - Note: This function uses `arc4random_buf` to generate random bits.
     @warn_unused_result
-    public static func randomIntegerWithLimit(limit: BigUInt) -> BigUInt {
+    public static func randomIntegerLessThan(limit: BigUInt) -> BigUInt {
         let width = limit.width
-        while true {
-            let random = randomIntegerWithMaximumWidth(width)
-            if random < limit { return random }
+        var random = randomIntegerWithMaximumWidth(width)
+        while random >= limit {
+            random = randomIntegerWithMaximumWidth(width)
         }
+        return random
     }
 }

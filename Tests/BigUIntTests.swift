@@ -181,6 +181,12 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(String(BigUInt("10000000000000000", radix: 16)!, radix: 31), "nd075ib45k86g")
         XCTAssertEqual(String(BigUInt("2908B5129F59DB6A41", radix: 16)!, radix: 31), "100000000000000")
         XCTAssertEqual(String(sample, radix: 31), "ptf96helfaqi7ogc3jbonmccrhmnc2b61s")
+
+        let quickLook = BigUInt(513).customPlaygroundQuickLook()
+        if case PlaygroundQuickLook.Text("513 (10 bits)") = quickLook {
+        } else {
+            XCTFail("Unexpected playground QuickLook representation: \(quickLook)")
+        }
     }
 
     func testConversionFromString() {
@@ -702,6 +708,41 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(BigUInt.gcd(fibo[7 * 17 * 83], fibo[6 * 17 * 83]), fibo[17 * 83])
     }
 
+    func testInverse() {
+        XCTAssertNil(BigUInt(4).inverse(8))
+        XCTAssertNil(BigUInt(12).inverse(15))
+        XCTAssertEqual(BigUInt(13).inverse(15), 7)
+        
+        XCTAssertEqual(BigUInt(251).inverse(1023), 269)
+        XCTAssertNil(BigUInt(252).inverse(1023))
+        XCTAssertEqual(BigUInt(2).inverse(1023), 512)
+    }
+
+    func testExponentiation() {
+        XCTAssertEqual(BigUInt(0).power(0), BigUInt(1))
+        XCTAssertEqual(BigUInt(1).power(0), BigUInt(1))
+        XCTAssertEqual(BigUInt(0).power(1), BigUInt(0))
+        XCTAssertEqual(BigUInt(1).power(1), BigUInt(1))
+
+        XCTAssertEqual(BigUInt(2).power(0), BigUInt(1))
+        XCTAssertEqual(BigUInt(2).power(1), BigUInt(2))
+        XCTAssertEqual(BigUInt(2).power(2), BigUInt(4))
+        XCTAssertEqual(BigUInt(2).power(3), BigUInt(8))
+
+        XCTAssertEqual(BigUInt(3).power(0), BigUInt(1))
+        XCTAssertEqual(BigUInt(3).power(1), BigUInt(3))
+        XCTAssertEqual(BigUInt(3).power(2), BigUInt(9))
+        XCTAssertEqual(BigUInt(3).power(3), BigUInt(27))
+
+        XCTAssertEqual((BigUInt(1) << 256).power(0), BigUInt(1))
+        XCTAssertEqual((BigUInt(1) << 256).power(1), BigUInt(1) << 256)
+        XCTAssertEqual((BigUInt(1) << 256).power(2), BigUInt(1) << 512)
+
+        XCTAssertEqual(BigUInt(0).power(577), BigUInt(0))
+        XCTAssertEqual(BigUInt(1).power(577), BigUInt(1))
+        XCTAssertEqual(BigUInt(2).power(577), BigUInt(1) << 577)
+    }
+
     func testModularExponentiation() {
         XCTAssertEqual(BigUInt(2).power(11, modulus: 1), 0)
         XCTAssertEqual(BigUInt(2).power(11, modulus: 1000), 48)
@@ -789,7 +830,7 @@ class BigUIntTests: XCTestCase {
             XCTAssertLessThanOrEqual(BigUInt.randomIntegerWithMaximumWidth(1024).width, 1024)
         }
 
-        // Verify that all widths <= maximum are produced
+        // Verify that all widths <= maximum are produced (with a tiny maximum)
         var widths: Set<Int> = [0, 1, 2, 3]
         var i = 0
         while !widths.isEmpty {
@@ -800,6 +841,18 @@ class BigUIntTests: XCTestCase {
             if i > 4096 {
                 XCTFail("randomIntegerWithMaximumWidth doesn't seem random")
                 break
+            }
+        }
+
+        // Verify that all bits are sometimes zero, sometimes one.
+        var oneBits = Set<Int>(0..<1024)
+        var zeroBits = Set<Int>(0..<1024)
+        while !oneBits.isEmpty || !zeroBits.isEmpty {
+            var random = BigUInt.randomIntegerWithMaximumWidth(1024)
+            for i in 0..<1024 {
+                if random[0] & 1 == 1 { oneBits.remove(i) }
+                else { zeroBits.remove(i) }
+                random >>= 1
             }
         }
     }
@@ -817,6 +870,100 @@ class BigUIntTests: XCTestCase {
 
         for _ in 0 ..< 100 {
             XCTAssertEqual(BigUInt.randomIntegerWithExactWidth(1024).width, 1024)
+        }
+
+        // Verify that all bits except the top are sometimes zero, sometimes one.
+        var oneBits = Set<Int>(0..<1023)
+        var zeroBits = Set<Int>(0..<1023)
+        while !oneBits.isEmpty || !zeroBits.isEmpty {
+            var random = BigUInt.randomIntegerWithExactWidth(1024)
+            for i in 0..<1023 {
+                if random[0] & 1 == 1 { oneBits.remove(i) }
+                else { zeroBits.remove(i) }
+                random >>= 1
+            }
+        }
+    }
+
+    func testRandomIntegerLessThan() {
+
+        let limit = BigUInt.randomIntegerWithMaximumWidth(1024)
+
+        // Verify that all bits are sometimes zero, sometimes one.
+        var oneBits = Set<Int>(0..<limit.width)
+        var zeroBits = Set<Int>(0..<limit.width)
+        while !oneBits.isEmpty || !zeroBits.isEmpty {
+            var random = BigUInt.randomIntegerLessThan(limit)
+            XCTAssertLessThan(random, limit)
+            for i in 0..<limit.width {
+                if random[0] & 1 == 1 { oneBits.remove(i) }
+                else { zeroBits.remove(i) }
+                random >>= 1
+            }
+        }
+    }
+
+    func testStrongProbablePrimeTest() {
+        let primes: [BigUInt.Digit] = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 79, 83, 89, 97]
+        let pseudoPrimes: [BigUInt] = [
+            /*  2 */ 2_047,
+            /*  3 */ 1_373_653,
+            /*  5 */ 25_326_001,
+            /*  7 */ 3_215_031_751,
+            /* 11 */ 2_152_302_898_747,
+            /* 13 */ 3_474_749_660_383,
+            /* 17 */ 341_550_071_728_321,
+            /* 19 */ 341_550_071_728_321,
+            /* 23 */ 3_825_123_056_546_413_051,
+            /* 29 */ 3_825_123_056_546_413_051,
+            /* 31 */ 3_825_123_056_546_413_051,
+            /* 37 */ "318665857834031151167461",
+            /* 41 */ "3317044064679887385961981",
+        ]
+        for i in 0..<pseudoPrimes.count {
+            let candidate = pseudoPrimes[i]
+            print(candidate)
+            // SPPT should not rule out candidate's primality for primes less than prime[i + 1]
+            for j in 0...i {
+                XCTAssertTrue(candidate.isStrongProbablePrime(BigUInt(primes[j])))
+            }
+            // But the pseudoprimes aren't prime, so there is a base that disproves them.
+            let foo = (i + 1 ... i + 3).filter { !candidate.isStrongProbablePrime(BigUInt(primes[$0])) }
+            XCTAssertNotEqual(foo, [])
+        }
+
+        // Try the SPPT for some Mersenne numbers.
+
+        // Mersenne exponents from OEIS: https://oeis.org/A000043
+        XCTAssertFalse((BigUInt(1) << 606 - 1).isStrongProbablePrime(5))
+        XCTAssertTrue((BigUInt(1) << 607 - 1).isStrongProbablePrime(5)) // 2^607 - 1 is prime
+        XCTAssertFalse((BigUInt(1) << 608 - 1).isStrongProbablePrime(5))
+
+        XCTAssertFalse((BigUInt(1) << 520 - 1).isStrongProbablePrime(7))
+        XCTAssertTrue((BigUInt(1) << 521 - 1).isStrongProbablePrime(7)) // 2^521 -1 is prime
+        XCTAssertFalse((BigUInt(1) << 522 - 1).isStrongProbablePrime(7))
+
+        XCTAssertFalse((BigUInt(1) << 88 - 1).isStrongProbablePrime(128))
+        XCTAssertTrue((BigUInt(1) << 89 - 1).isStrongProbablePrime(128)) // 2^89 -1 is prime
+        XCTAssertFalse((BigUInt(1) << 90 - 1).isStrongProbablePrime(128))
+
+        // One extra test to exercise an a^2 % modulus == 1 case
+        XCTAssertFalse(BigUInt(217).isStrongProbablePrime(129))
+    }
+
+    func testIsPrime() {
+        XCTAssertFalse(BigUInt(0).isPrime())
+        XCTAssertFalse(BigUInt(1).isPrime())
+        XCTAssertTrue(BigUInt(2).isPrime())
+        XCTAssertTrue(BigUInt(3).isPrime())
+        XCTAssertFalse(BigUInt(4).isPrime())
+        XCTAssertTrue(BigUInt(5).isPrime())
+
+        // Try primality testing the first couple hundred Mersenne numbers comparing against the first few Mersenne exponents from OEIS: https://oeis.org/A000043
+        let mp: Set<Int> = [2, 3, 5, 7, 13, 17, 19, 31, 61, 89, 107, 127, 521]
+        for exponent in 2..<200 {
+            let m = BigUInt(1) << exponent - 1
+            XCTAssertEqual(m.isPrime(), mp.contains(exponent), "\(exponent)")
         }
     }
 }
