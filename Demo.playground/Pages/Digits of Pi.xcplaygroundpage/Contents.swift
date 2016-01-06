@@ -30,16 +30,6 @@ func digitsOfPi() -> AnyGenerator<Int> {
 
 //: Well, that was surprisingly easy. Does it work? You bet:
 
-var digits = "π ≈ "
-var count = 0
-for digit in digitsOfPi() {
-    assert(digit < 10)
-    digit
-    digits += String(digit)
-    count += 1
-    if count == 1 { digits += "." }
-    if count == 1000 { break }
-}
+let digits = digitsOfPi().prefix(999).reduce("") { $0 + String($1) }
 
-digits
 //: [Next](@next)
