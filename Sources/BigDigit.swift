@@ -44,7 +44,7 @@ extension BigDigit {
 
 extension UInt64: BigDigit {
     @warn_unused_result
-    internal static func digitsFromUIntMax(i: UIntMax) -> [UIntMax] { return [i] }
+    internal static func digitsFromUIntMax(i: UIntMax) -> [UInt64] { return [i] }
 }
 
 extension UInt32: BigDigit {
