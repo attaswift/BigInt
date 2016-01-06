@@ -173,5 +173,18 @@ class ProfileTests: XCTestCase {
             }
         }
     }
+
+    func testMersennePrimes() {
+        self.measure {
+            // OEIS has all known Mersenne exponents: https://oeis.org/A000043
+            // But only a fool would trust those sinister mathmaticists; so let's verify they tell the truth this time
+            let exponents: Set<Int> = [2, 3, 5, 7, 13, 17, 19, 31, 61, 89, 107, 127, 521, 607, 1279, 2203, 2281]
+            for exp in 1...1000 {
+                let mersenne = BigUInt(1) << exp - 1
+                XCTAssertEqual(mersenne.isPrime(), exponents.contains(exp), "\(exp) smells fishy")
+            }
+            // Seems legit. You win this round, evil magmaticians
+        }
+    }
 }
 #endif

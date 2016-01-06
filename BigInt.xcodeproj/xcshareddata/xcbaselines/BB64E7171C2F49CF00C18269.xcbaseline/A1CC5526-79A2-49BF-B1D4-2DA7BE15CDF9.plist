@@ -46,6 +46,16 @@
 					<string>2016-01-03 18:16:42</string>
 				</dict>
 			</dict>
+			<key>testMersennePrimes()</key>
+			<dict>
+				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
+				<dict>
+					<key>baselineAverage</key>
+					<real>4.194</real>
+					<key>baselineIntegrationDisplayName</key>
+					<string>2016-01-06 15:15:41</string>
+				</dict>
+			</dict>
 			<key>testModularExponentiation()</key>
 			<dict>
 				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
