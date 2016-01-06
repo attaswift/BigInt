@@ -12,6 +12,13 @@
 	* [RSA Cryptography](#rsa)
 	* [Calculating the Digits of π](#pi)
 
+[![License](https://img.shields.io/cocoapods/l/BigInt.svg?style=flat)](http://cocoapods.org/pods/BigInt)
+[![Platform](https://img.shields.io/cocoapods/p/BigInt.svg?style=flat)](http://cocoapods.org/pods/BigInt)
+[![Coverage Status](https://coveralls.io/repos/lorentey/BigInt/badge.svg?branch=master&service=github)](https://coveralls.io/github/lorentey/BigInt?branch=master)
+
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![Version](https://img.shields.io/cocoapods/v/BigInt.svg?style=flat)](http://cocoapods.org/pods/BigInt)
+
 ## <a name="overview">Overview</a>
 
 This repository provides [integer types of arbitrary width][wiki] implemented
