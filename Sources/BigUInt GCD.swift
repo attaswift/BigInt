@@ -53,7 +53,7 @@ extension BigUInt {
             (r1, r2) = (r2, r1 - quotient * r2)
         }
         if r1 > 1 { return nil }
-        if t1 < 0 { return modulus - t1.abs }
+        if t1.negative { return modulus - t1.abs }
         return t1.abs
     }
 }
