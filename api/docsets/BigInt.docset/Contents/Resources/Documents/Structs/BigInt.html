@@ -206,7 +206,22 @@
 
                 </div>
               </div>
-            <p>An arbitary precision unsigned integer type.</p>
+            <p>An arbitary precision signed integer type, also known as a <q>big integer</q>.</p>
+
+<p>Operations on big integers never overflow, but they might take a long time to execute.
+The amount of memory (and address space) available is the only constraint to the magnitude of these numbers.</p>
+
+<p>This particular big integer type uses base-2^64 digits to represent integers.</p>
+
+<p><code>BigInt</code> is essentially a tiny wrapper that extends <code><a href="../Structs/BigUInt.html">BigUInt</a></code> with a sign bit and provides signed integer
+operations. Both the underlying absolute value and the negative/positive flag are available as read-write 
+properties.</p>
+
+<p>Not all algorithms of <code><a href="../Structs/BigUInt.html">BigUInt</a></code> are available for <code>BigInt</code> values; for example, there is no square root or
+primality test for signed integers. When you need to call one of these, just extract the absolute value:</p>
+
+<pre class="highlight plaintext"><code>BigInt(255).abs.isPrime()   // Returns false
+</code></pre>
 
           </div>
         </section>
@@ -240,7 +255,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigInt.swift#L16">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigInt.swift#L33">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -270,7 +285,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigInt.swift#L18">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigInt.swift#L35">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -300,7 +315,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigInt.swift#L21-L24">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigInt.swift#L38-L41">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -330,7 +345,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigInt.swift#L27-L29">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigInt.swift#L44-L46">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -360,7 +375,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigInt.swift#L32-L43">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigInt.swift#L49-L60">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -390,7 +405,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigInt.swift#L46-L49">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigInt.swift#L63-L66">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -454,7 +469,7 @@ letters from the English alphabet.</p>
 
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigInt.swift#L60-L73">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigInt.swift#L77-L90">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -488,7 +503,7 @@ letters from the English alphabet.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigInt.swift#L94">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigInt.swift#L111">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -522,7 +537,7 @@ letters from the English alphabet.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigInt.swift#L100-L102">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigInt.swift#L117-L119">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -557,7 +572,7 @@ The scalar must represent a decimal digit.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigInt.swift#L108-L110">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigInt.swift#L125-L127">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -588,7 +603,7 @@ The cluster must consist of a decimal digit.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigInt.swift#L114-L116">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigInt.swift#L131-L133">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -619,7 +634,7 @@ The string must contain only decimal digits.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigInt.swift#L120-L122">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigInt.swift#L137-L139">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -653,7 +668,7 @@ The string must contain only decimal digits.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigInt.swift#L128-L131">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigInt.swift#L145-L148">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -687,7 +702,7 @@ The string must contain only decimal digits.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigInt.swift#L160-L163">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigInt.swift#L177-L180">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -700,7 +715,7 @@ The string must contain only decimal digits.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2016 <a class="link" href="https://twitter.com/lorentey" target="_blank" rel="external">Károly Lőrentey</a>. All rights reserved. (Last updated: 2016-01-05)</p>
+      <p>&copy; 2016 <a class="link" href="https://twitter.com/lorentey" target="_blank" rel="external">Károly Lőrentey</a>. All rights reserved. (Last updated: 2016-01-06)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.5.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

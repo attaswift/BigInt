@@ -221,7 +221,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>An arbitary precision unsigned integer type.</p>
+                        <p>An arbitary precision unsigned integer type, also known as a <q>big integer</q>.</p>
+
+<p>Operations on big integers never overflow, but they might take a long time to execute.
+The amount of memory (and address space) available is the only constraint to the magnitude of these numbers.</p>
+
+<p>This particular big integer type uses base-2^64 digits to represent integers; you can think of it as a wrapper
+around <code>Array&lt;UInt64&gt;</code>. In fact, <code>BigUInt</code> implements a mutable collection of its <code>UInt64</code> digits, with the
+digit at index 0 being the least significant.</p>
+
+<p>To make memory management simple, <code>BigUInt</code> allows you to subscript it with out-of-bounds indexes:
+the subscript getter zero-extends the digit sequence, while the subscript setter automatically extends the
+underlying storage when necessary:</p>
+
+<pre class="highlight plaintext"><code>var number = BigUInt(1)
+number[42]                // Not an error, returns 0
+number[23] = 1            // Not an error, number is now 2^1472 + 1.
+</code></pre>
+
+<p>Note that it is rarely a good idea to use big integers as collections; in the vast majority of cases it is much
+easier to work with the provided high-level methods and operators rather than with raw big digits.</p>
 
                         <a href="Structs/BigUInt.html" class="slightly-smaller">See more</a>
                       </div>
@@ -234,7 +253,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt.swift#L12-L52">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt.swift#L32-L72">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -265,7 +284,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt.swift#L168-L181">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt.swift#L188-L201">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -294,7 +313,22 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>An arbitary precision unsigned integer type.</p>
+                        <p>An arbitary precision signed integer type, also known as a <q>big integer</q>.</p>
+
+<p>Operations on big integers never overflow, but they might take a long time to execute.
+The amount of memory (and address space) available is the only constraint to the magnitude of these numbers.</p>
+
+<p>This particular big integer type uses base-2^64 digits to represent integers.</p>
+
+<p><code>BigInt</code> is essentially a tiny wrapper that extends <code><a href="Structs/BigUInt.html">BigUInt</a></code> with a sign bit and provides signed integer
+operations. Both the underlying absolute value and the negative/positive flag are available as read-write 
+properties.</p>
+
+<p>Not all algorithms of <code><a href="Structs/BigUInt.html">BigUInt</a></code> are available for <code>BigInt</code> values; for example, there is no square root or
+primality test for signed integers. When you need to call one of these, just extract the absolute value:</p>
+
+<pre class="highlight plaintext"><code>BigInt(255).abs.isPrime()   // Returns false
+</code></pre>
 
                         <a href="Structs/BigInt.html" class="slightly-smaller">See more</a>
                       </div>
@@ -307,7 +341,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigInt.swift#L14-L50">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigInt.swift#L31-L67">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -320,7 +354,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2016 <a class="link" href="https://twitter.com/lorentey" target="_blank" rel="external">Károly Lőrentey</a>. All rights reserved. (Last updated: 2016-01-05)</p>
+      <p>&copy; 2016 <a class="link" href="https://twitter.com/lorentey" target="_blank" rel="external">Károly Lőrentey</a>. All rights reserved. (Last updated: 2016-01-06)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.5.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

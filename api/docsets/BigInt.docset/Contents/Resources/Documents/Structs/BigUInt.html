@@ -206,7 +206,26 @@
 
                 </div>
               </div>
-            <p>An arbitary precision unsigned integer type.</p>
+            <p>An arbitary precision unsigned integer type, also known as a <q>big integer</q>.</p>
+
+<p>Operations on big integers never overflow, but they might take a long time to execute.
+The amount of memory (and address space) available is the only constraint to the magnitude of these numbers.</p>
+
+<p>This particular big integer type uses base-2^64 digits to represent integers; you can think of it as a wrapper
+around <code>Array&lt;UInt64&gt;</code>. In fact, <code>BigUInt</code> implements a mutable collection of its <code>UInt64</code> digits, with the
+digit at index 0 being the least significant.</p>
+
+<p>To make memory management simple, <code>BigUInt</code> allows you to subscript it with out-of-bounds indexes:
+the subscript getter zero-extends the digit sequence, while the subscript setter automatically extends the
+underlying storage when necessary:</p>
+
+<pre class="highlight plaintext"><code>var number = BigUInt(1)
+number[42]                // Not an error, returns 0
+number[23] = 1            // Not an error, number is now 2^1472 + 1.
+</code></pre>
+
+<p>Note that it is rarely a good idea to use big integers as collections; in the vast majority of cases it is much
+easier to work with the provided high-level methods and operators rather than with raw big digits.</p>
 
           </div>
         </section>
@@ -240,7 +259,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt.swift#L14">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt.swift#L34">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -270,7 +289,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt.swift#L31-L33">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt.swift#L51-L53">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -300,7 +319,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt.swift#L36-L38">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt.swift#L56-L58">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -330,7 +349,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt.swift#L41-L43">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt.swift#L61-L63">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -366,7 +385,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt.swift#L48-L51">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt.swift#L68-L71">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -407,7 +426,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt.swift#L58-L60">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt.swift#L78-L80">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -449,7 +468,7 @@ The scalar must represent a decimal digit.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt.swift#L68-L70">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt.swift#L88-L90">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -480,7 +499,7 @@ The cluster must consist of a decimal digit.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt.swift#L74-L76">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt.swift#L94-L96">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -511,7 +530,7 @@ The string must contain only decimal digits.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt.swift#L80-L82">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt.swift#L100-L102">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -552,7 +571,7 @@ The string must contain only decimal digits.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt.swift#L113">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt.swift#L133">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -582,7 +601,7 @@ The string must contain only decimal digits.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt.swift#L115">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt.swift#L135">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -612,7 +631,7 @@ The string must contain only decimal digits.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt.swift#L117">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt.swift#L137">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -642,7 +661,7 @@ The string must contain only decimal digits.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt.swift#L120-L122">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt.swift#L140-L142">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -689,7 +708,7 @@ The string must contain only decimal digits.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Comparison.swift#L18-L26">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Comparison.swift#L18-L26">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -730,7 +749,7 @@ The string must contain only decimal digits.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Hashing.swift#L15-L24">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Hashing.swift#L15-L24">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -801,7 +820,7 @@ letters from the English alphabet.</p>
 
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Radix Conversion.swift#L42-L74">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Radix Conversion.swift#L42-L74">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -831,7 +850,7 @@ letters from the English alphabet.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Radix Conversion.swift#L77-L79">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Radix Conversion.swift#L77-L79">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -865,7 +884,7 @@ letters from the English alphabet.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Radix Conversion.swift#L133-L136">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Radix Conversion.swift#L133-L136">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -923,7 +942,7 @@ letters from the English alphabet.</p>
 
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Bitwise Ops.swift#L19-L22">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Bitwise Ops.swift#L19-L22">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -983,7 +1002,7 @@ This is useful when you need to normalize a <code><a href="../Structs/BigUInt.ht
 
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Bitwise Ops.swift#L31-L34">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Bitwise Ops.swift#L31-L34">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1036,7 +1055,7 @@ This is useful when you need to normalize a <code><a href="../Structs/BigUInt.ht
 
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Bitwise Ops.swift#L41-L45">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Bitwise Ops.swift#L41-L45">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1084,7 +1103,7 @@ This is useful when you need to normalize a <code><a href="../Structs/BigUInt.ht
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Addition.swift#L18-L29">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Addition.swift#L18-L29">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1121,7 +1140,7 @@ This is useful when you need to normalize a <code><a href="../Structs/BigUInt.ht
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Addition.swift#L36-L40">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Addition.swift#L36-L40">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1158,7 +1177,7 @@ This is useful when you need to normalize a <code><a href="../Structs/BigUInt.ht
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Addition.swift#L46-L65">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Addition.swift#L46-L65">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1195,7 +1214,7 @@ This is useful when you need to normalize a <code><a href="../Structs/BigUInt.ht
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Addition.swift#L72-L76">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Addition.swift#L72-L76">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1232,7 +1251,7 @@ the digit that is to be incremented.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Addition.swift#L82-L84">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Addition.swift#L82-L84">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1286,7 +1305,7 @@ caused an arithmetic overflow. <code>d</code> is shifted <code>shift</code> digi
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Subtraction.swift#L20-L32">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Subtraction.swift#L20-L32">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1329,7 +1348,7 @@ caused an arithmetic overflow. <code>d</code> is shifted <code>shift</code> digi
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Subtraction.swift#L40-L44">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Subtraction.swift#L40-L44">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1372,7 +1391,7 @@ caused an arithmetic overflow. <code>d</code> is shifted <code>shift</code> digi
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Subtraction.swift#L51-L54">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Subtraction.swift#L51-L54">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1415,7 +1434,7 @@ caused an arithmetic overflow. <code>d</code> is shifted <code>shift</code> digi
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Subtraction.swift#L62-L66">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Subtraction.swift#L62-L66">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1458,7 +1477,7 @@ arithmetic overflow. <code>b</code> is shifted <code>shift</code> digits to the 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Subtraction.swift#L74-L94">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Subtraction.swift#L74-L94">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1501,7 +1520,7 @@ arithmetic overflow. <code>b</code> is shifted <code>shift</code> digits to the 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Subtraction.swift#L102-L106">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Subtraction.swift#L102-L106">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1544,7 +1563,7 @@ arithmetic overflow. <code>b</code> is shifted <code>shift</code> digits to the 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Subtraction.swift#L113-L116">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Subtraction.swift#L113-L116">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1587,7 +1606,7 @@ arithmetic overflow. <code>b</code> is shifted <code>shift</code> digits to the 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Subtraction.swift#L124-L128">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Subtraction.swift#L124-L128">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1629,7 +1648,7 @@ arithmetic overflow. <code>b</code> is shifted <code>shift</code> digits to the 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Subtraction.swift#L134-L136">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Subtraction.swift#L134-L136">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1676,7 +1695,7 @@ arithmetic overflow. <code>b</code> is shifted <code>shift</code> digits to the 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Multiplication.swift#L18-L31">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Multiplication.swift#L18-L31">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1712,7 +1731,7 @@ arithmetic overflow. <code>b</code> is shifted <code>shift</code> digits to the 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Multiplication.swift#L37-L41">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Multiplication.swift#L37-L41">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1766,7 +1785,7 @@ individually. (The fused operation doesn&rsquo;t need to allocate space for temp
 
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Multiplication.swift#L49-L76">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Multiplication.swift#L49-L76">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1809,7 +1828,7 @@ individually. (The fused operation doesn&rsquo;t need to allocate space for temp
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Multiplication.swift#L84-L87">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Multiplication.swift#L84-L87">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1839,7 +1858,7 @@ individually. (The fused operation doesn&rsquo;t need to allocate space for temp
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Multiplication.swift#L90">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Multiplication.swift#L90">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1892,7 +1911,7 @@ individually. (The fused operation doesn&rsquo;t need to allocate space for temp
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Division.swift#L20-L33">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Division.swift#L20-L33">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1945,7 +1964,7 @@ individually. (The fused operation doesn&rsquo;t need to allocate space for temp
 
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Division.swift#L41-L45">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Division.swift#L41-L45">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1998,7 +2017,7 @@ individually. (The fused operation doesn&rsquo;t need to allocate space for temp
 
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Division.swift#L53-L162">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Division.swift#L53-L162">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2045,7 +2064,7 @@ individually. (The fused operation doesn&rsquo;t need to allocate space for temp
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt GCD.swift#L18-L35">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt GCD.swift#L18-L35">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2068,7 +2087,7 @@ or <code>nil</code> if there is no such number.</p>
 
 <div class="aside aside-returns">
     <p class="aside-title">Returns</p>
-    If <code>gcd(self, modulus) == 1</code>, the value returned is an integer <code>a &lt; modulus</code> such that <code>(a * self) % modulus == 1</code>. If <code>self</code> and <code>modulus</code> aren&rsquo;t coprime, the return value is nil.
+    If <code>gcd(self, modulus) == 1</code>, the value returned is an integer <code>a &lt; modulus</code> such that <code>(a * self) % modulus == 1</code>. If <code>self</code> and <code>modulus</code> aren&rsquo;t coprime, the return value is <code>nil</code>.
 
 </div>
 
@@ -2089,11 +2108,11 @@ or <code>nil</code> if there is no such number.</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>If <code>gcd(self, modulus) == 1</code>, the value returned is an integer <code>a &lt; modulus</code> such that <code>(a * self) % modulus == 1</code>. If <code>self</code> and <code>modulus</code> aren&rsquo;t coprime, the return value is nil.</p>
+                        <p>If <code>gcd(self, modulus) == 1</code>, the value returned is an integer <code>a &lt; modulus</code> such that <code>(a * self) % modulus == 1</code>. If <code>self</code> and <code>modulus</code> aren&rsquo;t coprime, the return value is <code>nil</code>.</p>
 
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt GCD.swift#L45-L58">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt GCD.swift#L45-L58">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2102,19 +2121,19 @@ or <code>nil</code> if there is no such number.</p>
             </div>
             <div class="task-group">
               <div class="task-name-container">
-                <a name="/Modular%20Exponentiation"></a>
-                <a name="//apple_ref/swift/Section/Modular Exponentiation" class="dashAnchor"></a>
-                <a href="#/Modular%20Exponentiation">
-                  <h3 class="section-name">Modular Exponentiation</h3>
+                <a name="/Exponentiation"></a>
+                <a name="//apple_ref/swift/Section/Exponentiation" class="dashAnchor"></a>
+                <a href="#/Exponentiation">
+                  <h3 class="section-name">Exponentiation</h3>
                 </a>
               </div>
               <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ZFV6BigInt7BigUInt6powmodFMS0_FTS0_S0_7modulusS0__S0_"></a>
-                    <a name="//apple_ref/swift/Method/powmod(_:_:modulus:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZFV6BigInt7BigUInt6powmodFMS0_FTS0_S0_7modulusS0__S0_">powmod(_:_:modulus:)</a>
+                    <a name="/s:FV6BigInt7BigUInt5powerFS0_FSiS0_"></a>
+                    <a name="//apple_ref/swift/Method/power(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUInt5powerFS0_FSiS0_">power(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2122,11 +2141,33 @@ or <code>nil</code> if there is no such number.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns the remainder of <code>base</code> raised to the power <code>exponent</code> under <code>modulus</code>.</p>
+                        <p>Returns this integer raised to the power <code>exponent</code>.</p>
+
+<p>This function calculates the result by <a href="https://en.wikipedia.org/wiki/Exponentiation_by_squaring">successively squaring the base while halving the exponent</a>.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    This function can be unreasonably expensive for large exponents, which is why <code>exponent</code> is
+    a simple integer value. If you want to calculate big exponents, you&rsquo;ll probably need to use
+    the modulo arithmetic variant.
+
+</div>
+
+<div class="aside aside-returns">
+    <p class="aside-title">Returns</p>
+    1 if <code>exponent == 0</code>, otherwise <code>self</code> raised to <code>exponent</code>. (This implies that <code>0.power(0) == 1</code>.)
+
+</div>
+
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code>BigUInt.power(_:, modulus:)</code>
+
+</div>
 
 <div class="aside aside-complexity">
     <p class="aside-title">Complexity</p>
-    O(exponent.count * modulus.count^2)
+    O((exponent * self.count)^log2(3)) or somesuch. The result may require a large amount of memory, too.
 
 </div>
 
@@ -2135,12 +2176,55 @@ or <code>nil</code> if there is no such number.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">powmod</span><span class="p">(</span><span class="nv">base</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">,</span> <span class="n">_</span> <span class="nv">exponent</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">,</span> <span class="nv">modulus</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">BigUInt</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">power</span><span class="p">(</span><span class="nv">exponent</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">BigUInt</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>1 if <code>exponent == 0</code>, otherwise <code>self</code> raised to <code>exponent</code>. (This implies that <code>0.power(0) == 1</code>.)</p>
+
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Exponentiation.swift#L27-L42">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6BigInt7BigUInt5powerFS0_FTS0_7modulusS0__S0_"></a>
+                    <a name="//apple_ref/swift/Method/power(_:modulus:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6BigInt7BigUInt5powerFS0_FTS0_7modulusS0__S0_">power(_:modulus:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the remainder of this integer raised to the power <code>exponent</code> in modulo arithmetic under <code>modulus</code>.</p>
+
+<p>Uses the <a href="https://en.wikipedia.org/wiki/Modular_exponentiation#Right-to-left_binary_method">right-to-left binary method</a>.</p>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(exponent.count * modulus.count^log2(3)) or somesuch
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">power</span><span class="p">(</span><span class="nv">exponent</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">,</span> <span class="nv">modulus</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">BigUInt</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Modular Exponentiation.swift#L18-L32">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Exponentiation.swift#L52-L65">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2181,7 +2265,7 @@ or <code>nil</code> if there is no such number.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Prime Test.swift#L41-L56">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Prime Test.swift#L43-L62">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2221,7 +2305,7 @@ return a correct result.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Prime Test.swift#L72-L110">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Prime Test.swift#L78-L120">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2263,7 +2347,7 @@ The data is assumed to be in network (big-endian) byte order.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Data.swift#L16-L47">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Data.swift#L16-L47">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2293,7 +2377,7 @@ The data is assumed to be in network (big-endian) byte order.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Data.swift#L51-L79">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Data.swift#L51-L79">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2351,7 +2435,7 @@ The data is assumed to be in network (big-endian) byte order.</p>
 
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Random.swift#L19-L34">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Random.swift#L19-L34">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2398,7 +2482,7 @@ The data is assumed to be in network (big-endian) byte order.</p>
 
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Random.swift#L41-L46">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Random.swift#L41-L46">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2406,9 +2490,9 @@ The data is assumed to be in network (big-endian) byte order.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ZFV6BigInt7BigUInt22randomIntegerWithLimitFMS0_FS0_S0_"></a>
-                    <a name="//apple_ref/swift/Method/randomIntegerWithLimit(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZFV6BigInt7BigUInt22randomIntegerWithLimitFMS0_FS0_S0_">randomIntegerWithLimit(_:)</a>
+                    <a name="/s:ZFV6BigInt7BigUInt21randomIntegerLessThanFMS0_FS0_S0_"></a>
+                    <a name="//apple_ref/swift/Method/randomIntegerLessThan(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFV6BigInt7BigUInt21randomIntegerLessThanFMS0_FS0_S0_">randomIntegerLessThan(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2435,7 +2519,7 @@ The data is assumed to be in network (big-endian) byte order.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">randomIntegerWithLimit</span><span class="p">(</span><span class="nv">limit</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">BigUInt</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">randomIntegerLessThan</span><span class="p">(</span><span class="nv">limit</span><span class="p">:</span> <span class="kt">BigUInt</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">BigUInt</span></code></pre>
 
                         </div>
                       </div>
@@ -2445,7 +2529,7 @@ The data is assumed to be in network (big-endian) byte order.</p>
 
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/f71940a7491d3266258275240996cc7cdd7088f0/Sources/BigUInt Random.swift#L53-L59">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v1.1.0/Sources/BigUInt Random.swift#L53-L60">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2458,7 +2542,7 @@ The data is assumed to be in network (big-endian) byte order.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2016 <a class="link" href="https://twitter.com/lorentey" target="_blank" rel="external">Károly Lőrentey</a>. All rights reserved. (Last updated: 2016-01-05)</p>
+      <p>&copy; 2016 <a class="link" href="https://twitter.com/lorentey" target="_blank" rel="external">Károly Lőrentey</a>. All rights reserved. (Last updated: 2016-01-06)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.5.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
