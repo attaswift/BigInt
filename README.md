@@ -39,7 +39,7 @@ big integers, including
     shifting the digits of the second operand on the fly.
   - Unsigned subtraction will trap when the result would be negative. 
     ([There are variants][subtraction] that return an overflow flag.)
-  - [Multiplication][star] uses brute force for numbers up to 1024 digits, then switches to Karatsuba's recursive method. 
+  - [Multiplication][mul] uses brute force for numbers up to 1024 digits, then switches to Karatsuba's recursive method. 
     (This limit is configurable, see `BigUInt.directMultiplicationLimit`.) 
   - A [fused multiply-add][fused] method is also available, along with other [special-case variants][multiplication].
   - Division uses Knuth's Algorithm D, with its 3/2 digits wide quotient approximation. 
@@ -65,7 +65,8 @@ big integers, including
 
 - [`BigUInt.gcd(n, m)`][GCD]: The greatest common divisor of two integers (Stein's algorithm).
   
-- [`base.power(exponent, modulus)`][powmod]: Modular exponentiation (right-to-left binary method).
+- [`base.power(exponent, modulus)`][powmod]: Modular exponentiation (right-to-left binary method). 
+  [Vanilla exponentiation][power] is also available.
 - [`n.inverse(modulus)`][inverse]: Multiplicative inverse in modulo arithmetic (extended Euclidean algorithm).
 - [`n.isPrime()`][prime]: Miller–Rabin primality test.
 
@@ -132,7 +133,7 @@ generic variant that was slower but more flexible.
 [hashing]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Hashing
 [addition]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Addition
 [subtraction]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Subtraction
-[star]: http://lorentey.github.io/BigInt/api/Functions.html#/s:ZF6BigIntoi1mFTVS_7BigUIntS0__S0_
+[mul]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUInt8multiplyFS0_FS0_S0_
 [fused]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUInt21multiplyAndAddInPlaceFRS0_FTS0_VSs6UInt645shiftSi_T_
 [multiplication]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Multiplication
 [division]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Division
@@ -148,7 +149,8 @@ generic variant that was slower but more flexible.
 [radix2]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUIntcFMS0_FTSS5radixSi_GSqS0__
 [sqrt]: http://lorentey.github.io/BigInt/api/Functions.html#/s:F6BigInt4sqrtFVS_7BigUIntS0_
 [GCD]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:ZFV6BigInt7BigUInt3gcdFMS0_FTS0_S0__S0_
-[powmod]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:ZFV6BigInt7BigUInt6powmodFMS0_FTS0_S0_7modulusS0__S0_
+[powmod]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUInt5powerFS0_FTS0_7modulusS0__S0_
+[power]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUInt5powerFS0_FSiS0_
 [inverse]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUInt7inverseFS0_FS0_GSqS0__
 [prime]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Primality%20Testing
 [abs]: http://lorentey.github.io/BigInt/api/Structs/BigInt.html#/s:vV6BigInt6BigInt3absVS_7BigUInt
