@@ -3,4 +3,4 @@
 # It is not an integral part of the project and I'd rather remove it if I could help it.
 
 source 'https://rubygems.org'
-gem 'slather'
+gem 'rest-client'

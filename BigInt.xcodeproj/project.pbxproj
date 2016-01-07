@@ -583,7 +583,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo Hello\n";
+			shellScript = "echo Hello\n/usr/bin/env";
 		};
 /* End PBXShellScriptBuildPhase section */
 
