@@ -1446,6 +1446,7 @@
 				BBDEA41C1C3D6B0E00BBEEBC /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BBDEA4471C3D6CCF00BBEEBC /* Build configuration list for PBXNativeTarget "BigInt-TV" */ = {
 			isa = XCConfigurationList;
@@ -1456,6 +1457,7 @@
 				BBDEA44B1C3D6CCF00BBEEBC /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BBDEA44C1C3D6CCF00BBEEBC /* Build configuration list for PBXNativeTarget "BigIntTests-TV" */ = {
 			isa = XCConfigurationList;
@@ -1466,6 +1468,7 @@
 				BBDEA4501C3D6CCF00BBEEBC /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
