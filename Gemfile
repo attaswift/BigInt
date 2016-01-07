@@ -2,8 +2,5 @@
 # enable code coverage tracking via continuous integration.
 # It is not an integral part of the project and I'd rather remove it if I could help it.
 
-language: objective-c
-osx_image: xcode7.2    
-xcode_project: BigInt.xcodeproj
-xcode_scheme: BigInt-Mac
-after_success: bundle exec slather
+source 'https://rubygems.org'
+gem 'slather'
