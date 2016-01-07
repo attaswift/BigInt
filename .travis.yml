@@ -6,4 +6,4 @@ language: objective-c
 osx_image: xcode7.2    
 xcode_project: BigInt.xcodeproj
 xcode_scheme: BigInt-Mac
-after_success: bundle exec slather
+after_success: echo "$TRAVIS_JOB_ID"
