@@ -119,7 +119,7 @@ def git_desc
   desc[:remotes] = `git remote -v`.split(/\n/).map do |remote|
     splits = remote.split(" ").compact
     {:name => splits[0], :url => splits[1]}
-  end.uniq
+  end.uniq { |remote| remote[:name] }
   return desc
 end
 
@@ -169,12 +169,12 @@ job[:source_files] = generate_source_files_hash(file_to_coverage_data, srcroot)
 if ENV['TRAVIS']
   job[:service_name] = "travis_ci"
   job[:service_job_id] = ENV['TRAVIS_JOB_ID']
-  job[:service_number] = ENV['TRAVIS_JOB_NUMBER']
   pr = ENV['TRAVIS_PULL_REQUEST']
   if pr != 'false'
     job[:service_pull_request] = pr
   end
 else
+  puts job
   raise "llvm-coveralls expects to be run from a Travis CI build"
 end
 
