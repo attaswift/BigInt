@@ -1,0 +1,193 @@
+#!/usr/bin/env ruby
+#
+# llvm-coveralls - Copyright © 2016 Károly Lőrentey
+#
+# This file contains some arcane technical incantations that are needed to
+# enable code coverage tracking via continuous integration.
+# It is not an integral part of the project and I'd rather remove it if I could help it.
+#
+# This is a quick'n'dirty script to upload coverage data from llvm-cov to coveralls.io.
+# It expects to be run from a Travis build.
+# I don't really know Ruby (I had to look up the syntax for "if"), so please excuse the horrible code.
+#
+require 'json'
+require 'digest'
+require 'time'
+require 'rest_client'
+require 'optparse'
+
+
+def get_build_settings(project, scheme, target)
+  settings = Hash.new
+  current_target = nil
+  current_action = nil
+  `xcrun xcodebuild test -showBuildSettings -project #{project} -scheme #{scheme}`.each_line do |line|
+    if /^Build settings for action (.*) and target (.*):$/ =~ line
+      current_target = $~[2]
+      current_action = $~[1]
+    elsif /^    ([a-zA-Z0-9_]+) = (.*)$/ =~ line 
+      if current_target == target and current_action == "test"
+        settings[$~[1]] = $~[2]
+      end
+    end
+  end
+  return settings
+end
+
+# Parse a line count string (from llvm-cov) and return the number it represents.
+def parse_counter(count) 
+  if /^$/ =~ count
+    return nil
+  elsif /^[0-9]+$/ =~ count
+    return Integer(Float($~[0]))
+  elsif /^([0-9\.]+)k$/ =~ count
+    return Integer(Float($~[1]) * 1000)
+  elsif /^([0-9\.]+)M$/ =~ count
+    return Integer(Float($~[1]) * 1000000)
+  end
+end
+
+def parse_llvm_cov_output(file)
+  data = Hash.new
+  current_file = nil
+  file.each_line do |line|
+    if %r{^(/.*):$} =~ line
+      current_file = $~[1]
+      data[current_file] = Hash.new
+    elsif /^ *([0-9.kM]*)\| *([0-9]+)\|(.*)$/ =~ line
+      return if current_file == nil
+      line_count = parse_counter($~[1])
+      line_number = Integer($~[2])
+      line_contents = $~[3]
+      data[current_file][line_number] = line_count
+#      puts "#{current_file}:#{line_number}:#{line_count}"
+    elsif /^$/ =~ line
+      # ignore empty lines
+    else
+      puts "Ignoring strange line: #{line}"
+    end
+  end
+  return data
+end
+
+def generate_source_files_hash(file_to_coverage_data, srcroot)
+  source_files = Array.new
+  file_to_coverage_data.each do |full_filename, coverage_data|
+    if !full_filename.start_with?(srcroot + "/")
+      puts "Ignoring #{full_filename} (not under SRCROOT)"
+      next
+    end
+    filename = full_filename[srcroot.length + 1..full_filename.length]
+    puts "#{filename}"
+
+    # Collect coverage data  
+    counts = Array.new
+    line = 1
+    while coverage_data.has_key?(line) 
+      counts[line] = coverage_data.fetch(line)
+      line += 1
+    end
+  
+    # Generate MD5 of file contents
+    source_digest = Digest::MD5.file(full_filename).hexdigest
+  
+    source_files.push({:name => filename, :source_digest => source_digest, :coverage => counts})
+  end
+  return source_files
+end
+
+def dump_to_file(hash)
+  file = nil
+  Tempfile.open(["llvm-coveralls.upload", "json"]) do |f|
+    f.write(hash.to_json)
+    file = f
+  end
+  return File.new(file.path, "rb")
+end
+
+def git_desc
+  desc = Hash.new
+  desc[:head] = {
+    :id => `git log -1 --pretty=format:'%H'`,
+    :author_name => `git log -1 --pretty=format:'%aN'`,
+    :author_email => `git log -1 --pretty=format:'%ae'`,
+    :committer_name => `git log -1 --pretty=format:'%cN'`,
+    :committer_email => `git log -1 --pretty=format:'%ce'`,
+    :message => `git log -1 --pretty=format:'%s'`
+  }
+  desc[:branch] = `git rev-parse --abbrev-ref HEAD`.strip
+  desc[:remotes] = `git remote -v`.split(/\n/).map do |remote|
+    splits = remote.split(" ").compact
+    {:name => splits[0], :url => splits[1]}
+  end.uniq
+  return desc
+end
+
+
+project = nil
+scheme = nil
+target = nil
+configuration = nil
+
+opt_parser = OptionParser.new do |opts|
+  opts.banner = "Usage: llvm-coveralls --project PROJECT --scheme SCHEME --target TARGET --configuration CONFIG"
+  
+  opts.on("-p", "--project PROJECT", "Xcode project file") { |p| project = p }
+  opts.on("-s", "--scheme SCHEME", "Xcode Scheme") { |s| scheme = s }
+  opts.on("-t", "--target TARGET", "Xcode Target") { |t| target = t }
+  opts.on("-c", "--configuration CONFIG", "Xcode Configuration (such as Debug or Release)") { |c| configuration = c }
+end
+opt_parser.parse!(ARGV)
+
+if project == nil or scheme == nil or target == nil or configuration == nil
+  puts opt_parser.help
+  exit!
+end
+
+raise "Project file not found: #{project}" unless File.exists?(project)
+
+build_settings = get_build_settings(project, scheme, target)
+
+srcroot = build_settings['SRCROOT']
+objroot = build_settings['OBJROOT']
+target_name = build_settings['TARGET_NAME']
+
+coverage_root = "#{objroot}/CodeCoverage/#{scheme}"
+coverage_filename = "#{coverage_root}/Coverage.profdata"
+raise "Coverage profile not found: #{coverage_filename}" unless File.exist?(coverage_filename) 
+
+executable_filename = "#{coverage_root}/Products/#{configuration}/#{build_settings['EXECUTABLE_PATH']}"
+raise "Executable not found: #{executable_filename}" unless File.exists?(executable_filename)
+
+file_to_coverage_data = parse_llvm_cov_output(`xcrun llvm-cov show -show-line-counts -instr-profile #{coverage_filename} #{executable_filename}`)
+
+job = {}
+job[:run_at] = Time.now.iso8601
+job[:git] = git_desc
+job[:source_files] = generate_source_files_hash(file_to_coverage_data, srcroot)
+
+if ENV['TRAVIS']
+  job[:service_name] = "travis_ci"
+  job[:service_job_id] = ENV['TRAVIS_JOB_ID']
+  job[:service_number] = ENV['TRAVIS_JOB_NUMBER']
+  pr = ENV['TRAVIS_PULL_REQUEST']
+  if pr != 'false'
+    job[:service_pull_request] = pr
+  end
+else
+  raise "llvm-coveralls expects to be run from a Travis CI build"
+end
+
+begin
+  response = RestClient::Request.execute(
+    :method => :post, 
+    :url => "https://coveralls.io/api/v1/jobs", 
+    :payload => { :json_file => dump_to_file(job) }, 
+    :ssl_version => 'TLSv1',
+    :verify_ssl => false)
+
+    response_hash = JSON.load(response.to_str)
+    puts response_hash
+rescue RestClient::UnprocessableEntity
+  puts "Something went wrong. Yay!"
+end
