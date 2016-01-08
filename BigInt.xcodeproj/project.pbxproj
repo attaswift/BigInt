@@ -134,7 +134,6 @@
 /* Begin PBXFileReference section */
 		BB2CFBC31C3876A10082692D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BB64804F1C3EBC8800CF4BEE /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
-		BB6480501C3EBC9300CF4BEE /* Gemfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile; sourceTree = "<group>"; };
 		BB64E6F01C2F490000C18269 /* BigInt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BigInt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB64E6F51C2F490000C18269 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB64E6FA1C2F490000C18269 /* BigIntTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BigIntTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -236,7 +235,6 @@
 				BB2CFBC31C3876A10082692D /* README.md */,
 				BBDEA46B1C3D750100BBEEBC /* LICENSE.md */,
 				BBDEA46A1C3D741A00BBEEBC /* BigInt.podspec */,
-				BB6480501C3EBC9300CF4BEE /* Gemfile */,
 				BB64804F1C3EBC8800CF4BEE /* .travis.yml */,
 				BB6BB5501C36F5940054459A /* Demo.playground */,
 				BB64E6F21C2F490000C18269 /* Sources */,
