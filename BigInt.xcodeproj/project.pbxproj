@@ -133,7 +133,6 @@
 
 /* Begin PBXFileReference section */
 		BB2CFBC31C3876A10082692D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		BB64804E1C3EBC7900CF4BEE /* .slather.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .slather.yml; sourceTree = "<group>"; };
 		BB64804F1C3EBC8800CF4BEE /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		BB6480501C3EBC9300CF4BEE /* Gemfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile; sourceTree = "<group>"; };
 		BB64E6F01C2F490000C18269 /* BigInt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BigInt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -239,7 +238,6 @@
 				BBDEA46A1C3D741A00BBEEBC /* BigInt.podspec */,
 				BB6480501C3EBC9300CF4BEE /* Gemfile */,
 				BB64804F1C3EBC8800CF4BEE /* .travis.yml */,
-				BB64804E1C3EBC7900CF4BEE /* .slather.yml */,
 				BB6BB5501C36F5940054459A /* Demo.playground */,
 				BB64E6F21C2F490000C18269 /* Sources */,
 				BB64E6FE1C2F490000C18269 /* Tests */,
@@ -380,7 +378,6 @@
 				BB64E70B1C2F49CF00C18269 /* Frameworks */,
 				BB64E70C1C2F49CF00C18269 /* Headers */,
 				BB64E70D1C2F49CF00C18269 /* Resources */,
-				BB175C031C3EF96D00B309B8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -570,22 +567,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		BB175C031C3EF96D00B309B8 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "echo Hello\n/usr/bin/env";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BB64E6EB1C2F490000C18269 /* Sources */ = {
