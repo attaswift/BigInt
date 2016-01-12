@@ -300,30 +300,41 @@ in it.</p>
 <p>BigInt can be used, distributed and modified under <a href="https://github.com/lorentey/BigInt/blob/master/LICENSE.md">the MIT license</a>.</p>
 <a href='#a_name_integration_requirements_and_integration_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='a_name_integration_requirements_and_integration_a'><a name="integration">Requirements and Integration</a></h2>
 
-<p>BigInt requires Swift 2.1.1 (Xcode 7.2), and deploys on OS X 10.9, iOS 8, watchOS 2 and tvOS 9.</p>
+<p>BigInt requires Swift 2.1.1 (Xcode 7.2), and deploys to OS X 10.9, iOS 8, watchOS 2 and tvOS 9. 
+It has been tested on the latest OS releases only&mdash;however, as the module uses very few platform-provided APIs, 
+there should be very few issues with earlier versions. </p>
+
+<p>BigInt compiles and runs on prerelease versions of Swift 2.2, but it has not been fully tested there.
+BigInt uses no APIs specific to Apple platforms except for <code>arc4random_buf</code> in <code>BigUInt Random.swift</code>, so
+it should be easy to port it to other operating systems.</p>
+
+<p>Setup instructions:</p>
 
 <ul>
 <li><p><strong>Direct use:</strong>
-Just clone the Git repo, include project file as a subproject in your own project, and you&rsquo;re done.</p></li>
+Just clone the Git repo, include the project file as a subproject in your own project, and you&rsquo;re done.</p></li>
 <li><p><strong>Swift Package Manager:</strong>
-BigInt hasn&rsquo;t been tested on prerelease versions of Swift yet, so as of version 1.2.0 there is no SPM support.</p></li>
+Although the Package Manager is still in its infancy, BigInt provides experimental support for it. 
+Add this to the dependency section of your <code>Package.swift</code> manifest:</p>
+<pre class="highlight plaintext"><code>.Package(url: "https://github.com/lorentey/BigInt.git", Version(1, 2, 3))
+</code></pre></li>
 <li><p><strong>Carthage:</strong> Put this in your <code>Cartfile</code>:</p>
 <pre class="highlight plaintext"><code>github "lorentey/BigInt"
 </code></pre></li>
-<li><p><strong>CocoaPod:</strong> Put this in your <code>Podfile</code>:</p>
+<li><p><strong>CocoaPods:</strong> Put this in your <code>Podfile</code>:</p>
 <pre class="highlight plaintext"><code>use_frameworks!
 pod 'BigInt', :git =&gt; 'https://github.com/lorentey/BigInt.git'
 </code></pre></li>
 </ul>
 <a href='#a_name_notes_implementation_notes_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='a_name_notes_implementation_notes_a'><a name="notes">Implementation notes</a></h2>
 
-<p><a href="http://lorentey.github.io/BigInt/api/Structs/BigInt.html"><code>BigInt</code></a> is just a tiny wrapper around a <code>BigUInt</code> <a href="http://lorentey.github.io/BigInt/api/Structs/BigInt.html#/s:vV6BigInt6BigInt3absVS_7BigUInt">absolute value</a> and a 
-<a href="http://lorentey.github.io/BigInt/api/Structs/BigInt.html#/s:vV6BigInt6BigInt8negativeSb">sign bit</a>, both of which are accessible as public read-write properties. </p>
-
 <p><a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html"><code>BigUInt</code></a> is a <code>MutableCollectionType</code> of its 64-bit digits, with the least significant 
 digit at index 0. As a convenience, <a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html"><code>BigUInt</code></a> allows you to subscript it with indexes at
 or above its <code>count</code>. <a href="https://github.com/lorentey/BigInt/blob/v1.0.0/Sources/BigUInt.swift#L127-L150">The subscript operator</a> returns 0 for out-of-bound <code>get</code>s and
 automatically extends the array on out-of-bound <code>set</code>s. This makes memory management simpler.</p>
+
+<p><a href="http://lorentey.github.io/BigInt/api/Structs/BigInt.html"><code>BigInt</code></a> is just a tiny wrapper around a <code>BigUInt</code> <a href="http://lorentey.github.io/BigInt/api/Structs/BigInt.html#/s:vV6BigInt6BigInt3absVS_7BigUInt">absolute value</a> and a 
+<a href="http://lorentey.github.io/BigInt/api/Structs/BigInt.html#/s:vV6BigInt6BigInt8negativeSb">sign bit</a>, both of which are accessible as public read-write properties. </p>
 <a href='#a_name_fullwidth_full_width_multiplication_and_division_primitives_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='a_name_fullwidth_full_width_multiplication_and_division_primitives_a'><a name="fullwidth">Full-width multiplication and division primitives</a></h3>
 
 <p>I haven&rsquo;t found (64,64)-&gt;128 multiplication or (128,64)-&gt;64 division operations
@@ -571,7 +582,7 @@ digits
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2016 <a class="link" href="https://twitter.com/lorentey" target="_blank" rel="external">Károly Lőrentey</a>. All rights reserved. (Last updated: 2016-01-08)</p>
+      <p>&copy; 2016 <a class="link" href="https://twitter.com/lorentey" target="_blank" rel="external">Károly Lőrentey</a>. All rights reserved. (Last updated: 2016-01-12)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.5.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
