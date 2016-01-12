@@ -97,13 +97,26 @@ BigInt can be used, distributed and modified under [the MIT license][license].
 
 ## <a name="integration">Requirements and Integration</a>
 
-BigInt requires Swift 2.1.1 (Xcode 7.2), and deploys on OS X 10.9, iOS 8, watchOS 2 and tvOS 9.
+BigInt requires Swift 2.1.1 (Xcode 7.2), and deploys to OS X 10.9, iOS 8, watchOS 2 and tvOS 9. 
+It has been tested on the latest OS releases only---however, as the module uses very few platform-provided APIs, 
+there should be very few issues with earlier versions. 
+
+BigInt compiles and runs on prerelease versions of Swift 2.2, but it has not been fully tested there.
+BigInt uses no APIs specific to Apple platforms except for `arc4random_buf` in `BigUInt Random.swift`, so
+it should be easy to port it to other operating systems.
+
+Setup instructions:
 
 - **Direct use:**
-  Just clone the Git repo, include project file as a subproject in your own project, and you're done.
+  Just clone the Git repo, include the project file as a subproject in your own project, and you're done.
 
 - **Swift Package Manager:**
-  BigInt hasn't been tested on prerelease versions of Swift yet, so as of version 1.2.0 there is no SPM support.
+  Although the Package Manager is still in its infancy, BigInt provides experimental support for it. 
+  Add this to the dependency section of your `Package.swift` manifest:
+
+    ```Swift
+    .Package(url: "https://github.com/lorentey/BigInt.git", Version(1, 2, 3))
+     ```
 
 - **Carthage:** Put this in your `Cartfile`:
 
@@ -111,7 +124,7 @@ BigInt requires Swift 2.1.1 (Xcode 7.2), and deploys on OS X 10.9, iOS 8, watchO
 github "lorentey/BigInt"
     ```
 
-- **CocoaPod:** Put this in your `Podfile`:
+- **CocoaPods:** Put this in your `Podfile`:
 
     ```Ruby
 use_frameworks!
@@ -120,13 +133,13 @@ pod 'BigInt', :git => 'https://github.com/lorentey/BigInt.git'
 
 ## <a name="notes">Implementation notes</a>
 
-[`BigInt`][BigInt] is just a tiny wrapper around a `BigUInt` [absolute value][abs] and a 
-[sign bit][negative], both of which are accessible as public read-write properties. 
-
 [`BigUInt`][BigUInt] is a `MutableCollectionType` of its 64-bit digits, with the least significant 
 digit at index 0. As a convenience, [`BigUInt`][BigUInt] allows you to subscript it with indexes at
 or above its `count`. [The subscript operator][subscript] returns 0 for out-of-bound `get`s and
 automatically extends the array on out-of-bound `set`s. This makes memory management simpler.
+
+[`BigInt`][BigInt] is just a tiny wrapper around a `BigUInt` [absolute value][abs] and a 
+[sign bit][negative], both of which are accessible as public read-write properties. 
 
 ### <a name="fullwidth">Full-width multiplication and division primitives</a>
 
