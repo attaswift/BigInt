@@ -95,7 +95,7 @@ public func >>= (inout b: BigUInt, amount: Int) {
     b.lift()
 
     if ext > 0 {
-        b._digits.removeRange(Range(start: 0, end: ext))
+        b._digits.removeRange(0 ..< ext)
         b._end = b._digits.count
     }
     if down > 0 {
