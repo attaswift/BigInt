@@ -12,14 +12,15 @@
 	* [RSA Cryptography](#rsa)
 	* [Calculating the Digits of π](#pi)
 
-[![License](https://img.shields.io/cocoapods/l/BigInt.svg?style=flat)](http://cocoapods.org/pods/BigInt)
-[![Platform](https://img.shields.io/cocoapods/p/BigInt.svg?style=flat)](http://cocoapods.org/pods/BigInt)
- 
+[![Swift 2.1](https://img.shields.io/badge/Swift-2.1-blue.svg)](https://developer.apple.com/swift/)
+[![Documented](https://img.shields.io/cocoapods/metrics/doc-percent/BigInt.svg)](http://lorentey.github.io/BigInt/api)
+[![License](https://img.shields.io/badge/licence-MIT-blue.svg)](http://cocoapods.org/pods/BigInt)
+[![Platform](https://img.shields.io/cocoapods/p/BigInt.svg)](http://cocoapods.org/pods/BigInt)
+
 [![Build Status](https://travis-ci.org/lorentey/BigInt.svg?branch=master)](https://travis-ci.org/lorentey/BigInt)
-[![codecov.io](https://codecov.io/github/lorentey/BigInt/coverage.svg?branch=master)](https://codecov.io/github/lorentey/BigInt?branch=master)
- 
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![Version](https://img.shields.io/cocoapods/v/BigInt.svg?style=flat)](http://cocoapods.org/pods/BigInt)
+[![Code Coverage](https://codecov.io/github/lorentey/BigInt/coverage.svg?branch=master)](https://codecov.io/github/lorentey/BigInt?branch=master)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg)](https://github.com/Carthage/Carthage)
+[![Version](https://img.shields.io/cocoapods/v/BigInt.svg)](http://cocoapods.org/pods/BigInt)
 
 ## <a name="overview">Overview</a>
 
