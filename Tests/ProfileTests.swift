@@ -41,7 +41,7 @@ class ProfileTests: XCTestCase {
         print(n1, n2)
     }
 
-    func checkFactorial(fact: BigUInt, n: Int, file: String = __FILE__, line: UInt = __LINE__) {
+    func checkFactorial(fact: BigUInt, n: Int, file: StaticString = #file, line: UInt = #line) {
         var remaining = fact
         for i in 1...n {
             let (div, mod) = remaining.divide(BigUInt(i))

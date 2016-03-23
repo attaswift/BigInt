@@ -74,7 +74,7 @@ class BigIntTests: XCTestCase {
         XCTAssertNotEqual(BigInt(1).hashValue, BigInt(-1).hashValue)
     }
 
-    func compare(a: Int, _ b: Int, r: Int, file: String = __FILE__, line: UInt = __LINE__, @noescape op: (BigInt, BigInt) -> BigInt) {
+    func compare(a: Int, _ b: Int, r: Int, file: StaticString = #file, line: UInt = #line, @noescape op: (BigInt, BigInt) -> BigInt) {
         XCTAssertEqual(op(BigInt(a), BigInt(b)), BigInt(r), file: file, line: line)
     }
 

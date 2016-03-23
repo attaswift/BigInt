@@ -575,7 +575,7 @@ class BigUIntTests: XCTestCase {
     }
 
     func testDivision() {
-        func test(a: [Digit], _ b: [Digit], file: String = __FILE__, line: UInt = __LINE__) {
+        func test(a: [Digit], _ b: [Digit], file: StaticString = #file, line: UInt = #line) {
             let x = BigUInt(a)
             let y = BigUInt(b)
             let (div, mod) = x.divide(y)
@@ -673,7 +673,7 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(sqrt(BigUInt(0)), 0)
         XCTAssertEqual(sqrt(BigUInt(256)), 16)
 
-        func checkSqrt(value: BigUInt, file: String = __FILE__, line: UInt = __LINE__) {
+        func checkSqrt(value: BigUInt, file: StaticString = #file, line: UInt = #line) {
             let root = sqrt(sample)
             XCTAssertLessThanOrEqual(root * root, sample, file: file, line: line)
             XCTAssertGreaterThan((root + 1) * (root + 1), sample, file: file, line: line)
@@ -747,7 +747,7 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(BigUInt(2).power(11, modulus: 1), 0)
         XCTAssertEqual(BigUInt(2).power(11, modulus: 1000), 48)
 
-        func test(a a: BigUInt, p: BigUInt, file: String = __FILE__, line: UInt = __LINE__) {
+        func test(a a: BigUInt, p: BigUInt, file: StaticString = #file, line: UInt = #line) {
             // For all primes p and integers a, a % p == a^p % p. (Fermat's Little Theorem)
             let x = a % p
             let y = x.power(p, modulus: p)
@@ -806,7 +806,7 @@ class BigUIntTests: XCTestCase {
     }
 
     func testConversionToData() {
-        func test(b: BigUInt, _ d: Array<UInt8>, file: String = __FILE__, line: UInt = __LINE__) {
+        func test(b: BigUInt, _ d: Array<UInt8>, file: StaticString = #file, line: UInt = #line) {
             let expected = data(d)
             let actual = b.serialize()
             XCTAssertEqual(actual, expected, file: file, line: line)

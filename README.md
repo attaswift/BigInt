@@ -12,7 +12,7 @@
 	* [RSA Cryptography](#rsa)
 	* [Calculating the Digits of π](#pi)
 
-[![Swift 2.1](https://img.shields.io/badge/Swift-2.1-blue.svg)](https://developer.apple.com/swift/)
+[![Swift 2.2](https://img.shields.io/badge/Swift-2.2-blue.svg)](https://developer.apple.com/swift/)
 [![Documented](https://img.shields.io/cocoapods/metrics/doc-percent/BigInt.svg)](http://lorentey.github.io/BigInt/api)
 [![License](https://img.shields.io/badge/licence-MIT-blue.svg)](http://cocoapods.org/pods/BigInt)
 [![Platform](https://img.shields.io/cocoapods/p/BigInt.svg)](http://cocoapods.org/pods/BigInt)
@@ -98,11 +98,10 @@ BigInt can be used, distributed and modified under [the MIT license][license].
 
 ## <a name="integration">Requirements and Integration</a>
 
-BigInt requires Swift 2.1.1 (Xcode 7.2), and deploys to OS X 10.9, iOS 8, watchOS 2 and tvOS 9. 
+BigInt requires Swift 2.2 (Xcode 7.3), and deploys to OS X 10.9, iOS 8, watchOS 2 and tvOS 9. 
 It has been tested on the latest OS releases only---however, as the module uses very few platform-provided APIs, 
 there should be very few issues with earlier versions. 
 
-BigInt compiles and runs on prerelease versions of Swift 2.2, but it has not been fully tested there.
 BigInt uses no APIs specific to Apple platforms except for `arc4random_buf` in `BigUInt Random.swift`, so
 it should be easy to port it to other operating systems.
 
