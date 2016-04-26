@@ -685,8 +685,8 @@ class BigUIntTests: XCTestCase {
     }
 
     func testGCD() {
-        XCTAssertEqual(BigUInt.gcd(0, 2982891), 0)
-        XCTAssertEqual(BigUInt.gcd(2982891, 0), 0)
+        XCTAssertEqual(BigUInt.gcd(0, 2982891), 2982891)
+        XCTAssertEqual(BigUInt.gcd(2982891, 0), 2982891)
         XCTAssertEqual(BigUInt.gcd(0, 0), 0)
 
         XCTAssertEqual(BigUInt.gcd(4, 6), 2)

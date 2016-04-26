@@ -17,7 +17,8 @@ extension BigUInt {
     @warn_unused_result
     public static func gcd(a: BigUInt, _ b: BigUInt) -> BigUInt {
         // This is Stein's algorithm: https://en.wikipedia.org/wiki/Binary_GCD_algorithm
-        if a.isZero || b.isZero { return BigUInt() }
+        if a.isZero { return b }
+        if b.isZero { return a }
 
         let az = a.trailingZeroes
         let bz = b.trailingZeroes
