@@ -8,17 +8,17 @@
 
 import Foundation
 
-internal protocol BigDigit: UnsignedIntegerType, BitwiseOperationsType, ShiftOperationsType {
+internal protocol BigDigit: UnsignedInteger, BitwiseOperations, ShiftOperations {
     init(_ v: Int)
 
     @warn_unused_result
-    static func digitsFromUIntMax(i: UIntMax) -> [Self]
+    static func digitsFromUIntMax(_ i: UIntMax) -> [Self]
 
     @warn_unused_result
-    static func fullMultiply(x: Self, _ y: Self) -> (high: Self, low: Self)
+    static func fullMultiply(_ x: Self, _ y: Self) -> (high: Self, low: Self)
 
     @warn_unused_result
-    static func fullDivide(xh: Self, _ xl: Self, _ y: Self) -> (div: Self, mod: Self)
+    static func fullDivide(_ xh: Self, _ xl: Self, _ y: Self) -> (div: Self, mod: Self)
 
     static var max: Self { get }
     static var width: Int { get }
@@ -44,12 +44,12 @@ extension BigDigit {
 
 extension UInt64: BigDigit {
     @warn_unused_result
-    internal static func digitsFromUIntMax(i: UIntMax) -> [UInt64] { return [i] }
+    internal static func digitsFromUIntMax(_ i: UIntMax) -> [UInt64] { return [i] }
 }
 
 extension UInt32: BigDigit {
     @warn_unused_result
-    internal static func digitsFromUIntMax(i: UIntMax) -> [UInt32] { return [UInt32(i.low), UInt32(i.high)] }
+    internal static func digitsFromUIntMax(_ i: UIntMax) -> [UInt32] { return [UInt32(i.low), UInt32(i.high)] }
 
     // Somewhat surprisingly, these specializations do not help make UInt32 reach UInt64's performance.
     // (They are 4-42% faster in benchmarks, but UInt64 is 2-3 times faster still.)
@@ -69,7 +69,7 @@ extension UInt32: BigDigit {
 
 extension UInt16: BigDigit {
     @warn_unused_result
-    internal static func digitsFromUIntMax(i: UIntMax) -> [UInt16] {
+    internal static func digitsFromUIntMax(_ i: UIntMax) -> [UInt16] {
         var digits = Array<UInt16>()
         var remaining = i
         var width = UIntMax.width - remaining.leadingZeroes
@@ -85,7 +85,7 @@ extension UInt16: BigDigit {
 
 extension UInt8: BigDigit {
     @warn_unused_result
-    internal static func digitsFromUIntMax(i: UIntMax) -> [UInt8] {
+    internal static func digitsFromUIntMax(_ i: UIntMax) -> [UInt8] {
         var digits = Array<UInt8>()
         var remaining = i
         var width = UIntMax.width - remaining.leadingZeroes
@@ -104,7 +104,7 @@ extension UInt8: BigDigit {
 extension BigDigit {
     /// Return a tuple with the high and low digits of the product of `x` and `y`.
     @warn_unused_result
-    internal static func fullMultiply(x: Self, _ y: Self) -> (high: Self, low: Self) {
+    internal static func fullMultiply(_ x: Self, _ y: Self) -> (high: Self, low: Self) {
         let (a, b) = x.split
         let (c, d) = y.split
 
@@ -121,7 +121,7 @@ extension BigDigit {
     /// - Requires: `u1 < v`, so that the result will fit in a single digit.
     /// - Complexity: O(1) with 2 divisions, 6 multiplications and ~12 or so additions/subtractions.
     @warn_unused_result
-    internal static func fullDivide(u1: Self, _ u0: Self, _ v: Self) -> (div: Self, mod: Self) {
+    internal static func fullDivide(_ u1: Self, _ u0: Self, _ v: Self) -> (div: Self, mod: Self) {
         // Division is complicated; doing it with single-digit operations is maddeningly complicated.
         // This is a Swift adaptation for "divlu2" in Hacker's Delight,
         // which is in turn a C adaptation of Knuth's Algorithm D (TAOCP vol 2, 4.3.1).
@@ -130,7 +130,7 @@ extension BigDigit {
         /// Find the half-digit quotient in `(uh, ul) / vn`, which must be normalized.
         ///
         /// - Requires: uh < vn && ul.high == 0 && vn.width = width(Digit)
-        func quotient(uh: Self, _ ul: Self, _ vn: Self) -> (Self, ()) { // Strange return type is workaround for compiler bug
+        func quotient(_ uh: Self, _ ul: Self, _ vn: Self) -> (Self, ()) { // Strange return type is workaround for compiler bug
             let (vn1, vn0) = vn.split
             let q = uh / vn1 // Approximated quotient.
             let r = uh - q * vn1 // Remainder, less than vn1
@@ -146,7 +146,7 @@ extension BigDigit {
         /// Divide 3 half-digits by 2 half-digits to get a half-digit quotient and a full-digit remainder.
         ///
         /// - Requires: uh < vn && ul.high == 0 && vn.width = width(Digit)
-        func divmod(uh: Self, _ ul: Self, _ v: Self) -> (div: Self, mod: Self) {
+        func divmod(_ uh: Self, _ ul: Self, _ v: Self) -> (div: Self, mod: Self) {
             let q = quotient(uh, ul, v).0
             // Note that `uh.low` masks off a couple of bits, and `q * v` and the
             // subtraction are likely to overflow. Despite this, the end result (remainder) will

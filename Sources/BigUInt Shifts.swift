@@ -13,7 +13,7 @@ import Foundation
 /// Shift a big integer to the right by `amount` bits and store the result in place.
 ///
 /// - Complexity: O(count)
-public func <<= (inout b: BigUInt, amount: Int) {
+public func <<= (b: inout BigUInt, amount: Int) {
     typealias Digit = BigUInt.Digit
 
     precondition(amount >= 0)
@@ -35,7 +35,7 @@ public func <<= (inout b: BigUInt, amount: Int) {
         }
     }
     if ext > 0 && b.count > 0 {
-        b._digits.insertContentsOf(Array<Digit>(count: ext, repeatedValue: 0), at: 0)
+        b._digits.insert(contentsOf: Array<Digit>(repeating: 0, count: ext), at: 0)
         b._end = b._digits.count
     }
 }
@@ -77,7 +77,7 @@ public func << (b: BigUInt, amount: Int) -> BigUInt {
 /// Shift a big integer to the right by `amount` bits and store the result in place.
 ///
 /// - Complexity: O(count)
-public func >>= (inout b: BigUInt, amount: Int) {
+public func >>= (b: inout BigUInt, amount: Int) {
     typealias Digit = BigUInt.Digit
 
     precondition(amount >= 0)
@@ -95,7 +95,7 @@ public func >>= (inout b: BigUInt, amount: Int) {
     b.lift()
 
     if ext > 0 {
-        b._digits.removeRange(0 ..< ext)
+        b._digits.removeSubrange(0 ..< ext)
         b._end = b._digits.count
     }
     if down > 0 {
@@ -131,14 +131,14 @@ public func >> (b: BigUInt, amount: Int) -> BigUInt {
     var result = BigUInt()
     if down > 0 {
         var highbits: Digit = 0
-        for i in (ext..<b.count).reverse() {
+        for i in (ext..<b.count).reversed() {
             let digit = b[i]
             result[i - ext] = highbits | digit >> down
             highbits = digit << up
         }
     }
     else {
-        for i in (ext..<b.count).reverse() {
+        for i in (ext..<b.count).reversed() {
             result[i - ext] = b[i]
         }
     }

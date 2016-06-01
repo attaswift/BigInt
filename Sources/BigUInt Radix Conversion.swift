@@ -17,7 +17,7 @@ extension BigUInt: CustomStringConvertible {
     ///
     /// - Returns: (chars, power) where `chars` is highest that satisfy `radix^chars <= 2^Digit.width`. `power` is zero
     ///   if radix is a power of two; otherwise `power == radix^chars`.
-    private static func charsPerDigitForRadix(radix: Int) -> (chars: Int, power: Digit) {
+    private static func charsPerDigit(forRadix radix: Int) -> (chars: Int, power: Digit) {
         var power: Digit = 1
         var overflow = false
         var count = 0
@@ -41,13 +41,13 @@ extension BigUInt: CustomStringConvertible {
     /// - Returns: The integer represented by `text`, or nil if `text` contains a character that does not represent a numeral in `radix`.
     public init?(_ text: String, radix: Int = 10) {
         precondition(radix > 1)
-        let (charsPerDigit, power) = BigUInt.charsPerDigitForRadix(radix)
+        let (charsPerDigit, power) = BigUInt.charsPerDigit(forRadix: radix)
 
         var digits: [Digit] = []
         var piece: String = ""
         var count = 0
-        for c in text.characters.reverse() {
-            piece.insert(c, atIndex: piece.startIndex)
+        for c in text.characters.reversed() {
+            piece.insert(c, at: piece.startIndex)
             count += 1
             if count == charsPerDigit {
                 guard let d = Digit(piece, radix: radix) else { return nil }
@@ -66,7 +66,7 @@ extension BigUInt: CustomStringConvertible {
         }
         else {
             self.init()
-            for d in digits.reverse() {
+            for d in digits.reversed() {
                 self.multiplyInPlaceByDigit(power)
                 self.addDigitInPlace(d)
             }
@@ -94,7 +94,7 @@ extension String {
     /// - Complexity: O(count) when radix is a power of two; otherwise O(count^2).
     public init(_ v: BigUInt, radix: Int, uppercase: Bool = false) {
         precondition(radix > 1)
-        let (charsPerDigit, power) = BigUInt.charsPerDigitForRadix(radix)
+        let (charsPerDigit, power) = BigUInt.charsPerDigit(forRadix: radix)
 
         guard !v.isEmpty else { self = "0"; return }
 
@@ -114,12 +114,12 @@ extension String {
 
         self = ""
         var first = true
-        for part in parts.reverse() {
+        for part in parts.reversed() {
             let zeroes = charsPerDigit - part.characters.count
             assert(zeroes >= 0)
             if !first && zeroes > 0 {
                 // Insert leading zeroes for mid-digits
-                self += String(count: zeroes, repeatedValue: "0" as Character)
+                self += String(repeating: "0" as Character, count: zeroes)
             }
             first = false
             self += part
@@ -129,9 +129,8 @@ extension String {
 
 extension BigUInt: CustomPlaygroundQuickLookable {
     /// Return the playground quick look representation of this integer.
-    @warn_unused_result
-    public func customPlaygroundQuickLook() -> PlaygroundQuickLook {
+    public var customPlaygroundQuickLook: PlaygroundQuickLook {
         let text = String(self)
-        return PlaygroundQuickLook.Text(text + " (\(self.width) bits)")
+        return PlaygroundQuickLook.text(text + " (\(self.width) bits)")
     }
 }

@@ -39,8 +39,8 @@ public struct BigUInt {
 
     internal init(digits: [Digit], start: Int, end: Int) {
         precondition(start >= 0 && start <= end)
-        let start = min(start, digits.count)
-        var end = min(end, digits.count)
+        let start = Swift.min(start, digits.count)
+        var end = Swift.min(end, digits.count)
         while end > start && digits[end - 1] == 0 { end -= 1 }
         self._digits = digits
         self._start = start
@@ -58,14 +58,14 @@ public struct BigUInt {
     }
 
     /// Initializes a new BigUInt that has the supplied value.
-    public init<I: UnsignedIntegerType>(_ integer: I) {
+    public init<I: UnsignedInteger>(_ integer: I) {
         self.init(Digit.digitsFromUIntMax(integer.toUIntMax()))
     }
 
     /// Initializes a new BigUInt that has the supplied value.
     ///
     /// - Requires: integer >= 0
-    public init<I: SignedIntegerType>(_ integer: I) {
+    public init<I: SignedInteger>(_ integer: I) {
         precondition(integer >= 0)
         self.init(UIntMax(integer.toIntMax()))
     }
@@ -126,20 +126,61 @@ extension BigUInt {
     }
 }
 
-extension BigUInt: CollectionType {
+extension BigUInt: RandomAccessCollection {
     //MARK: CollectionType
-    
-    /// The number of digits in this integer, excluding leading zero digits.
-    public var count: Int { return _end - _start }
+
+    public typealias Index = Int
+    public typealias IndexDistance = Int
+    public typealias Indices = CountableRange<Int>
+    public typealias Iterator = DigitGenerator<Digit>
+    public typealias SubSequence = BigUInt
+
     /// The index of the first digit, starting from the least significant. (This is always zero.)
     public var startIndex: Int { return 0 }
     /// The index of the digit after the most significant digit in this integer.
     public var endIndex: Int { return count }
+    /// The number of digits in this integer, excluding leading zero digits.
+    public var count: Int { return _end - _start }
 
     /// Return a generator over the digits of this integer, starting at the least significant digit.
-    public func generate() -> DigitGenerator<Digit> {
+    public func makeIterator() -> DigitGenerator<Digit> {
         return DigitGenerator(digits: _digits, end: _end, index: _start)
     }
+
+    public func index(after i: Int) -> Int {
+        return i + 1
+    }
+
+    public func formIndex(after i: inout Int) {
+        i += 1
+    }
+
+    public func index(before i: Int) -> Int {
+        return i - 1
+    }
+
+    public func formIndex(before i: inout Int) {
+        i -= 1
+    }
+
+    public func index(_ i: Int, offsetBy n: Int) -> Int {
+        return i + n
+    }
+
+    public func index(_ i: Int, offsetBy n: Int, limitedBy limit: Int) -> Int? {
+        let r = i + n
+        if n >= 0 {
+            return r <= limit ? r : nil
+        }
+        else {
+            return r >= limit ? r : nil
+        }
+    }
+
+    public func distance(from start: Int, to end: Int) -> Int {
+        return end - start
+    }
+
 
     /// Get or set a digit at a given position.
     ///
@@ -155,7 +196,7 @@ extension BigUInt: CollectionType {
         get {
             precondition(index >= 0)
             let i = _start + index
-            return (i < min(_end, _digits.count) ? _digits[i] : 0)
+            return (i < Swift.min(_end, _digits.count) ? _digits[i] : 0)
         }
         set(digit) {
             precondition(index >= 0)
@@ -177,15 +218,15 @@ extension BigUInt: CollectionType {
     }
 
     /// Returns an integer built from the digits of this integer in the given range.
-    public subscript(range: Range<Int>) -> BigUInt {
+    public subscript(bounds: Range<Int>) -> BigUInt {
         get {
-            return BigUInt(digits: _digits, start: _start + range.startIndex, end: _start + range.endIndex)
+            return BigUInt(digits: _digits, start: _start + bounds.lowerBound, end: _start + bounds.upperBound)
         }
     }
 }
 
 /// The digit generator for a big integer.
-public struct DigitGenerator<Digit>: GeneratorType {
+public struct DigitGenerator<Digit>: IteratorProtocol {
     internal let digits: [Digit]
     internal let end: Int
     internal var index: Int

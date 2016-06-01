@@ -14,7 +14,7 @@ import Foundation
 ///
 /// - Returns: floor(sqrt(value))
 @warn_unused_result
-public func sqrt(value: BigUInt) -> BigUInt {
+public func sqrt(_ value: BigUInt) -> BigUInt {
     // This implementation uses Newton's method.
     guard !value.isZero else { return BigUInt() }
     var x = BigUInt(1) << ((value.width + 1) / 2)

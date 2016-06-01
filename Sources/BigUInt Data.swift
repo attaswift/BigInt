@@ -29,7 +29,7 @@ extension BigUInt {
             index -= 1
         }
         var digit: Digit = 0
-        data.enumerateByteRangesUsingBlock { p, range, stop in
+        data.enumerateBytes { p, range, stop in
             let p = UnsafePointer<UInt8>(p)
             for i in 0 ..< range.length {
                 digit <<= 8
@@ -56,7 +56,7 @@ extension BigUInt {
 
         guard byteCount > 0 else { return NSData() }
         
-        var byteArray = Array<UInt8>(count: byteCount, repeatedValue: 0)
+        var byteArray = Array<UInt8>(repeating: 0, count: byteCount)
         var i = byteCount - 1
         for digit in self {
             var digit = digit

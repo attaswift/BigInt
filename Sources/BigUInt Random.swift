@@ -16,20 +16,21 @@ extension BigUInt {
     /// - Returns: A big integer less than `1 << width`.
     /// - Note: This function uses `arc4random_buf` to generate random bits.
     @warn_unused_result
-    public static func randomIntegerWithMaximumWidth(width: Int) -> BigUInt {
+    public static func randomIntegerWithMaximumWidth(_ width: Int) -> BigUInt {
         guard width > 0 else { return 0 }
 
         let byteCount = (width + 7) / 8
         assert(byteCount > 0)
 
-        let buffer = UnsafeMutablePointer<UInt8>.alloc(byteCount)
-        defer { buffer.destroy(byteCount) }
-
+        let buffer = UnsafeMutablePointer<UInt8>(allocatingCapacity: byteCount)
         arc4random_buf(buffer, byteCount)
         if width % 8 != 0 {
             buffer[0] &= UInt8(1 << (width % 8) - 1)
         }
-
+        defer {
+            buffer.deinitialize(count: byteCount)
+            buffer.deallocateCapacity(byteCount)
+        }
         return BigUInt(NSData(bytesNoCopy: buffer, length: byteCount, freeWhenDone: false))
     }
 
@@ -38,7 +39,7 @@ extension BigUInt {
     /// - Returns: A random big integer whose width is `width`.
     /// - Note: This function uses `arc4random_buf` to generate random bits.
     @warn_unused_result
-    public static func randomIntegerWithExactWidth(width: Int) -> BigUInt {
+    public static func randomIntegerWithExactWidth(_ width: Int) -> BigUInt {
         guard width > 1 else { return BigUInt(width) }
         var result = randomIntegerWithMaximumWidth(width - 1)
         result[(width - 1) / Digit.width] |= 1 << Digit((width - 1) % Digit.width)
@@ -50,7 +51,7 @@ extension BigUInt {
     /// - Returns: A random big integer that is less than `limit`.
     /// - Note: This function uses `arc4random_buf` to generate random bits.
     @warn_unused_result
-    public static func randomIntegerLessThan(limit: BigUInt) -> BigUInt {
+    public static func randomIntegerLessThan(_ limit: BigUInt) -> BigUInt {
         let width = limit.width
         var random = randomIntegerWithMaximumWidth(width)
         while random >= limit {

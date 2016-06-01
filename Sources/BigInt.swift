@@ -41,12 +41,12 @@ public struct BigInt {
     }
 
     /// Initializes a new big integer with the same value as the specified integer.
-    public init<I: UnsignedIntegerType>(_ integer: I) {
+    public init<I: UnsignedInteger>(_ integer: I) {
         self.init(abs: BigUInt(integer), negative: false)
     }
 
     /// Initializes a new big integer with the same value as the specified integer.
-    public init<I: SignedIntegerType>(_ integer: I) {
+    public init<I: SignedInteger>(_ integer: I) {
         let i = integer.toIntMax()
         if i == IntMax.min {
             self.init(abs: BigUInt(IntMax.max) + 1, negative: true)
@@ -79,10 +79,10 @@ extension BigInt {
         var negative = false
         if text.characters.first == "-" {
             negative = true
-            text = text.substringFromIndex(text.startIndex.successor())
+            text = text.substring(from: text.index(after: text.startIndex))
         }
         else if text.characters.first == "+" {
-            text = text.substringFromIndex(text.startIndex.successor())
+            text = text.substring(from: text.index(after: text.startIndex))
         }
         guard let abs = BigUInt(text, radix: radix) else { return nil }
         self.abs = abs
@@ -141,10 +141,9 @@ extension BigInt: StringLiteralConvertible {
 
 extension BigInt: CustomPlaygroundQuickLookable {
     /// Return the playground quick look representation of this integer.
-    @warn_unused_result
-    public func customPlaygroundQuickLook() -> PlaygroundQuickLook {
+    public var customPlaygroundQuickLook: PlaygroundQuickLook {
         let text = String(self)
-        return PlaygroundQuickLook.Text(text + " (\(self.abs.width) bits)")
+        return PlaygroundQuickLook.text(text + " (\(self.abs.width) bits)")
     }
 }
 
@@ -237,12 +236,12 @@ public func %(a: BigInt, b: BigInt) -> BigInt {
 }
 
 /// Add `b` to `a` in place.
-public func +=(inout a: BigInt, b: BigInt) { a = a + b }
+public func +=(a: inout BigInt, b: BigInt) { a = a + b }
 /// Subtract `b` from `a` in place.
-public func -=(inout a: BigInt, b: BigInt) { a = a - b }
+public func -=(a: inout BigInt, b: BigInt) { a = a - b }
 /// Multiply `a` with `b` in place.
-public func *=(inout a: BigInt, b: BigInt) { a = a * b }
+public func *=(a: inout BigInt, b: BigInt) { a = a * b }
 /// Divide `a` by `b` storing the quotient in `a`.
-public func /=(inout a: BigInt, b: BigInt) { a = a / b }
+public func /=(a: inout BigInt, b: BigInt) { a = a / b }
 /// Divide `a` by `b` storing the remainder in `a`.
-public func %=(inout a: BigInt, b: BigInt) { a = a % b }
+public func %=(a: inout BigInt, b: BigInt) { a = a % b }

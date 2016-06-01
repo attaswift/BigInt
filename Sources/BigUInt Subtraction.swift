@@ -17,7 +17,7 @@ extension BigUInt {
     /// - Note: If the result is true, then `self` becomes the two's complement of the absolute difference.
     /// - Complexity: O(count)
     @warn_unused_result
-    public mutating func subtractDigitInPlaceWithOverflow(d: Digit, shift: Int = 0) -> Bool {
+    public mutating func subtractDigitInPlaceWithOverflow(_ d: Digit, shift: Int = 0) -> Bool {
         precondition(shift >= 0)
         lift()
         var carry: Digit = d
@@ -37,7 +37,7 @@ extension BigUInt {
     /// - Note: If `overflow` is true, then the returned value is the two's complement of the absolute difference.
     /// - Complexity: O(count)
     @warn_unused_result
-    public func subtractDigitWithOverflow(d: Digit, shift: Int = 0) -> (BigUInt, overflow: Bool) {
+    public func subtractDigitWithOverflow(_ d: Digit, shift: Int = 0) -> (BigUInt, overflow: Bool) {
         var result = self
         let overflow = result.subtractDigitInPlaceWithOverflow(d, shift: shift)
         return (result, overflow)
@@ -48,7 +48,7 @@ extension BigUInt {
     ///
     /// - Requires: self >= d * 2^shift
     /// - Complexity: O(count)
-    public mutating func subtractDigitInPlace(d: Digit, shift: Int = 0) {
+    public mutating func subtractDigitInPlace(_ d: Digit, shift: Int = 0) {
         let overflow = subtractDigitInPlaceWithOverflow(d, shift: shift)
         precondition(!overflow)
     }
@@ -59,7 +59,7 @@ extension BigUInt {
     /// - Requires: self >= d * 2^shift
     /// - Complexity: O(count)
     @warn_unused_result
-    public func subtractDigit(d: Digit, shift: Int = 0) -> BigUInt {
+    public func subtractDigit(_ d: Digit, shift: Int = 0) -> BigUInt {
         var result = self
         result.subtractDigitInPlace(d, shift: shift)
         return result
@@ -71,7 +71,7 @@ extension BigUInt {
     /// - Note: If the result is true, then `self` becomes the twos' complement of the absolute difference.
     /// - Complexity: O(count)
     @warn_unused_result
-    public mutating func subtractInPlaceWithOverflow(b: BigUInt, shift: Int = 0) -> Bool {
+    public mutating func subtractInPlaceWithOverflow(_ b: BigUInt, shift: Int = 0) -> Bool {
         precondition(shift >= 0)
         lift()
         var carry = false
@@ -99,7 +99,7 @@ extension BigUInt {
     /// - Note: If `overflow` is true, then the result value is the twos' complement of the absolute value of the difference.
     /// - Complexity: O(count)
     @warn_unused_result
-    public func subtractWithOverflow(b: BigUInt, shift: Int = 0) -> (BigUInt, overflow: Bool) {
+    public func subtractWithOverflow(_ b: BigUInt, shift: Int = 0) -> (BigUInt, overflow: Bool) {
         var result = self
         let overflow = result.subtractInPlaceWithOverflow(b, shift: shift)
         return (result, overflow)
@@ -110,7 +110,7 @@ extension BigUInt {
     ///
     /// - Requires: self >= b * 2^shift
     /// - Complexity: O(count)
-    public mutating func subtractInPlace(b: BigUInt, shift: Int = 0) {
+    public mutating func subtractInPlace(_ b: BigUInt, shift: Int = 0) {
         let overflow = subtractInPlaceWithOverflow(b, shift: shift)
         precondition(!overflow)
     }
@@ -121,7 +121,7 @@ extension BigUInt {
     /// - Requires: self >= b * 2^shift
     /// - Complexity: O(count)
     @warn_unused_result
-    public func subtract(b: BigUInt, shift: Int = 0) -> BigUInt {
+    public func subtract(_ b: BigUInt, shift: Int = 0) -> BigUInt {
         var result = self
         result.subtractInPlace(b, shift: shift)
         return result
@@ -131,7 +131,7 @@ extension BigUInt {
     ///
     /// - Requires: !isZero
     /// - Complexity: O(count)
-    public mutating func decrement(shift shift: Int = 0) {
+    public mutating func decrement(shift: Int = 0) {
         self.subtractDigitInPlace(1, shift: shift)
     }
 }
@@ -151,6 +151,6 @@ public func -(a: BigUInt, b: BigUInt) -> BigUInt {
 ///
 /// - Requires: a >= b
 /// - Complexity: O(a.count)
-public func -=(inout a: BigUInt, b: BigUInt) {
+public func -=(a: inout BigUInt, b: BigUInt) {
     a.subtractInPlace(b, shift: 0)
 }

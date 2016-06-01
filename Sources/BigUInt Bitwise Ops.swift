@@ -40,7 +40,7 @@ extension BigUInt {
     /// - Complexity: O(count)
     public var trailingZeroes: Int {
         guard count > 0 else { return 0 }
-        let i = self.indexOf { $0 != 0 }!
+        let i = self.index { $0 != 0 }!
         return i * Digit.width + self[i].trailingZeroes
     }
 }
@@ -61,7 +61,7 @@ public prefix func ~(a: BigUInt) -> BigUInt {
 @warn_unused_result
 public func | (a: BigUInt, b: BigUInt) -> BigUInt {
     var result = BigUInt()
-    for i in (0 ..< max(a.count, b.count)).reverse() {
+    for i in (0 ..< max(a.count, b.count)).reversed() {
         result[i] = a[i] | b[i]
     }
     return result
@@ -73,7 +73,7 @@ public func | (a: BigUInt, b: BigUInt) -> BigUInt {
 @warn_unused_result
 public func & (a: BigUInt, b: BigUInt) -> BigUInt {
     var result = BigUInt()
-    for i in (0 ..< max(a.count, b.count)).reverse() {
+    for i in (0 ..< max(a.count, b.count)).reversed() {
         result[i] = a[i] & b[i]
     }
     return result
@@ -85,7 +85,7 @@ public func & (a: BigUInt, b: BigUInt) -> BigUInt {
 @warn_unused_result
 public func ^ (a: BigUInt, b: BigUInt) -> BigUInt {
     var result = BigUInt()
-    for i in (0 ..< max(a.count, b.count)).reverse() {
+    for i in (0 ..< max(a.count, b.count)).reversed() {
         result[i] = a[i] ^ b[i]
     }
     return result
@@ -94,21 +94,21 @@ public func ^ (a: BigUInt, b: BigUInt) -> BigUInt {
 /// Calculate the bitwise OR of `a` and `b`, and store the result in `a`.
 ///
 /// - Complexity: O(max(a.count, b.count))
-public func |= (inout a: BigUInt, b: BigUInt) {
+public func |= (a: inout BigUInt, b: BigUInt) {
     a = a | b
 }
 
 /// Calculate the bitwise AND of `a` and `b`, and store the result in `a`.
 ///
 /// - Complexity: O(max(a.count, b.count))
-public func &= (inout a: BigUInt, b: BigUInt) {
+public func &= (a: inout BigUInt, b: BigUInt) {
     a = a & b
 }
 
 /// Calculate the bitwise XOR of `a` and `b`, and store the result in `a`.
 ///
 /// - Complexity: O(max(a.count, b.count))
-public func ^= (inout a: BigUInt, b: BigUInt) {
+public func ^= (a: inout BigUInt, b: BigUInt) {
     a = a ^ b
 }
 

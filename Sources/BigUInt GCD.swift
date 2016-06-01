@@ -15,7 +15,7 @@ extension BigUInt {
     ///
     /// - Complexity: O(count^2) where count = max(a.count, b.count)
     @warn_unused_result
-    public static func gcd(a: BigUInt, _ b: BigUInt) -> BigUInt {
+    public static func gcd(_ a: BigUInt, _ b: BigUInt) -> BigUInt {
         // This is Stein's algorithm: https://en.wikipedia.org/wiki/Binary_GCD_algorithm
         if a.isZero { return b }
         if b.isZero { return a }
@@ -43,7 +43,7 @@ extension BigUInt {
     /// - Returns: If `gcd(self, modulus) == 1`, the value returned is an integer `a < modulus` such that `(a * self) % modulus == 1`. If `self` and `modulus` aren't coprime, the return value is `nil`.
     /// - Complexity: O(count^3)
     @warn_unused_result
-    public func inverse(modulus: BigUInt) -> BigUInt? {
+    public func inverse(_ modulus: BigUInt) -> BigUInt? {
         var t1 = BigInt(0)
         var t2 = BigInt(1)
         var r1 = modulus

@@ -24,7 +24,7 @@ extension BigUInt {
     /// - SeeAlso: `BigUInt.power(_:, modulus:)`
     /// - Complexity: O((exponent * self.count)^log2(3)) or somesuch. The result may require a large amount of memory, too.
     @warn_unused_result
-    public func power(exponent: Int) -> BigUInt {
+    public func power(_ exponent: Int) -> BigUInt {
         if exponent == 0 { return 1 }
         if exponent == 1 { return self }
         if self.count <= 1 && self[0] <= 1 { return self }
@@ -49,7 +49,7 @@ extension BigUInt {
     ///
     /// - Complexity: O(exponent.count * modulus.count^log2(3)) or somesuch
     @warn_unused_result
-    public func power(exponent: BigUInt, modulus: BigUInt) -> BigUInt {
+    public func power(_ exponent: BigUInt, modulus: BigUInt) -> BigUInt {
         if modulus == 1 { return 0 }
         var result = BigUInt(1)
         var b = self % modulus

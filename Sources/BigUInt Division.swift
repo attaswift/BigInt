@@ -17,13 +17,13 @@ extension BigUInt {
     /// - Requires: y > 0
     /// - Complexity: O(count)
     @warn_unused_result
-    public mutating func divideInPlaceByDigit(y: Digit) -> Digit {
+    public mutating func divideInPlaceByDigit(_ y: Digit) -> Digit {
         precondition(y > 0)
         if y == 1 { return 0 }
         lift()
 
         var remainder: Digit = 0
-        for i in (0..<count).reverse() {
+        for i in (0..<count).reversed() {
             let u = self[i]
             let q = Digit.fullDivide(remainder, u, y)
             self[i] = q.div
@@ -38,7 +38,7 @@ extension BigUInt {
     /// - Returns: (div, mod) where div = floor(x/y), mod = x - div * y
     /// - Complexity: O(x.count)
     @warn_unused_result
-    public func divideByDigit(y: Digit) -> (div: BigUInt, mod: Digit) {
+    public func divideByDigit(_ y: Digit) -> (div: BigUInt, mod: Digit) {
         var div = self
         let mod = div.divideInPlaceByDigit(y)
         return (div, mod)
@@ -50,7 +50,7 @@ extension BigUInt {
     /// - Returns: `(div, mod)` where `div = floor(self/y)`, `mod = self - div * y`
     /// - Complexity: O(count^2)
     @warn_unused_result
-    public func divide(y: BigUInt) -> (div: BigUInt, mod: BigUInt) {
+    public func divide(_ y: BigUInt) -> (div: BigUInt, mod: BigUInt) {
         // This is a Swift adaptation of "divmnu" from Hacker's Delight, which is in
         // turn a C adaptation of Knuth's Algorithm D (TAOCP vol 2, 4.3.1).
 
@@ -90,7 +90,7 @@ extension BigUInt {
         ///
         /// - Requires: (x.0, x.1) <= y && y.0.high != 0
         /// - Returns: The exact value when it fits in a single `Digit`, otherwise `Digit.max`.
-        func approximateQuotient(x x: (Digit, Digit, Digit), y: (Digit, Digit)) -> Digit {
+        func approximateQuotient(x: (Digit, Digit, Digit), y: (Digit, Digit)) -> Digit {
             // Start with q = (x.0, x.1) / y.0, (or Digit.max on overflow)
             var q: Digit
             var r: Digit
@@ -135,7 +135,7 @@ extension BigUInt {
         let dc = divisor.count
         let d1 = divisor[dc - 1]
         let d0 = divisor[dc - 2]
-        for j in (dc ... remainder.count).reverse() {
+        for j in (dc ... remainder.count).reversed() {
             // Approximate dividing the top dc+1 digits of `remainder` using the topmost 3/2 digits.
             let r2 = remainder[j]
             let r1 = remainder[j - 1]
@@ -183,13 +183,13 @@ public func %(x: BigUInt, y: BigUInt) -> BigUInt {
 /// Divide `x` by `y` and store the quotient in `x`.
 ///
 /// - Note: Use `x.divide(y)` if you also need the remainder.
-public func /=(inout x: BigUInt, y: BigUInt) {
+public func /=(x: inout BigUInt, y: BigUInt) {
     x = x.divide(y).div
 }
 
 /// Divide `x` by `y` and store the remainder in `x`.
 ///
 /// - Note: Use `x.divide(y)` if you also need the remainder.
-public func %=(inout x: BigUInt, y: BigUInt) {
+public func %=(x: inout BigUInt, y: BigUInt) {
     x = x.divide(y).mod
 }

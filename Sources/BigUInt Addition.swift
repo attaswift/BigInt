@@ -15,7 +15,7 @@ extension BigUInt {
     /// `d` is shifted `shift` digits to the left before being added.
     ///
     /// - Complexity: O(max(count, shift))
-    public mutating func addDigitInPlace(d: Digit, shift: Int = 0) {
+    public mutating func addDigitInPlace(_ d: Digit, shift: Int = 0) {
         precondition(shift >= 0)
         lift()
         var carry: Digit = d
@@ -43,7 +43,7 @@ extension BigUInt {
     /// `b` is shifted `shift` digits to the left before being added.
     ///
     /// - Complexity: O(max(count, b.count + shift))
-    public mutating func addInPlace(b: BigUInt, shift: Int = 0) {
+    public mutating func addInPlace(_ b: BigUInt, shift: Int = 0) {
         precondition(shift >= 0)
         lift()
         var carry = false
@@ -69,7 +69,7 @@ extension BigUInt {
     ///
     /// - Complexity: O(max(count, b.count + shift))
     @warn_unused_result
-    public func add(b: BigUInt, shift: Int = 0) -> BigUInt {
+    public func add(_ b: BigUInt, shift: Int = 0) -> BigUInt {
         var r = self
         r.addInPlace(b, shift: shift)
         return r
@@ -79,7 +79,7 @@ extension BigUInt {
     /// the digit that is to be incremented.
     ///
     /// - Complexity: O(count + shift)
-    public mutating func increment(shift shift: Int = 0) {
+    public mutating func increment(shift: Int = 0) {
         self.addDigitInPlace(1, shift: shift)
     }
 }
@@ -97,7 +97,7 @@ public func +(a: BigUInt, b: BigUInt) -> BigUInt {
 /// Add `a` and `b` together, and store the sum in `a`.
 ///
 /// - Complexity: O(max(a.count, b.count))
-public func +=(inout a: BigUInt, b: BigUInt) {
+public func +=(a: inout BigUInt, b: BigUInt) {
     a.addInPlace(b, shift: 0)
 }
 
