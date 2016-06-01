@@ -25,7 +25,7 @@ extension BigUInt {
         var remainder: Digit = 0
         for i in (0..<count).reversed() {
             let u = self[i]
-            let q = Digit.fullDivide(remainder, u, y)
+            let q = Digit.fullDivide((remainder, u), y)
             self[i] = q.div
             remainder = q.mod
         }
@@ -101,7 +101,7 @@ extension BigUInt {
                 r = s
             }
             else {
-                let (d, m) = Digit.fullDivide(x.0, x.1, y.0)
+                let (d, m) = Digit.fullDivide((x.0, x.1), y.0)
                 q = d
                 r = m
             }

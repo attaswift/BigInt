@@ -18,7 +18,7 @@ internal protocol BigDigit: UnsignedInteger, BitwiseOperations, ShiftOperations 
     static func fullMultiply(_ x: Self, _ y: Self) -> (high: Self, low: Self)
 
     @warn_unused_result
-    static func fullDivide(_ xh: Self, _ xl: Self, _ y: Self) -> (div: Self, mod: Self)
+    static func fullDivide(_ dividend: (high: Self, low: Self), _ divisor: Self) -> (div: Self, mod: Self)
 
     static var max: Self { get }
     static var width: Int { get }
@@ -59,8 +59,8 @@ extension UInt32: BigDigit {
         return (UInt32(p.high), UInt32(p.low))
     }
     @warn_unused_result 
-    internal static func fullDivide(xh: UInt32, _ xl: UInt32, _ y: UInt32) -> (div: UInt32, mod: UInt32) {
-        let x = UInt64(xh) << 32 + UInt64(xl)
+    internal static func fullDivide(x: (high: UInt32, low: UInt32), _ y: UInt32) -> (div: UInt32, mod: UInt32) {
+        let x = UInt64(x.high) << 32 + UInt64(x.low)
         let div = x / UInt64(y)
         let mod = x % UInt64(y)
         return (UInt32(div), UInt32(mod))
@@ -121,11 +121,11 @@ extension BigDigit {
     /// - Requires: `u1 < v`, so that the result will fit in a single digit.
     /// - Complexity: O(1) with 2 divisions, 6 multiplications and ~12 or so additions/subtractions.
     @warn_unused_result
-    internal static func fullDivide(_ u1: Self, _ u0: Self, _ v: Self) -> (div: Self, mod: Self) {
+    internal static func fullDivide(_ u: (high: Self, low: Self), _ v: Self) -> (div: Self, mod: Self) {
         // Division is complicated; doing it with single-digit operations is maddeningly complicated.
         // This is a Swift adaptation for "divlu2" in Hacker's Delight,
         // which is in turn a C adaptation of Knuth's Algorithm D (TAOCP vol 2, 4.3.1).
-        precondition(u1 < v)
+        precondition(u.high < v)
 
         /// Find the half-digit quotient in `(uh, ul) / vn`, which must be normalized.
         ///
@@ -161,8 +161,8 @@ extension BigDigit {
         let w = Self(Self.width) - z
         let vn = v << z
 
-        let un32 = (z == 0 ? u1 : (u1 << z) | (u0 >> w)) // No bits are lost
-        let un10 = u0 << z
+        let un32 = (z == 0 ? u.high : (u.high << z) | (u.low >> w)) // No bits are lost
+        let un10 = u.low << z
         let (un1, un0) = un10.split
 
         // Divide `(un32,un10)` by `vn`, splitting the full 4/2 division into two 3/2 ones.
