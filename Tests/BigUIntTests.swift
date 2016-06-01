@@ -182,8 +182,8 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(String(BigUInt("2908B5129F59DB6A41", radix: 16)!, radix: 31), "100000000000000")
         XCTAssertEqual(String(sample, radix: 31), "ptf96helfaqi7ogc3jbonmccrhmnc2b61s")
 
-        let quickLook = BigUInt(513).customPlaygroundQuickLook()
-        if case PlaygroundQuickLook.Text("513 (10 bits)") = quickLook {
+        let quickLook = BigUInt(513).customPlaygroundQuickLook
+        if case PlaygroundQuickLook.text("513 (10 bits)") = quickLook {
         } else {
             XCTFail("Unexpected playground QuickLook representation: \(quickLook)")
         }
@@ -300,7 +300,7 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(String(a & b, radix: 16),    "2044289083410f014380982440200")
         XCTAssertEqual(String(a ^ b, radix: 16),  "fe9c32574b3c9ef0fe9c3b47523c9ef")
 
-        let ffff = BigUInt(Array(count: 30, repeatedValue: Digit.max))
+        let ffff = BigUInt(Array(repeating: Digit.max, count: 30))
         XCTAssertEqual(~ffff, 0)
         XCTAssertEqual(a | ffff, ffff)
         XCTAssertEqual(a | 0, a)
@@ -575,7 +575,7 @@ class BigUIntTests: XCTestCase {
     }
 
     func testDivision() {
-        func test(a: [Digit], _ b: [Digit], file: StaticString = #file, line: UInt = #line) {
+        func test(_ a: [Digit], _ b: [Digit], file: StaticString = #file, line: UInt = #line) {
             let x = BigUInt(a)
             let y = BigUInt(b)
             let (div, mod) = x.divide(y)
@@ -641,11 +641,11 @@ class BigUIntTests: XCTestCase {
         }
         print("\(1 << power - 1)! = \(forward) [\(forward.count)]")
         var backward = BigUInt(1)
-        for i in (1 ..< (1 << power)).reverse() {
+        for i in (1 ..< (1 << power)).reversed() {
             backward *= BigUInt(i)
         }
 
-        func balancedFactorial(level level: Int, offset: Int) -> BigUInt {
+        func balancedFactorial(level: Int, offset: Int) -> BigUInt {
             if level == 0 {
                 return BigUInt(offset == 0 ? 1 : offset)
             }
@@ -673,7 +673,7 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(sqrt(BigUInt(0)), 0)
         XCTAssertEqual(sqrt(BigUInt(256)), 16)
 
-        func checkSqrt(value: BigUInt, file: StaticString = #file, line: UInt = #line) {
+        func checkSqrt(_ value: BigUInt, file: StaticString = #file, line: UInt = #line) {
             let root = sqrt(sample)
             XCTAssertLessThanOrEqual(root * root, sample, file: file, line: line)
             XCTAssertGreaterThan((root + 1) * (root + 1), sample, file: file, line: line)
@@ -747,7 +747,7 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(BigUInt(2).power(11, modulus: 1), 0)
         XCTAssertEqual(BigUInt(2).power(11, modulus: 1000), 48)
 
-        func test(a a: BigUInt, p: BigUInt, file: StaticString = #file, line: UInt = #line) {
+        func test(a: BigUInt, p: BigUInt, file: StaticString = #file, line: UInt = #line) {
             // For all primes p and integers a, a % p == a^p % p. (Fermat's Little Theorem)
             let x = a % p
             let y = x.power(p, modulus: p)
@@ -755,13 +755,14 @@ class BigUIntTests: XCTestCase {
         }
 
         // Here are some primes
-        let m61 = (BigUInt(1) << 61) - 1
-        let m127 = (BigUInt(1) << 127) - 1
-        let m521 = (BigUInt(1) << 521) - 1
+
+        let m61 = (BigUInt(1) << 61) - BigUInt(1)
+        let m127 = (BigUInt(1) << 127) - BigUInt(1)
+        let m521 = (BigUInt(1) << 521) - BigUInt(1)
 
         test(a: 2, p: m127)
-        test(a: 1 << 42, p: m127)
-        test(a: 1 << 42 + 1, p: m127)
+        test(a: BigUInt(1) << 42, p: m127)
+        test(a: BigUInt(1) << 42 + BigUInt(1), p: m127)
         test(a: m61, p: m127)
         test(a: m61 + 1, p: m127)
         test(a: m61, p: m521)
@@ -769,7 +770,7 @@ class BigUIntTests: XCTestCase {
         test(a: m127, p: m521)
     }
 
-    func data(bytes: Array<UInt8>) -> NSData {
+    func data(_ bytes: Array<UInt8>) -> NSData {
         var result: NSData? = nil
         bytes.withUnsafeBufferPointer { p in
             result = NSData(bytes: p.baseAddress, length: p.count)
@@ -806,7 +807,7 @@ class BigUIntTests: XCTestCase {
     }
 
     func testConversionToData() {
-        func test(b: BigUInt, _ d: Array<UInt8>, file: StaticString = #file, line: UInt = #line) {
+        func test(_ b: BigUInt, _ d: Array<UInt8>, file: StaticString = #file, line: UInt = #line) {
             let expected = data(d)
             let actual = b.serialize()
             XCTAssertEqual(actual, expected, file: file, line: line)
@@ -939,17 +940,17 @@ class BigUIntTests: XCTestCase {
         // Try the SPPT for some Mersenne numbers.
 
         // Mersenne exponents from OEIS: https://oeis.org/A000043
-        XCTAssertFalse((BigUInt(1) << 606 - 1).isStrongProbablePrime(5))
-        XCTAssertTrue((BigUInt(1) << 607 - 1).isStrongProbablePrime(5)) // 2^607 - 1 is prime
-        XCTAssertFalse((BigUInt(1) << 608 - 1).isStrongProbablePrime(5))
+        XCTAssertFalse((BigUInt(1) << 606 - BigUInt(1)).isStrongProbablePrime(5))
+        XCTAssertTrue((BigUInt(1) << 607 - BigUInt(1)).isStrongProbablePrime(5)) // 2^607 - 1 is prime
+        XCTAssertFalse((BigUInt(1) << 608 - BigUInt(1)).isStrongProbablePrime(5))
 
-        XCTAssertFalse((BigUInt(1) << 520 - 1).isStrongProbablePrime(7))
-        XCTAssertTrue((BigUInt(1) << 521 - 1).isStrongProbablePrime(7)) // 2^521 -1 is prime
-        XCTAssertFalse((BigUInt(1) << 522 - 1).isStrongProbablePrime(7))
+        XCTAssertFalse((BigUInt(1) << 520 - BigUInt(1)).isStrongProbablePrime(7))
+        XCTAssertTrue((BigUInt(1) << 521 - BigUInt(1)).isStrongProbablePrime(7)) // 2^521 -1 is prime
+        XCTAssertFalse((BigUInt(1) << 522 - BigUInt(1)).isStrongProbablePrime(7))
 
-        XCTAssertFalse((BigUInt(1) << 88 - 1).isStrongProbablePrime(128))
-        XCTAssertTrue((BigUInt(1) << 89 - 1).isStrongProbablePrime(128)) // 2^89 -1 is prime
-        XCTAssertFalse((BigUInt(1) << 90 - 1).isStrongProbablePrime(128))
+        XCTAssertFalse((BigUInt(1) << 88 - BigUInt(1)).isStrongProbablePrime(128))
+        XCTAssertTrue((BigUInt(1) << 89 - BigUInt(1)).isStrongProbablePrime(128)) // 2^89 -1 is prime
+        XCTAssertFalse((BigUInt(1) << 90 - BigUInt(1)).isStrongProbablePrime(128))
 
         // One extra test to exercise an a^2 % modulus == 1 case
         XCTAssertFalse(BigUInt(217).isStrongProbablePrime(129))

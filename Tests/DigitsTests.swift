@@ -79,7 +79,7 @@ class DigitsTests: XCTestCase {
 }
 
 struct TestDivision<Digit: BigDigit> {
-    static func testDivision(u: (high: Digit, low: Digit), _ v: Digit) {
+    static func testDivision(_ u: (high: Digit, low: Digit), _ v: Digit) {
         let (div, mod) = Digit.fullDivide(u.high, u.low, v)
         var (ph, pl) = Digit.fullMultiply(div, v)
         let (s, o) = Digit.addWithOverflow(pl, mod)

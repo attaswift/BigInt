@@ -72,6 +72,7 @@
 		BBA4D3751CFF3B4900EC6A56 /* BigUInt Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DB11C3A96F3006F684C /* BigUInt Data.swift */; };
 		BBA4D3761CFF3D2700EC6A56 /* BigUInt Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59DAE1C3A9389006F684C /* BigUInt Random.swift */; };
 		BBA4D3771CFF3E1100EC6A56 /* BigInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB64E72C1C2F60F500C18269 /* BigInt.swift */; };
+		BBA4D3781CFF4A1200EC6A56 /* BigUInt GCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D871C398B26006F684C /* BigUInt GCD.swift */; };
 		BBB59D881C398B26006F684C /* BigUInt GCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D871C398B26006F684C /* BigUInt GCD.swift */; };
 		BBB59D8B1C398B58006F684C /* BigUInt Exponentiation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D8A1C398B58006F684C /* BigUInt Exponentiation.swift */; };
 		BBB59D8E1C398B76006F684C /* BigUInt Square Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB59D8D1C398B76006F684C /* BigUInt Square Root.swift */; };
@@ -613,6 +614,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBA4D3781CFF4A1200EC6A56 /* BigUInt GCD.swift in Sources */,
 				BBA4D36D1CFF364D00EC6A56 /* BigUInt Shifts.swift in Sources */,
 				BB64E7281C2F4A7A00C18269 /* BigUInt.swift in Sources */,
 				BB64E72B1C2F592B00C18269 /* BigDigit.swift in Sources */,

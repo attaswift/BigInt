@@ -22,7 +22,7 @@ extension BigUInt {
 
         let az = a.trailingZeroes
         let bz = b.trailingZeroes
-        let twos = min(az, bz)
+        let twos = Swift.min(az, bz)
 
         var (x, y) = (a >> az, b >> bz)
         if x < y { swap(&x, &y) }

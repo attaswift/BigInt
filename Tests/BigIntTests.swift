@@ -52,8 +52,8 @@ class BigIntTests: XCTestCase {
         let b = BigInt(-256)
         XCTAssertEqual(b.description, "-256")
         XCTAssertEqual(String(b, radix: 16, uppercase: true), "-100")
-        let pql = b.customPlaygroundQuickLook()
-        if case PlaygroundQuickLook.Text("-256 (9 bits)") = pql {}
+        let pql = b.customPlaygroundQuickLook
+        if case PlaygroundQuickLook.text("-256 (9 bits)") = pql {}
         else {
             XCTFail("Unexpected Playground Quick Look: \(pql)")
         }
@@ -74,7 +74,7 @@ class BigIntTests: XCTestCase {
         XCTAssertNotEqual(BigInt(1).hashValue, BigInt(-1).hashValue)
     }
 
-    func compare(a: Int, _ b: Int, r: Int, file: StaticString = #file, line: UInt = #line, @noescape op: (BigInt, BigInt) -> BigInt) {
+    func compare(_ a: Int, _ b: Int, r: Int, file: StaticString = #file, line: UInt = #line, op: @noescape (BigInt, BigInt) -> BigInt) {
         XCTAssertEqual(op(BigInt(a), BigInt(b)), BigInt(r), file: file, line: line)
     }
 

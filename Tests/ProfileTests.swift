@@ -14,7 +14,7 @@ import BigInt
 class ProfileTests: XCTestCase {
     typealias Digit = BigUInt.Digit
 
-    func measure(autostart autostart: Bool = true, block: Void->Void) {
+    func measure_(autostart: Bool = true, block: (Void)->Void) {
         var round = 0
         self.measureMetrics(self.dynamicType.defaultPerformanceMetrics(), automaticallyStartMeasuring: autostart) {
             print("Round \(round) started")
@@ -60,11 +60,11 @@ class ProfileTests: XCTestCase {
                 fact.multiplyInPlaceByDigit(Digit(i))
             }
         }
-        checkFactorial(fact, n: n)
+        checkFactorial(fact: fact, n: n)
     }
 
     func testBalancedMultiplication() {
-        func balancedFactorial(level level: Int, offset: Int = 0) -> BigUInt {
+        func balancedFactorial(level: Int, offset: Int = 0) -> BigUInt {
             if level == 0 {
                 return BigUInt(offset == 0 ? 1 : offset)
             }
@@ -79,12 +79,12 @@ class ProfileTests: XCTestCase {
         self.measure {
             fact = balancedFactorial(level: power)
         }
-        checkFactorial(fact, n: 1 << power - 1)
+        checkFactorial(fact: fact, n: 1 << power - 1)
     }
 
     func testDivision() {
         var divisors: [BigUInt] = []
-        func balancedFactorial(level level: Int, offset: Int = 0) -> BigUInt {
+        func balancedFactorial(level: Int, offset: Int = 0) -> BigUInt {
             if level == 0 {
                 return BigUInt(offset == 0 ? 1 : offset)
             }
@@ -103,7 +103,7 @@ class ProfileTests: XCTestCase {
         var mods: [BigUInt] = []
         divs.reserveCapacity(divisors.count)
         mods.reserveCapacity(divisors.count)
-        self.measure(autostart: false) {
+        self.measure_(autostart: false) {
             divs.removeAll()
             mods.removeAll()
             self.startMeasuring()
@@ -117,7 +117,7 @@ class ProfileTests: XCTestCase {
         for i in 0..<mods.count {
             XCTAssertEqual(mods[i], 0, "div = \(divs[i]), mod = \(mods[i]) for divisor = \(divisors[i])")
         }
-        checkFactorial(fact, n: 1 << power - 1)
+        checkFactorial(fact: fact, n: 1 << power - 1)
     }
 
     func testSquareRoot() {
@@ -138,7 +138,7 @@ class ProfileTests: XCTestCase {
     }
 
     func testModularExponentiation() {
-        let m15 = (BigUInt(1) << 1279) - 1
+        let m15 = (BigUInt(1) << 1279) - BigUInt(1)
         let tests = (1..<25).map { _ in BigUInt.randomIntegerWithMaximumWidth(1279) }
         self.measure {
             for test in tests {

@@ -33,7 +33,7 @@ extension BigUInt {
     ///
     /// - Complexity: O(max(count, shift))
     @warn_unused_result
-    public func addDigit(d: Digit, shift: Int = 0) -> BigUInt {
+    public func addDigit(_ d: Digit, shift: Int = 0) -> BigUInt {
         var r = self
         r.addDigitInPlace(d, shift: shift)
         return r
