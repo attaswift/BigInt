@@ -12,7 +12,7 @@
 	* [RSA Cryptography](#rsa)
 	* [Calculating the Digits of π](#pi)
 
-[![Swift 2.2, 3](https://img.shields.io/badge/Swift-2.2%20&%203-blue.svg)](https://developer.apple.com/swift/)
+[![Swift 3](https://img.shields.io/badge/Swift-3-blue.svg)](https://developer.apple.com/swift/)
 [![Documented](https://img.shields.io/cocoapods/metrics/doc-percent/BigInt.svg)](http://lorentey.github.io/BigInt/api)
 [![License](https://img.shields.io/badge/licence-MIT-blue.svg)](http://cocoapods.org/pods/BigInt)
 [![Platform](https://img.shields.io/cocoapods/p/BigInt.svg)](http://cocoapods.org/pods/BigInt)
@@ -98,8 +98,7 @@ BigInt can be used, distributed and modified under [the MIT license][license].
 
 ## <a name="integration">Requirements and Integration</a>
 
-BigInt requires Swift 2.2 (Xcode 7.3). 
-A version with support for Swift 3 is available on the `swift3` branch.
+BigInt 2.0 requires Swift 3. (Previous versions supported Swift 2.2. The latest such version is 1.3.0.)
 
 BigInt deploys to OS X 10.9, iOS 8, watchOS 2 and tvOS 9. 
 It has been tested on the latest OS releases only---however, as the module uses very few platform-provided APIs, 
@@ -118,7 +117,7 @@ Setup instructions:
   Add this to the dependency section of your `Package.swift` manifest:
 
     ```Swift
-    .Package(url: "https://github.com/lorentey/BigInt.git", Version(1, 2, 3))
+    .Package(url: "https://github.com/lorentey/BigInt.git", Version(2, 0, 0))
      ```
 
 - **Carthage:** Put this in your `Cartfile`:
