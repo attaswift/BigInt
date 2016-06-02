@@ -16,7 +16,7 @@ extension BigUInt {
     /// - Returns: A big integer less than `1 << width`.
     /// - Note: This function uses `arc4random_buf` to generate random bits.
     @warn_unused_result
-    public static func randomIntegerWithMaximumWidth(_ width: Int) -> BigUInt {
+    public static func randomInteger(withMaximumWidth width: Int) -> BigUInt {
         guard width > 0 else { return 0 }
 
         let byteCount = (width + 7) / 8
@@ -39,9 +39,9 @@ extension BigUInt {
     /// - Returns: A random big integer whose width is `width`.
     /// - Note: This function uses `arc4random_buf` to generate random bits.
     @warn_unused_result
-    public static func randomIntegerWithExactWidth(_ width: Int) -> BigUInt {
+    public static func randomInteger(withExactWidth width: Int) -> BigUInt {
         guard width > 1 else { return BigUInt(width) }
-        var result = randomIntegerWithMaximumWidth(width - 1)
+        var result = randomInteger(withMaximumWidth: width - 1)
         result[(width - 1) / Digit.width] |= 1 << Digit((width - 1) % Digit.width)
         return result
     }
@@ -53,9 +53,9 @@ extension BigUInt {
     @warn_unused_result
     public static func randomIntegerLessThan(_ limit: BigUInt) -> BigUInt {
         let width = limit.width
-        var random = randomIntegerWithMaximumWidth(width)
+        var random = randomInteger(withMaximumWidth: width)
         while random >= limit {
-            random = randomIntegerWithMaximumWidth(width)
+            random = randomInteger(withMaximumWidth: width)
         }
         return random
     }

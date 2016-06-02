@@ -67,8 +67,8 @@ extension BigUInt: CustomStringConvertible {
         else {
             self.init()
             for d in digits.reversed() {
-                self.multiplyInPlaceByDigit(power)
-                self.addDigitInPlace(d)
+                self.multiply(byDigit: power)
+                self.addDigit(d)
             }
         }
     }
@@ -106,7 +106,7 @@ extension String {
             parts = []
             var rest = v
             while !rest.isZero {
-                let mod = rest.divideInPlaceByDigit(power)
+                let mod = rest.divide(byDigit: power)
                 parts.append(String(mod, radix: radix, uppercase: uppercase))
             }
         }

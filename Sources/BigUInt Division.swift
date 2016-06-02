@@ -17,7 +17,7 @@ extension BigUInt {
     /// - Requires: y > 0
     /// - Complexity: O(count)
     @warn_unused_result
-    public mutating func divideInPlaceByDigit(_ y: Digit) -> Digit {
+    public mutating func divide(byDigit y: Digit) -> Digit {
         precondition(y > 0)
         if y == 1 { return 0 }
         lift()
@@ -35,22 +35,22 @@ extension BigUInt {
     /// Divide this integer by the digit `y` and return the resulting quotient and remainder.
     ///
     /// - Requires: y > 0
-    /// - Returns: (div, mod) where div = floor(x/y), mod = x - div * y
+    /// - Returns: (quotient, remainder) where quotient = floor(x/y), remainder = x - quotient * y
     /// - Complexity: O(x.count)
     @warn_unused_result
-    public func divideByDigit(_ y: Digit) -> (div: BigUInt, mod: Digit) {
+    public func divided(byDigit y: Digit) -> (quotient: BigUInt, remainder: Digit) {
         var div = self
-        let mod = div.divideInPlaceByDigit(y)
+        let mod = div.divide(byDigit: y)
         return (div, mod)
     }
 
     /// Divide this integer by `y` and return the resulting quotient and remainder.
     ///
     /// - Requires: `y > 0`
-    /// - Returns: `(div, mod)` where `div = floor(self/y)`, `mod = self - div * y`
+    /// - Returns: `(quotient, remainder)` where `quotient = floor(self/y)`, `remainder = self - quotient * y`
     /// - Complexity: O(count^2)
     @warn_unused_result
-    public func divide(_ y: BigUInt) -> (div: BigUInt, mod: BigUInt) {
+    public func divided(by y: BigUInt) -> (quotient: BigUInt, remainder: BigUInt) {
         // This is a Swift adaptation of "divmnu" from Hacker's Delight, which is in
         // turn a C adaptation of Knuth's Algorithm D (TAOCP vol 2, 4.3.1).
 
@@ -63,7 +63,7 @@ extension BigUInt {
         }
         if y.count == 1 {
             // The single-digit case reduces to a simpler loop.
-            let (div, mod) = divideByDigit(y[0])
+            let (div, mod) = divided(byDigit: y[0])
             return (div, BigUInt(mod))
         }
 
@@ -146,14 +146,14 @@ extension BigUInt {
             // Normalization ensures the 3/2 quotient will either be exact for the full division, or
             // it may overshoot by at most 1, in which case the product will be greater
             // than the remainder.
-            let product = divisor.multiplyByDigit(q)
+            let product = divisor.multiplied(byDigit: q)
             if product <= remainder[j - dc ... j] {
-                remainder.subtractInPlace(product, atPosition: j - dc)
+                remainder.subtract(product, atPosition: j - dc)
                 quotient[j - dc] = q
             }
             else {
                 // This case is extremely rare -- it has a probability of 1/2^(Digit.width - 1).
-                remainder.subtractInPlace(product - divisor, atPosition: j - dc)
+                remainder.subtract(product - divisor, atPosition: j - dc)
                 quotient[j - dc] = q - 1
             }
         }
@@ -166,30 +166,30 @@ extension BigUInt {
 
 /// Divide `x` by `y` and return the quotient.
 ///
-/// - Note: Use `x.divide(y)` if you also need the remainder.
+/// - Note: Use `divided(by:)` if you also need the remainder.
 @warn_unused_result
 public func /(x: BigUInt, y: BigUInt) -> BigUInt {
-    return x.divide(y).div
+    return x.divided(by: y).quotient
 }
 
 /// Divide `x` by `y` and return the remainder.
 ///
-/// - Note: Use `x.divide(y)` if you also need the remainder.
+/// - Note: Use `divided(by:)` if you also need the remainder.
 @warn_unused_result
 public func %(x: BigUInt, y: BigUInt) -> BigUInt {
-    return x.divide(y).mod
+    return x.divided(by: y).remainder
 }
 
 /// Divide `x` by `y` and store the quotient in `x`.
 ///
-/// - Note: Use `x.divide(y)` if you also need the remainder.
+/// - Note: Use `divided(by:)` if you also need the remainder.
 public func /=(x: inout BigUInt, y: BigUInt) {
-    x = x.divide(y).div
+    x = x.divided(by: y).quotient
 }
 
 /// Divide `x` by `y` and store the remainder in `x`.
 ///
-/// - Note: Use `x.divide(y)` if you also need the remainder.
+/// - Note: Use `divided(by:)` if you also need the remainder.
 public func %=(x: inout BigUInt, y: BigUInt) {
-    x = x.divide(y).mod
+    x = x.divided(by: y).remainder
 }

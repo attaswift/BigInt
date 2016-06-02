@@ -15,7 +15,7 @@ extension BigUInt {
     /// Multiply this big integer by a single digit, and store the result in place of the original big integer.
     ///
     /// - Complexity: O(count)
-    public mutating func multiplyInPlaceByDigit(_ y: Digit) {
+    public mutating func multiply(byDigit y: Digit) {
         guard y != 0 else { self = 0; return }
         guard y != 1 else { return }
         lift()
@@ -34,9 +34,9 @@ extension BigUInt {
     ///
     /// - Complexity: O(count)
     @warn_unused_result
-    public func multiplyByDigit(_ y: Digit) -> BigUInt {
+    public func multiplied(byDigit y: Digit) -> BigUInt {
         var r = self
-        r.multiplyInPlaceByDigit(y)
+        r.multiply(byDigit: y)
         return r
     }
 
@@ -46,10 +46,10 @@ extension BigUInt {
     ///   individually. (The fused operation doesn't need to allocate space for temporary big integers.)
     /// - Returns: `self` is set to `self + (x * y) << (shift * 2^Digit.width)`
     /// - Complexity: O(count)
-    public mutating func multiplyAndAddInPlace(_ x: BigUInt, _ y: Digit, atPosition shift: Int = 0) {
+    public mutating func multiplyAndAdd(_ x: BigUInt, _ y: Digit, atPosition shift: Int = 0) {
         precondition(shift >= 0)
         guard y != 0 && x.count > 0 else { return }
-        guard y != 1 else { self.addInPlace(x, atPosition: shift); return }
+        guard y != 1 else { self.add(x, atPosition: shift); return }
         lift()
         var mulCarry: Digit = 0
         var addCarry = false
@@ -81,7 +81,7 @@ extension BigUInt {
     ///   `BigUInt.directMultiplicationLimit` digits.
     /// - Complexity: O(n^log2(3))
     @warn_unused_result
-    public func multiply(_ y: BigUInt) -> BigUInt {
+    public func multiplied(by y: BigUInt) -> BigUInt {
         // This method is mostly defined for symmetry with the rest of the arithmetic operations.
         return self * y
     }
@@ -103,8 +103,8 @@ public func *(x: BigUInt, y: BigUInt) -> BigUInt {
     let yc = y.count
     if xc == 0 { return BigUInt() }
     if yc == 0 { return BigUInt() }
-    if yc == 1 { return x.multiplyByDigit(y[0]) }
-    if xc == 1 { return y.multiplyByDigit(x[0]) }
+    if yc == 1 { return x.multiplied(byDigit: y[0]) }
+    if xc == 1 { return y.multiplied(byDigit: x[0]) }
 
     if min(xc, yc) <= BigUInt.directMultiplicationLimit {
         // Long multiplication.
@@ -112,7 +112,7 @@ public func *(x: BigUInt, y: BigUInt) -> BigUInt {
         let right = (xc < yc ? x : y)
         var result = BigUInt()
         for i in (0 ..< right.count).reversed() {
-            result.multiplyAndAddInPlace(left, right[i], atPosition: i)
+            result.multiplyAndAdd(left, right[i], atPosition: i)
         }
         return result
     }
@@ -120,13 +120,13 @@ public func *(x: BigUInt, y: BigUInt) -> BigUInt {
     if yc < xc {
         let (xh, xl) = x.split
         var r = xl * y
-        r.addInPlace(xh * y, atPosition: x.middleIndex)
+        r.add(xh * y, atPosition: x.middleIndex)
         return r
     }
     else if xc < yc {
         let (yh, yl) = y.split
         var r = yl * x
-        r.addInPlace(yh * x, atPosition: y.middleIndex)
+        r.add(yh * x, atPosition: y.middleIndex)
         return r
     }
 
@@ -146,14 +146,14 @@ public func *(x: BigUInt, y: BigUInt) -> BigUInt {
     let m = xm * ym
 
     var r = low
-    r.addInPlace(high, atPosition: 2 * shift)
-    r.addInPlace(low, atPosition: shift)
-    r.addInPlace(high, atPosition: shift)
+    r.add(high, atPosition: 2 * shift)
+    r.add(low, atPosition: shift)
+    r.add(high, atPosition: shift)
     if xp == yp {
-        r.subtractInPlace(m, atPosition: shift)
+        r.subtract(m, atPosition: shift)
     }
     else {
-        r.addInPlace(m, atPosition: shift)
+        r.add(m, atPosition: shift)
     }
     return r
 }

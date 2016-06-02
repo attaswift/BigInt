@@ -88,7 +88,7 @@ extension BigUInt {
             if self.count == 1 && self[0] == p {
                 return true
             }
-            if self.divideByDigit(p).mod == 0 {
+            if self.divided(byDigit: p).remainder == 0 {
                 return false
             }
         }
