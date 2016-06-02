@@ -248,7 +248,7 @@ extension BigUInt {
     ///
     /// - Requires: count > 1
     /// - Returns: `(low, high)` such that 
-    ///   - `self == low.add(high, shift: middleIndex)`
+    ///   - `self == low.add(high, atPosition: middleIndex)`
     ///   - `high.width <= floor(width / 2)`
     ///   - `low.width <= ceil(width / 2)`
     /// - Complexity: Typically O(1), but O(count) in the worst case, because high-order zero digits need to be removed after the split.

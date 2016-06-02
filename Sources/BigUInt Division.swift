@@ -148,12 +148,12 @@ extension BigUInt {
             // than the remainder.
             let product = divisor.multiplyByDigit(q)
             if product <= remainder[j - dc ... j] {
-                remainder.subtractInPlace(product, shift: j - dc)
+                remainder.subtractInPlace(product, atPosition: j - dc)
                 quotient[j - dc] = q
             }
             else {
                 // This case is extremely rare -- it has a probability of 1/2^(Digit.width - 1).
-                remainder.subtractInPlace(product - divisor, shift: j - dc)
+                remainder.subtractInPlace(product - divisor, atPosition: j - dc)
                 quotient[j - dc] = q - 1
             }
         }

@@ -46,10 +46,10 @@ extension BigUInt {
     ///   individually. (The fused operation doesn't need to allocate space for temporary big integers.)
     /// - Returns: `self` is set to `self + (x * y) << (shift * 2^Digit.width)`
     /// - Complexity: O(count)
-    public mutating func multiplyAndAddInPlace(_ x: BigUInt, _ y: Digit, shift: Int = 0) {
+    public mutating func multiplyAndAddInPlace(_ x: BigUInt, _ y: Digit, atPosition shift: Int = 0) {
         precondition(shift >= 0)
         guard y != 0 && x.count > 0 else { return }
-        guard y != 1 else { self.addInPlace(x, shift: shift); return }
+        guard y != 1 else { self.addInPlace(x, atPosition: shift); return }
         lift()
         var mulCarry: Digit = 0
         var addCarry = false
@@ -112,7 +112,7 @@ public func *(x: BigUInt, y: BigUInt) -> BigUInt {
         let right = (xc < yc ? x : y)
         var result = BigUInt()
         for i in (0 ..< right.count).reversed() {
-            result.multiplyAndAddInPlace(left, right[i], shift: i)
+            result.multiplyAndAddInPlace(left, right[i], atPosition: i)
         }
         return result
     }
@@ -120,13 +120,13 @@ public func *(x: BigUInt, y: BigUInt) -> BigUInt {
     if yc < xc {
         let (xh, xl) = x.split
         var r = xl * y
-        r.addInPlace(xh * y, shift: x.middleIndex)
+        r.addInPlace(xh * y, atPosition: x.middleIndex)
         return r
     }
     else if xc < yc {
         let (yh, yl) = y.split
         var r = yl * x
-        r.addInPlace(yh * x, shift: y.middleIndex)
+        r.addInPlace(yh * x, atPosition: y.middleIndex)
         return r
     }
 
@@ -146,14 +146,14 @@ public func *(x: BigUInt, y: BigUInt) -> BigUInt {
     let m = xm * ym
 
     var r = low
-    r.addInPlace(high, shift: 2 * shift)
-    r.addInPlace(low, shift: shift)
-    r.addInPlace(high, shift: shift)
+    r.addInPlace(high, atPosition: 2 * shift)
+    r.addInPlace(low, atPosition: shift)
+    r.addInPlace(high, atPosition: shift)
     if xp == yp {
-        r.subtractInPlace(m, shift: shift)
+        r.subtractInPlace(m, atPosition: shift)
     }
     else {
-        r.addInPlace(m, shift: shift)
+        r.addInPlace(m, atPosition: shift)
     }
     return r
 }

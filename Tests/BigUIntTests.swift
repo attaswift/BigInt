@@ -357,19 +357,19 @@ class BigUIntTests: XCTestCase {
 
     func testShiftedAddition() {
         var b = BigUInt()
-        b.addInPlace(1, shift: 1)
+        b.addInPlace(1, atPosition: 1)
         XCTAssertEqual(b, BigUInt([0, 1]))
 
-        b.addInPlace(2, shift: 3)
+        b.addInPlace(2, atPosition: 3)
         XCTAssertEqual(b, BigUInt([0, 1, 0, 2]))
 
-        b.addInPlace(BigUInt(Digit.max), shift: 1)
+        b.addInPlace(BigUInt(Digit.max), atPosition: 1)
         XCTAssertEqual(b, BigUInt([0, 0, 1, 2]))
     }
 
     func testSubtraction() {
         var a1 = BigUInt([1, 2, 3, 4])
-        XCTAssertFalse(a1.subtractDigitInPlaceWithOverflow(3, shift: 1))
+        XCTAssertFalse(a1.subtractDigitInPlaceWithOverflow(3, atPosition: 1))
         XCTAssertEqual(a1, BigUInt([1, Digit.max, 2, 4]))
 
         let (diff, overflow) = BigUInt([1, 2, 3, 4]).subtractDigitWithOverflow(2)
@@ -377,11 +377,11 @@ class BigUIntTests: XCTestCase {
         XCTAssertFalse(overflow)
 
         var a2 = BigUInt([1, 2, 3, 4])
-        XCTAssertTrue(a2.subtractDigitInPlaceWithOverflow(5, shift: 3))
+        XCTAssertTrue(a2.subtractDigitInPlaceWithOverflow(5, atPosition: 3))
         XCTAssertEqual(a2, BigUInt([1, 2, 3, Digit.max]))
 
         var a3 = BigUInt([1, 2, 3, 4])
-        a3.subtractDigitInPlace(4, shift: 3)
+        a3.subtractDigitInPlace(4, atPosition: 3)
         XCTAssertEqual(a3, BigUInt([1, 2, 3]))
 
         var a4 = BigUInt([1, 2, 3, 4])
