@@ -5,11 +5,13 @@
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
     "1C1636C82AA6D30C94DEAD00016AA8F48145AB62" : 0,
+    "2C93C245B00338270EB7EA7F4B0B0A7890906C28" : 0,
     "05D6826B0162543BD57EFC4EE6354EB49FD59438" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "97D1C5FE-8C12-4BD6-B55F-B82F533BC5ED",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
     "1C1636C82AA6D30C94DEAD00016AA8F48145AB62" : "BigInt\/",
+    "2C93C245B00338270EB7EA7F4B0B0A7890906C28" : "",
     "05D6826B0162543BD57EFC4EE6354EB49FD59438" : "..\/.."
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "BigInt",
@@ -25,6 +27,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/lorentey\/BigInt.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1C1636C82AA6D30C94DEAD00016AA8F48145AB62"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/Badger.local\/git\/Dookit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2C93C245B00338270EB7EA7F4B0B0A7890906C28"
     }
   ]
 }

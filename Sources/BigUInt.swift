@@ -127,13 +127,20 @@ extension BigUInt {
 }
 
 extension BigUInt: RandomAccessCollection {
-    //MARK: CollectionType
+    //MARK: Collection
 
+    /// Big integers implement `Collection` to provide access to their big digits, indexed by integers; a zero index refers to the least significant digit.
     public typealias Index = Int
+    /// The type representing the number of steps between two indices.
     public typealias IndexDistance = Int
+    /// The type representing valid indices for subscripting the collection.
     public typealias Indices = CountableRange<Int>
-    public typealias Iterator = DigitGenerator<Digit>
+    /// The type representing the iteration interface for the digits in a big integer.
+    public typealias Iterator = DigitIterator<Digit>
+    /// Big integers can be contiguous digit subranges of another big integer.
     public typealias SubSequence = BigUInt
+
+    public var indices: Indices { return startIndex ..< endIndex }
 
     /// The index of the first digit, starting from the least significant. (This is always zero.)
     public var startIndex: Int { return 0 }
@@ -143,30 +150,37 @@ extension BigUInt: RandomAccessCollection {
     public var count: Int { return _end - _start }
 
     /// Return a generator over the digits of this integer, starting at the least significant digit.
-    public func makeIterator() -> DigitGenerator<Digit> {
-        return DigitGenerator(digits: _digits, end: _end, index: _start)
+    public func makeIterator() -> DigitIterator<Digit> {
+        return DigitIterator(digits: _digits, end: _end, index: _start)
     }
 
+    /// Returns the position immediately after the given index.
     public func index(after i: Int) -> Int {
         return i + 1
     }
 
-    public func formIndex(after i: inout Int) {
-        i += 1
-    }
-
+    /// Returns the position immediately before the given index.
     public func index(before i: Int) -> Int {
         return i - 1
     }
 
+    /// Replaces the given index with its successor.
+    public func formIndex(after i: inout Int) {
+        i += 1
+    }
+
+    /// Replaces the given index with its predecessor.
     public func formIndex(before i: inout Int) {
         i -= 1
     }
 
+    /// Returns an index that is the specified distance from the given index.
     public func index(_ i: Int, offsetBy n: Int) -> Int {
         return i + n
     }
 
+    /// Returns an index that is the specified distance from the given index,
+    /// unless that distance is beyond a given limiting index.
     public func index(_ i: Int, offsetBy n: Int, limitedBy limit: Int) -> Int? {
         let r = i + n
         if n >= 0 {
@@ -177,16 +191,17 @@ extension BigUInt: RandomAccessCollection {
         }
     }
 
+    /// Returns the number of steps between two indices.
     public func distance(from start: Int, to end: Int) -> Int {
         return end - start
     }
 
 
-    /// Get or set a digit at a given position.
+    /// Get or set a digit at a given index.
     ///
-    /// - Note: Unlike a normal collection, it is OK for the index to be greater than or equal to `count`.
+    /// - Note: Unlike a normal collection, it is OK for the index to be greater than or equal to `endIndex`.
     ///   The subscripting getter returns zero for indexes beyond the most significant digit.
-    ///   Setting these digits automatically appends new elements to the underlying digit array.
+    ///   Setting these extended digits automatically appends new elements to the underlying digit array.
     /// - Requires: index >= 0
     /// - Complexity: The getter is O(1). The setter is O(1) if the conditions below are true; otherwise it's O(count).
     ///    - The integer's storage is not shared with another integer
@@ -225,8 +240,8 @@ extension BigUInt: RandomAccessCollection {
     }
 }
 
-/// The digit generator for a big integer.
-public struct DigitGenerator<Digit>: IteratorProtocol {
+/// State for iterating through the digits of a big integer.
+public struct DigitIterator<Digit>: IteratorProtocol {
     internal let digits: [Digit]
     internal let end: Int
     internal var index: Int
