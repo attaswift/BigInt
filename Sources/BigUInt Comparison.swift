@@ -15,7 +15,7 @@ extension BigUInt: Comparable {
     ///
     /// - Complexity: O(count)
     @warn_unused_result
-    public static func compare(_ a: BigUInt, _ b: BigUInt) -> NSComparisonResult {
+    public static func compare(_ a: BigUInt, _ b: BigUInt) -> ComparisonResult {
         if a.count != b.count { return a.count > b.count ? .orderedDescending : .orderedAscending }
         for i in (0..<a.count).reversed() {
             let ad = a[i]

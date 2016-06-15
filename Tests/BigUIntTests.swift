@@ -770,10 +770,10 @@ class BigUIntTests: XCTestCase {
         test(a: m127, p: m521)
     }
 
-    func data(_ bytes: Array<UInt8>) -> NSData {
-        var result: NSData? = nil
+    func data(_ bytes: Array<UInt8>) -> Data {
+        var result: Data? = nil
         bytes.withUnsafeBufferPointer { p in
-            result = NSData(bytes: p.baseAddress, length: p.count)
+            result = Data(bytes: UnsafePointer<UInt8>(p.baseAddress!), count: p.count)
         }
         return result!
     }

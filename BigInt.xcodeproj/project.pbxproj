@@ -480,9 +480,11 @@
 					};
 					BB64E70E1C2F49CF00C18269 = {
 						CreatedOnToolsVersion = 7.2;
+						LastSwiftMigration = 0800;
 					};
 					BB64E7171C2F49CF00C18269 = {
 						CreatedOnToolsVersion = 7.2;
+						LastSwiftMigration = 0800;
 					};
 					BBDEA4121C3D6B0E00BBEEBC = {
 						CreatedOnToolsVersion = 7.2;
@@ -820,6 +822,7 @@
 				PRODUCT_NAME = BigInt;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Profile;
 		};
@@ -844,6 +847,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-Mac";
 				PRODUCT_NAME = "BigIntTests-Mac";
 				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Profile;
 		};
@@ -1019,6 +1023,7 @@
 				PRODUCT_NAME = BigInt;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -1040,6 +1045,7 @@
 				PRODUCT_NAME = BigInt;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -1055,6 +1061,7 @@
 				PRODUCT_NAME = "BigIntTests-Mac";
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -1069,6 +1076,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-Mac";
 				PRODUCT_NAME = "BigIntTests-Mac";
 				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -1161,6 +1169,7 @@
 				PRODUCT_NAME = BigInt;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Test;
 		};
@@ -1186,6 +1195,7 @@
 				PRODUCT_NAME = "BigIntTests-Mac";
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Test;
 		};

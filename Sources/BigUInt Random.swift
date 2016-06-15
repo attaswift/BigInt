@@ -31,7 +31,7 @@ extension BigUInt {
             buffer.deinitialize(count: byteCount)
             buffer.deallocateCapacity(byteCount)
         }
-        return BigUInt(NSData(bytesNoCopy: buffer, length: byteCount, freeWhenDone: false))
+        return BigUInt(Data(bytesNoCopy: buffer, count: byteCount, deallocator: .none))
     }
 
     /// Create a big integer consisting of `width-1` uniformly distributed random bits followed by a one bit.

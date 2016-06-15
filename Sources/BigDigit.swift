@@ -54,12 +54,12 @@ extension UInt32: BigDigit {
     // Somewhat surprisingly, these specializations do not help make UInt32 reach UInt64's performance.
     // (They are 4-42% faster in benchmarks, but UInt64 is 2-3 times faster still.)
     @warn_unused_result
-    internal static func fullMultiply(x: UInt32, _ y: UInt32) -> (high: UInt32, low: UInt32) {
+    internal static func fullMultiply(_ x: UInt32, _ y: UInt32) -> (high: UInt32, low: UInt32) {
         let p = UInt64(x) * UInt64(y)
         return (UInt32(p.high), UInt32(p.low))
     }
     @warn_unused_result 
-    internal static func fullDivide(x: (high: UInt32, low: UInt32), _ y: UInt32) -> (div: UInt32, mod: UInt32) {
+    internal static func fullDivide(_ x: (high: UInt32, low: UInt32), _ y: UInt32) -> (div: UInt32, mod: UInt32) {
         let x = UInt64(x.high) << 32 + UInt64(x.low)
         let div = x / UInt64(y)
         let mod = x % UInt64(y)

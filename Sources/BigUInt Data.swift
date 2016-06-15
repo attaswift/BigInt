@@ -13,13 +13,13 @@ extension BigUInt {
 
     /// Initializes an integer from the bits stored inside a piece of `NSData`.
     /// The data is assumed to be in network (big-endian) byte order.
-    public init(_ data: NSData) {
+    public init(_ data: Data) {
         // This assumes Digit is binary.
         precondition(Digit.width % 8 == 0)
 
         self.init()
 
-        let length = data.length
+        let length = data.count
         guard length > 0 else { return }
         let bytesPerDigit = Digit.width / 8
         var index = length / bytesPerDigit
@@ -29,11 +29,10 @@ extension BigUInt {
             index -= 1
         }
         var digit: Digit = 0
-        data.enumerateBytes { p, range, stop in
-            let p = UnsafePointer<UInt8>(p)
-            for i in 0 ..< range.length {
+        data.enumerateBytes { p, byteIndex, stop in
+            for byte in p {
                 digit <<= 8
-                digit += Digit(p[i])
+                digit += Digit(byte)
                 c += 1
                 if c == bytesPerDigit {
                     self[index] = digit
@@ -48,13 +47,13 @@ extension BigUInt {
 
     /// Return an `NSData` instance that contains the base-256 representation of this integer, in network (big-endian) byte order.
     @warn_unused_result
-    public func serialize() -> NSData {
+    public func serialize() -> Data {
         // This assumes Digit is binary.
         precondition(Digit.width % 8 == 0)
 
         let byteCount = (self.width + 7) / 8
 
-        guard byteCount > 0 else { return NSData() }
+        guard byteCount > 0 else { return Data() }
         
         var byteArray = Array<UInt8>(repeating: 0, count: byteCount)
         var i = byteCount - 1
@@ -71,11 +70,10 @@ extension BigUInt {
             }
         }
 
-        var result: NSData? = nil
-        byteArray.withUnsafeBufferPointer { p in
-            result = NSData(bytes: p.baseAddress, length: p.count)
+        return byteArray.withUnsafeBufferPointer { p in
+            guard let base = p.baseAddress else { return Data() }
+            return Data(bytes: base, count: p.count)
         }
-        return result!
     }
 }
 
