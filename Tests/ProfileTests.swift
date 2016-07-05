@@ -44,7 +44,7 @@ class ProfileTests: XCTestCase {
     func checkFactorial(fact: BigUInt, n: Int, file: StaticString = #file, line: UInt = #line) {
         var remaining = fact
         for i in 1...n {
-            let (div, mod) = remaining.divide(BigUInt(i))
+            let (div, mod) = remaining.divided(by: BigUInt(i))
             XCTAssertEqual(mod, 0, "for divisor = \(i)", file: file, line: line)
             remaining = div
         }
@@ -57,7 +57,7 @@ class ProfileTests: XCTestCase {
         self.measure {
             fact = BigUInt(1)
             for i in 1...n {
-                fact.multiplyInPlaceByDigit(Digit(i))
+                fact.multiply(byDigit: Digit(i))
             }
         }
         checkFactorial(fact: fact, n: n)
@@ -108,7 +108,7 @@ class ProfileTests: XCTestCase {
             mods.removeAll()
             self.startMeasuring()
             for divisor in divisors {
-                let (div, mod) = fact.divide(divisor)
+                let (div, mod) = fact.divided(by: divisor)
                 divs.append(div)
                 mods.append(mod)
             }
@@ -121,7 +121,7 @@ class ProfileTests: XCTestCase {
     }
 
     func testSquareRoot() {
-        var numbers: [BigUInt] = (1...1000).map { _ in BigUInt.randomIntegerWithMaximumWidth(60 * sizeof(Digit) * 8) }
+        var numbers: [BigUInt] = (1...1000).map { _ in BigUInt.randomInteger(withMaximumWidth: 60 * sizeof(Digit) * 8) }
         var roots: [BigUInt] = []
         self.measure {
             roots.removeAll()
@@ -139,7 +139,7 @@ class ProfileTests: XCTestCase {
 
     func testModularExponentiation() {
         let m15 = (BigUInt(1) << 1279) - BigUInt(1)
-        let tests = (1..<25).map { _ in BigUInt.randomIntegerWithMaximumWidth(1279) }
+        let tests = (1..<25).map { _ in BigUInt.randomInteger(withMaximumWidth: 1279) }
         self.measure {
             for test in tests {
                 assert(test < m15)
