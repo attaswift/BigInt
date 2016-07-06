@@ -107,11 +107,11 @@ extension UInt64 {
 
 extension UInt {
     internal var low: UInt {
-        precondition(sizeof(UInt) == 8)
+        precondition(sizeof(UInt.self) == 8)
         return self & 0xFFFFFFFF
     }
     internal var high: UInt {
-        precondition(sizeof(UInt) == 8)
+        precondition(sizeof(UInt.self) == 8)
         return self >> 32
     }
     internal var split: (high: UInt, low: UInt) { return (high, low) }

@@ -121,7 +121,7 @@ class ProfileTests: XCTestCase {
     }
 
     func testSquareRoot() {
-        var numbers: [BigUInt] = (1...1000).map { _ in BigUInt.randomInteger(withMaximumWidth: 60 * sizeof(Digit) * 8) }
+        var numbers: [BigUInt] = (1...1000).map { _ in BigUInt.randomInteger(withMaximumWidth: 60 * sizeof(Digit.self) * 8) }
         var roots: [BigUInt] = []
         self.measure {
             roots.removeAll()
