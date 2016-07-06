@@ -13,11 +13,9 @@ import Foundation
 /// Describes a type that supports all the standard shift operators.
 public protocol ShiftOperations {
     /// Shift the value `a` by `b` bits to the left and return the result.
-    @warn_unused_result
     func <<(a: Self, b: Self) -> Self
 
     /// Shift the value `a` by `b` bits to the right and return the result.
-    @warn_unused_result
     func >>(a: Self, b: Self) -> Self
 
     /// Shift the value `a` by `b` bits to the left and store the result in `a`.

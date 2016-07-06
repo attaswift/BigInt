@@ -14,7 +14,6 @@ extension BigUInt: Comparable {
     /// Compare `a` to `b` and return an `NSComparisonResult` indicating their order.
     ///
     /// - Complexity: O(count)
-    @warn_unused_result
     public static func compare(_ a: BigUInt, _ b: BigUInt) -> ComparisonResult {
         if a.count != b.count { return a.count > b.count ? .orderedDescending : .orderedAscending }
         for i in (0..<a.count).reversed() {
@@ -31,7 +30,6 @@ extension BigUInt: Comparable {
 /// Return true iff `a` is equal to `b`.
 ///
 /// - Complexity: O(count)
-@warn_unused_result
 public func ==(a: BigUInt, b: BigUInt) -> Bool {
     return BigUInt.compare(a, b) == .orderedSame
 }
@@ -39,7 +37,6 @@ public func ==(a: BigUInt, b: BigUInt) -> Bool {
 /// Return true iff `a` is less than `b`.
 ///
 /// - Complexity: O(count)
-@warn_unused_result
 public func <(a: BigUInt, b: BigUInt) -> Bool {
     return BigUInt.compare(a, b) == .orderedAscending
 }

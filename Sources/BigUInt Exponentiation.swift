@@ -23,7 +23,6 @@ extension BigUInt {
     /// - Returns: 1 if `exponent == 0`, otherwise `self` raised to `exponent`. (This implies that `0.power(0) == 1`.)
     /// - SeeAlso: `BigUInt.power(_:, modulus:)`
     /// - Complexity: O((exponent * self.count)^log2(3)) or somesuch. The result may require a large amount of memory, too.
-    @warn_unused_result
     public func power(_ exponent: Int) -> BigUInt {
         if exponent == 0 { return 1 }
         if exponent == 1 { return self }
@@ -48,7 +47,6 @@ extension BigUInt {
     /// [rtlb]: https://en.wikipedia.org/wiki/Modular_exponentiation#Right-to-left_binary_method
     ///
     /// - Complexity: O(exponent.count * modulus.count^log2(3)) or somesuch
-    @warn_unused_result
     public func power(_ exponent: BigUInt, modulus: BigUInt) -> BigUInt {
         if modulus == 1 { return 0 }
         var result = BigUInt(1)

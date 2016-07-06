@@ -39,7 +39,6 @@ extension BigUInt {
     /// Returns true iff this integer passes the [strong probable prime test][sppt] for the specified base.
     ///
     /// [sppt]: https://en.wikipedia.org/wiki/Probable_prime
-    @warn_unused_result
     public func isStrongProbablePrime(_ base: BigUInt) -> Bool {
         let dec = self - 1
 
@@ -74,7 +73,6 @@ extension BigUInt {
     /// return a correct result.
     ///
     /// [mrpt]: https://en.wikipedia.org/wiki/Miller–Rabin_primality_test
-    @warn_unused_result
     public func isPrime(rounds: Int = 10) -> Bool {
         if count <= 1 && self[0] < 2 { return false }
         if count == 1 && self[0] < 4 { return true }

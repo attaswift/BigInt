@@ -13,7 +13,6 @@ import Foundation
 /// Returns the integer square root of a big integer; i.e., the largest integer whose square isn't greater than `value`.
 ///
 /// - Returns: floor(sqrt(value))
-@warn_unused_result
 public func sqrt(_ value: BigUInt) -> BigUInt {
     // This implementation uses Newton's method.
     guard !value.isZero else { return BigUInt() }

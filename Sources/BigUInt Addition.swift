@@ -32,7 +32,6 @@ extension BigUInt {
     /// `d` is shifted `shift` digits to the left before being added.
     ///
     /// - Complexity: O(max(count, shift))
-    @warn_unused_result
     public func addingDigit(_ d: Digit, atPosition shift: Int = 0) -> BigUInt {
         var r = self
         r.addDigit(d, atPosition: shift)
@@ -68,7 +67,6 @@ extension BigUInt {
     /// `b` is shifted `shift` digits to the left before being added.
     ///
     /// - Complexity: O(max(count, b.count + shift))
-    @warn_unused_result
     public func adding(_ b: BigUInt, atPosition shift: Int = 0) -> BigUInt {
         var r = self
         r.add(b, atPosition: shift)
@@ -89,7 +87,6 @@ extension BigUInt {
 /// Add `a` and `b` together and return the result.
 ///
 /// - Complexity: O(max(a.count, b.count))
-@warn_unused_result
 public func +(a: BigUInt, b: BigUInt) -> BigUInt {
     return a.adding(b)
 }

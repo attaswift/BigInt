@@ -50,7 +50,6 @@ extension BigUInt {
 /// Return the ones' complement of `a`.
 ///
 /// - Complexity: O(a.count)
-@warn_unused_result
 public prefix func ~(a: BigUInt) -> BigUInt {
     return BigUInt(a.map { ~$0 })
 }
@@ -58,7 +57,6 @@ public prefix func ~(a: BigUInt) -> BigUInt {
 /// Calculate the bitwise OR of `a` and `b` and return the result.
 ///
 /// - Complexity: O(max(a.count, b.count))
-@warn_unused_result
 public func | (a: BigUInt, b: BigUInt) -> BigUInt {
     var result = BigUInt()
     for i in (0 ..< max(a.count, b.count)).reversed() {
@@ -70,7 +68,6 @@ public func | (a: BigUInt, b: BigUInt) -> BigUInt {
 /// Calculate the bitwise AND of `a` and `b` and return the result.
 ///
 /// - Complexity: O(max(a.count, b.count))
-@warn_unused_result
 public func & (a: BigUInt, b: BigUInt) -> BigUInt {
     var result = BigUInt()
     for i in (0 ..< max(a.count, b.count)).reversed() {
@@ -82,7 +79,6 @@ public func & (a: BigUInt, b: BigUInt) -> BigUInt {
 /// Calculate the bitwise OR of `a` and `b` and return the result.
 ///
 /// - Complexity: O(max(a.count, b.count))
-@warn_unused_result
 public func ^ (a: BigUInt, b: BigUInt) -> BigUInt {
     var result = BigUInt()
     for i in (0 ..< max(a.count, b.count)).reversed() {

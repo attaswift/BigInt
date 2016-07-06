@@ -151,13 +151,11 @@ extension BigInt: Comparable {
 }
 
 /// Return true iff `a` is equal to `b`.
-@warn_unused_result
 public func ==(a: BigInt, b: BigInt) -> Bool {
     return a.negative == b.negative && a.abs == b.abs
 }
 
 /// Return true iff `a` is less than `b`.
-@warn_unused_result
 public func <(a: BigInt, b: BigInt) -> Bool {
     switch (a.negative, b.negative) {
     case (false, false):
@@ -180,7 +178,6 @@ extension BigInt: Hashable {
 }
 
 /// Add `a` to `b` and return the result.
-@warn_unused_result
 public func +(a: BigInt, b: BigInt) -> BigInt {
     switch (a.negative, b.negative) {
     case (false, false):
@@ -205,32 +202,27 @@ public func +(a: BigInt, b: BigInt) -> BigInt {
 }
 
 /// Negate `a` and return the result.
-@warn_unused_result
 public prefix func -(a: BigInt) -> BigInt {
     if a.abs.isZero { return a }
     return BigInt(abs: a.abs, negative: !a.negative)
 }
 
 /// Subtract `b` from `a` and return the result.
-@warn_unused_result
 public func -(a: BigInt, b: BigInt) -> BigInt {
     return a + (-b)
 }
 
 /// Multiply `a` with `b` and return the result.
-@warn_unused_result
 public func *(a: BigInt, b: BigInt) -> BigInt {
     return BigInt(abs: a.abs * b.abs, negative: a.negative != b.negative)
 }
 
 /// Divide `a` by `b` and return the quotient.
-@warn_unused_result
 public func /(a: BigInt, b: BigInt) -> BigInt {
     return BigInt(abs: a.abs / b.abs, negative: a.negative != b.negative)
 }
 
 /// Divide `a` by `b` and return the remainder.
-@warn_unused_result
 public func %(a: BigInt, b: BigInt) -> BigInt {
     return BigInt(abs: a.abs % b.abs, negative: a.negative)
 }

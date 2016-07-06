@@ -44,7 +44,6 @@ public func <<= (b: inout BigUInt, amount: Int) {
 ///
 /// - Returns: b * 2^amount
 /// - Complexity: O(count)
-@warn_unused_result
 public func << (b: BigUInt, amount: Int) -> BigUInt {
     typealias Digit = BigUInt.Digit
 
@@ -115,7 +114,6 @@ public func >>= (b: inout BigUInt, amount: Int) {
 ///
 /// - Returns: b / 2^amount
 /// - Complexity: O(count)
-@warn_unused_result
 public func >> (b: BigUInt, amount: Int) -> BigUInt {
     typealias Digit = BigUInt.Digit
 

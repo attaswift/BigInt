@@ -16,7 +16,6 @@ extension BigUInt {
     ///
     /// - Note: If the result is true, then `self` becomes the two's complement of the absolute difference.
     /// - Complexity: O(count)
-    @warn_unused_result
     public mutating func subtractDigitWithOverflow(_ d: Digit, atPosition shift: Int = 0) -> Bool {
         precondition(shift >= 0)
         lift()
@@ -36,7 +35,6 @@ extension BigUInt {
     ///
     /// - Note: If `overflow` is true, then the returned value is the two's complement of the absolute difference.
     /// - Complexity: O(count)
-    @warn_unused_result
     public func subtractingDigitWithOverflow(_ d: Digit, atPosition shift: Int = 0) -> (BigUInt, overflow: Bool) {
         var result = self
         let overflow = result.subtractDigitWithOverflow(d, atPosition: shift)
@@ -58,7 +56,6 @@ extension BigUInt {
     ///
     /// - Requires: self >= d * 2^shift
     /// - Complexity: O(count)
-    @warn_unused_result
     public func subtractingDigit(_ d: Digit, atPosition shift: Int = 0) -> BigUInt {
         var result = self
         result.subtractDigit(d, atPosition: shift)
@@ -70,7 +67,6 @@ extension BigUInt {
     ///
     /// - Note: If the result is true, then `self` becomes the twos' complement of the absolute difference.
     /// - Complexity: O(count)
-    @warn_unused_result
     public mutating func subtractWithOverflow(_ b: BigUInt, atPosition shift: Int = 0) -> Bool {
         precondition(shift >= 0)
         lift()
@@ -98,7 +94,6 @@ extension BigUInt {
     ///
     /// - Note: If `overflow` is true, then the result value is the twos' complement of the absolute value of the difference.
     /// - Complexity: O(count)
-    @warn_unused_result
     public func subtractingWithOverflow(_ b: BigUInt, atPosition shift: Int = 0) -> (BigUInt, overflow: Bool) {
         var result = self
         let overflow = result.subtractWithOverflow(b, atPosition: shift)
@@ -120,7 +115,6 @@ extension BigUInt {
     ///
     /// - Requires: self >= b * 2^shift
     /// - Complexity: O(count)
-    @warn_unused_result
     public func subtracting(_ b: BigUInt, atPosition shift: Int = 0) -> BigUInt {
         var result = self
         result.subtract(b, atPosition: shift)
@@ -142,7 +136,6 @@ extension BigUInt {
 ///
 /// - Requires: a >= b
 /// - Complexity: O(a.count)
-@warn_unused_result
 public func -(a: BigUInt, b: BigUInt) -> BigUInt {
     return a.subtracting(b)
 }

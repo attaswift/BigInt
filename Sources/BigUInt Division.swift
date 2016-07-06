@@ -16,7 +16,6 @@ extension BigUInt {
     ///
     /// - Requires: y > 0
     /// - Complexity: O(count)
-    @warn_unused_result
     public mutating func divide(byDigit y: Digit) -> Digit {
         precondition(y > 0)
         if y == 1 { return 0 }
@@ -37,7 +36,6 @@ extension BigUInt {
     /// - Requires: y > 0
     /// - Returns: (quotient, remainder) where quotient = floor(x/y), remainder = x - quotient * y
     /// - Complexity: O(x.count)
-    @warn_unused_result
     public func divided(byDigit y: Digit) -> (quotient: BigUInt, remainder: Digit) {
         var div = self
         let mod = div.divide(byDigit: y)
@@ -49,7 +47,6 @@ extension BigUInt {
     /// - Requires: `y > 0`
     /// - Returns: `(quotient, remainder)` where `quotient = floor(self/y)`, `remainder = self - quotient * y`
     /// - Complexity: O(count^2)
-    @warn_unused_result
     public func divided(by y: BigUInt) -> (quotient: BigUInt, remainder: BigUInt) {
         // This is a Swift adaptation of "divmnu" from Hacker's Delight, which is in
         // turn a C adaptation of Knuth's Algorithm D (TAOCP vol 2, 4.3.1).
@@ -167,7 +164,6 @@ extension BigUInt {
 /// Divide `x` by `y` and return the quotient.
 ///
 /// - Note: Use `divided(by:)` if you also need the remainder.
-@warn_unused_result
 public func /(x: BigUInt, y: BigUInt) -> BigUInt {
     return x.divided(by: y).quotient
 }
@@ -175,7 +171,6 @@ public func /(x: BigUInt, y: BigUInt) -> BigUInt {
 /// Divide `x` by `y` and return the remainder.
 ///
 /// - Note: Use `divided(by:)` if you also need the remainder.
-@warn_unused_result
 public func %(x: BigUInt, y: BigUInt) -> BigUInt {
     return x.divided(by: y).remainder
 }

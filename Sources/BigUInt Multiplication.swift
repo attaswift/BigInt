@@ -33,7 +33,6 @@ extension BigUInt {
     /// Multiply this big integer by a single digit, and return the result.
     ///
     /// - Complexity: O(count)
-    @warn_unused_result
     public func multiplied(byDigit y: Digit) -> BigUInt {
         var r = self
         r.multiply(byDigit: y)
@@ -80,7 +79,6 @@ extension BigUInt {
     /// - Note: This uses the naive O(n^2) multiplication algorithm unless both arguments have more than
     ///   `BigUInt.directMultiplicationLimit` digits.
     /// - Complexity: O(n^log2(3))
-    @warn_unused_result
     public func multiplied(by y: BigUInt) -> BigUInt {
         // This method is mostly defined for symmetry with the rest of the arithmetic operations.
         return self * y
@@ -97,7 +95,6 @@ extension BigUInt {
 /// - Note: This uses the naive O(n^2) multiplication algorithm unless both arguments have more than
 ///   `BigUInt.directMultiplicationLimit` digits.
 /// - Complexity: O(n^log2(3))
-@warn_unused_result
 public func *(x: BigUInt, y: BigUInt) -> BigUInt {
     let xc = x.count
     let yc = y.count

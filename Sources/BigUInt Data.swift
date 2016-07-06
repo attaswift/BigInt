@@ -46,7 +46,6 @@ extension BigUInt {
     }
 
     /// Return an `NSData` instance that contains the base-256 representation of this integer, in network (big-endian) byte order.
-    @warn_unused_result
     public func serialize() -> Data {
         // This assumes Digit is binary.
         precondition(Digit.width % 8 == 0)
