@@ -120,24 +120,24 @@ extension BigDigit {
         /// Find the half-digit quotient in `(uh, ul) / vn`, which must be normalized.
         ///
         /// - Requires: uh < vn && ul.high == 0 && vn.width = width(Digit)
-        func quotient(_ uh: Self, _ ul: Self, _ vn: Self) -> (Self, ()) { // Strange return type is workaround for compiler bug
+        func quotient(_ uh: Self, _ ul: Self, _ vn: Self) -> Self {
             let (vn1, vn0) = vn.split
             let q = uh / vn1 // Approximated quotient.
             let r = uh - q * vn1 // Remainder, less than vn1
             let p = q * vn0
             // q is often already correct, but sometimes the approximation overshoots by at most 2.
             // The code that follows checks for this while being careful to only perform single-digit operations.
-            if q.high == 0 && p <= r.upshifted | ul { return (q, ()) }
-            if (r + vn1).high != 0 { return (q - 1, ()) }
-            if (q - 1).high == 0 && (p - vn0) <= Self(high: r + vn1, low: ul) { return (q - 1, ()) }
+            if q.high == 0 && p <= r.upshifted | ul { return q }
+            if (r + vn1).high != 0 { return q - 1 }
+            if (q - 1).high == 0 && (p - vn0) <= Self(high: r + vn1, low: ul) { return q - 1 }
             assert((r + 2 * vn1).high != 0 || p - 2 * vn0 <= Self(high: r + 2 * vn1, low: ul))
-            return (q - 2, ())
+            return q - 2
         }
         /// Divide 3 half-digits by 2 half-digits to get a half-digit quotient and a full-digit remainder.
         ///
         /// - Requires: uh < vn && ul.high == 0 && vn.width = width(Digit)
         func divmod(_ uh: Self, _ ul: Self, _ v: Self) -> (div: Self, mod: Self) {
-            let q = quotient(uh, ul, v).0
+            let q = quotient(uh, ul, v)
             // Note that `uh.low` masks off a couple of bits, and `q * v` and the
             // subtraction are likely to overflow. Despite this, the end result (remainder) will
             // still be correct and it will fit inside a single (full) Digit.
