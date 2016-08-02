@@ -21,14 +21,14 @@ extension BigUInt {
         let byteCount = (width + 7) / 8
         assert(byteCount > 0)
 
-        let buffer = UnsafeMutablePointer<UInt8>(allocatingCapacity: byteCount)
+        let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: byteCount)
         arc4random_buf(buffer, byteCount)
         if width % 8 != 0 {
             buffer[0] &= UInt8(1 << (width % 8) - 1)
         }
         defer {
             buffer.deinitialize(count: byteCount)
-            buffer.deallocateCapacity(byteCount)
+            buffer.deallocate(capacity: byteCount)
         }
         return BigUInt(Data(bytesNoCopy: buffer, count: byteCount, deallocator: .none))
     }

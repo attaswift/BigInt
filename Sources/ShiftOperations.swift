@@ -13,15 +13,15 @@ import Foundation
 /// Describes a type that supports all the standard shift operators.
 public protocol ShiftOperations {
     /// Shift the value `a` by `b` bits to the left and return the result.
-    func <<(a: Self, b: Self) -> Self
+    static func <<(a: Self, b: Self) -> Self
 
     /// Shift the value `a` by `b` bits to the right and return the result.
-    func >>(a: Self, b: Self) -> Self
+    static func >>(a: Self, b: Self) -> Self
 
     /// Shift the value `a` by `b` bits to the left and store the result in `a`.
-    func <<=(a: inout Self, b: Self)
+    static func <<=(a: inout Self, b: Self)
 
     /// Shift the value `a` by `b` bits to the right and store the result in `a`.
-    func >>=(a: inout Self, b: Self)
+    static func >>=(a: inout Self, b: Self)
 }
 

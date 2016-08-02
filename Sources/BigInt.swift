@@ -111,7 +111,7 @@ extension BigInt: CustomStringConvertible {
     public var description: String { return String(self, radix: 10) }
 }
 
-extension BigInt: IntegerLiteralConvertible {
+extension BigInt: ExpressibleByIntegerLiteral {
 
     /// Initialize a new big integer from an integer literal.
     public init(integerLiteral value: IntMax) {
@@ -119,7 +119,7 @@ extension BigInt: IntegerLiteralConvertible {
     }
 }
 
-extension BigInt: StringLiteralConvertible {
+extension BigInt: ExpressibleByStringLiteral {
     /// Initialize a new big integer from a Unicode scalar.
     /// The scalar must represent a decimal digit.
     public init(unicodeScalarLiteral value: UnicodeScalar) {

@@ -71,7 +71,7 @@ public struct BigUInt {
     }
 }
 
-extension BigUInt: IntegerLiteralConvertible {
+extension BigUInt: ExpressibleByIntegerLiteral {
     //MARK: Init from Integer literals
 
     /// Initialize a new big integer from an integer literal.
@@ -80,7 +80,7 @@ extension BigUInt: IntegerLiteralConvertible {
     }
 }
 
-extension BigUInt: StringLiteralConvertible {
+extension BigUInt: ExpressibleByStringLiteral {
     //MARK: Init from String literals
 
     /// Initialize a new big integer from a Unicode scalar.
