@@ -80,20 +80,18 @@ extension BigUInt {
     public mutating func increment(atPosition shift: Int = 0) {
         self.addDigit(1, atPosition: shift)
     }
-}
 
-//MARK: Addition
+    /// Add `a` and `b` together and return the result.
+    ///
+    /// - Complexity: O(max(a.count, b.count))
+    public static func +(a: BigUInt, b: BigUInt) -> BigUInt {
+        return a.adding(b)
+    }
 
-/// Add `a` and `b` together and return the result.
-///
-/// - Complexity: O(max(a.count, b.count))
-public func +(a: BigUInt, b: BigUInt) -> BigUInt {
-    return a.adding(b)
-}
-
-/// Add `a` and `b` together, and store the sum in `a`.
-///
-/// - Complexity: O(max(a.count, b.count))
-public func +=(a: inout BigUInt, b: BigUInt) {
-    a.add(b, atPosition: 0)
+    /// Add `a` and `b` together, and store the sum in `a`.
+    ///
+    /// - Complexity: O(max(a.count, b.count))
+    public static func +=(a: inout BigUInt, b: BigUInt) {
+        a.add(b, atPosition: 0)
+    }
 }

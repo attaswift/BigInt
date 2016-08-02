@@ -43,68 +43,65 @@ extension BigUInt {
         let i = self.index { $0 != 0 }!
         return i * Digit.width + self[i].trailingZeroes
     }
-}
 
-//MARK: Bitwise Operators
-
-/// Return the ones' complement of `a`.
-///
-/// - Complexity: O(a.count)
-public prefix func ~(a: BigUInt) -> BigUInt {
-    return BigUInt(a.map { ~$0 })
-}
-
-/// Calculate the bitwise OR of `a` and `b` and return the result.
-///
-/// - Complexity: O(max(a.count, b.count))
-public func | (a: BigUInt, b: BigUInt) -> BigUInt {
-    var result = BigUInt()
-    for i in (0 ..< max(a.count, b.count)).reversed() {
-        result[i] = a[i] | b[i]
+    /// Return the ones' complement of `a`.
+    ///
+    /// - Complexity: O(a.count)
+    public static prefix func ~(a: BigUInt) -> BigUInt {
+        return BigUInt(a.map { ~$0 })
     }
-    return result
-}
 
-/// Calculate the bitwise AND of `a` and `b` and return the result.
-///
-/// - Complexity: O(max(a.count, b.count))
-public func & (a: BigUInt, b: BigUInt) -> BigUInt {
-    var result = BigUInt()
-    for i in (0 ..< max(a.count, b.count)).reversed() {
-        result[i] = a[i] & b[i]
+    /// Calculate the bitwise OR of `a` and `b` and return the result.
+    ///
+    /// - Complexity: O(max(a.count, b.count))
+    public static func | (a: BigUInt, b: BigUInt) -> BigUInt {
+        var result = BigUInt()
+        for i in (0 ..< Swift.max(a.count, b.count)).reversed() {
+            result[i] = a[i] | b[i]
+        }
+        return result
     }
-    return result
-}
 
-/// Calculate the bitwise OR of `a` and `b` and return the result.
-///
-/// - Complexity: O(max(a.count, b.count))
-public func ^ (a: BigUInt, b: BigUInt) -> BigUInt {
-    var result = BigUInt()
-    for i in (0 ..< max(a.count, b.count)).reversed() {
-        result[i] = a[i] ^ b[i]
+    /// Calculate the bitwise AND of `a` and `b` and return the result.
+    ///
+    /// - Complexity: O(max(a.count, b.count))
+    public static func & (a: BigUInt, b: BigUInt) -> BigUInt {
+        var result = BigUInt()
+        for i in (0 ..< Swift.max(a.count, b.count)).reversed() {
+            result[i] = a[i] & b[i]
+        }
+        return result
     }
-    return result
-}
 
-/// Calculate the bitwise OR of `a` and `b`, and store the result in `a`.
-///
-/// - Complexity: O(max(a.count, b.count))
-public func |= (a: inout BigUInt, b: BigUInt) {
-    a = a | b
-}
+    /// Calculate the bitwise OR of `a` and `b` and return the result.
+    ///
+    /// - Complexity: O(max(a.count, b.count))
+    public static func ^ (a: BigUInt, b: BigUInt) -> BigUInt {
+        var result = BigUInt()
+        for i in (0 ..< Swift.max(a.count, b.count)).reversed() {
+            result[i] = a[i] ^ b[i]
+        }
+        return result
+    }
 
-/// Calculate the bitwise AND of `a` and `b`, and store the result in `a`.
-///
-/// - Complexity: O(max(a.count, b.count))
-public func &= (a: inout BigUInt, b: BigUInt) {
-    a = a & b
-}
+    /// Calculate the bitwise OR of `a` and `b`, and store the result in `a`.
+    ///
+    /// - Complexity: O(max(a.count, b.count))
+    public static func |= (a: inout BigUInt, b: BigUInt) {
+        a = a | b
+    }
 
-/// Calculate the bitwise XOR of `a` and `b`, and store the result in `a`.
-///
-/// - Complexity: O(max(a.count, b.count))
-public func ^= (a: inout BigUInt, b: BigUInt) {
-    a = a ^ b
+    /// Calculate the bitwise AND of `a` and `b`, and store the result in `a`.
+    ///
+    /// - Complexity: O(max(a.count, b.count))
+    public static func &= (a: inout BigUInt, b: BigUInt) {
+        a = a & b
+    }
+    
+    /// Calculate the bitwise XOR of `a` and `b`, and store the result in `a`.
+    ///
+    /// - Complexity: O(max(a.count, b.count))
+    public static func ^= (a: inout BigUInt, b: BigUInt) {
+        a = a ^ b
+    }
 }
-

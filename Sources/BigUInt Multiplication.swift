@@ -86,77 +86,74 @@ extension BigUInt {
 
     /// Multiplication switches to an asymptotically better recursive algorithm when arguments have more digits than this limit.
     public static var directMultiplicationLimit: Int = 1024
-}
 
-//MARK: Multiplication
+    /// Multiply `a` by `b` and return the result.
+    ///
+    /// - Note: This uses the naive O(n^2) multiplication algorithm unless both arguments have more than
+    ///   `BigUInt.directMultiplicationLimit` digits.
+    /// - Complexity: O(n^log2(3))
+    public static func *(x: BigUInt, y: BigUInt) -> BigUInt {
+        let xc = x.count
+        let yc = y.count
+        if xc == 0 { return BigUInt() }
+        if yc == 0 { return BigUInt() }
+        if yc == 1 { return x.multiplied(byDigit: y[0]) }
+        if xc == 1 { return y.multiplied(byDigit: x[0]) }
 
-/// Multiply `a` by `b` and return the result.
-///
-/// - Note: This uses the naive O(n^2) multiplication algorithm unless both arguments have more than
-///   `BigUInt.directMultiplicationLimit` digits.
-/// - Complexity: O(n^log2(3))
-public func *(x: BigUInt, y: BigUInt) -> BigUInt {
-    let xc = x.count
-    let yc = y.count
-    if xc == 0 { return BigUInt() }
-    if yc == 0 { return BigUInt() }
-    if yc == 1 { return x.multiplied(byDigit: y[0]) }
-    if xc == 1 { return y.multiplied(byDigit: x[0]) }
-
-    if min(xc, yc) <= BigUInt.directMultiplicationLimit {
-        // Long multiplication.
-        let left = (xc < yc ? y : x)
-        let right = (xc < yc ? x : y)
-        var result = BigUInt()
-        for i in (0 ..< right.count).reversed() {
-            result.multiplyAndAdd(left, right[i], atPosition: i)
+        if Swift.min(xc, yc) <= BigUInt.directMultiplicationLimit {
+            // Long multiplication.
+            let left = (xc < yc ? y : x)
+            let right = (xc < yc ? x : y)
+            var result = BigUInt()
+            for i in (0 ..< right.count).reversed() {
+                result.multiplyAndAdd(left, right[i], atPosition: i)
+            }
+            return result
         }
-        return result
-    }
 
-    if yc < xc {
-        let (xh, xl) = x.split
-        var r = xl * y
-        r.add(xh * y, atPosition: x.middleIndex)
+        if yc < xc {
+            let (xh, xl) = x.split
+            var r = xl * y
+            r.add(xh * y, atPosition: x.middleIndex)
+            return r
+        }
+        else if xc < yc {
+            let (yh, yl) = y.split
+            var r = yl * x
+            r.add(yh * x, atPosition: y.middleIndex)
+            return r
+        }
+
+        let shift = x.middleIndex
+
+        // Karatsuba multiplication:
+        // x * y = <a,b> * <c,d> = <ac, ac + bd - (a-b)(c-d), bd> (ignoring carry)
+        let (a, b) = x.split
+        let (c, d) = y.split
+
+        let high = a * c
+        let low = b * d
+        let xp = a >= b
+        let yp = c >= d
+        let xm = (xp ? a - b : b - a)
+        let ym = (yp ? c - d : d - c)
+        let m = xm * ym
+
+        var r = low
+        r.add(high, atPosition: 2 * shift)
+        r.add(low, atPosition: shift)
+        r.add(high, atPosition: shift)
+        if xp == yp {
+            r.subtract(m, atPosition: shift)
+        }
+        else {
+            r.add(m, atPosition: shift)
+        }
         return r
     }
-    else if xc < yc {
-        let (yh, yl) = y.split
-        var r = yl * x
-        r.add(yh * x, atPosition: y.middleIndex)
-        return r
+
+    /// Multiply `a` by `b` and store the result in `a`.
+    public static func *=(a: inout BigUInt, b: BigUInt) {
+        a = a * b
     }
-
-    let shift = x.middleIndex
-
-    // Karatsuba multiplication:
-    // x * y = <a,b> * <c,d> = <ac, ac + bd - (a-b)(c-d), bd> (ignoring carry)
-    let (a, b) = x.split
-    let (c, d) = y.split
-
-    let high = a * c
-    let low = b * d
-    let xp = a >= b
-    let yp = c >= d
-    let xm = (xp ? a - b : b - a)
-    let ym = (yp ? c - d : d - c)
-    let m = xm * ym
-
-    var r = low
-    r.add(high, atPosition: 2 * shift)
-    r.add(low, atPosition: shift)
-    r.add(high, atPosition: shift)
-    if xp == yp {
-        r.subtract(m, atPosition: shift)
-    }
-    else {
-        r.add(m, atPosition: shift)
-    }
-    return r
 }
-
-/// Multiply `a` by `b` and store the result in `a`.
-public func *=(a: inout BigUInt, b: BigUInt) {
-    a = a * b
-}
-

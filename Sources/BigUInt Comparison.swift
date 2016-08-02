@@ -23,25 +23,21 @@ extension BigUInt: Comparable {
         }
         return .orderedSame
     }
-}
 
-//MARK: Comparison
+    /// Return true iff `a` is equal to `b`.
+    ///
+    /// - Complexity: O(count)
+    public static func ==(a: BigUInt, b: BigUInt) -> Bool {
+        return BigUInt.compare(a, b) == .orderedSame
+    }
 
-/// Return true iff `a` is equal to `b`.
-///
-/// - Complexity: O(count)
-public func ==(a: BigUInt, b: BigUInt) -> Bool {
-    return BigUInt.compare(a, b) == .orderedSame
-}
+    /// Return true iff `a` is less than `b`.
+    ///
+    /// - Complexity: O(count)
+    public static func <(a: BigUInt, b: BigUInt) -> Bool {
+        return BigUInt.compare(a, b) == .orderedAscending
+    }
 
-/// Return true iff `a` is less than `b`.
-///
-/// - Complexity: O(count)
-public func <(a: BigUInt, b: BigUInt) -> Bool {
-    return BigUInt.compare(a, b) == .orderedAscending
-}
-
-extension BigUInt {
     /// Return true iff this integer is zero.
     ///
     /// - Complexity: O(1)

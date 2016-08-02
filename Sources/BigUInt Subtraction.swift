@@ -128,22 +128,20 @@ extension BigUInt {
     public mutating func decrement(atPosition shift: Int = 0) {
         self.subtract(1, atPosition: shift)
     }
-}
 
-//MARK: Subtraction
+    /// Subtract `b` from `a` and return the result.
+    ///
+    /// - Requires: a >= b
+    /// - Complexity: O(a.count)
+    public static func -(a: BigUInt, b: BigUInt) -> BigUInt {
+        return a.subtracting(b)
+    }
 
-/// Subtract `b` from `a` and return the result.
-///
-/// - Requires: a >= b
-/// - Complexity: O(a.count)
-public func -(a: BigUInt, b: BigUInt) -> BigUInt {
-    return a.subtracting(b)
-}
-
-/// Subtract `b` from `a` and store the result in `a`.
-///
-/// - Requires: a >= b
-/// - Complexity: O(a.count)
-public func -=(a: inout BigUInt, b: BigUInt) {
-    a.subtract(b, atPosition: 0)
+    /// Subtract `b` from `a` and store the result in `a`.
+    ///
+    /// - Requires: a >= b
+    /// - Complexity: O(a.count)
+    public static func -=(a: inout BigUInt, b: BigUInt) {
+        a.subtract(b, atPosition: 0)
+    }
 }

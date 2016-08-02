@@ -148,24 +148,23 @@ extension BigInt: CustomPlaygroundQuickLookable {
 }
 
 extension BigInt: Comparable {
-}
+    /// Return true iff `a` is equal to `b`.
+    public static func ==(a: BigInt, b: BigInt) -> Bool {
+        return a.negative == b.negative && a.abs == b.abs
+    }
 
-/// Return true iff `a` is equal to `b`.
-public func ==(a: BigInt, b: BigInt) -> Bool {
-    return a.negative == b.negative && a.abs == b.abs
-}
-
-/// Return true iff `a` is less than `b`.
-public func <(a: BigInt, b: BigInt) -> Bool {
-    switch (a.negative, b.negative) {
-    case (false, false):
-        return a.abs < b.abs
-    case (false, true):
-        return false
-    case (true, false):
-        return true
-    case (true, true):
-        return a.abs > b.abs
+    /// Return true iff `a` is less than `b`.
+    public static func <(a: BigInt, b: BigInt) -> Bool {
+        switch (a.negative, b.negative) {
+        case (false, false):
+            return a.abs < b.abs
+        case (false, true):
+            return false
+        case (true, false):
+            return true
+        case (true, true):
+            return a.abs > b.abs
+        }
     }
 }
 
@@ -177,63 +176,65 @@ extension BigInt: Hashable {
     }
 }
 
-/// Add `a` to `b` and return the result.
-public func +(a: BigInt, b: BigInt) -> BigInt {
-    switch (a.negative, b.negative) {
-    case (false, false):
-        return BigInt(abs: a.abs + b.abs, negative: false)
-    case (true, true):
-        return BigInt(abs: a.abs + b.abs, negative: true)
-    case (false, true):
-        if a.abs >= b.abs {
-            return BigInt(abs: a.abs - b.abs, negative: false)
-        }
-        else {
-            return BigInt(abs: b.abs - a.abs, negative: true)
-        }
-    case (true, false):
-        if b.abs >= a.abs {
-            return BigInt(abs: b.abs - a.abs, negative: false)
-        }
-        else {
-            return BigInt(abs: a.abs - b.abs, negative: true)
+extension BigInt {
+    /// Add `a` to `b` and return the result.
+    public static func +(a: BigInt, b: BigInt) -> BigInt {
+        switch (a.negative, b.negative) {
+        case (false, false):
+            return BigInt(abs: a.abs + b.abs, negative: false)
+        case (true, true):
+            return BigInt(abs: a.abs + b.abs, negative: true)
+        case (false, true):
+            if a.abs >= b.abs {
+                return BigInt(abs: a.abs - b.abs, negative: false)
+            }
+            else {
+                return BigInt(abs: b.abs - a.abs, negative: true)
+            }
+        case (true, false):
+            if b.abs >= a.abs {
+                return BigInt(abs: b.abs - a.abs, negative: false)
+            }
+            else {
+                return BigInt(abs: a.abs - b.abs, negative: true)
+            }
         }
     }
-}
 
-/// Negate `a` and return the result.
-public prefix func -(a: BigInt) -> BigInt {
-    if a.abs.isZero { return a }
-    return BigInt(abs: a.abs, negative: !a.negative)
-}
+    /// Negate `a` and return the result.
+    public static prefix func -(a: BigInt) -> BigInt {
+        if a.abs.isZero { return a }
+        return BigInt(abs: a.abs, negative: !a.negative)
+    }
 
-/// Subtract `b` from `a` and return the result.
-public func -(a: BigInt, b: BigInt) -> BigInt {
-    return a + (-b)
-}
+    /// Subtract `b` from `a` and return the result.
+    public static func -(a: BigInt, b: BigInt) -> BigInt {
+        return a + (-b)
+    }
 
-/// Multiply `a` with `b` and return the result.
-public func *(a: BigInt, b: BigInt) -> BigInt {
-    return BigInt(abs: a.abs * b.abs, negative: a.negative != b.negative)
-}
+    /// Multiply `a` with `b` and return the result.
+    public static func *(a: BigInt, b: BigInt) -> BigInt {
+        return BigInt(abs: a.abs * b.abs, negative: a.negative != b.negative)
+    }
 
-/// Divide `a` by `b` and return the quotient.
-public func /(a: BigInt, b: BigInt) -> BigInt {
-    return BigInt(abs: a.abs / b.abs, negative: a.negative != b.negative)
-}
+    /// Divide `a` by `b` and return the quotient.
+    public static func /(a: BigInt, b: BigInt) -> BigInt {
+        return BigInt(abs: a.abs / b.abs, negative: a.negative != b.negative)
+    }
 
-/// Divide `a` by `b` and return the remainder.
-public func %(a: BigInt, b: BigInt) -> BigInt {
-    return BigInt(abs: a.abs % b.abs, negative: a.negative)
-}
+    /// Divide `a` by `b` and return the remainder.
+    public static func %(a: BigInt, b: BigInt) -> BigInt {
+        return BigInt(abs: a.abs % b.abs, negative: a.negative)
+    }
 
-/// Add `b` to `a` in place.
-public func +=(a: inout BigInt, b: BigInt) { a = a + b }
-/// Subtract `b` from `a` in place.
-public func -=(a: inout BigInt, b: BigInt) { a = a - b }
-/// Multiply `a` with `b` in place.
-public func *=(a: inout BigInt, b: BigInt) { a = a * b }
-/// Divide `a` by `b` storing the quotient in `a`.
-public func /=(a: inout BigInt, b: BigInt) { a = a / b }
-/// Divide `a` by `b` storing the remainder in `a`.
-public func %=(a: inout BigInt, b: BigInt) { a = a % b }
+    /// Add `b` to `a` in place.
+    public static func +=(a: inout BigInt, b: BigInt) { a = a + b }
+    /// Subtract `b` from `a` in place.
+    public static func -=(a: inout BigInt, b: BigInt) { a = a - b }
+    /// Multiply `a` with `b` in place.
+    public static func *=(a: inout BigInt, b: BigInt) { a = a * b }
+    /// Divide `a` by `b` storing the quotient in `a`.
+    public static func /=(a: inout BigInt, b: BigInt) { a = a / b }
+    /// Divide `a` by `b` storing the remainder in `a`.
+    public static func %=(a: inout BigInt, b: BigInt) { a = a % b }
+}

@@ -157,34 +157,32 @@ extension BigUInt {
         // The remainder's normalization needs to be undone, but otherwise we're done.
         return (quotient, remainder >> z)
     }
-}
 
-//MARK: Division
+    /// Divide `x` by `y` and return the quotient.
+    ///
+    /// - Note: Use `divided(by:)` if you also need the remainder.
+    public static func /(x: BigUInt, y: BigUInt) -> BigUInt {
+        return x.divided(by: y).quotient
+    }
 
-/// Divide `x` by `y` and return the quotient.
-///
-/// - Note: Use `divided(by:)` if you also need the remainder.
-public func /(x: BigUInt, y: BigUInt) -> BigUInt {
-    return x.divided(by: y).quotient
-}
+    /// Divide `x` by `y` and return the remainder.
+    ///
+    /// - Note: Use `divided(by:)` if you also need the remainder.
+    public static func %(x: BigUInt, y: BigUInt) -> BigUInt {
+        return x.divided(by: y).remainder
+    }
 
-/// Divide `x` by `y` and return the remainder.
-///
-/// - Note: Use `divided(by:)` if you also need the remainder.
-public func %(x: BigUInt, y: BigUInt) -> BigUInt {
-    return x.divided(by: y).remainder
-}
+    /// Divide `x` by `y` and store the quotient in `x`.
+    ///
+    /// - Note: Use `divided(by:)` if you also need the remainder.
+    public static func /=(x: inout BigUInt, y: BigUInt) {
+        x = x.divided(by: y).quotient
+    }
 
-/// Divide `x` by `y` and store the quotient in `x`.
-///
-/// - Note: Use `divided(by:)` if you also need the remainder.
-public func /=(x: inout BigUInt, y: BigUInt) {
-    x = x.divided(by: y).quotient
-}
-
-/// Divide `x` by `y` and store the remainder in `x`.
-///
-/// - Note: Use `divided(by:)` if you also need the remainder.
-public func %=(x: inout BigUInt, y: BigUInt) {
-    x = x.divided(by: y).remainder
+    /// Divide `x` by `y` and store the remainder in `x`.
+    ///
+    /// - Note: Use `divided(by:)` if you also need the remainder.
+    public static func %=(x: inout BigUInt, y: BigUInt) {
+        x = x.divided(by: y).remainder
+    }
 }
