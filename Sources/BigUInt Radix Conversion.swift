@@ -17,7 +17,7 @@ extension BigUInt: CustomStringConvertible {
     ///
     /// - Returns: (chars, power) where `chars` is highest that satisfy `radix^chars <= 2^Digit.width`. `power` is zero
     ///   if radix is a power of two; otherwise `power == radix^chars`.
-    private static func charsPerDigit(forRadix radix: Int) -> (chars: Int, power: Digit) {
+    fileprivate static func charsPerDigit(forRadix radix: Int) -> (chars: Int, power: Digit) {
         var power: Digit = 1
         var overflow = false
         var count = 0
@@ -119,7 +119,7 @@ extension String {
             assert(zeroes >= 0)
             if !first && zeroes > 0 {
                 // Insert leading zeroes for mid-digits
-                self += String(repeating: "0" as Character, count: zeroes)
+                self += String(repeating: "0", count: zeroes)
             }
             first = false
             self += part

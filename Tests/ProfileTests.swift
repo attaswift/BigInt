@@ -14,9 +14,9 @@ import BigInt
 class ProfileTests: XCTestCase {
     typealias Digit = BigUInt.Digit
 
-    func measure_(autostart: Bool = true, block: (Void)->Void) {
+    func measure_(autostart: Bool = true, block: @escaping (Void)->Void) {
         var round = 0
-        self.measureMetrics(self.dynamicType.defaultPerformanceMetrics(), automaticallyStartMeasuring: autostart) {
+        self.measureMetrics(type(of: self).defaultPerformanceMetrics(), automaticallyStartMeasuring: autostart) {
             print("Round \(round) started")
             block()
             round += 1
@@ -121,7 +121,7 @@ class ProfileTests: XCTestCase {
     }
 
     func testSquareRoot() {
-        var numbers: [BigUInt] = (1...1000).map { _ in BigUInt.randomInteger(withMaximumWidth: 60 * sizeof(Digit.self) * 8) }
+        var numbers: [BigUInt] = (1...1000).map { _ in BigUInt.randomInteger(withMaximumWidth: 60 * MemoryLayout<Digit>.size * 8) }
         var roots: [BigUInt] = []
         self.measure {
             roots.removeAll()
