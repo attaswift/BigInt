@@ -31,7 +31,7 @@ import Foundation
 /// easier to work with the provided high-level methods and operators rather than with raw big digits.
 public struct BigUInt {
     /// The type representing a digit in `BigUInt`'s underlying number system.
-    public typealias Digit = UInt64
+    public typealias Digit = UIntMax
     
     internal var _digits: [Digit]
     internal var _start: Int
