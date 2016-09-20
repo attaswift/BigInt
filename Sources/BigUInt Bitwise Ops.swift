@@ -9,8 +9,11 @@
 import Foundation
 
 
-extension BigUInt {
+extension BigUInt: BitwiseOperations {
     //MARK: Bitwise Operations
+
+    /// The empty bitset.
+    public static let allZeros: BigUInt = 0
 
     /// The minimum number of bits required to represent this integer in binary.
     ///
