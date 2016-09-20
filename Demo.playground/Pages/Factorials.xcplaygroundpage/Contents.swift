@@ -3,7 +3,7 @@ import Foundation
 import BigInt
 //: The canonical way to demo big integers is with the factorial function. Here is a fancy definition for it:
 func fact(_ n: Int) -> BigInt {
-    return (1...n).lazy.map { BigInt($0) }.reduce(BigInt(1), combine: *)
+    return (1 ... n).map { BigInt($0) }.reduce(BigInt(1), *)
 }
 
 let f1 = fact(1)

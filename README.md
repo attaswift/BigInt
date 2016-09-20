@@ -100,7 +100,7 @@ BigInt can be used, distributed and modified under [the MIT license][license].
 
 BigInt 2.0 requires Swift 3. (Previous versions supported Swift 2.2. The latest such version is 1.3.0.)
 
-BigInt deploys to OS X 10.9, iOS 8, watchOS 2 and tvOS 9. 
+BigInt deploys to macOS 10.9, iOS 8, watchOS 2 and tvOS 9. 
 It has been tested on the latest OS releases only---however, as the module uses very few platform-provided APIs, 
 there should be very few issues with earlier versions. 
 
@@ -215,13 +215,8 @@ It is easy to use `BigInt` to calculate the factorial function for any integer:
 ```Swift
 import BigInt
 
-func factorial(n: Int) -> BigInt {
-    guard n > 1 else { return 1 }
-    var result: BigInt = 1    
-	for i in 2...n {
-        result *= Digit(i)
-    }
-    return result
+func factorial(_ n: Int) -> BigInt {
+    return (1 ... n).map { BigInt($0) }.reduce(BigInt(1), *)
 }
 
 print(factorial(10))
@@ -281,9 +276,9 @@ includes a function to generate random integers of a specific size, and also an
 `isPrime` method that performs the Miller–Rabin primality test. These are all we need:
 
 ```Swift
-func generatePrime(width: Int) -> BigUInt {
+func generatePrime(_ width: Int) -> BigUInt {
     while true {
-        var random = BigUInt.randomIntegerWithExactWidth(width)
+        var random = BigUInt.randomInteger(withExactWidth: width)
         random |= BigUInt(1)
         if random.isPrime() {
             return random
@@ -339,7 +334,7 @@ let privateKey: Key = (n, d)
 In RSA, modular exponentiation is used to encrypt (and decrypt) messages.
 
 ```Swift
-func encrypt(message: BigUInt, key: Key) -> BigUInt {
+func encrypt(_ message: BigUInt, key: Key) -> BigUInt {
     return message.power(key.exponent, modulus: key.modulus)
 }
 ```
@@ -399,13 +394,13 @@ func digitsOfPi() -> AnyGenerator<Int> {
     var r: BigUInt = 180
     var t: BigUInt = 60
     var i: UInt64 = 2 // Does not overflow until digit #826_566_842
-    return anyGenerator {
+    return AnyIterator {
         let u: UInt64 = 3 * (3 * i + 1) * (3 * i + 2)
-        let y = (q.multiplyByDigit(27 * i - 12) + 5 * r) / (5 * t)
+        let y = (q.multiplied(byDigit: 27 * i - 12) + 5 * r) / (5 * t)
         (q, r, t) = (
-            10 * q.multiplyByDigit(i * (2 * i - 1)),
-            10 * (q.multiplyByDigit(5 * i - 2) + r - y * t).multiplyByDigit(u),
-            t.multiplyByDigit(u))
+            10 * q.multiplied(byDigit: i * (2 * i - 1)),
+            10 * (q.multiplied(byDigit: 5 * i - 2) + r - y * t).multiplied(byDigit: u),
+            t.multiplied(byDigit: u))
         i += 1
         return Int(y[0])
     }
