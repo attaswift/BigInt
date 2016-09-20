@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>String Extension Reference</title>
+    <title>ShiftOperations Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -11,9 +11,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Extension/String" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Protocol/ShiftOperations" class="dashAnchor"></a>
 
-    <a title="String Extension Reference"></a>
+    <a title="ShiftOperations Protocol Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -41,7 +41,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">BigInt Reference</a>
       <img class="carat" src="../img/carat.png" />
-      String Extension Reference
+      ShiftOperations Protocol Reference
     </p>
 
     <div class="content-wrapper">
@@ -91,14 +91,15 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>String</h1>
+            <h1>ShiftOperations</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">struct</span> <span class="kt">String</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ShiftOperations</span></code></pre>
 
                 </div>
               </div>
-            
+            <p>Describes a type that supports all the standard shift operators.</p>
+
           </div>
         </section>
 
@@ -109,9 +110,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FE6BigIntSScFVS_7BigUIntSS"></a>
-                    <a name="//apple_ref/swift/Method/init(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FE6BigIntSScFVS_7BigUIntSS">init(_:)</a>
+                    <a name="/s:ZFP6BigInt15ShiftOperationsoi2llFTxx_x"></a>
+                    <a name="//apple_ref/swift/Method/&lt;&lt;(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFP6BigInt15ShiftOperationsoi2llFTxx_x">&lt;&lt;(_:_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -119,25 +120,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Initialize a new string with the base-10 representation of an unsigned big integer.</p>
-
-<div class="aside aside-complexity">
-    <p class="aside-title">Complexity</p>
-    O(v.count^2)
-
-</div>
+                        <p>Shift the value <code>a</code> by <code>b</code> bits to the left and return the result.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">v</span><span class="p">:</span> <span class="kt"><a href="../Structs/BigUInt.html">BigUInt</a></span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">func</span> <span class="o">&lt;&lt;</span><span class="p">(</span><span class="nv">a</span><span class="p">:</span> <span class="k">Self</span><span class="p">,</span> <span class="nv">b</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/v2.0.0/Sources/BigUInt Radix Conversion.swift#L86">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v2.0.0/Sources/ShiftOperations.swift#L16">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -145,9 +140,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FE6BigIntSScFTVS_7BigUInt5radixSi9uppercaseSb_SS"></a>
-                    <a name="//apple_ref/swift/Method/init(_:radix:uppercase:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FE6BigIntSScFTVS_7BigUInt5radixSi9uppercaseSb_SS">init(_:radix:uppercase:)</a>
+                    <a name="/s:ZFP6BigInt15ShiftOperationsoi2ggFTxx_x"></a>
+                    <a name="//apple_ref/swift/Method/&gt;&gt;(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFP6BigInt15ShiftOperationsoi2ggFTxx_x">&gt;&gt;(_:_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -155,48 +150,29 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Initialize a new string representing an unsigned big integer in the given radix (base).</p>
-
-<p>Numerals greater than 9 are represented as letters from the English alphabet,
-starting with <code>a</code> if <code>uppercase</code> is false or <code>A</code> otherwise.</p>
-
-<div class="aside aside-requires">
-    <p class="aside-title">Requires</p>
-    radix &gt; 1 &amp;&amp; radix &lt;= 36
-
-</div>
-
-<div class="aside aside-complexity">
-    <p class="aside-title">Complexity</p>
-    O(count) when radix is a power of two; otherwise O(count^2).
-
-</div>
+                        <p>Shift the value <code>a</code> by <code>b</code> bits to the right and return the result.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">v</span><span class="p">:</span> <span class="kt"><a href="../Structs/BigUInt.html">BigUInt</a></span><span class="p">,</span> <span class="nv">radix</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">uppercase</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">func</span> <span class="o">&gt;&gt;</span><span class="p">(</span><span class="nv">a</span><span class="p">:</span> <span class="k">Self</span><span class="p">,</span> <span class="nv">b</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/v2.0.0/Sources/BigUInt Radix Conversion.swift#L95-L127">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v2.0.0/Sources/ShiftOperations.swift#L19">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FE6BigIntSScFTVS_6BigInt5radixSi9uppercaseSb_SS"></a>
-                    <a name="//apple_ref/swift/Method/init(_:radix:uppercase:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FE6BigIntSScFTVS_6BigInt5radixSi9uppercaseSb_SS">init(_:radix:uppercase:)</a>
+                    <a name="/s:ZFP6BigInt15ShiftOperationsoi3lleFTRxx_T_"></a>
+                    <a name="//apple_ref/swift/Method/&lt;&lt;=(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFP6BigInt15ShiftOperationsoi3lleFTRxx_T_">&lt;&lt;=(_:_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -204,34 +180,49 @@ starting with <code>a</code> if <code>uppercase</code> is false or <code>A</code
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Initialize a new string representing a signed big integer in the given radix (base).</p>
-
-<p>Numerals greater than 9 are represented as letters from the English alphabet,
-starting with <code>a</code> if <code>uppercase</code> is false or <code>A</code> otherwise.</p>
-
-<div class="aside aside-requires">
-    <p class="aside-title">Requires</p>
-    radix &gt; 1 &amp;&amp; radix &lt;= 36
-
-</div>
-
-<div class="aside aside-complexity">
-    <p class="aside-title">Complexity</p>
-    O(count) when radix is a power of two; otherwise O(count^2).
-
-</div>
+                        <p>Shift the value <code>a</code> by <code>b</code> bits to the left and store the result in <code>a</code>.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="kt"><a href="../Structs/BigInt.html">BigInt</a></span><span class="p">,</span> <span class="nv">radix</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="nv">uppercase</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">func</span> <span class="o">&lt;&lt;=</span><span class="p">(</span><span class="nv">a</span><span class="p">:</span> <span class="k">inout</span> <span class="k">Self</span><span class="p">,</span> <span class="nv">b</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/lorentey/BigInt/tree/v2.0.0/Sources/BigInt.swift#L104-L109">Show on GitHub</a>
+                        <a href="https://github.com/lorentey/BigInt/tree/v2.0.0/Sources/ShiftOperations.swift#L22">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFP6BigInt15ShiftOperationsoi3ggeFTRxx_T_"></a>
+                    <a name="//apple_ref/swift/Method/&gt;&gt;=(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFP6BigInt15ShiftOperationsoi3ggeFTRxx_T_">&gt;&gt;=(_:_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shift the value <code>a</code> by <code>b</code> bits to the right and store the result in <code>a</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">func</span> <span class="o">&gt;&gt;=</span><span class="p">(</span><span class="nv">a</span><span class="p">:</span> <span class="k">inout</span> <span class="k">Self</span><span class="p">,</span> <span class="nv">b</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/lorentey/BigInt/tree/v2.0.0/Sources/ShiftOperations.swift#L25">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
