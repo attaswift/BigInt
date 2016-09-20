@@ -94,4 +94,9 @@ extension BigUInt {
     public static func +=(a: inout BigUInt, b: BigUInt) {
         a.add(b, atPosition: 0)
     }
+
+    /// Add `lhs` and `rhs` together, returning the result. This function never results in an overflow.
+    public static func addWithOverflow(_ lhs: BigUInt, _ rhs: BigUInt) -> (BigUInt, overflow: Bool) {
+        return (lhs + rhs, false)
+    }
 }

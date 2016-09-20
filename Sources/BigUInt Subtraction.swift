@@ -144,4 +144,10 @@ extension BigUInt {
     public static func -=(a: inout BigUInt, b: BigUInt) {
         a.subtract(b, atPosition: 0)
     }
+
+    /// Subtracts rhs from `lhs`, returning the result and a `Bool` that is true iff the operation caused an arithmetic overflow.
+    /// Overflow is returned if and only if `lhs` is less than `rhs`, in which case the result is the twos' complement of the absolute difference.
+    public static func subtractWithOverflow(_ lhs: BigUInt, _ rhs: BigUInt) -> (BigUInt, overflow: Bool) {
+        return lhs.subtractingWithOverflow(rhs)
+    }
 }

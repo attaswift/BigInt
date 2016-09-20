@@ -181,6 +181,30 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(2, value.distance(from: 3, to: 5))
     }
 
+    func testIntegerArithmeticRequirements() {
+        XCTAssertEqual(0, BigUInt(0).toIntMax())
+        XCTAssertEqual(42, BigUInt(42).toIntMax())
+
+        XCTAssertEqual(5, BigUInt.addWithOverflow(2, 3).0)
+        XCTAssertFalse(BigUInt.addWithOverflow(2, 3).overflow)
+
+        XCTAssertEqual(2, BigUInt.subtractWithOverflow(5, 3).0)
+        XCTAssertFalse(BigUInt.subtractWithOverflow(5, 3).overflow)
+
+        XCTAssertEqual(BigUInt(Digit.max - 1), BigUInt.subtractWithOverflow(3, 5).0)
+        XCTAssertTrue(BigUInt.subtractWithOverflow(3, 5).overflow)
+
+        XCTAssertEqual(15, BigUInt.multiplyWithOverflow(5, 3).0)
+        XCTAssertFalse(BigUInt.multiplyWithOverflow(5, 3).overflow)
+
+        XCTAssertEqual(3, BigUInt.divideWithOverflow(17, 5).0)
+        XCTAssertFalse(BigUInt.divideWithOverflow(17, 5).overflow)
+
+        XCTAssertEqual(2, BigUInt.remainderWithOverflow(17, 5).0)
+        XCTAssertFalse(BigUInt.remainderWithOverflow(17, 5).overflow)
+
+    }
+
     func testConversionToString() {
         let sample = BigUInt("123456789ABCDEFEDCBA98765432123456789ABCDEF", radix: 16)!
         // Radix = 10

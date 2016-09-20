@@ -156,4 +156,10 @@ extension BigUInt {
     public static func *=(a: inout BigUInt, b: BigUInt) {
         a = a * b
     }
+
+    /// Multiply `lhs` and `rhs` together, returning the result. This function never results in an overflow.
+    public static func multiplyWithOverflow(_ lhs: BigUInt, _ rhs: BigUInt) -> (BigUInt, overflow: Bool) {
+        return (lhs * rhs, false)
+    }
+
 }

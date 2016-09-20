@@ -102,6 +102,14 @@ extension BigUInt: ExpressibleByStringLiteral {
     }
 }
 
+extension BigUInt: IntegerArithmetic {
+    /// Explicitly convert to `IntMax`, trapping on overflow.
+    public func toIntMax() -> IntMax {
+        precondition(count <= 1)
+        return IntMax(self[0])
+    }
+}
+
 extension BigUInt {
     //MARK: Lift and shrink
     
