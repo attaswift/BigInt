@@ -262,6 +262,21 @@ public struct DigitIterator<Digit>: IteratorProtocol {
     }
 }
 
+extension BigUInt: Strideable {
+    /// A type that can represent the distance between two values of `BigUInt`.
+    public typealias Stride = BigInt
+
+    /// Adds `n` to `self` and returns the result. Traps if the result would be less than zero.
+    public func advanced(by n: BigInt) -> BigUInt {
+        return n < 0 ? self - n.abs : self + n.abs
+    }
+
+    /// Returns the (potentially negative) difference between `self` and `other` as a `BigInt`. Never traps.
+    public func distance(to other: BigUInt) -> BigInt {
+        return BigInt(other) - BigInt(self)
+    }
+}
+
 extension BigUInt {
     //MARK: Low and High
     
