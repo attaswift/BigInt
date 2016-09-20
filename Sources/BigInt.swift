@@ -179,7 +179,41 @@ extension BigInt: Hashable {
     }
 }
 
-extension BigInt {
+extension BigInt: Strideable {
+    /// A type that can represent the distance between two values of `BigInt`.
+    public typealias Stride = BigInt
+
+    /// Returns `self + n`.
+    public func advanced(by n: Stride) -> BigInt {
+        return self + n
+    }
+
+    /// Returns `other - self`.
+    public func distance(to other: BigInt) -> Stride {
+        return other - self
+    }
+}
+
+extension BigInt: SignedNumber {
+    /// Negate `a` and return the result.
+    public static prefix func -(a: BigInt) -> BigInt {
+        if a.abs.isZero { return a }
+        return BigInt(abs: a.abs, negative: !a.negative)
+    }
+
+    /// Subtract `b` from `a` and return the result.
+    public static func -(a: BigInt, b: BigInt) -> BigInt {
+        return a + (-b)
+    }
+}
+
+extension BigInt: IntegerArithmetic {
+    /// Explicitly convert to IntMax, trapping on overflow.
+    public func toIntMax() -> IntMax {
+        precondition(abs.count <= 1)
+        return negative ? -IntMax(abs[0]) : IntMax(abs[0])
+    }
+
     /// Add `a` to `b` and return the result.
     public static func +(a: BigInt, b: BigInt) -> BigInt {
         switch (a.negative, b.negative) {
@@ -204,23 +238,12 @@ extension BigInt {
         }
     }
 
-    /// Negate `a` and return the result.
-    public static prefix func -(a: BigInt) -> BigInt {
-        if a.abs.isZero { return a }
-        return BigInt(abs: a.abs, negative: !a.negative)
-    }
-
-    /// Subtract `b` from `a` and return the result.
-    public static func -(a: BigInt, b: BigInt) -> BigInt {
-        return a + (-b)
-    }
-
     /// Multiply `a` with `b` and return the result.
     public static func *(a: BigInt, b: BigInt) -> BigInt {
         return BigInt(abs: a.abs * b.abs, negative: a.negative != b.negative)
     }
 
-    /// Divide `a` by `b` and return the quotient.
+    /// Divide `a` by `b` and return the quotient. Traps if `b` is zero.
     public static func /(a: BigInt, b: BigInt) -> BigInt {
         return BigInt(abs: a.abs / b.abs, negative: a.negative != b.negative)
     }
@@ -230,6 +253,33 @@ extension BigInt {
         return BigInt(abs: a.abs % b.abs, negative: a.negative)
     }
 
+    /// Adds `lhs` and `rhs` together. An overflow is never reported.
+    public static func addWithOverflow(_ lhs: BigInt, _ rhs: BigInt) -> (BigInt, overflow: Bool) {
+        return (lhs + rhs, false)
+    }
+
+    /// Subtracts `rhs` from `lhs`. An overflow is never reported.
+    public static func subtractWithOverflow(_ lhs: BigInt, _ rhs: BigInt) -> (BigInt, overflow: Bool) {
+        return (lhs - rhs, false)
+    }
+
+    /// Multiplies `lhs` with `rhs`. An overflow is never reported.
+    public static func multiplyWithOverflow(_ lhs: BigInt, _ rhs: BigInt) -> (BigInt, overflow: Bool) {
+        return (lhs * rhs, false)
+    }
+
+    /// Divides `lhs` with `rhs`, returning the quotient, or trapping if `rhs` is zero. An overflow is never reported.
+    public static func divideWithOverflow(_ lhs: BigInt, _ rhs: BigInt) -> (BigInt, overflow: Bool) {
+        return (lhs / rhs, false)
+    }
+
+    /// Divides `lhs` with `rhs`, returning the remainder, or trapping if `rhs` is zero. An overflow is never reported.
+    public static func remainderWithOverflow(_ lhs: BigInt, _ rhs: BigInt) -> (BigInt, overflow: Bool) {
+        return (lhs % rhs, false)
+    }
+}
+
+extension BigInt {
     /// Add `b` to `a` in place.
     public static func +=(a: inout BigInt, b: BigInt) { a = a + b }
     /// Subtract `b` from `a` in place.
