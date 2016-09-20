@@ -29,6 +29,9 @@ import Foundation
 /// ```
 ///
 public struct BigInt {
+    /// The type representing a digit in `BigInt`'s underlying number system.
+    public typealias Digit = BigUInt.Digit
+    
     /// The absolute value of this integer.
     public var abs: BigUInt
     /// True iff the value of this integer is negative.
