@@ -186,9 +186,7 @@ extension BigUInt: RandomAccessCollection {
         if n >= 0 {
             return r <= limit ? r : nil
         }
-        else {
-            return r >= limit ? r : nil
-        }
+        return r >= limit ? r : nil
     }
 
     /// Returns the number of steps between two indices.

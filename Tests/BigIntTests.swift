@@ -131,6 +131,31 @@ class BigIntTests: XCTestCase {
         compare(-7, -4, r:-3, op: %)
     }
 
+    func testStrideableRequirements() {
+        XCTAssertEqual(5, BigInt(3).advanced(by: 2))
+        XCTAssertEqual(2, BigInt(3).distance(to: 5))
+    }
+
+    func testIntegerArithmeticRequirements() {
+        XCTAssertEqual(3 as IntMax, BigInt(3).toIntMax())
+        XCTAssertEqual(-3 as IntMax, BigInt(-3).toIntMax())
+
+        XCTAssertEqual(2, BigInt.addWithOverflow(1, 1).0)
+        XCTAssertFalse(BigInt.addWithOverflow(1, 1).overflow)
+
+        XCTAssertEqual(-1, BigInt.subtractWithOverflow(2, 3).0)
+        XCTAssertFalse(BigInt.subtractWithOverflow(2, 3).overflow)
+
+        XCTAssertEqual(20, BigInt.multiplyWithOverflow(5, 4).0)
+        XCTAssertFalse(BigInt.multiplyWithOverflow(5, 4).overflow)
+
+        XCTAssertEqual(3, BigInt.divideWithOverflow(17, 5).0)
+        XCTAssertFalse(BigInt.divideWithOverflow(5, 4).overflow)
+
+        XCTAssertEqual(2, BigInt.remainderWithOverflow(17, 5).0)
+        XCTAssertFalse(BigInt.remainderWithOverflow(5, 4).overflow)
+    }
+
     func testAssignmentOperators() {
         var a = BigInt(1)
         a += 13

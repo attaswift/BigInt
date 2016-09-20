@@ -153,6 +153,34 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(slice[2], 10)
     }
 
+    func testIndices() {
+        let value = BigUInt([0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28])
+        XCTAssertEqual(0 ..< 15, value.indices)
+
+        XCTAssertEqual(3, value.index(after: 2))
+        XCTAssertEqual(1, value.index(before: 2))
+        var i = 2
+
+        value.formIndex(after: &i)
+        XCTAssertEqual(3, i)
+
+        value.formIndex(before: &i)
+        XCTAssertEqual(2, i)
+
+        XCTAssertEqual(5, value.index(2, offsetBy: 3))
+        XCTAssertEqual(1, value.index(3, offsetBy: -2))
+
+        XCTAssertEqual(10, value.index(3, offsetBy: 7, limitedBy: 11))
+        XCTAssertEqual(10, value.index(3, offsetBy: 7, limitedBy: 10))
+        XCTAssertEqual(nil, value.index(3, offsetBy: 7, limitedBy: 9))
+
+        XCTAssertEqual(3, value.index(7, offsetBy: -4, limitedBy: 2))
+        XCTAssertEqual(3, value.index(7, offsetBy: -4, limitedBy: 3))
+        XCTAssertEqual(nil, value.index(7, offsetBy: -4, limitedBy: 4))
+
+        XCTAssertEqual(2, value.distance(from: 3, to: 5))
+    }
+
     func testConversionToString() {
         let sample = BigUInt("123456789ABCDEFEDCBA98765432123456789ABCDEF", radix: 16)!
         // Radix = 10

@@ -53,26 +53,24 @@ extension BigUInt {
         let byteCount = (self.width + 7) / 8
 
         guard byteCount > 0 else { return Data() }
-        
-        var byteArray = Array<UInt8>(repeating: 0, count: byteCount)
-        var i = byteCount - 1
-        for digit in self {
-            var digit = digit
-            for _ in 0 ..< Digit.width / 8 {
-                byteArray[i] = UInt8(digit & 0xFF)
-                digit >>= 8
-                if i == 0 {
-                    assert(digit == 0)
-                    break
+
+        var data = Data(count: byteCount)
+        data.withUnsafeMutableBytes { (p: UnsafeMutablePointer<UInt8>) -> Void in
+            var i = byteCount - 1
+            for digit in self {
+                var digit = digit
+                for _ in 0 ..< Digit.width / 8 {
+                    p[i] = UInt8(digit & 0xFF)
+                    digit >>= 8
+                    if i == 0 {
+                        assert(digit == 0)
+                        break
+                    }
+                    i -= 1
                 }
-                i -= 1
             }
         }
-
-        return byteArray.withUnsafeBufferPointer { p in
-            guard let base = p.baseAddress else { return Data() }
-            return Data(bytes: base, count: p.count)
-        }
+        return data
     }
 }
 
