@@ -159,7 +159,7 @@ implement these primitives.
 ### <a name="generics">Why is there no generic `BigInt<Digit>` type?</a>
 
 The types provided by `BigInt` are not parametric—this is very much intentional, as 
-Swift 2.2.1 generics cost us dearly at runtime in this use case. In every approach I tried,
+Swift generics cost us dearly at runtime in this use case. In every approach I tried,
 making arbitrary-precision arithmetic operations work with a generic `Digit` type parameter 
 resulted in code that was literally *ten times slower*. If you can make the algorithms generic
 without such a huge performance hit, [please enlighten me][twitter]!

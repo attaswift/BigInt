@@ -19,5 +19,6 @@ jazzy \
     --module "$module" \
     --root-url "https://lorentey.github.io/$module/reference/" \
     --theme fullwidth \
-    --output gh-pages/api \
-    --swift-version 2.1.1
+    --output gh-pages/api
+
+#    --swift-version 3.0
