@@ -136,6 +136,12 @@ class BigIntTests: XCTestCase {
         XCTAssertEqual(2, BigInt(3).distance(to: 5))
     }
 
+    func testAbsoluteValuableRequirements() {
+        XCTAssertEqual(BigInt(5), BigInt.abs(5))
+        XCTAssertEqual(BigInt(0), BigInt.abs(0))
+        XCTAssertEqual(BigInt(5), BigInt.abs(-5))
+    }
+
     func testIntegerArithmeticRequirements() {
         XCTAssertEqual(3 as IntMax, BigInt(3).toIntMax())
         XCTAssertEqual(-3 as IntMax, BigInt(-3).toIntMax())

@@ -207,6 +207,13 @@ extension BigInt: SignedNumber {
     }
 }
 
+extension BigInt: AbsoluteValuable {
+    /// Returns the absolute value of `x`.
+    public static func abs(_ x: BigInt) -> BigInt {
+        return BigInt(x.abs)
+    }
+}
+
 extension BigInt: IntegerArithmetic {
     /// Explicitly convert to IntMax, trapping on overflow.
     public func toIntMax() -> IntMax {
