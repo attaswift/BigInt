@@ -152,6 +152,7 @@
 		BB68F6501C34B6190008776E /* ProfileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTests.swift; sourceTree = "<group>"; };
 		BB6BB5501C36F5940054459A /* Demo.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Demo.playground; sourceTree = "<group>"; };
 		BB6EF3CB1C2F993600ABFA71 /* BigUIntTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = BigUIntTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		BBB506851DD21DC000D0FC8E /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		BBB59D871C398B26006F684C /* BigUInt GCD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BigUInt GCD.swift"; sourceTree = "<group>"; };
 		BBB59D8A1C398B58006F684C /* BigUInt Exponentiation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BigUInt Exponentiation.swift"; sourceTree = "<group>"; };
 		BBB59D8D1C398B76006F684C /* BigUInt Square Root.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BigUInt Square Root.swift"; sourceTree = "<group>"; };
@@ -235,6 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				BB2CFBC31C3876A10082692D /* README.md */,
+				BBB506851DD21DC000D0FC8E /* CHANGELOG.md */,
 				BBDEA46B1C3D750100BBEEBC /* LICENSE.md */,
 				BBDEA46A1C3D741A00BBEEBC /* BigInt.podspec */,
 				BB5694301C44C727009F8CB5 /* Package.swift */,
