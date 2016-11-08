@@ -299,7 +299,8 @@
 				BB64E6FF1C2F490000C18269 /* BigIntTests.swift */,
 				BB64E7011C2F490000C18269 /* Info.plist */,
 			);
-			path = Tests;
+			name = Tests;
+			path = Tests/BigIntTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -833,7 +834,7 @@
 		BB505A9E1C3498770031B88F /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/BigIntTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-iOS";
 				PRODUCT_NAME = BigIntTests;
@@ -846,7 +847,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/BigIntTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-Mac";
 				PRODUCT_NAME = "BigIntTests-Mac";
@@ -996,7 +997,7 @@
 		BB64E7081C2F490000C18269 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/BigIntTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-iOS";
 				PRODUCT_NAME = BigIntTests;
@@ -1006,7 +1007,7 @@
 		BB64E7091C2F490000C18269 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/BigIntTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-iOS";
 				PRODUCT_NAME = BigIntTests;
@@ -1063,7 +1064,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/BigIntTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-Mac";
 				PRODUCT_NAME = "BigIntTests-Mac";
@@ -1079,7 +1080,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/BigIntTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-Mac";
 				PRODUCT_NAME = "BigIntTests-Mac";
@@ -1186,7 +1187,7 @@
 		BB6EF3D11C2F9E1F00ABFA71 /* Test */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/BigIntTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-iOS";
 				PRODUCT_NAME = BigIntTests;
@@ -1199,7 +1200,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/BigIntTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-Mac";
 				PRODUCT_NAME = "BigIntTests-Mac";
@@ -1372,7 +1373,7 @@
 		BBDEA44D1C3D6CCF00BBEEBC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/BigIntTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-TV";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1383,7 +1384,7 @@
 		BBDEA44E1C3D6CCF00BBEEBC /* Test */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/BigIntTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-TV";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1394,7 +1395,7 @@
 		BBDEA44F1C3D6CCF00BBEEBC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/BigIntTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-TV";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1405,7 +1406,7 @@
 		BBDEA4501C3D6CCF00BBEEBC /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/BigIntTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.lorentey.BigIntTests-TV";
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -4,5 +4,8 @@
 
 language: objective-c
 osx_image: xcode8
-script: xcrun xcodebuild -project BigInt.xcodeproj -scheme Coverage test
+script:
+- swift build
+- swift test
+- xcrun xcodebuild -project BigInt.xcodeproj -scheme Coverage test
 after_success: bash <(curl -s https://codecov.io/bash)
