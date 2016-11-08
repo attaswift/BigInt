@@ -1,6 +1,10 @@
 # 2.0.1 (2016-11-08)
 
-This release restores support for building BigInt with the Swift Package Manager.
+This release contains the following bugfixes:
+
+- The Swift version number is now correctly set in all targets (PR #7 by @mAu888).
+- BigInt now builds on Linux (PR #5 by @ratranqu).
+- Building BigInt with the Swift Package Manager bundled with Swift 3.0.1 works correctly.
 
 Additionally, Foundation imports that weren't actually needed were removed from sources.
 
