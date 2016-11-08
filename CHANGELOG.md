@@ -1,6 +1,8 @@
 # 2.0.1 (2016-11-08)
 
-This release restores support for building BigInt with the Swift Package Manager. It contains no source-level changes.
+This release restores support for building BigInt with the Swift Package Manager.
+
+Additionally, Foundation imports that weren't actually needed were removed from sources.
 
 # 2.0.0 (2016-09-20)
 
