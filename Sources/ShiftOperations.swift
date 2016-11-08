@@ -3,7 +3,7 @@
 //  BigInt
 //
 //  Created by Károly Lőrentey on 2016-01-03.
-//  Copyright © 2016 Károly Lőrentey. All rights reserved.
+//  Copyright © 2016 Károly Lőrentey.
 //
 
 // This protocol is missing from stdlib for some reason.

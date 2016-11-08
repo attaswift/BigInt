@@ -3,7 +3,7 @@
 //  BigInt
 //
 //  Created by Károly Lőrentey on 2015-12-27.
-//  Copyright © 2016 Károly Lőrentey. All rights reserved.
+//  Copyright © 2016 Károly Lőrentey.
 //
 
 /// For all `i` less than 256, `leadingZeroesTable[i]` is the number of leading zero bits in `i`'s 8-bit representation.
