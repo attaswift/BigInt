@@ -6,8 +6,6 @@
 //  Copyright © 2016 Károly Lőrentey. All rights reserved.
 //
 
-import Foundation
-
 //MARK: BigInt
 
 /// An arbitary precision signed integer type, also known as a "big integer".

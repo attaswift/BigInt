@@ -6,8 +6,6 @@
 //  Copyright © 2016 Károly Lőrentey. All rights reserved.
 //
 
-import Foundation
-
 // This protocol is missing from stdlib for some reason.
 
 /// Describes a type that supports all the standard shift operators.

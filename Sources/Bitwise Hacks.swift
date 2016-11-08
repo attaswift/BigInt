@@ -6,8 +6,6 @@
 //  Copyright © 2016 Károly Lőrentey. All rights reserved.
 //
 
-import Foundation
-
 /// For all `i` less than 256, `leadingZeroesTable[i]` is the number of leading zero bits in `i`'s 8-bit representation.
 /// I.e., the minimum number of bits necessary to represent `i` is `8 - leadingZeroes[i]`.
 internal let leadingZeroesTable: [UInt8] = [

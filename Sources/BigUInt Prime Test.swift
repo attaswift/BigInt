@@ -6,8 +6,6 @@
 //  Copyright © 2016 Károly Lőrentey. All rights reserved.
 //
 
-import Foundation
-
 /// The first several [prime numbers][primes]. 
 ///
 /// [primes]: https://oeis.org/A000040

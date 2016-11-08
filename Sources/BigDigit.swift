@@ -6,8 +6,6 @@
 //  Copyright © 2016 Károly Lőrentey. All rights reserved.
 //
 
-import Foundation
-
 internal protocol BigDigit: UnsignedInteger, BitwiseOperations, ShiftOperations {
     init(_ v: Int)
 

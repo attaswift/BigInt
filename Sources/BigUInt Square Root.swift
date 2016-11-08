@@ -6,8 +6,6 @@
 //  Copyright © 2016 Károly Lőrentey. All rights reserved.
 //
 
-import Foundation
-
 //MARK: Square Root
 
 /// Returns the integer square root of a big integer; i.e., the largest integer whose square isn't greater than `value`.

@@ -6,8 +6,6 @@
 //  Copyright © 2016 Károly Lőrentey. All rights reserved.
 //
 
-import Foundation
-
 /// An arbitary precision unsigned integer type, also known as a "big integer".
 ///
 /// Operations on big integers never overflow, but they might take a long time to execute.
