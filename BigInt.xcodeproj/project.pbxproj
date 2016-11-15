@@ -115,6 +115,7 @@
 		BB241CEC1DDB7B620067F917 /* CHANGELOG.md in Sources */ = {isa = PBXBuildFile; fileRef = BB241CE81DDB7B620067F917 /* CHANGELOG.md */; };
 		BB241CED1DDB7B620067F917 /* generate-docs.sh in Resources */ = {isa = PBXBuildFile; fileRef = BB241CEA1DDB7B620067F917 /* generate-docs.sh */; };
 		BB241CEE1DDB7B620067F917 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = BB241CEB1DDB7B620067F917 /* Cartfile */; };
+		BB241CF11DDB84210067F917 /* .codecov.yml in Resources */ = {isa = PBXBuildFile; fileRef = BB241CF01DDB84210067F917 /* .codecov.yml */; };
 		BBB55ABD1C8F80020050DDA9 /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBB55AB21C8F80020050DDA9 /* BigInt.framework */; };
 		BBB55ADE1C8F88F20050DDA9 /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBB55AD41C8F88F20050DDA9 /* BigInt.framework */; };
 		BBB55B081C8F8CBC0050DDA9 /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBB55AFE1C8F8CBB0050DDA9 /* BigInt.framework */; };
@@ -191,6 +192,7 @@
 		BB241CE91DDB7B620067F917 /* Demo.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Demo.playground; sourceTree = "<group>"; };
 		BB241CEA1DDB7B620067F917 /* generate-docs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "generate-docs.sh"; sourceTree = "<group>"; };
 		BB241CEB1DDB7B620067F917 /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
+		BB241CF01DDB84210067F917 /* .codecov.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .codecov.yml; sourceTree = "<group>"; };
 		BBB55AB21C8F80020050DDA9 /* BigInt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BigInt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBB55AB71C8F80020050DDA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BBB55ABC1C8F80020050DDA9 /* BigInt-Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "BigInt-Test.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -301,6 +303,7 @@
 				BB241BC71DD9F7D60067F917 /* BigInt.podspec */,
 				BB241CEB1DDB7B620067F917 /* Cartfile */,
 				BBB55B1C1C8F90F60050DDA9 /* .travis.yml */,
+				BB241CF01DDB84210067F917 /* .codecov.yml */,
 				BBB55ACC1C8F80660050DDA9 /* version.xcconfig */,
 				BB241CEA1DDB7B620067F917 /* generate-docs.sh */,
 				BB241CE91DDB7B620067F917 /* Demo.playground */,
@@ -620,6 +623,7 @@
 			files = (
 				BB241CEE1DDB7B620067F917 /* Cartfile in Resources */,
 				BB241CED1DDB7B620067F917 /* generate-docs.sh in Resources */,
+				BB241CF11DDB84210067F917 /* .codecov.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
