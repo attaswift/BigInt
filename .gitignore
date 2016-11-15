@@ -1,4 +1,3 @@
-Carthage
-Gemfile.lock
-.build
-gh-pages
+/Carthage/Build
+/.build
+/Packages
