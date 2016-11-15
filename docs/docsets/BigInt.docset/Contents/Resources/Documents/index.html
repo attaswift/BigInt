@@ -114,7 +114,7 @@
 </ul>
 
 <p><a href="https://developer.apple.com/swift/"><img src="https://img.shields.io/badge/Swift-3.0.1-blue.svg" alt="Swift 3"></a>
-<a href="http://lorentey.github.io/BigInt/api"><img src="https://img.shields.io/cocoapods/metrics/doc-percent/BigInt.svg" alt="Documented"></a>
+<a href="http://lorentey.github.io/BigInt/"><img src="https://img.shields.io/cocoapods/metrics/doc-percent/BigInt.svg" alt="Documented"></a>
 <a href="http://cocoapods.org/pods/BigInt"><img src="https://img.shields.io/badge/licence-MIT-blue.svg" alt="License"></a>
 <a href="http://cocoapods.org/pods/BigInt"><img src="https://img.shields.io/cocoapods/p/BigInt.svg" alt="Platform"></a></p>
 
@@ -131,7 +131,7 @@ in 100% pure Swift. The underlying representation is in base 2^64, using <code>A
 you don&rsquo;t want to add <a href="https://gmplib.org">The GNU Multiple Precision Arithmetic Library</a> 
 as a dependency.</p>
 
-<p>Two big integer types are included: <a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html"><code>BigUInt</code></a> and <a href="http://lorentey.github.io/BigInt/api/Structs/BigInt.html"><code>BigInt</code></a>, 
+<p>Two big integer types are included: <a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html"><code>BigUInt</code></a> and <a href="http://lorentey.github.io/BigInt/Structs/BigInt.html"><code>BigInt</code></a>, 
 the latter being the signed variant.
 Both of these are Swift structs with copy-on-write value semantics, and they can be used much 
 like any other integer type.</p>
@@ -140,43 +140,43 @@ like any other integer type.</p>
 big integers, including</p>
 
 <ul>
-<li><p>All functionality from <a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Comparison"><code>Comparable</code></a> and <a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Hashing"><code>Hashable</code></a></p></li>
-<li><p><a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Addition">The full set of arithmetic operators</a>: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code>, <code>%=</code></p>
+<li><p>All functionality from <a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Comparison"><code>Comparable</code></a> and <a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Hashing"><code>Hashable</code></a></p></li>
+<li><p><a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Addition">The full set of arithmetic operators</a>: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code>, <code>%=</code></p>
 
 <ul>
-<li><a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Addition">Addition</a> and <a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Subtraction">subtraction</a> have variants that allow for 
+<li><a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Addition">Addition</a> and <a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Subtraction">subtraction</a> have variants that allow for 
 shifting the digits of the second operand on the fly.</li>
 <li>Unsigned subtraction will trap when the result would be negative. 
-(<a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Subtraction">There are variants</a> that return an overflow flag.)</li>
-<li><a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:ZFV6BigInt7BigUIntoi1mFTS0_S0__S0_">Multiplication</a> uses brute force for numbers up to 1024 digits, then switches to Karatsuba&rsquo;s recursive method. 
+(<a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Subtraction">There are variants</a> that return an overflow flag.)</li>
+<li><a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:ZFV6BigInt7BigUIntoi1mFTS0_S0__S0_">Multiplication</a> uses brute force for numbers up to 1024 digits, then switches to Karatsuba&rsquo;s recursive method. 
 (This limit is configurable, see <code>BigUInt.directMultiplicationLimit</code>.)</li>
-<li>A <a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUInt14multiplyAndAddFTS0_Vs6UInt6410atPositionSi_T_">fused multiply-add</a> method is also available, along with other <a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Multiplication">special-case variants</a>.</li>
-<li><a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Division">Division</a> uses Knuth&rsquo;s Algorithm D, with its 3/2 digits wide quotient approximation. 
+<li>A <a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt14multiplyAndAddFTS0_Vs6UInt6410atPositionSi_T_">fused multiply-add</a> method is also available, along with other <a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Multiplication">special-case variants</a>.</li>
+<li><a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Division">Division</a> uses Knuth&rsquo;s Algorithm D, with its 3/2 digits wide quotient approximation. 
 It will trap when the divisor is zero.</li>
-<li><a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUInt7dividedFT2byS0__T8quotientS0_9remainderS0__"><code>BigUInt.divide</code></a> returns the quotient and
+<li><a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt7dividedFT2byS0__T8quotientS0_9remainderS0__"><code>BigUInt.divide</code></a> returns the quotient and
 remainder at once; this is faster than calculating them separately.</li>
 </ul></li>
-<li><p><a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Bitwise%20Operations">Bitwise operators</a>: <code>~</code>, <code>|</code>, <code>&amp;</code>, <code>^</code>, <code>|=</code>, <code>&amp;=</code>, <code>^=</code>, plus the following read-only properties:</p>
+<li><p><a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Bitwise%20Operations">Bitwise operators</a>: <code>~</code>, <code>|</code>, <code>&amp;</code>, <code>^</code>, <code>|=</code>, <code>&amp;=</code>, <code>^=</code>, plus the following read-only properties:</p>
 
 <ul>
-<li><a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:vV6BigInt7BigUInt5widthSi"><code>width</code></a>: the minimum number of bits required to store the integer,</li>
-<li><a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:vV6BigInt7BigUInt14trailingZeroesSi"><code>trailingZeroes</code></a>: the number of trailing zero bits in the binary representation,</li>
-<li><a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:vV6BigInt7BigUInt13leadingZeroesSi"><code>leadingZeroes</code></a>: the number of leading zero bits (when the last digit isn&rsquo;t full),</li>
+<li><a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:vV6BigInt7BigUInt5widthSi"><code>width</code></a>: the minimum number of bits required to store the integer,</li>
+<li><a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:vV6BigInt7BigUInt14trailingZeroesSi"><code>trailingZeroes</code></a>: the number of trailing zero bits in the binary representation,</li>
+<li><a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:vV6BigInt7BigUInt13leadingZeroesSi"><code>leadingZeroes</code></a>: the number of leading zero bits (when the last digit isn&rsquo;t full),</li>
 </ul></li>
-<li><p><a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Shift%20Operators">Shift operators</a>: <code>&gt;&gt;</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;=</code>, <code>&lt;&lt;=</code></p></li>
-<li><p>Methods to <a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/NSData%20Conversion">convert <code>NSData</code> to big integers</a> and vice versa.</p></li>
-<li><p>Support for <a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Random%20Integers">generating random integers</a> of specified maximum width or magnitude.</p></li>
-<li><p>Radix conversion to/from <a href="http://lorentey.github.io/BigInt/api/Extensions/String.html#/s:FE6BigIntSScFTVS_7BigUInt5radixSi9uppercaseSb_SS"><code>String</code>s</a> and <a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUIntcFTSS5radixSi_GSqS0__">big integers</a> up to base 36 (using repeated divisions).</p>
+<li><p><a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Shift%20Operators">Shift operators</a>: <code>&gt;&gt;</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;=</code>, <code>&lt;&lt;=</code></p></li>
+<li><p>Methods to <a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/NSData%20Conversion">convert <code>NSData</code> to big integers</a> and vice versa.</p></li>
+<li><p>Support for <a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Random%20Integers">generating random integers</a> of specified maximum width or magnitude.</p></li>
+<li><p>Radix conversion to/from <a href="http://lorentey.github.io/BigInt/Extensions/String.html#/s:FE6BigIntSScFTVS_7BigUInt5radixSi9uppercaseSb_SS"><code>String</code>s</a> and <a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUIntcFTSS5radixSi_GSqS0__">big integers</a> up to base 36 (using repeated divisions).</p>
 
 <ul>
 <li>Big integers use this to implement <code>StringLiteralConvertible</code> (in base 10).</li>
 </ul></li>
-<li><p><a href="http://lorentey.github.io/BigInt/api/Functions.html#/s:F6BigInt4sqrtFVS_7BigUIntS0_"><code>sqrt(n)</code></a>: The square root of an integer (using Newton&rsquo;s method).</p></li>
-<li><p><a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:ZFV6BigInt7BigUInt3gcdFTS0_S0__S0_"><code>BigUInt.gcd(n, m)</code></a>: The greatest common divisor of two integers (Stein&rsquo;s algorithm).</p></li>
-<li><p><a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUInt5powerFTS0_7modulusS0__S0_"><code>base.power(exponent, modulus)</code></a>: Modular exponentiation (right-to-left binary method). 
-<a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUInt5powerFSiS0_">Vanilla exponentiation</a> is also available.</p></li>
-<li><p><a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUInt7inverseFS0_GSqS0__"><code>n.inverse(modulus)</code></a>: Multiplicative inverse in modulo arithmetic (extended Euclidean algorithm).</p></li>
-<li><p><a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Primality%20Testing"><code>n.isPrime()</code></a>: Miller–Rabin primality test.</p></li>
+<li><p><a href="http://lorentey.github.io/BigInt/Functions.html#/s:F6BigInt4sqrtFVS_7BigUIntS0_"><code>sqrt(n)</code></a>: The square root of an integer (using Newton&rsquo;s method).</p></li>
+<li><p><a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:ZFV6BigInt7BigUInt3gcdFTS0_S0__S0_"><code>BigUInt.gcd(n, m)</code></a>: The greatest common divisor of two integers (Stein&rsquo;s algorithm).</p></li>
+<li><p><a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt5powerFTS0_7modulusS0__S0_"><code>base.power(exponent, modulus)</code></a>: Modular exponentiation (right-to-left binary method). 
+<a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt5powerFSiS0_">Vanilla exponentiation</a> is also available.</p></li>
+<li><p><a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt7inverseFS0_GSqS0__"><code>n.inverse(modulus)</code></a>: Multiplicative inverse in modulo arithmetic (extended Euclidean algorithm).</p></li>
+<li><p><a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Primality%20Testing"><code>n.isPrime()</code></a>: Miller–Rabin primality test.</p></li>
 </ul>
 
 <p>The implementations are intended to be reasonably efficient, but they are unlikely to be
@@ -187,7 +187,7 @@ behavior as GMP. (I haven&rsquo;t performed a comparison benchmark, though.)</p>
 in it.</p>
 <a href='#a-name-api-api-documentation-a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='a-name-api-api-documentation-a'><a name="api">API Documentation</a></h2>
 
-<p>Generated API docs are available at <a href="http://lorentey.github.io/BigInt/api">http://lorentey.github.io/BigInt/api</a>.</p>
+<p>Generated API docs are available at <a href="http://lorentey.github.io/BigInt/">http://lorentey.github.io/BigInt/</a>.</p>
 <a href='#a-name-license-license-a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='a-name-license-license-a'><a name="license">License</a></h2>
 
 <p>BigInt can be used, distributed and modified under <a href="https://github.com/lorentey/BigInt/blob/master/LICENSE.md">the MIT license</a>.</p>
@@ -220,13 +220,13 @@ Add this to the dependency section of your <code>Package.swift</code> manifest:<
 </ul>
 <a href='#a-name-notes-implementation-notes-a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='a-name-notes-implementation-notes-a'><a name="notes">Implementation notes</a></h2>
 
-<p><a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html"><code>BigUInt</code></a> is a <code>MutableCollectionType</code> of its 64-bit digits, with the least significant 
-digit at index 0. As a convenience, <a href="http://lorentey.github.io/BigInt/api/Structs/BigUInt.html"><code>BigUInt</code></a> allows you to subscript it with indexes at
+<p><a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html"><code>BigUInt</code></a> is a <code>MutableCollectionType</code> of its 64-bit digits, with the least significant 
+digit at index 0. As a convenience, <a href="http://lorentey.github.io/BigInt/Structs/BigUInt.html"><code>BigUInt</code></a> allows you to subscript it with indexes at
 or above its <code>count</code>. <a href="https://github.com/lorentey/BigInt/blob/v2.0.0/Sources/BigUInt.swift#L216-L239">The subscript operator</a> returns 0 for out-of-bound <code>get</code>s and
 automatically extends the array on out-of-bound <code>set</code>s. This makes memory management simpler.</p>
 
-<p><a href="http://lorentey.github.io/BigInt/api/Structs/BigInt.html"><code>BigInt</code></a> is just a tiny wrapper around a <code>BigUInt</code> <a href="http://lorentey.github.io/BigInt/api/Structs/BigInt.html#/s:vV6BigInt6BigInt3absVS_7BigUInt">absolute value</a> and a 
-<a href="http://lorentey.github.io/BigInt/api/Structs/BigInt.html#/s:vV6BigInt6BigInt8negativeSb">sign bit</a>, both of which are accessible as public read-write properties. </p>
+<p><a href="http://lorentey.github.io/BigInt/Structs/BigInt.html"><code>BigInt</code></a> is just a tiny wrapper around a <code>BigUInt</code> <a href="http://lorentey.github.io/BigInt/Structs/BigInt.html#/s:vV6BigInt6BigInt3absVS_7BigUInt">absolute value</a> and a 
+<a href="http://lorentey.github.io/BigInt/Structs/BigInt.html#/s:vV6BigInt6BigInt8negativeSb">sign bit</a>, both of which are accessible as public read-write properties. </p>
 <a href='#a-name-fullwidth-full-width-multiplication-and-division-primitives-a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='a-name-fullwidth-full-width-multiplication-and-division-primitives-a'><a name="fullwidth">Full-width multiplication and division primitives</a></h3>
 
 <p>I haven&rsquo;t found (64,64)-&gt;128 multiplication or (128,64)-&gt;64 division operations
