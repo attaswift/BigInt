@@ -6,6 +6,8 @@
 //  Copyright © 2016 Károly Lőrentey.
 //
 
+import SipHash
+
 //MARK: BigInt
 
 /// An arbitary precision signed integer type, also known as a "big integer".
@@ -169,11 +171,11 @@ extension BigInt: Comparable {
     }
 }
 
-extension BigInt: Hashable {
-    /// Return the hash value of this integer.
-    public var hashValue: Int {
-        let v = abs.hashValue
-        return negative ? ~v : v
+extension BigInt: SipHashable {
+    /// Append this `BigInt` to the specified hasher.
+    public func appendHashes(to hasher: inout SipHasher) {
+        hasher.append(negative)
+        hasher.append(abs)
     }
 }
 

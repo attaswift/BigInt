@@ -14,4 +14,5 @@ Pod::Spec.new do |spec|
     spec.source_files = 'Sources/*.swift'
     spec.social_media_url = 'https://twitter.com/lorentey'
     spec.documentation_url = 'http://lorentey.github.io/BigInt/api/'
+    spec.dependency   = 'SipHash', '~> 1.0'
 end

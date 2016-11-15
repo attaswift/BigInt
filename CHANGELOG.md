@@ -1,3 +1,14 @@
+# 2.1.0 (2016-11-15)
+
+This release contains the following changes:
+
+- BigInt now uses the SipHash hashing algorithm instead of implementing its own hashing.
+- The `SipHash` package has been added as a required dependency. I suggest you use a dependency manager.
+- Minimum deployment targets have been bumped to iOS 9.0 and macOS 10.0 to match those of `SipHash`.
+- BigInt now requires Swift 3.0.1, included in Xcode 8.1.
+- The Xcode project file has been regenerated from scratch, with new names for targets and schemes.
+- The bundle identifiers of frameworks generated from the Xcode project file have been changed to `hu.lorentey.BigInt.<platform>`.
+
 # 2.0.1 (2016-11-08)
 
 This release contains the following bugfixes:

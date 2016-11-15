@@ -6,18 +6,15 @@
 //  Copyright © 2016 Károly Lőrentey.
 //
 
-extension BigUInt: Hashable {
+import SipHash
+
+extension BigUInt: SipHashable {
     //MARK: Hashing
 
-    /// The hash value.
-    public var hashValue: Int {
-        var hash: UInt64 = UInt64(count).byteSwapped
-        for i in 0..<count {
-            let shift: UInt64 = ((UInt64(i) << 5) - UInt64(i)) & 63
-            let rotated = (hash >> shift) | ((hash & ((1 << shift) - 1)) << shift)
-            hash = rotated ^ UInt64(UInt(truncatingBitPattern: Int64(self[i].hashValue &+ i)))
+    /// Append this `BigUInt` to the specified hasher.
+    public func appendHashes(to hasher: inout SipHasher) {
+        for i in 0 ..< count {
+            hasher.append(self[i])
         }
-
-        return Int(truncatingBitPattern: hash)
     }
 }

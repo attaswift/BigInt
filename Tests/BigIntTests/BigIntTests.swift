@@ -70,7 +70,9 @@ class BigIntTests: XCTestCase {
     }
 
     func testHashable() {
-        XCTAssertEqual(BigInt(42).hashValue, BigUInt(42).hashValue)
+        XCTAssertEqual(BigInt(1).hashValue, BigInt(1).hashValue)
+        XCTAssertNotEqual(BigInt(1).hashValue, BigInt(2).hashValue)
+        XCTAssertNotEqual(BigInt(42).hashValue, BigInt(-42).hashValue)
         XCTAssertNotEqual(BigInt(1).hashValue, BigInt(-1).hashValue)
     }
 

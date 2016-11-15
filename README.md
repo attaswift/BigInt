@@ -12,7 +12,7 @@
 	* [RSA Cryptography](#rsa)
 	* [Calculating the Digits of π](#pi)
 
-[![Swift 3](https://img.shields.io/badge/Swift-3-blue.svg)](https://developer.apple.com/swift/)
+[![Swift 3](https://img.shields.io/badge/Swift-3.0.1-blue.svg)](https://developer.apple.com/swift/)
 [![Documented](https://img.shields.io/cocoapods/metrics/doc-percent/BigInt.svg)](http://lorentey.github.io/BigInt/api)
 [![License](https://img.shields.io/badge/licence-MIT-blue.svg)](http://cocoapods.org/pods/BigInt)
 [![Platform](https://img.shields.io/cocoapods/p/BigInt.svg)](http://cocoapods.org/pods/BigInt)
@@ -98,9 +98,10 @@ BigInt can be used, distributed and modified under [the MIT license][license].
 
 ## <a name="integration">Requirements and Integration</a>
 
-BigInt 2.0 requires Swift 3. (Previous versions supported Swift 2.2. The latest such version is 1.3.0.)
+BigInt 2.1.0 requires Swift 3.0.1. (The last version with support for Swift 3.0.0 was BigInt 2.0.1. 
+The last version with support for Swift 2.2 was BigInt 1.3.0.)
 
-BigInt deploys to macOS 10.9, iOS 8, watchOS 2 and tvOS 9. 
+BigInt deploys to macOS 10.10, iOS 9, watchOS 2 and tvOS 9. 
 It has been tested on the latest OS releases only---however, as the module uses very few platform-provided APIs, 
 there should be very few issues with earlier versions. 
 
@@ -109,29 +110,26 @@ it should be easy to port it to other operating systems.
 
 Setup instructions:
 
-- **Direct use:**
-  Just clone the Git repo, include the project file as a subproject in your own project, and you're done.
-
 - **Swift Package Manager:**
   Although the Package Manager is still in its infancy, BigInt provides experimental support for it. 
   Add this to the dependency section of your `Package.swift` manifest:
 
     ```Swift
-    .Package(url: "https://github.com/lorentey/BigInt.git", Version(2, 0, 0))
+    .Package(url: "https://github.com/lorentey/BigInt.git", majorVersion: 2, minorVersion: 1)
      ```
-
-- **Carthage:** Put this in your `Cartfile`:
-
-    ```
-github "lorentey/BigInt"
-    ```
 
 - **CocoaPods:** Put this in your `Podfile`:
 
     ```Ruby
-use_frameworks!
-pod 'BigInt', :git => 'https://github.com/lorentey/BigInt.git'
+pod 'BigInt', '~> 2.1'
     ```
+
+- **Carthage:** Put this in your `Cartfile`:
+
+    ```
+github "lorentey/BigInt" ~> 2.1
+    ```
+
 
 ## <a name="notes">Implementation notes</a>
 

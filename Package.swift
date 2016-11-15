@@ -8,4 +8,9 @@
 
 import PackageDescription
 
-let package = Package(name: "BigInt", dependencies: [])
+let package = Package(
+    name: "BigInt",
+    dependencies: [
+        .Package(url: "https://github.com/lorentey/SipHash", majorVersion: 1, minor: 0)
+    ]
+)

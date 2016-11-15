@@ -1,15 +1,10 @@
-# This file contains some arcane technical incantations that are needed to
-# enable code coverage tracking via continuous integration.
-# It is not an integral part of the project and I'd rather remove it if I could help it.
-
 language: objective-c
-osx_image: xcode8
+osx_image: xcode8.1sneakpeek
 script:
 - swift build
 - swift test
+- xcrun xcodebuild -project BigInt.xcodeproj -scheme BigInt-macOS test
 - xcrun xcodebuild -project BigInt.xcodeproj -scheme BigInt-iOS
-- xcrun xcodebuild -project BigInt.xcodeproj -scheme BigInt-Mac
-- xcrun xcodebuild -project BigInt.xcodeproj -scheme BigInt-Watch
-- xcrun xcodebuild -project BigInt.xcodeproj -scheme BigInt-TV
-- xcrun xcodebuild -project BigInt.xcodeproj -scheme Coverage test
+- xcrun xcodebuild -project BigInt.xcodeproj -scheme BigInt-watchOS
+- xcrun xcodebuild -project BigInt.xcodeproj -scheme BigInt-tvOS
 after_success: bash <(curl -s https://codecov.io/bash)
