@@ -13,7 +13,7 @@
 	* [Calculating the Digits of π](#pi)
 
 [![Swift 3](https://img.shields.io/badge/Swift-3.0.1-blue.svg)](https://developer.apple.com/swift/)
-[![Documented](https://img.shields.io/cocoapods/metrics/doc-percent/BigInt.svg)](http://lorentey.github.io/BigInt/api)
+[![Documented](https://img.shields.io/cocoapods/metrics/doc-percent/BigInt.svg)](http://lorentey.github.io/BigInt/)
 [![License](https://img.shields.io/badge/licence-MIT-blue.svg)](http://cocoapods.org/pods/BigInt)
 [![Platform](https://img.shields.io/cocoapods/p/BigInt.svg)](http://cocoapods.org/pods/BigInt)
 
@@ -90,7 +90,7 @@ in it.
 
 ## <a name="api">API Documentation</a>
 
-Generated API docs are available at http://lorentey.github.io/BigInt/api.
+Generated API docs are available at http://lorentey.github.io/BigInt/.
 
 ## <a name="license">License</a>
 
@@ -171,34 +171,34 @@ generic variant that was slower but more flexible.
 
 [license]: https://github.com/lorentey/BigInt/blob/master/LICENSE.md
 [twitter]: https://twitter.com/lorentey
-[BigUInt]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html
-[BigInt]: http://lorentey.github.io/BigInt/api/Structs/BigInt.html
-[comparison]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Comparison
-[hashing]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Hashing
-[addition]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Addition
-[subtraction]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Subtraction
-[mul]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:ZFV6BigInt7BigUIntoi1mFTS0_S0__S0_
-[fused]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUInt14multiplyAndAddFTS0_Vs6UInt6410atPositionSi_T_
-[multiplication]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Multiplication
-[division]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Division
-[divide]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUInt7dividedFT2byS0__T8quotientS0_9remainderS0__
-[bitwise]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Bitwise%20Operations
-[width]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:vV6BigInt7BigUInt5widthSi
-[leadingZeroes]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:vV6BigInt7BigUInt13leadingZeroesSi
-[trailingZeroes]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:vV6BigInt7BigUInt14trailingZeroesSi
-[shift]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Shift%20Operators
-[data]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/NSData%20Conversion
-[random]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Random%20Integers
-[radix1]: http://lorentey.github.io/BigInt/api/Extensions/String.html#/s:FE6BigIntSScFTVS_7BigUInt5radixSi9uppercaseSb_SS
-[radix2]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUIntcFTSS5radixSi_GSqS0__
-[sqrt]: http://lorentey.github.io/BigInt/api/Functions.html#/s:F6BigInt4sqrtFVS_7BigUIntS0_
-[GCD]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:ZFV6BigInt7BigUInt3gcdFTS0_S0__S0_
-[powmod]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUInt5powerFTS0_7modulusS0__S0_
-[power]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUInt5powerFSiS0_
-[inverse]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/s:FV6BigInt7BigUInt7inverseFS0_GSqS0__
-[prime]: http://lorentey.github.io/BigInt/api/Structs/BigUInt.html#/Primality%20Testing
-[abs]: http://lorentey.github.io/BigInt/api/Structs/BigInt.html#/s:vV6BigInt6BigInt3absVS_7BigUInt
-[negative]: http://lorentey.github.io/BigInt/api/Structs/BigInt.html#/s:vV6BigInt6BigInt8negativeSb
+[BigUInt]: http://lorentey.github.io/BigInt/Structs/BigUInt.html
+[BigInt]: http://lorentey.github.io/BigInt/Structs/BigInt.html
+[comparison]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Comparison
+[hashing]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Hashing
+[addition]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Addition
+[subtraction]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Subtraction
+[mul]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:ZFV6BigInt7BigUIntoi1mFTS0_S0__S0_
+[fused]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt14multiplyAndAddFTS0_Vs6UInt6410atPositionSi_T_
+[multiplication]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Multiplication
+[division]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Division
+[divide]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt7dividedFT2byS0__T8quotientS0_9remainderS0__
+[bitwise]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Bitwise%20Operations
+[width]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:vV6BigInt7BigUInt5widthSi
+[leadingZeroes]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:vV6BigInt7BigUInt13leadingZeroesSi
+[trailingZeroes]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:vV6BigInt7BigUInt14trailingZeroesSi
+[shift]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Shift%20Operators
+[data]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/NSData%20Conversion
+[random]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Random%20Integers
+[radix1]: http://lorentey.github.io/BigInt/Extensions/String.html#/s:FE6BigIntSScFTVS_7BigUInt5radixSi9uppercaseSb_SS
+[radix2]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUIntcFTSS5radixSi_GSqS0__
+[sqrt]: http://lorentey.github.io/BigInt/Functions.html#/s:F6BigInt4sqrtFVS_7BigUIntS0_
+[GCD]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:ZFV6BigInt7BigUInt3gcdFTS0_S0__S0_
+[powmod]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt5powerFTS0_7modulusS0__S0_
+[power]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt5powerFSiS0_
+[inverse]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt7inverseFS0_GSqS0__
+[prime]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Primality%20Testing
+[abs]: http://lorentey.github.io/BigInt/Structs/BigInt.html#/s:vV6BigInt6BigInt3absVS_7BigUInt
+[negative]: http://lorentey.github.io/BigInt/Structs/BigInt.html#/s:vV6BigInt6BigInt8negativeSb
 [subscript]: https://github.com/lorentey/BigInt/blob/v2.0.0/Sources/BigUInt.swift#L216-L239
 [fullmuldiv]: https://github.com/lorentey/BigInt/blob/v2.0.0/Sources/BigDigit.swift#L96-L167
 
