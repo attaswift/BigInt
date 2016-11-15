@@ -112,7 +112,6 @@
 		BB241CE41DDB79E30067F917 /* BigUIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C571DDB70690067F917 /* BigUIntTests.swift */; };
 		BB241CE51DDB79E30067F917 /* BitwiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C581DDB70690067F917 /* BitwiseTests.swift */; };
 		BB241CE61DDB79E30067F917 /* DigitsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C591DDB70690067F917 /* DigitsTests.swift */; };
-		BB241CEC1DDB7B620067F917 /* CHANGELOG.md in Sources */ = {isa = PBXBuildFile; fileRef = BB241CE81DDB7B620067F917 /* CHANGELOG.md */; };
 		BB241CED1DDB7B620067F917 /* generate-docs.sh in Resources */ = {isa = PBXBuildFile; fileRef = BB241CEA1DDB7B620067F917 /* generate-docs.sh */; };
 		BB241CEE1DDB7B620067F917 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = BB241CEB1DDB7B620067F917 /* Cartfile */; };
 		BB241CF11DDB84210067F917 /* .codecov.yml in Resources */ = {isa = PBXBuildFile; fileRef = BB241CF01DDB84210067F917 /* .codecov.yml */; };
@@ -704,7 +703,6 @@
 				BB241C461DDB70600067F917 /* BigUInt Comparison.swift in Sources */,
 				BB241C491DDB70600067F917 /* BigUInt Exponentiation.swift in Sources */,
 				BB241C541DDB70600067F917 /* Bitwise Hacks.swift in Sources */,
-				BB241CEC1DDB7B620067F917 /* CHANGELOG.md in Sources */,
 				BB241C451DDB70600067F917 /* BigUInt Bitwise Ops.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
