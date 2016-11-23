@@ -1,4 +1,4 @@
-# BigInt
+[![BigInt](https://github.com/lorentey/BigInt/raw/master/images/banner.png)](https://github.com/lorentey/BigInt)
 
 * [Overview](#overview)
 * [API Documentation](#api)
