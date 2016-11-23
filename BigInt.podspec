@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |spec|
     spec.name         = 'BigInt'
-    spec.version      = '2.1.0'
+    spec.version      = '2.1.1'
     spec.osx.deployment_target = "10.9"
     spec.ios.deployment_target = "8.0"
     spec.tvos.deployment_target = "9.0"
@@ -10,7 +10,7 @@ Pod::Spec.new do |spec|
     spec.summary      = 'Arbitrary-precision arithmetic in pure Swift'
     spec.homepage     = 'https://github.com/lorentey/BigInt'
     spec.author       = 'Károly Lőrentey'
-    spec.source       = { :git => 'https://github.com/lorentey/BigInt.git', :tag => 'v2.1.0' }
+    spec.source       = { :git => 'https://github.com/lorentey/BigInt.git', :tag => 'v' + String(spec.version) }
     spec.source_files = 'sources/*.swift'
     spec.social_media_url = 'https://twitter.com/lorentey'
     spec.documentation_url = 'http://lorentey.github.io/BigInt/'
