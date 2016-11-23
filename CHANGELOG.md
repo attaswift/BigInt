@@ -1,3 +1,7 @@
+# 2.1.1 (2016-11-23)
+
+This release restores support for iOS 8.0 and macOS 10.9.
+
 # 2.1.0 (2016-11-15)
 
 This release contains the following changes:
