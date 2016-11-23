@@ -2,8 +2,8 @@
 Pod::Spec.new do |spec|
     spec.name         = 'BigInt'
     spec.version      = '2.1.1'
-    spec.osx.deployment_target = "10.9"
     spec.ios.deployment_target = "8.0"
+    spec.osx.deployment_target = "10.9"
     spec.tvos.deployment_target = "9.0"
     spec.watchos.deployment_target = "2.0"
     spec.license      = { :type => 'MIT', :file => 'LICENSE.md' }
