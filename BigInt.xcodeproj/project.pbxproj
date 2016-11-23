@@ -26,9 +26,7 @@
 		BB241C521DDB70600067F917 /* BigUInt Subtraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C3E1DDB70600067F917 /* BigUInt Subtraction.swift */; };
 		BB241C531DDB70600067F917 /* BigUInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C3F1DDB70600067F917 /* BigUInt.swift */; };
 		BB241C541DDB70600067F917 /* Bitwise Hacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C401DDB70600067F917 /* Bitwise Hacks.swift */; };
-		BB241C551DDB70600067F917 /* ShiftOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C411DDB70600067F917 /* ShiftOperations.swift */; };
 		BB241C651DDB70B00067F917 /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBB55AD41C8F88F20050DDA9 /* BigInt.framework */; };
-		BB241C6C1DDB71910067F917 /* ShiftOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C411DDB70600067F917 /* ShiftOperations.swift */; };
 		BB241C6D1DDB71910067F917 /* Bitwise Hacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C401DDB70600067F917 /* Bitwise Hacks.swift */; };
 		BB241C6E1DDB71910067F917 /* BigDigit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C2E1DDB70600067F917 /* BigDigit.swift */; };
 		BB241C6F1DDB71910067F917 /* BigUInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C3F1DDB70600067F917 /* BigUInt.swift */; };
@@ -48,7 +46,6 @@
 		BB241C7D1DDB71910067F917 /* BigUInt Radix Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C3A1DDB70600067F917 /* BigUInt Radix Conversion.swift */; };
 		BB241C7E1DDB71910067F917 /* BigUInt Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C3B1DDB70600067F917 /* BigUInt Random.swift */; };
 		BB241C7F1DDB71910067F917 /* BigInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C2F1DDB70600067F917 /* BigInt.swift */; };
-		BB241C801DDB71920067F917 /* ShiftOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C411DDB70600067F917 /* ShiftOperations.swift */; };
 		BB241C811DDB71920067F917 /* Bitwise Hacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C401DDB70600067F917 /* Bitwise Hacks.swift */; };
 		BB241C821DDB71920067F917 /* BigDigit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C2E1DDB70600067F917 /* BigDigit.swift */; };
 		BB241C831DDB71920067F917 /* BigUInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C3F1DDB70600067F917 /* BigUInt.swift */; };
@@ -68,7 +65,6 @@
 		BB241C911DDB71920067F917 /* BigUInt Radix Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C3A1DDB70600067F917 /* BigUInt Radix Conversion.swift */; };
 		BB241C921DDB71920067F917 /* BigUInt Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C3B1DDB70600067F917 /* BigUInt Random.swift */; };
 		BB241C931DDB71920067F917 /* BigInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C2F1DDB70600067F917 /* BigInt.swift */; };
-		BB241C941DDB71920067F917 /* ShiftOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C411DDB70600067F917 /* ShiftOperations.swift */; };
 		BB241C951DDB71920067F917 /* Bitwise Hacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C401DDB70600067F917 /* Bitwise Hacks.swift */; };
 		BB241C961DDB71920067F917 /* BigDigit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C2E1DDB70600067F917 /* BigDigit.swift */; };
 		BB241C971DDB71920067F917 /* BigUInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C3F1DDB70600067F917 /* BigUInt.swift */; };
@@ -170,7 +166,6 @@
 		BB241C3E1DDB70600067F917 /* BigUInt Subtraction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BigUInt Subtraction.swift"; sourceTree = "<group>"; };
 		BB241C3F1DDB70600067F917 /* BigUInt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BigUInt.swift; sourceTree = "<group>"; };
 		BB241C401DDB70600067F917 /* Bitwise Hacks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bitwise Hacks.swift"; sourceTree = "<group>"; };
-		BB241C411DDB70600067F917 /* ShiftOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftOperations.swift; sourceTree = "<group>"; };
 		BB241C561DDB70690067F917 /* BigIntTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BigIntTests.swift; sourceTree = "<group>"; };
 		BB241C571DDB70690067F917 /* BigUIntTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BigUIntTests.swift; sourceTree = "<group>"; };
 		BB241C581DDB70690067F917 /* BitwiseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BitwiseTests.swift; sourceTree = "<group>"; };
@@ -327,7 +322,6 @@
 		BBB55AB41C8F80020050DDA9 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				BB241C411DDB70600067F917 /* ShiftOperations.swift */,
 				BB241C401DDB70600067F917 /* Bitwise Hacks.swift */,
 				BB241C2E1DDB70600067F917 /* BigDigit.swift */,
 				BB241C3F1DDB70600067F917 /* BigUInt.swift */,
@@ -678,7 +672,6 @@
 			files = (
 				BB241C441DDB70600067F917 /* BigUInt Addition.swift in Sources */,
 				BB241C431DDB70600067F917 /* BigInt.swift in Sources */,
-				BB241C551DDB70600067F917 /* ShiftOperations.swift in Sources */,
 				BB241C531DDB70600067F917 /* BigUInt.swift in Sources */,
 				BB241C4F1DDB70600067F917 /* BigUInt Random.swift in Sources */,
 				BB241C4D1DDB70600067F917 /* BigUInt Prime Test.swift in Sources */,
@@ -715,7 +708,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB241C801DDB71920067F917 /* ShiftOperations.swift in Sources */,
 				BB241C8C1DDB71920067F917 /* BigUInt Bitwise Ops.swift in Sources */,
 				BB241C811DDB71920067F917 /* Bitwise Hacks.swift in Sources */,
 				BB241C921DDB71920067F917 /* BigUInt Random.swift in Sources */,
@@ -754,7 +746,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB241C6C1DDB71910067F917 /* ShiftOperations.swift in Sources */,
 				BB241C781DDB71910067F917 /* BigUInt Bitwise Ops.swift in Sources */,
 				BB241C6D1DDB71910067F917 /* Bitwise Hacks.swift in Sources */,
 				BB241C7E1DDB71910067F917 /* BigUInt Random.swift in Sources */,
@@ -781,7 +772,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB241C941DDB71920067F917 /* ShiftOperations.swift in Sources */,
 				BB241CA01DDB71920067F917 /* BigUInt Bitwise Ops.swift in Sources */,
 				BB241C951DDB71920067F917 /* Bitwise Hacks.swift in Sources */,
 				BB241CA61DDB71920067F917 /* BigUInt Random.swift in Sources */,

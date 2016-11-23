@@ -6,7 +6,7 @@
 //  Copyright © 2016 Károly Lőrentey.
 //
 
-internal protocol BigDigit: UnsignedInteger, BitwiseOperations, ShiftOperations {
+internal protocol BigDigit: UnsignedInteger, BitwiseOperations {
     init(_ v: Int)
 
     static func digitsFromUIntMax(_ i: UIntMax) -> [Self]
@@ -26,6 +26,9 @@ internal protocol BigDigit: UnsignedInteger, BitwiseOperations, ShiftOperations 
     var low: Self { get }
     var high: Self { get }
     var split: (high: Self, low: Self) { get }
+
+    static func <<(a: Self, b: Self) -> Self
+    static func >>(a: Self, b: Self) -> Self
 }
 
 extension BigDigit {
