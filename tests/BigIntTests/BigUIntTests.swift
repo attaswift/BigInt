@@ -955,7 +955,7 @@ class BigUIntTests: XCTestCase {
         var oneBits = Set<Int>(0..<limit.width)
         var zeroBits = Set<Int>(0..<limit.width)
         for _ in 0..<100 {
-            var random = BigUInt.randomIntegerLessThan(limit)
+            var random = BigUInt.randomInteger(lessThan: limit)
             XCTAssertLessThan(random, limit)
             for i in 0..<limit.width {
                 if random[0] & 1 == 1 { oneBits.remove(i) }

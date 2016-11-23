@@ -105,7 +105,7 @@ extension BigUInt {
 
         /// Otherwise do as many rounds of random SPPT as required.
         for _ in 0 ..< rounds {
-            let random = BigUInt.randomIntegerLessThan(self)
+            let random = BigUInt.randomInteger(lessThan: self)
             guard isStrongProbablePrime(random) else {
                 return false
             }
