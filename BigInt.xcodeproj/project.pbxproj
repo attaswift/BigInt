@@ -180,7 +180,6 @@
 		BB241C591DDB70690067F917 /* DigitsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DigitsTests.swift; sourceTree = "<group>"; };
 		BB241C5A1DDB70690067F917 /* ProfileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTests.swift; sourceTree = "<group>"; };
 		BB241C6A1DDB70B00067F917 /* BigInt Benchmark.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "BigInt Benchmark.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BB241C6B1DDB70B00067F917 /* BigInt macOS Tests copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "BigInt macOS Tests copy-Info.plist"; path = "/Users/lorentey/Git/BigInt/BigInt macOS Tests copy-Info.plist"; sourceTree = "<absolute>"; };
 		BB241CCC1DDB71DB0067F917 /* SipHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SipHash.framework; path = "Carthage/Checkouts/SipHash/build/Debug-iphoneos/SipHash.framework"; sourceTree = "<group>"; };
 		BB241CCE1DDB71E30067F917 /* SipHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SipHash.framework; path = "../../Library/Developer/Xcode/DerivedData/BigInt-aibydghxjcolwocpvmpgshvylvps/Build/Products/Debug/SipHash.framework"; sourceTree = "<group>"; };
 		BB241CD01DDB71EA0067F917 /* SipHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SipHash.framework; path = "Carthage/Checkouts/SipHash/build/Debug-watchos/SipHash.framework"; sourceTree = "<group>"; };
@@ -309,7 +308,6 @@
 				BBB55AB41C8F80020050DDA9 /* Sources */,
 				BBB55AC01C8F80020050DDA9 /* Tests */,
 				BBB55AB31C8F80020050DDA9 /* Products */,
-				BB241C6B1DDB70B00067F917 /* BigInt macOS Tests copy-Info.plist */,
 				BB241CCB1DDB71DB0067F917 /* Frameworks */,
 			);
 			sourceTree = "<group>";
