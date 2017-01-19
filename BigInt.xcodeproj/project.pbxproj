@@ -112,9 +112,6 @@
 		BB241CE41DDB79E30067F917 /* BigUIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C571DDB70690067F917 /* BigUIntTests.swift */; };
 		BB241CE51DDB79E30067F917 /* BitwiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C581DDB70690067F917 /* BitwiseTests.swift */; };
 		BB241CE61DDB79E30067F917 /* DigitsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C591DDB70690067F917 /* DigitsTests.swift */; };
-		BB241CED1DDB7B620067F917 /* generate-docs.sh in Resources */ = {isa = PBXBuildFile; fileRef = BB241CEA1DDB7B620067F917 /* generate-docs.sh */; };
-		BB241CEE1DDB7B620067F917 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = BB241CEB1DDB7B620067F917 /* Cartfile */; };
-		BB241CF11DDB84210067F917 /* .codecov.yml in Resources */ = {isa = PBXBuildFile; fileRef = BB241CF01DDB84210067F917 /* .codecov.yml */; };
 		BBB55ABD1C8F80020050DDA9 /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBB55AB21C8F80020050DDA9 /* BigInt.framework */; };
 		BBB55ADE1C8F88F20050DDA9 /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBB55AD41C8F88F20050DDA9 /* BigInt.framework */; };
 		BBB55B081C8F8CBC0050DDA9 /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBB55AFE1C8F8CBB0050DDA9 /* BigInt.framework */; };
@@ -619,9 +616,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB241CEE1DDB7B620067F917 /* Cartfile in Resources */,
-				BB241CED1DDB7B620067F917 /* generate-docs.sh in Resources */,
-				BB241CF11DDB84210067F917 /* .codecov.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
