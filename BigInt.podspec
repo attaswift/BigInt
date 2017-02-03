@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |spec|
     spec.name         = 'BigInt'
-    spec.version      = '2.1.1'
+    spec.version      = '2.1.2'
     spec.ios.deployment_target = "8.0"
     spec.osx.deployment_target = "10.9"
     spec.tvos.deployment_target = "9.0"
