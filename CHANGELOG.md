@@ -1,3 +1,14 @@
+# 2.1.2 (2017-02-03)
+
+This release contains the following bugfix:
+
+- Issue #12: The iOS target in the supplied Xcode project file no longer copies extraneous files 
+  as resources into the framework bundle. The set of such files included generate-docs.sh, which
+  led to App Store rejections for apps that build BigInt using the project file. 
+  (Thanks to @arrrnas and @wuftymerguftyguff)
+
+No source-level changes were made.
+
 # 2.1.1 (2016-11-23)
 
 This release restores support for iOS 8.0 and macOS 10.9.
