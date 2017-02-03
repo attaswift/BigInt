@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "1C1636C82AA6D30C94DEAD00016AA8F48145AB62",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "1C1636C82AA6D30C94DEAD00016AA8F48145AB62" : 9223372036854775807,
+    "FB48966E443D25259D3CA0BE6E56D2D7343B7F97" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "B0F36144-0F1B-441F-9251-72EB0BE50122",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "1C1636C82AA6D30C94DEAD00016AA8F48145AB62" : "BigInt\/",
+    "FB48966E443D25259D3CA0BE6E56D2D7343B7F97" : "BigInt\/Carthage\/Checkouts\/SipHash\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "BigInt",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "BigInt.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:lorentey\/BigInt.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1C1636C82AA6D30C94DEAD00016AA8F48145AB62"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/lorentey\/SipHash.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "FB48966E443D25259D3CA0BE6E56D2D7343B7F97"
+    }
+  ]
+}
