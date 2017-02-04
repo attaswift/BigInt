@@ -848,7 +848,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = "BigInt macOS Tests copy-Info.plist";
+				INFOPLIST_FILE = tests/BigIntTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(BUNDLE_IDENTIFIER_BASE).Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -862,7 +862,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = "BigInt macOS Tests copy-Info.plist";
+				INFOPLIST_FILE = tests/BigIntTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(BUNDLE_IDENTIFIER_BASE).Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
