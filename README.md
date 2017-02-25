@@ -115,7 +115,7 @@ Setup instructions:
   Add this to the dependency section of your `Package.swift` manifest:
 
     ```Swift
-    .Package(url: "https://github.com/lorentey/BigInt.git", majorVersion: 2, minorVersion: 1)
+    .Package(url: "https://github.com/lorentey/BigInt.git", majorVersion: 2, minor: 1)
      ```
 
 - **CocoaPods:** Put this in your `Podfile`:
