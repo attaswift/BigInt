@@ -73,7 +73,7 @@ extension BigUInt: BitwiseOperations {
         return result
     }
 
-    /// Calculate the bitwise OR of `a` and `b` and return the result.
+    /// Calculate the bitwise XOR of `a` and `b` and return the result.
     ///
     /// - Complexity: O(max(a.count, b.count))
     public static func ^ (a: BigUInt, b: BigUInt) -> BigUInt {
