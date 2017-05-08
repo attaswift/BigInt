@@ -259,6 +259,17 @@ extension BigInt: IntegerArithmetic {
     public static func %(a: BigInt, b: BigInt) -> BigInt {
         return BigInt(abs: a.abs % b.abs, negative: a.negative)
     }
+  
+    /// Return the result of `a` mod `b`.
+    public static func modulus(a: BigInt, b: BigInt) -> BigInt {
+        if a.negative == b.negative {
+            return BigInt(abs: a.abs % b.abs, negative: a.negative)
+        }
+        else {
+            let floor = ((a / b) - 1) * b
+            return BigInt(abs: (floor.abs - a.abs) % b.abs, negative: b.negative)
+        }
+    }
 
     /// Adds `lhs` and `rhs` together. An overflow is never reported.
     public static func addWithOverflow(_ lhs: BigInt, _ rhs: BigInt) -> (BigInt, overflow: Bool) {
