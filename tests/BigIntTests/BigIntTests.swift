@@ -124,13 +124,20 @@ class BigIntTests: XCTestCase {
         compare(-7, -4, r: 1, op: /)
     }
 
-    func testModulo() {
+    func testRemainder() {
         compare(0, 1, r: 0, op: %)
         compare(0, -1, r: 0, op: %)
         compare(7, 4, r: 3, op: %)
         compare(7, -4, r: 3, op: %)
         compare(-7, 4, r: -3, op: %)
         compare(-7, -4, r:-3, op: %)
+    }
+  
+    func testModulo() {
+        XCTAssertEqual(BigInt.modulus(22, 5), 2)
+        XCTAssertEqual(BigInt.modulus(-22, 5), 3)
+        XCTAssertEqual(BigInt.modulus(22, -5), 2)
+        XCTAssertEqual(BigInt.modulus(-22, -5), 3)
     }
 
     func testStrideableRequirements() {
