@@ -134,10 +134,10 @@ class BigIntTests: XCTestCase {
     }
   
     func testModulo() {
-        XCTAssertEqual(BigInt.modulus(a: BigInt(abs: 22, negative: false), b: BigInt(abs: 5, negative: false)), BigInt(abs: 2, negative: false))
-        XCTAssertEqual(BigInt.modulus(a: BigInt(abs: 22, negative: true), b: BigInt(abs: 5, negative: false)), BigInt(abs: 3, negative: false))
-        XCTAssertEqual(BigInt.modulus(a: BigInt(abs: 22, negative: false), b: BigInt(abs: 5, negative: true)), BigInt(abs: 3, negative: true))
-        XCTAssertEqual(BigInt.modulus(a: BigInt(abs: 22, negative: true), b: BigInt(abs: 5, negative: true)), BigInt(abs: 2, negative: true))
+        XCTAssertEqual(BigInt.modulus(22, 5), 2)
+        XCTAssertEqual(BigInt.modulus(-22, 5), 3)
+        XCTAssertEqual(BigInt.modulus(22, -5), 2)
+        XCTAssertEqual(BigInt.modulus(-22, -5), 3)
     }
 
     func testStrideableRequirements() {

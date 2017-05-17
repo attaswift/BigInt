@@ -260,15 +260,10 @@ extension BigInt: IntegerArithmetic {
         return BigInt(abs: a.abs % b.abs, negative: a.negative)
     }
   
-    /// Return the result of `a` mod `b`.
-    public static func modulus(a: BigInt, b: BigInt) -> BigInt {
-        if a.negative == b.negative {
-            return BigInt(abs: a.abs % b.abs, negative: a.negative)
-        }
-        else {
-            let floor = ((a / b) - 1) * b
-            return BigInt(abs: (floor.abs - a.abs) % b.abs, negative: b.negative)
-        }
+    /// Return the result of `a` mod `b`. The sign of `b` is being ignored.
+    public static func modulus(_ a: BigInt,_ b: BigInt) -> BigUInt {
+        let remainder = a.abs % b.abs
+        return a.negative && !remainder.isEmpty ? b.abs - remainder : remainder
     }
 
     /// Adds `lhs` and `rhs` together. An overflow is never reported.
