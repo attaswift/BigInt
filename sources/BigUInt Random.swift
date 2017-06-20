@@ -66,4 +66,9 @@ extension BigUInt {
         }
         return random
     }
+    
+    @available(*, deprecated, renamed: "randomInteger(lessThan:)")
+    public static func randomIntegerLessThan(_ limit: BigUInt) -> BigUInt {
+        return .randomInteger(lessThan: limit)
+    }
 }
