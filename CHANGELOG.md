@@ -1,3 +1,12 @@
+# 2.2.0 (2017-06-20)
+
+This release contains the following changes:
+
+- `BigUInt.randomIntegerLessThan(_:)` was renamed to `BigUInt.randomInteger(lessThan:)` to match Swift 3 naming conventions. (The old name is still available for compatibility.)
+- The `ShiftOperations` protocol was merged into `BigDigit` and removed. It was previously public by accident. (Issue #9)
+- `BigInt.modulus(_:,_:)` is a new static method that returns the nonnegative modulus value of its two arguments. (PR #19 by @FabioTacke)
+
+
 # 2.1.2 (2017-02-03)
 
 This release contains the following bugfix:
