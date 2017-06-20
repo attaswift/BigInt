@@ -255,15 +255,15 @@ extension BigInt: IntegerArithmetic {
         return BigInt(abs: a.abs / b.abs, negative: a.negative != b.negative)
     }
 
-    /// Divide `a` by `b` and return the remainder.
+    /// Divide `a` by `b` and return the remainder. The result has the same sign as `a`.
     public static func %(a: BigInt, b: BigInt) -> BigInt {
         return BigInt(abs: a.abs % b.abs, negative: a.negative)
     }
   
-    /// Return the result of `a` mod `b`. The sign of `b` is being ignored.
-    public static func modulus(_ a: BigInt,_ b: BigInt) -> BigUInt {
+    /// Return the result of `a` mod `b`. The result is always a nonnegative integer that is less than the absolute value of `b`.
+    public static func modulus(_ a: BigInt,_ b: BigInt) -> BigInt {
         let remainder = a.abs % b.abs
-        return a.negative && !remainder.isEmpty ? b.abs - remainder : remainder
+        return BigInt(abs: a.negative && !remainder.isEmpty ? b.abs - remainder : remainder, negative: false)
     }
 
     /// Adds `lhs` and `rhs` together. An overflow is never reported.
