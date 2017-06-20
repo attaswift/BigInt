@@ -3,7 +3,7 @@
 //  BigInt
 //
 //  Created by Károly Lőrentey on 2015-12-26.
-//  Copyright © 2016 Károly Lőrentey.
+//  Copyright © 2016-2017 Károly Lőrentey.
 //
 
 /// An arbitary precision unsigned integer type, also known as a "big integer".

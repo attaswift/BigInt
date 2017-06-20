@@ -3,7 +3,7 @@
 //  BigInt
 //
 //  Created by Károly Lőrentey on 2016-01-12.
-//  Copyright © 2016 Károly Lőrentey.
+//  Copyright © 2016-2017 Károly Lőrentey.
 //
 
 import PackageDescription
