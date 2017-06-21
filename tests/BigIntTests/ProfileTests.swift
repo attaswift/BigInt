@@ -51,7 +51,7 @@ class ProfileTests: XCTestCase {
         XCTAssertEqual(remaining, 1, file: file, line: line)
     }
 
-    func testMultiplicationByWord() {
+    func testMultiplicationByDigit() {
         var fact = BigUInt()
         let n = 32767
         self.measure {
