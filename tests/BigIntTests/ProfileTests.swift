@@ -12,11 +12,11 @@ import BigInt
 #if Profile
 
 class ProfileTests: XCTestCase {
-    typealias Digit = BigUInt.Digit
+    typealias Word = BigUInt.Word
 
-    func measure_(autostart: Bool = true, block: @escaping (Void)->Void) {
+    func measure_(autostart: Bool = true, block: @escaping ()->Void) {
         var round = 0
-        self.measureMetrics(type(of: self).defaultPerformanceMetrics(), automaticallyStartMeasuring: autostart) {
+        self.measureMetrics(type(of: self).defaultPerformanceMetrics, automaticallyStartMeasuring: autostart) {
             print("Round \(round) started")
             block()
             round += 1
@@ -44,20 +44,20 @@ class ProfileTests: XCTestCase {
     func checkFactorial(fact: BigUInt, n: Int, file: StaticString = #file, line: UInt = #line) {
         var remaining = fact
         for i in 1...n {
-            let (div, mod) = remaining.divided(by: BigUInt(i))
+            let (div, mod) = remaining.quotientAndRemainder(dividingBy: BigUInt(i))
             XCTAssertEqual(mod, 0, "for divisor = \(i)", file: file, line: line)
             remaining = div
         }
         XCTAssertEqual(remaining, 1, file: file, line: line)
     }
 
-    func testMultiplicationByDigit() {
+    func testMultiplicationByWord() {
         var fact = BigUInt()
         let n = 32767
         self.measure {
             fact = BigUInt(1)
             for i in 1...n {
-                fact.multiply(byDigit: Digit(i))
+                fact.multiply(byWord: Word(i))
             }
         }
         checkFactorial(fact: fact, n: n)
@@ -79,7 +79,7 @@ class ProfileTests: XCTestCase {
         self.measure {
             fact = balancedFactorial(level: power)
         }
-        checkFactorial(fact: fact, n: 1 << power - 1)
+        checkFactorial(fact: fact, n: ((1 as Int) << power) - 1)
     }
 
     func testDivision() {
@@ -108,7 +108,7 @@ class ProfileTests: XCTestCase {
             mods.removeAll()
             self.startMeasuring()
             for divisor in divisors {
-                let (div, mod) = fact.divided(by: divisor)
+                let (div, mod) = fact.quotientAndRemainder(dividingBy: divisor)
                 divs.append(div)
                 mods.append(mod)
             }
@@ -117,16 +117,16 @@ class ProfileTests: XCTestCase {
         for i in 0..<mods.count {
             XCTAssertEqual(mods[i], 0, "div = \(divs[i]), mod = \(mods[i]) for divisor = \(divisors[i])")
         }
-        checkFactorial(fact: fact, n: 1 << power - 1)
+        checkFactorial(fact: fact, n: ((1 as Int) << power) - 1)
     }
 
     func testSquareRoot() {
-        var numbers: [BigUInt] = (1...1000).map { _ in BigUInt.randomInteger(withMaximumWidth: 60 * MemoryLayout<Digit>.size * 8) }
+        var numbers: [BigUInt] = (1...1000).map { _ in BigUInt.randomInteger(withMaximumWidth: 60 * MemoryLayout<Word>.size * 8) }
         var roots: [BigUInt] = []
         self.measure {
             roots.removeAll()
             for number in numbers {
-                let root = sqrt(number)
+                let root = number.squareRoot()
                 roots.append(root)
             }
         }

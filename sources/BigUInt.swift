@@ -29,52 +29,39 @@
 /// easier to work with the provided high-level methods and operators rather than with raw big digits.
 public struct BigUInt {
     /// The type representing a digit in `BigUInt`'s underlying number system.
-    public typealias Digit = UIntMax
+    public typealias Word = UInt
+    public typealias Words = [Word]
     
-    internal var _digits: [Digit]
-    internal var _start: Int
-    internal var _end: Int
-
-    internal init(digits: [Digit], start: Int, end: Int) {
-        precondition(start >= 0 && start <= end)
-        let start = Swift.min(start, digits.count)
-        var end = Swift.min(end, digits.count)
-        while end > start && digits[end - 1] == 0 { end -= 1 }
-        self._digits = digits
-        self._start = start
-        self._end = end
+    public internal(set) var words: [Word]
+    
+    /// Initializes a new BigUInt with the specified digits. The digits are ordered from least to most significant.
+    internal init(words: [Word]) {
+        self.words = words
+        shrink()
     }
+    
+    internal init<Words: Collection>(words: Words) where Words.Element == Word {
+        self.words = Array(words)
+        shrink()
+    }
+    
 
     /// Initializes a new BigUInt with value 0.
     public init() {
-        self.init([])
+        self.init(words: [])
     }
-
-    /// Initializes a new BigUInt with the specified digits. The digits are ordered from least to most significant.
-    public init(_ digits: [Digit]) {
-        self.init(digits: digits, start: 0, end: digits.count)
-    }
-
-    /// Initializes a new BigUInt that has the supplied value.
-    public init<I: UnsignedInteger>(_ integer: I) {
-        self.init(Digit.digitsFromUIntMax(integer.toUIntMax()))
-    }
-
-    /// Initializes a new BigUInt that has the supplied value.
-    ///
-    /// - Requires: integer >= 0
-    public init<I: SignedInteger>(_ integer: I) {
-        precondition(integer >= 0)
-        self.init(UIntMax(integer.toIntMax()))
+    
+    public mutating func reserveCapacity(_ minimumCapacity: Int) {
+        words.reserveCapacity(minimumCapacity)
     }
 }
 
 extension BigUInt: ExpressibleByIntegerLiteral {
     //MARK: Init from Integer literals
-
+    
     /// Initialize a new big integer from an integer literal.
     public init(integerLiteral value: UInt64) {
-        self.init(value.toUIntMax())
+        self.init(value)
     }
 }
 
@@ -100,35 +87,84 @@ extension BigUInt: ExpressibleByStringLiteral {
     }
 }
 
-extension BigUInt: IntegerArithmetic {
-    /// Explicitly convert to `IntMax`, trapping on overflow.
-    public func toIntMax() -> IntMax {
-        precondition(count <= 1)
-        return IntMax(self[0])
+extension BigUInt: UnsignedInteger {
+    public static var isSigned: Bool {
+        return false
+    }
+    
+    /// Returns `-1` if this value is negative and `1` if it’s positive; otherwise, `0`.
+    ///
+    /// - Returns: The sign of this number, expressed as an integer of the same type.
+    public func signum() -> BigUInt {
+        return isZero ? 0 : 1
+    }
+    
+    /// The number of words used for the current binary representation of this value.
+    public var countRepresentedWords: Int {
+        return count
+    }
+    
+    public func _word(at n: Int) -> UInt {
+        // FIXME: This should not need to be overridden. See https://bugs.swift.org/browse/SR-5275
+        return self[n]
+    }
+    
+    public init?<T: BinaryInteger>(exactly source: T) {
+        guard source >= 0 else { return nil }
+        self.words = source.words
+        shrink()
+    }
+    
+    public init<T: BinaryInteger>(_ source: T) {
+        self.init(exactly: source)!
+    }
+    
+    public init<T: BinaryInteger>(extendingOrTruncating source: T) {
+        self.words = source.words
+        shrink()
+    }
+    
+    public init<T: BinaryInteger>(clamping source: T) {
+        if source < 0 {
+            self.words = []
+        }
+        else {
+            self.words = source.words
+            shrink()
+        }
+    }
+    
+    public init?<T: FloatingPoint>(exactly source: T) {
+        guard T.radix == 2 else {
+            // FIXME
+            fatalError("Conversions from non-base-2 floating point numbers aren't supported yet")
+        }
+        guard source.isFinite else { return nil }
+        self.words = []
+        var source = source.rounded(.towardZero)
+        guard source.isZero || source.sign == .plus else { return nil }
+        let unit = T(sign: .plus, exponent: numericCast(Word.bitWidth), significand: 1)
+        while !source.isZero {
+            let word = source.truncatingRemainder(dividingBy: unit)
+            self.words.append(Word(word))
+            source /= unit
+        }
+        shrink()
+    }
+    
+    public init<T: FloatingPoint>(_ source: T) {
+        self.init(exactly: source)!
     }
 }
 
 extension BigUInt {
-    //MARK: Lift and shrink
+    //MARK: Shrink
     
-    /// True iff this integer is not a slice.
-    internal var isTop: Bool { return _start == 0 && _end == _digits.count }
-
-    /// Ensures that this integer is not a slice, allocating a new digit array if necessary.
-    internal mutating func lift() {
-        guard !isTop else { return }
-        _digits = Array(self)
-        _start = 0
-        _end = _digits.count
-    }
-
     /// Gets rid of leading zero digits in the digit array.
     internal mutating func shrink() {
-        assert(isTop)
-        while _digits.last == 0 {
-            _digits.removeLast()
+        while words.last == 0 {
+            words.removeLast()
         }
-        _end = _digits.count
     }
 }
 
@@ -142,23 +178,18 @@ extension BigUInt: RandomAccessCollection {
     /// The type representing valid indices for subscripting the collection.
     public typealias Indices = CountableRange<Int>
     /// The type representing the iteration interface for the digits in a big integer.
-    public typealias Iterator = DigitIterator<Digit>
+    public typealias Iterator = IndexingIterator<BigUInt>
     /// Big integers can be contiguous digit subranges of another big integer.
-    public typealias SubSequence = BigUInt
+    public typealias SubSequence = BigUInt // FIXME this is wrong
 
-    public var indices: Indices { return startIndex ..< endIndex }
+    public var indices: Indices { return words.indices }
 
     /// The index of the first digit, starting from the least significant. (This is always zero.)
-    public var startIndex: Int { return 0 }
+    public var startIndex: Int { return words.startIndex }
     /// The index of the digit after the most significant digit in this integer.
-    public var endIndex: Int { return count }
+    public var endIndex: Int { return words.endIndex }
     /// The number of digits in this integer, excluding leading zero digits.
-    public var count: Int { return _end - _start }
-
-    /// Return a generator over the digits of this integer, starting at the least significant digit.
-    public func makeIterator() -> DigitIterator<Digit> {
-        return DigitIterator(digits: _digits, end: _end, index: _start)
-    }
+    public var count: Int { return words.count }
 
     /// Returns the position immediately after the given index.
     public func index(after i: Int) -> Int {
@@ -211,27 +242,23 @@ extension BigUInt: RandomAccessCollection {
     ///    - The integer's storage is not shared with another integer
     ///    - The integer wasn't created as a slice of another integer
     ///    - `index < count`
-    public subscript(index: Int) -> Digit {
+    public subscript(index: Int) -> Word {
         get {
             precondition(index >= 0)
-            let i = _start + index
-            return (i < Swift.min(_end, _digits.count) ? _digits[i] : 0)
+            return (index < endIndex ? words[index] : 0)
         }
-        set(digit) {
+        set(word) {
             precondition(index >= 0)
-            lift()
-            let i = _start + index
-            if i < _end {
-                _digits[i] = digit
-                if digit == 0 && i == _end - 1 {
+            if index < endIndex {
+                words[index] = word
+                if word == 0 && index == endIndex - 1 {
                     shrink()
                 }
             }
             else {
-                guard digit != 0 else { return }
-                while _digits.count < i { _digits.append(0) }
-                _digits.append(digit)
-                _end = i + 1
+                guard word != 0 else { return }
+                while index > endIndex { words.append(0) }
+                words.append(word)
             }
         }
     }
@@ -239,27 +266,15 @@ extension BigUInt: RandomAccessCollection {
     /// Returns an integer built from the digits of this integer in the given range.
     public subscript(bounds: Range<Int>) -> BigUInt {
         get {
-            return BigUInt(digits: _digits, start: _start + bounds.lowerBound, end: _start + bounds.upperBound)
+            if bounds.lowerBound >= endIndex {
+                return BigUInt()
+            }
+            return BigUInt(words: words[bounds.lowerBound ..< Swift.min(bounds.upperBound, endIndex)])
         }
     }
 }
 
-/// State for iterating through the digits of a big integer.
-public struct DigitIterator<Digit>: IteratorProtocol {
-    internal let digits: [Digit]
-    internal let end: Int
-    internal var index: Int
-
-    /// Return the next digit in the integer, or nil if there are no more digits.
-    /// Returned digits range from least to most significant.
-    public mutating func next() -> Digit? {
-        guard index < end else { return nil }
-        let v = digits[index]
-        index += 1
-        return v
-    }
-}
-
+#if false // FIXME Reenable once BigInt works.
 extension BigUInt: Strideable {
     /// A type that can represent the distance between two values of `BigUInt`.
     public typealias Stride = BigInt
@@ -274,6 +289,7 @@ extension BigUInt: Strideable {
         return BigInt(other) - BigInt(self)
     }
 }
+#endif
 
 extension BigUInt {
     //MARK: Low and High
@@ -289,14 +305,14 @@ extension BigUInt {
     internal var split: (high: BigUInt, low: BigUInt) {
         precondition(count > 1)
         let mid = middleIndex
-        return (self[mid ..< count], self[0 ..< mid])
+        return (self[mid ..< endIndex], self[startIndex ..< mid])
     }
 
     /// Index of the digit at the middle of this integer.
     ///
     /// - Returns: The index of the digit that is least significant in `self.high`.
     internal var middleIndex: Int {
-        return (count + 1) / 2
+        return startIndex + (count + 1) / 2
     }
 
     /// The low-order half of this BigUInt.
@@ -304,7 +320,7 @@ extension BigUInt {
     /// - Returns: `self[0 ..< middleIndex]`
     /// - Requires: count > 1
     internal var low: BigUInt {
-        return self[0 ..< middleIndex]
+        return self[startIndex ..< middleIndex]
     }
 
     /// The high-order half of this BigUInt.
@@ -312,7 +328,7 @@ extension BigUInt {
     /// - Returns: `self[middleIndex ..< count]`
     /// - Requires: count > 1
     internal var high: BigUInt {
-        return self[middleIndex ..< count]
+        return self[middleIndex ..< endIndex]
     }
 }
 

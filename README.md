@@ -60,8 +60,8 @@ big integers, including
 
 - [Bitwise operators][bitwise]: `~`, `|`, `&`, `^`, `|=`, `&=`, `^=`, plus the following read-only properties:
   - [`width`][width]: the minimum number of bits required to store the integer,
-  - [`trailingZeroes`][trailingZeroes]: the number of trailing zero bits in the binary representation,
-  - [`leadingZeroes`][leadingZeroes]: the number of leading zero bits (when the last digit isn't full),
+  - [`trailingZeroBitCount`][trailingZeroBitCount]: the number of trailing zero bits in the binary representation,
+  - [`leadingZeroBitCount`][leadingZeroBitCount]: the number of leading zero bits (when the last digit isn't full),
 
 - [Shift operators][shift]: `>>`, `<<`, `>>=`, `<<=`
 
@@ -184,8 +184,8 @@ generic variant that was slower but more flexible.
 [divide]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt7dividedFT2byS0__T8quotientS0_9remainderS0__
 [bitwise]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Bitwise%20Operations
 [width]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:vV6BigInt7BigUInt5widthSi
-[leadingZeroes]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:vV6BigInt7BigUInt13leadingZeroesSi
-[trailingZeroes]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:vV6BigInt7BigUInt14trailingZeroesSi
+[leadingZeroBitCount]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:vV6BigInt7BigUInt13leadingZeroBitCountSi
+[trailingZeroBitCount]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:vV6BigInt7BigUInt14trailingZeroBitCountSi
 [shift]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Shift%20Operators
 [data]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/NSData%20Conversion
 [random]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Random%20Integers

@@ -13,30 +13,26 @@ extension BigUInt {
     /// Shift a big integer to the right by `amount` bits and store the result in place.
     ///
     /// - Complexity: O(count)
-    public static func <<= (b: inout BigUInt, amount: Int) {
-        typealias Digit = BigUInt.Digit
+    public static func <<=(left: inout BigUInt, right: Int) {
+        guard right >= 0 else { left >>= -right; return }
+        guard right > 0 else { return }
 
-        precondition(amount >= 0)
-        guard amount > 0 else { return }
+        let ext = right / Word.bitWidth // External shift amount (new words)
+        let up = Word(right % Word.bitWidth) // Internal shift amount (subword shift)
+        let down = Word(Word.bitWidth) - up
 
-        let ext = amount / Digit.width // External shift amount (new digits)
-        let up = Digit(amount % Digit.width) // Internal shift amount (subdigit shift)
-        let down = Digit(Digit.width) - up
-
-        b.lift()
         if up > 0 {
             var i = 0
-            var lowbits: Digit = 0
-            while i < b.count || lowbits > 0 {
-                let digit = b[i]
-                b[i] = digit << up | lowbits
-                lowbits = digit >> down
+            var lowbits: Word = 0
+            while i < left.count || lowbits > 0 {
+                let Word = left[i]
+                left[i] = Word << up | lowbits
+                lowbits = Word >> down
                 i += 1
             }
         }
-        if ext > 0 && b.count > 0 {
-            b._digits.insert(contentsOf: Array<Digit>(repeating: 0, count: ext), at: 0)
-            b._end = b._digits.count
+        if ext > 0 && left.count > 0 {
+            left.words.insert(contentsOf: Array<Word>(repeating: 0, count: ext), at: 0)
         }
     }
 
@@ -44,30 +40,28 @@ extension BigUInt {
     ///
     /// - Returns: b * 2^amount
     /// - Complexity: O(count)
-    public static func << (b: BigUInt, amount: Int) -> BigUInt {
-        typealias Digit = BigUInt.Digit
+    public static func <<(left: BigUInt, right: Int) -> BigUInt {
+        guard right >= 0 else { return left >> -right }
+        guard right > 0 else { return left }
 
-        precondition(amount >= 0)
-        guard amount > 0 else { return b }
-
-        let ext = amount / Digit.width // External shift amount (new digits)
-        let up = Digit(amount % Digit.width) // Internal shift amount (subdigit shift)
-        let down = Digit(Digit.width) - up
+        let ext = right / Word.bitWidth // External shift amount (new words)
+        let up = Word(right % Word.bitWidth) // Internal shift amount (subword shift)
+        let down = Word(Word.bitWidth) - up
 
         var result = BigUInt()
         if up > 0 {
             var i = 0
-            var lowbits: Digit = 0
-            while i < b.count || lowbits > 0 {
-                let digit = b[i]
-                result[i + ext] = digit << up | lowbits
-                lowbits = digit >> down
+            var lowbits: Word = 0
+            while i < left.count || lowbits > 0 {
+                let Word = left[i]
+                result[i + ext] = Word << up | lowbits
+                lowbits = Word >> down
                 i += 1
             }
         }
         else {
-            for i in 0..<b.count {
-                result[i + ext] = b[i]
+            for i in 0 ..< left.count {
+                result[i + ext] = left[i]
             }
         }
         return result
@@ -76,37 +70,32 @@ extension BigUInt {
     /// Shift a big integer to the right by `amount` bits and store the result in place.
     ///
     /// - Complexity: O(count)
-    public static func >>= (b: inout BigUInt, amount: Int) {
-        typealias Digit = BigUInt.Digit
+    public static func >>=(left: inout BigUInt, right: Int) {
+        guard right >= 0 else { left <<= -right; return }
+        guard right > 0 else { return }
 
-        precondition(amount >= 0)
-        guard amount > 0 else { return }
+        let ext = right / Word.bitWidth // External shift amount (new Words)
+        let down = Word(right % Word.bitWidth) // Internal shift amount (subWord shift)
+        let up = Word(Word.bitWidth) - down
 
-        let ext = amount / Digit.width // External shift amount (new digits)
-        let down = Digit(amount % Digit.width) // Internal shift amount (subdigit shift)
-        let up = Digit(Digit.width) - down
-
-        if ext >= b.count {
-            b = BigUInt()
+        if ext >= left.count {
+            left = BigUInt()
             return
         }
 
-        b.lift()
-
         if ext > 0 {
-            b._digits.removeSubrange(0 ..< ext)
-            b._end = b._digits.count
+            left.words.removeSubrange(0 ..< ext)
         }
         if down > 0 {
-            var i = b.count - 1
-            var highbits: Digit = 0
+            var i = left.count - 1
+            var highbits: Word = 0
             while i >= 0 {
-                let digit = b[i]
-                b[i] = highbits | digit >> down
-                highbits = digit << up
+                let Word = left[i]
+                left[i] = highbits | Word >> down
+                highbits = Word << up
                 i -= 1
             }
-            b.shrink()
+            left.shrink()
         }
     }
 
@@ -114,32 +103,61 @@ extension BigUInt {
     ///
     /// - Returns: b / 2^amount
     /// - Complexity: O(count)
-    public static func >> (b: BigUInt, amount: Int) -> BigUInt {
-        typealias Digit = BigUInt.Digit
+    public static func >>(left: BigUInt, right: Int) -> BigUInt {
+        guard right >= 0 else { return left << -right }
+        guard right > 0 else { return left }
 
-        precondition(amount >= 0)
-        guard amount > 0 else { return b }
-
-        let ext = amount / Digit.width // External shift amount (new digits)
-        let down = Digit(amount % Digit.width) // Internal shift amount (subdigit shift)
-        let up = Digit(Digit.width) - down
+        let ext = right / Word.bitWidth // External shift amount (new Words)
+        let down = Word(right % Word.bitWidth) // Internal shift amount (subWord shift)
+        let up = Word(Word.bitWidth) - down
         
-        if ext >= b.count { return BigUInt() }
+        if ext >= left.count { return BigUInt() }
         
         var result = BigUInt()
         if down > 0 {
-            var highbits: Digit = 0
-            for i in (ext..<b.count).reversed() {
-                let digit = b[i]
-                result[i - ext] = highbits | digit >> down
-                highbits = digit << up
+            var highbits: Word = 0
+            for i in (ext ..< left.count).reversed() {
+                let Word = left[i]
+                result[i - ext] = highbits | Word >> down
+                highbits = Word << up
             }
         }
         else {
-            for i in (ext..<b.count).reversed() {
-                result[i - ext] = b[i]
+            for i in (ext ..< left.count).reversed() {
+                result[i - ext] = left[i]
             }
         }
         return result
+    }
+    
+    public static func &<<=(left: inout BigUInt, right: BigUInt) {
+        guard !right.isZero else { return }
+        guard right.count == 1, let right = Int(exactly: right[0]) else {
+            fatalError("Shift amount too large")
+        }
+        left <<= right
+    }
+    public static func &<<(left: BigUInt, right: BigUInt) -> BigUInt {
+        guard !right.isZero else { return left }
+        guard right.count == 1, let right = Int(exactly: right[0]) else {
+            fatalError("Shift amount too large")
+        }
+        return left << right
+    }
+    
+    public static func &>>=(left: inout BigUInt, right: BigUInt) {
+        guard !right.isZero else { return }
+        guard right.count == 1, let right = Int(exactly: right[0]) else {
+            fatalError("Shift amount too large")
+        }
+        left >>= right
+    }
+    
+    public static func &>>(left: BigUInt, right: BigUInt) -> BigUInt {
+        guard !right.isZero else { return left }
+        guard right.count == 1, let right = Int(exactly: right[0]) else {
+            fatalError("Shift amount too large")
+        }
+        return left >> right
     }
 }

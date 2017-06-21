@@ -123,8 +123,8 @@ It will trap when the divisor is zero. `BigUInt.divmod` returns the quotient and
 remainder at once; this is faster than calculating them separately.
 - Bitwise operators: `~`, `|`, `&`, `^`, `|=`, `&=`, `^=`, plus the following read-only properties:
 - `width`: the minimum number of bits required to store the integer,
-- `trailingZeroes`: the number of trailing zero bits in the binary representation,
-- `leadingZeroes`: the number of leading zero bits (when the last digit isn't full),
+- `trailingZeroBitCount`: the number of trailing zero bits in the binary representation,
+- `leadingZeroBitCount`: the number of leading zero bits (when the last digit isn't full),
 - Shift operators: `>>`, `<<`, `>>=`, `<<=`
 - Left shifts need to allocate memory to extend the digit array, so it's probably not a good idea
 to left shift a `BigUInt` by 2^50 bits.

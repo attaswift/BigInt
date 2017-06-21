@@ -17,21 +17,22 @@ extension BigUInt {
         if a.isZero { return b }
         if b.isZero { return a }
 
-        let az = a.trailingZeroes
-        let bz = b.trailingZeroes
+        let az = a.trailingZeroBitCount
+        let bz = b.trailingZeroBitCount
         let twos = Swift.min(az, bz)
 
         var (x, y) = (a >> az, b >> bz)
         if x < y { swap(&x, &y) }
 
         while !x.isZero {
-            x >>= x.trailingZeroes
+            x >>= x.trailingZeroBitCount
             if x < y { swap(&x, &y) }
             x -= y
         }
         return y << twos
     }
-
+    
+    #if false // FIXME Reenable once BigInt works
     /// Returns the [multiplicative inverse of this integer in modulo `modulus` arithmetic][inverse],
     /// or `nil` if there is no such number.
     /// 
@@ -53,4 +54,5 @@ extension BigUInt {
         if t1.negative { return modulus - t1.abs }
         return t1.abs
     }
+    #endif
 }

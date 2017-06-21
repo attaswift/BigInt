@@ -10,63 +10,61 @@ extension BigUInt {
 
     //MARK: Multiplication
 
-    /// Multiply this big integer by a single digit, and store the result in place of the original big integer.
+    /// Multiply this big integer by a single word, and store the result in place of the original big integer.
     ///
     /// - Complexity: O(count)
-    public mutating func multiply(byDigit y: Digit) {
+    public mutating func multiply(byWord y: Word) {
         guard y != 0 else { self = 0; return }
         guard y != 1 else { return }
-        lift()
-        var carry: Digit = 0
+        var carry: Word = 0
         let c = self.count
-        for i in 0..<c {
-            let (h, l) = Digit.fullMultiply(self[i], y)
-            let (low, o) = Digit.addWithOverflow(l, carry)
+        for i in 0 ..< c {
+            let (h, l) = self[i].multipliedFullWidth(by: y)
+            let (low, o) = l.addingReportingOverflow(carry)
             self[i] = low
-            carry = (o ? h + 1 : h)
+            carry = (o == .overflow ? h + 1 : h)
         }
         self[c] = carry
     }
 
-    /// Multiply this big integer by a single digit, and return the result.
+    /// Multiply this big integer by a single Word, and return the result.
     ///
     /// - Complexity: O(count)
-    public func multiplied(byDigit y: Digit) -> BigUInt {
+    public func multiplied(byWord y: Word) -> BigUInt {
         var r = self
-        r.multiply(byDigit: y)
+        r.multiply(byWord: y)
         return r
     }
 
-    /// Multiply `x` by `y`, and add the result to this integer, optionally shifted `shift` digits to the left.
+    /// Multiply `x` by `y`, and add the result to this integer, optionally shifted `shift` words to the left.
     ///
     /// - Note: This is the fused multiply/shift/add operation; it is more efficient than doing the components
     ///   individually. (The fused operation doesn't need to allocate space for temporary big integers.)
-    /// - Returns: `self` is set to `self + (x * y) << (shift * 2^Digit.width)`
+    /// - Returns: `self` is set to `self + (x * y) << (shift * 2^Word.bitWidth)`
     /// - Complexity: O(count)
-    public mutating func multiplyAndAdd(_ x: BigUInt, _ y: Digit, atPosition shift: Int = 0) {
+    public mutating func multiplyAndAdd(_ x: BigUInt, _ y: Word, atPosition shift: Int = 0) {
         precondition(shift >= 0)
         guard y != 0 && x.count > 0 else { return }
-        guard y != 1 else { self.add(x, atPosition: shift); return }
-        lift()
-        var mulCarry: Digit = 0
+        guard y != 1 else { self.add(x, shiftedBy: shift); return }
+        var mulCarry: Word = 0
         var addCarry = false
         let xc = x.count
         var xi = 0
         while xi < xc || addCarry || mulCarry > 0 {
-            let (h, l) = Digit.fullMultiply(x[xi], y)
-            let (low, o) = Digit.addWithOverflow(l, mulCarry)
-            mulCarry = (o ? h + 1 : h)
+            let (h, l) = x[xi].multipliedFullWidth(by: y)
+            let (low, o) = l.addingReportingOverflow(mulCarry)
+            mulCarry = (o == .overflow ? h + 1 : h)
 
             let ai = shift + xi
-            let (sum1, so1) = Digit.addWithOverflow(self[ai], low)
+            let (sum1, so1) = self[ai].addingReportingOverflow(low)
             if addCarry {
-                let (sum2, so2) = Digit.addWithOverflow(sum1, 1)
+                let (sum2, so2) = sum1.addingReportingOverflow(1)
                 self[ai] = sum2
-                addCarry = so1 || so2
+                addCarry = so1 == .overflow || so2 == .overflow
             }
             else {
                 self[ai] = sum1
-                addCarry = so1
+                addCarry = so1 == .overflow
             }
             xi += 1
         }
@@ -75,28 +73,28 @@ extension BigUInt {
     /// Multiply this integer by `y` and return the result.
     ///
     /// - Note: This uses the naive O(n^2) multiplication algorithm unless both arguments have more than
-    ///   `BigUInt.directMultiplicationLimit` digits.
+    ///   `BigUInt.directMultiplicationLimit` words.
     /// - Complexity: O(n^log2(3))
     public func multiplied(by y: BigUInt) -> BigUInt {
         // This method is mostly defined for symmetry with the rest of the arithmetic operations.
         return self * y
     }
 
-    /// Multiplication switches to an asymptotically better recursive algorithm when arguments have more digits than this limit.
+    /// Multiplication switches to an asymptotically better recursive algorithm when arguments have more words than this limit.
     public static var directMultiplicationLimit: Int = 1024
 
     /// Multiply `a` by `b` and return the result.
     ///
     /// - Note: This uses the naive O(n^2) multiplication algorithm unless both arguments have more than
-    ///   `BigUInt.directMultiplicationLimit` digits.
+    ///   `BigUInt.directMultiplicationLimit` words.
     /// - Complexity: O(n^log2(3))
     public static func *(x: BigUInt, y: BigUInt) -> BigUInt {
         let xc = x.count
         let yc = y.count
         if xc == 0 { return BigUInt() }
         if yc == 0 { return BigUInt() }
-        if yc == 1 { return x.multiplied(byDigit: y[0]) }
-        if xc == 1 { return y.multiplied(byDigit: x[0]) }
+        if yc == 1 { return x.multiplied(byWord: y[0]) }
+        if xc == 1 { return y.multiplied(byWord: x[0]) }
 
         if Swift.min(xc, yc) <= BigUInt.directMultiplicationLimit {
             // Long multiplication.
@@ -112,13 +110,13 @@ extension BigUInt {
         if yc < xc {
             let (xh, xl) = x.split
             var r = xl * y
-            r.add(xh * y, atPosition: x.middleIndex)
+            r.add(xh * y, shiftedBy: x.middleIndex)
             return r
         }
         else if xc < yc {
             let (yh, yl) = y.split
             var r = yl * x
-            r.add(yh * x, atPosition: y.middleIndex)
+            r.add(yh * x, shiftedBy: y.middleIndex)
             return r
         }
 
@@ -138,14 +136,14 @@ extension BigUInt {
         let m = xm * ym
 
         var r = low
-        r.add(high, atPosition: 2 * shift)
-        r.add(low, atPosition: shift)
-        r.add(high, atPosition: shift)
+        r.add(high, shiftedBy: 2 * shift)
+        r.add(low, shiftedBy: shift)
+        r.add(high, shiftedBy: shift)
         if xp == yp {
-            r.subtract(m, atPosition: shift)
+            r.subtract(m, shiftedBy: shift)
         }
         else {
-            r.add(m, atPosition: shift)
+            r.add(m, shiftedBy: shift)
         }
         return r
     }
@@ -154,10 +152,15 @@ extension BigUInt {
     public static func *=(a: inout BigUInt, b: BigUInt) {
         a = a * b
     }
-
-    /// Multiply `lhs` and `rhs` together, returning the result. This function never results in an overflow.
-    public static func multiplyWithOverflow(_ lhs: BigUInt, _ rhs: BigUInt) -> (BigUInt, overflow: Bool) {
-        return (lhs * rhs, false)
+    
+    /// Returns the product of this value and the given value along with a constant flag
+    /// indicating that no overflow occurred.
+    ///
+    /// - Parameter other: The value to multiply by this value.
+    ///
+    /// - Returns: A tuple containing the result of the multiplication along with
+    ///   a flag indicating no overflow.
+    public func multipliedReportingOverflow(by other: BigUInt) -> (partialValue: BigUInt, overflow: ArithmeticOverflow) {
+        return (self * other, .none)
     }
-
 }

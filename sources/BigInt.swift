@@ -30,7 +30,7 @@ import SipHash
 ///
 public struct BigInt {
     /// The type representing a digit in `BigInt`'s underlying number system.
-    public typealias Digit = BigUInt.Digit
+    public typealias Word = BigUInt.Word
     
     /// The absolute value of this integer.
     public var abs: BigUInt
@@ -194,7 +194,11 @@ extension BigInt: Strideable {
     }
 }
 
-extension BigInt: SignedNumber {
+extension BigInt: SignedNumeric {
+    public init?<T>(exactly source: T) where T : BinaryInteger {
+        fatalError()
+    }
+    
     /// Negate `a` and return the result.
     public static prefix func -(a: BigInt) -> BigInt {
         if a.abs.isZero { return a }
@@ -205,16 +209,41 @@ extension BigInt: SignedNumber {
     public static func -(a: BigInt, b: BigInt) -> BigInt {
         return a + (-b)
     }
-}
-
-extension BigInt: AbsoluteValuable {
-    /// Returns the absolute value of `x`.
+    
+    public var magnitude: BigUInt {
+        return abs
+    }
+    
     public static func abs(_ x: BigInt) -> BigInt {
         return BigInt(x.abs)
     }
 }
 
 extension BigInt: IntegerArithmetic {
+    public static var isSigned: Bool {
+        <#code#>
+    }
+    
+    public init<T>(_ source: T) where T : FloatingPoint {
+        <#code#>
+    }
+    
+    public init<T>(_ source: T) where T : BinaryInteger {
+        <#code#>
+    }
+    
+    public func _word(at n: Int) -> UInt {
+        fatalError()
+    }
+    
+    public var bitWidth: Int {
+        <#code#>
+    }
+    
+    public var trailingZeroBitCount: Int {
+        <#code#>
+    }
+    
     /// Explicitly convert to IntMax, trapping on overflow.
     public func toIntMax() -> IntMax {
         precondition(abs.count <= 1)

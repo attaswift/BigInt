@@ -9,7 +9,7 @@
 /// The first several [prime numbers][primes]. 
 ///
 /// [primes]: https://oeis.org/A000040
-let primes: [BigUInt.Digit] = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41]
+let primes: [BigUInt.Word] = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41]
 
 /// The ith element in this sequence is the smallest composite number that passes the strong probable prime test
 /// for all of the first (i+1) primes.
@@ -40,7 +40,7 @@ extension BigUInt {
     public func isStrongProbablePrime(_ base: BigUInt) -> Bool {
         let dec = self - 1
 
-        let r = dec.trailingZeroes
+        let r = dec.trailingZeroBitCount
         let d = dec >> r
 
         var test = base.power(d, modulus: self)
@@ -84,7 +84,7 @@ extension BigUInt {
             if self.count == 1 && self[0] == p {
                 return true
             }
-            if self.divided(byDigit: p).remainder == 0 {
+            if self.quotientAndRemainder(dividingByWord: p).remainder == 0 {
                 return false
             }
         }
