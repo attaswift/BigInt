@@ -177,14 +177,4 @@ extension BigUInt {
     public static func %=(x: inout BigUInt, y: BigUInt) {
         x = x.quotientAndRemainder(dividingBy: y).remainder
     }
-
-    /// Divide `self` by `other`, returning the quotient. This function never results in an overflow.
-    public func dividedReportingOverflow(by other: BigUInt) -> (partialValue: BigUInt, overflow: ArithmeticOverflow) {
-        return (self / other, .none)
-    }
-    
-    /// Divide `self` by `other`, returning the remainder. This function never results in an overflow.
-    public func remainderReportingOverflow(dividingBy other: BigUInt) -> (partialValue: BigUInt, overflow: ArithmeticOverflow) {
-        return (self % other, .none)
-    }
 }

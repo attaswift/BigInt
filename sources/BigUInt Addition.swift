@@ -90,9 +90,4 @@ extension BigUInt {
     public static func +=(a: inout BigUInt, b: BigUInt) {
         a.add(b, shiftedBy: 0)
     }
-    
-    /// Add `other` to `self` and return the result with no overflow.
-    public func addingReportingOverflow(_ other: BigUInt) -> (partialValue: BigUInt, overflow: ArithmeticOverflow) {
-        return (self + other, .none)
-    }
 }

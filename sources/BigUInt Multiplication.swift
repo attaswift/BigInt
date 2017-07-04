@@ -152,15 +152,4 @@ extension BigUInt {
     public static func *=(a: inout BigUInt, b: BigUInt) {
         a = a * b
     }
-    
-    /// Returns the product of this value and the given value along with a constant flag
-    /// indicating that no overflow occurred.
-    ///
-    /// - Parameter other: The value to multiply by this value.
-    ///
-    /// - Returns: A tuple containing the result of the multiplication along with
-    ///   a flag indicating no overflow.
-    public func multipliedReportingOverflow(by other: BigUInt) -> (partialValue: BigUInt, overflow: ArithmeticOverflow) {
-        return (self * other, .none)
-    }
 }

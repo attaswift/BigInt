@@ -172,23 +172,11 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(0, UInt(BigUInt(0)))
         XCTAssertEqual(42, UInt(BigUInt(42)))
 
-        XCTAssertEqual(5, BigUInt(2).addingReportingOverflow(3).partialValue)
-        XCTAssertEqual(ArithmeticOverflow.none, BigUInt(2).addingReportingOverflow(3).overflow)
-
         XCTAssertEqual(2, BigUInt(5).subtractingReportingOverflow(3).partialValue)
         XCTAssertEqual(ArithmeticOverflow.none, BigUInt(5).subtractingReportingOverflow(3).overflow)
 
         XCTAssertEqual(BigUInt(Word.max - 1), BigUInt(3).subtractingReportingOverflow(5).partialValue)
         XCTAssertEqual(ArithmeticOverflow.overflow, BigUInt(3).subtractingReportingOverflow(5).overflow)
-
-        XCTAssertEqual(15, BigUInt(5).multipliedReportingOverflow(by: 3).partialValue)
-        XCTAssertEqual(ArithmeticOverflow.none, BigUInt(5).multipliedReportingOverflow(by: 3).overflow)
-
-        XCTAssertEqual(3, BigUInt(17).dividedReportingOverflow(by: 5).partialValue)
-        XCTAssertEqual(ArithmeticOverflow.none, BigUInt(17).dividedReportingOverflow(by: 5).overflow)
-
-        XCTAssertEqual(2, BigUInt(17).remainderReportingOverflow(dividingBy: 5).partialValue)
-        XCTAssertEqual(ArithmeticOverflow.none, BigUInt(17).remainderReportingOverflow(dividingBy: 5).overflow)
     }
     
     #if false // FIXME
