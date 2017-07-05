@@ -555,15 +555,80 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(a.count, sample.count + 1)
         XCTAssertEqual(a, BigUInt(words: [0] + Array(sample)) / 2)
 
+
+        a = sample
+        a <<= -4
+        XCTAssertEqual(a, sample / 16)
+
+        XCTAssertEqual(sample << 0, sample)
+        XCTAssertEqual(sample << 1, 2 * sample)
+        XCTAssertEqual(sample << 2, 4 * sample)
         XCTAssertEqual(sample << 4, 16 * sample)
+        XCTAssertEqual(sample << Word.bitWidth, BigUInt(words: [0 as Word] + sample.words))
+        XCTAssertEqual(sample << (Word.bitWidth - 1), BigUInt(words: [0] + sample.words) / 2)
+        XCTAssertEqual(sample << (Word.bitWidth + 1), BigUInt(words: [0] + sample.words) * 2)
+        XCTAssertEqual(sample << (Word.bitWidth + 2), BigUInt(words: [0] + sample.words) * 4)
         XCTAssertEqual(sample << (2 * Word.bitWidth), BigUInt(words: [0, 0] + Array(sample)))
         XCTAssertEqual(sample << (2 * Word.bitWidth + 2), BigUInt(words: [0, 0] + Array(4 * sample)))
+
+        XCTAssertEqual(sample << -1, sample / 2)
+        XCTAssertEqual(sample << -4, sample / 16)
+    }
+
+    func testMaskedLeftShifts() {
+        let sample = BigUInt("123456789ABCDEF01234567891631832727633", radix: 16)!
+
+        var a = sample
+
+        a &<<= 0
+        XCTAssertEqual(a, sample)
+
+        a = sample
+        a &<<= 1
+        XCTAssertEqual(a, 2 * sample)
+
+        a = sample
+        a &<<= Word.bitWidth
+        XCTAssertEqual(a.count, sample.count + 1)
+        XCTAssertEqual(a[0], 0)
+        XCTAssertEqual(BigUInt(words: a[1...sample.count + 1]), sample) // FIXME slice
+
+        a = sample
+        a &<<= 100 * Word.bitWidth
+        XCTAssertEqual(a.count, sample.count + 100)
+        XCTAssertEqual(a[0..<100], 0)
+        XCTAssertEqual(BigUInt(words: a[100...sample.count + 100]), sample) // FIXME slice
+
+        a = sample
+        a &<<= 100 * Word.bitWidth + 2
+        XCTAssertEqual(a.count, sample.count + 100)
+        XCTAssertEqual(a[0..<100], 0)
+        XCTAssertEqual(BigUInt(words: a[100...sample.count + 100]), sample << 2) // FIXME slice
+
+        a = sample
+        a &<<= Word.bitWidth - 1
+        XCTAssertEqual(a.count, sample.count + 1)
+        XCTAssertEqual(a, BigUInt(words: [0] + Array(sample)) / 2)
+
+        XCTAssertEqual(sample &<< 0, sample)
+        XCTAssertEqual(sample &<< 1, 2 * sample)
+        XCTAssertEqual(sample &<< 2, 4 * sample)
+        XCTAssertEqual(sample &<< 4, 16 * sample)
+        XCTAssertEqual(sample &<< Word.bitWidth, BigUInt(words: [0 as Word] + sample.words))
+        XCTAssertEqual(sample &<< (Word.bitWidth - 1), BigUInt(words: [0] + sample.words) / 2)
+        XCTAssertEqual(sample &<< (Word.bitWidth + 1), BigUInt(words: [0] + sample.words) * 2)
+        XCTAssertEqual(sample &<< (Word.bitWidth + 2), BigUInt(words: [0] + sample.words) * 4)
+        XCTAssertEqual(sample &<< (2 * Word.bitWidth), BigUInt(words: [0, 0] + Array(sample)))
+        XCTAssertEqual(sample &<< (2 * Word.bitWidth + 2), BigUInt(words: [0, 0] + Array(4 * sample)))
     }
 
     func testRightShifts() {
         let sample = BigUInt("123456789ABCDEF1234567891631832727633", radix: 16)!
 
         var a = sample
+
+        a >>= BigUInt(0)
+        XCTAssertEqual(a, sample)
 
         a >>= 0
         XCTAssertEqual(a, sample)
@@ -574,21 +639,87 @@ class BigUIntTests: XCTestCase {
 
         a = sample
         a >>= Word.bitWidth
-        XCTAssertEqual(a, sample[1..<sample.count])
+        XCTAssertEqual(a, sample[1...])
 
         a = sample
         a >>= Word.bitWidth + 2
-        XCTAssertEqual(a, sample[1..<sample.count] / 4)
+        XCTAssertEqual(a, sample[1...] / 4)
 
         a = sample
         a >>= sample.count * Word.bitWidth
         XCTAssertEqual(a, 0)
 
+        a = sample
+        a >>= 1000
+        XCTAssertEqual(a, 0)
+
+        a = sample
+        a >>= 100 * Word.bitWidth
+        XCTAssertEqual(a, 0)
+
+        a = sample
+        a >>= 100 * BigUInt(Word.max)
+        XCTAssertEqual(a, 0)
+
+        a = sample
+        a >>= -1
+        XCTAssertEqual(a, sample * 2)
+
+        a = sample
+        a >>= -4
+        XCTAssertEqual(a, sample * 16)
+
+        XCTAssertEqual(sample >> BigUInt(0), sample)
         XCTAssertEqual(sample >> 0, sample)
+        XCTAssertEqual(sample >> 1, sample / 2)
         XCTAssertEqual(sample >> 3, sample / 8)
         XCTAssertEqual(sample >> Word.bitWidth, sample[1..<sample.count])
-        XCTAssertEqual(sample >> (Word.bitWidth + 3), sample[1..<sample.count] / 8)
+        XCTAssertEqual(sample >> (Word.bitWidth + 2), sample[1...] / 4)
+        XCTAssertEqual(sample >> (Word.bitWidth + 3), sample[1...] / 8)
+        XCTAssertEqual(sample >> (sample.count * Word.bitWidth), 0)
         XCTAssertEqual(sample >> (100 * Word.bitWidth), 0)
+        XCTAssertEqual(sample >> (100 * BigUInt(Word.max)), 0)
+
+        XCTAssertEqual(sample >> -1, sample * 2)
+        XCTAssertEqual(sample >> -4, sample * 16)
+    }
+
+    func testMaskedRightShifts() {
+        let sample = BigUInt("123456789ABCDEF1234567891631832727633", radix: 16)!
+
+        var a = sample
+
+        a &>>= 0
+        XCTAssertEqual(a, sample)
+
+        a = sample
+        a &>>= 1
+        XCTAssertEqual(a, sample / 2)
+
+        a = sample
+        a &>>= Word.bitWidth
+        XCTAssertEqual(a, sample[1...])
+
+        a = sample
+        a &>>= BigUInt(Word.bitWidth + 2)
+        XCTAssertEqual(a, sample[1...] / 4)
+
+        a = sample
+        a &>>= sample.count * Word.bitWidth
+        XCTAssertEqual(a, 0)
+
+        a = sample
+        a &>>= 1000
+        XCTAssertEqual(a, 0)
+
+        XCTAssertEqual(sample &>> 0, sample)
+        XCTAssertEqual(sample &>> 1, sample / 2)
+        XCTAssertEqual(sample &>> 3, sample / 8)
+        XCTAssertEqual(sample &>> Word.bitWidth, sample[1..<sample.count])
+        XCTAssertEqual(sample &>> (Word.bitWidth + 2), sample[1...] / 4)
+        XCTAssertEqual(sample &>> (Word.bitWidth + 3), sample[1...] / 8)
+        XCTAssertEqual(sample &>> (sample.count * Word.bitWidth), 0)
+        XCTAssertEqual(sample &>> (100 * Word.bitWidth), 0)
     }
 
     func testWidth() {
