@@ -38,6 +38,8 @@ extension BigUInt {
     ///
     /// [sppt]: https://en.wikipedia.org/wiki/Probable_prime
     public func isStrongProbablePrime(_ base: BigUInt) -> Bool {
+        precondition(base > (1 as BigUInt))
+        precondition(self > (0 as BigUInt))
         let dec = self - 1
 
         let r = dec.trailingZeroBitCount
@@ -105,7 +107,7 @@ extension BigUInt {
 
         /// Otherwise do as many rounds of random SPPT as required.
         for _ in 0 ..< rounds {
-            let random = BigUInt.randomInteger(lessThan: self)
+            let random = BigUInt.randomInteger(lessThan: self - 2) + 2
             guard isStrongProbablePrime(random) else {
                 return false
             }
