@@ -98,7 +98,7 @@ class ProfileTests: XCTestCase {
         let power = 14
 
         let fact = balancedFactorial(level: power)
-        print("Performing \(divisors.count) divisions with digit counts (\(fact.count) / (\(divisors[0].count)...\(divisors[divisors.count - 1].count))")
+        print("Performing \(divisors.count) divisions with digit counts (\(fact.words.count) / (\(divisors[0].words.count)...\(divisors[divisors.count - 1].words.count))")
         var divs: [BigUInt] = []
         var mods: [BigUInt] = []
         divs.reserveCapacity(divisors.count)
@@ -168,7 +168,7 @@ class ProfileTests: XCTestCase {
                 let bi = BigUInt(i)
 
                 let g1 = BigUInt.gcd(fibo[i], fibo[j])
-                let g2 = Int(BigUInt.gcd(bi, bj)[0])
+                let g2 = Int(BigUInt.gcd(bi, bj).words[0])
                 XCTAssertEqual(g1, fibo[g2])
             }
         }

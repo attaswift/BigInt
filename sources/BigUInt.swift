@@ -156,14 +156,14 @@ extension BigUInt {
 }
 
 extension BigUInt {
-    //MARK: Collection
+    //MARK: Collection-like members
 
     /// The index of the first digit, starting from the least significant. (This is always zero.)
-    public var startIndex: Int { return words.startIndex }
+    internal var startIndex: Int { return words.startIndex }
     /// The index of the digit after the most significant digit in this integer.
-    public var endIndex: Int { return words.endIndex }
+    internal var endIndex: Int { return words.endIndex }
     /// The number of digits in this integer, excluding leading zero digits.
-    public var count: Int { return words.count }
+    internal var count: Int { return words.count }
 
     /// Get or set a digit at a given index.
     ///
@@ -175,7 +175,7 @@ extension BigUInt {
     ///    - The integer's storage is not shared with another integer
     ///    - The integer wasn't created as a slice of another integer
     ///    - `index < count`
-    public subscript(index: Int) -> Word {
+    internal subscript(index: Int) -> Word {
         get {
             precondition(index >= 0)
             return (index < endIndex ? words[index] : 0)
@@ -197,7 +197,7 @@ extension BigUInt {
     }
 
     /// Returns an integer built from the digits of this integer in the given range.
-    public subscript(bounds: Range<Int>) -> BigUInt {
+    internal subscript(bounds: Range<Int>) -> BigUInt {
         get {
             if bounds.lowerBound >= endIndex {
                 return BigUInt()
@@ -206,14 +206,13 @@ extension BigUInt {
         }
     }
 
-    public subscript(bounds: ClosedRange<Int>) -> BigUInt {
+    internal subscript(bounds: ClosedRange<Int>) -> BigUInt {
         return self[Range(bounds)]
     }
 
-    public subscript(bounds: CountablePartialRangeFrom<Int>) -> BigUInt {
+    internal subscript(bounds: CountablePartialRangeFrom<Int>) -> BigUInt {
         return self[bounds.lowerBound ..< self.count]
     }
-
 }
 
 extension BigUInt: Strideable {
