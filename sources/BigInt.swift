@@ -29,43 +29,253 @@ import SipHash
 /// ```
 ///
 public struct BigInt {
+    public enum Sign {
+        case plus
+        case minus
+    }
+
+    public typealias Magnitude = BigUInt
+
     /// The type representing a digit in `BigInt`'s underlying number system.
     public typealias Word = BigUInt.Word
     
     /// The absolute value of this integer.
-    public var abs: BigUInt
+    public var magnitude: BigUInt
+
     /// True iff the value of this integer is negative.
-    public var negative: Bool
+    public var sign: Sign
+
+    @available(*, unavailable, renamed: "magnitude")
+    public var abs: BigUInt { return magnitude }
+
+    @available(*, unavailable, renamed: "sign")
+    public var negative: Bool { return sign == .minus }
 
     /// Initializes a new big integer with the provided absolute number and sign flag.
-    public init(abs: BigUInt, negative: Bool = false) {
-        self.abs = abs
-        self.negative = (abs.isZero ? false : negative)
+    public init(sign: Sign, magnitude: BigUInt) {
+        self.sign = (magnitude.isZero ? .plus : sign)
+        self.magnitude = magnitude
     }
+}
 
-    /// Initializes a new big integer with the same value as the specified integer.
-    public init<I: UnsignedInteger>(_ integer: I) {
-        self.init(abs: BigUInt(integer), negative: false)
+extension Array where Element == UInt {
+    mutating func twosComplement() {
+        var increment = true
+        for i in 0 ..< self.count {
+            if increment {
+                let r = (~self[i]).addingReportingOverflow(1)
+                self[i] = r.partialValue
+                increment = r.overflow == .overflow
+            }
+            else {
+                self[i] = ~self[i]
+            }
+        }
     }
+}
 
-    /// Initializes a new big integer with the same value as the specified integer.
-    public init<I: SignedInteger>(_ integer: I) {
-        let i = integer.toIntMax()
-        if i == IntMax.min {
-            self.init(abs: BigUInt(IntMax.max) + 1, negative: true)
-        }
-        else if i < 0 {
-            self.init(abs: BigUInt(-i), negative: true)
-        }
-        else {
-            self.init(abs: BigUInt(i), negative: false)
-        }
+extension BigInt: BinaryInteger {
+    public init() {
+        self.init(sign: .plus, magnitude: 0)
     }
 
     /// Initializes a new signed big integer with the same value as the specified unsigned big integer.
     public init(_ integer: BigUInt) {
-        self.abs = integer
-        self.negative = false
+        self.magnitude = integer
+        self.sign = .plus
+    }
+
+    public init<T>(_ source: T) where T : BinaryInteger {
+        if source >= (0 as T) {
+            self.init(sign: .plus, magnitude: BigUInt(source))
+        }
+        else {
+            var words = Array(source.words)
+            words.twosComplement()
+            self.init(sign: .minus, magnitude: BigUInt(words: words))
+        }
+    }
+
+    public init<T>(_ source: T) where T : FloatingPoint {
+        if source.sign == .plus {
+            self.init(sign: .plus, magnitude: BigUInt(source))
+        }
+        else {
+            self.init(sign: .minus, magnitude: BigUInt(-source))
+        }
+    }
+
+    public init?<T>(exactly source: T) where T : BinaryInteger {
+        self.init(source)
+    }
+
+    public init?<T>(exactly source: T) where T : FloatingPoint {
+        guard source.floatingPointClass == .positiveNormal || source.floatingPointClass == .negativeNormal else { return nil }
+        guard source.rounded(.towardZero) == source else { return nil }
+        self.init(source)
+    }
+
+    public init<T>(clamping source: T) where T : BinaryInteger {
+        self.init(source)
+    }
+
+    public init<T>(extendingOrTruncating source: T) where T : BinaryInteger {
+        self.init(source)
+    }
+}
+
+extension BigInt {
+    public static var isSigned: Bool {
+        return true
+    }
+
+    public var bitWidth: Int {
+        return magnitude.bitWidth + 1
+    }
+
+    public var trailingZeroBitCount: Int {
+        // FIXME negative values?
+        return magnitude.trailingZeroBitCount
+    }
+
+    public struct Words: RandomAccessCollection {
+        public typealias Indices = CountableRange<Int>
+
+        private let value: BigInt
+        private let carry: Int
+
+        fileprivate init(_ value: BigInt) {
+            self.value = value
+            switch value.sign {
+            case .plus:
+                self.carry = 0
+            case .minus:
+                assert(!value.magnitude.isZero)
+                self.carry = value.magnitude.words.index(where: { $0 != 0 })! + 1
+            }
+        }
+
+        public var count: Int {
+            switch value.sign {
+            case .plus:
+                if let high = value.magnitude.words.last, high >> (Word.bitWidth - 1) == 0 {
+                    return value.magnitude.count + 1
+                }
+                return value.magnitude.count
+            case .minus:
+                let high = value.magnitude.words.last!
+                if high >> (Word.bitWidth - 1) != 0 {
+                    return value.magnitude.count + 1
+                }
+                return value.magnitude.count
+            }
+        }
+
+        public var indices: Indices { return 0 ..< count }
+        public var startIndex: Int { return 0 }
+        public var endIndex: Int { return count }
+
+        public subscript(_ index: Int) -> UInt {
+            // Note that indices above `endIndex` are accepted.
+            if value.sign == .plus {
+                return value.magnitude[index]
+            }
+            else if index < carry {
+                return ~(value.magnitude[index] &- 1)
+            }
+            else {
+                return ~value.magnitude[index]
+            }
+        }
+    }
+
+    public var words: Words {
+        return Words(self)
+    }
+
+    // FIXME: Remove
+    public func _word(at index: Int) -> UInt {
+        return words[index]
+    }
+}
+
+extension BigInt {
+    public static prefix func ~(x: BigInt) -> BigInt {
+        switch x.sign {
+        case .plus:
+            return BigInt(sign: .minus, magnitude: x.magnitude + 1)
+        case .minus:
+            return BigInt(sign: .plus, magnitude: x.magnitude - 1)
+        }
+    }
+
+    public static func &(lhs: inout BigInt, rhs: BigInt) -> BigInt {
+        let left = lhs.words
+        let right = rhs.words
+        // Note we aren't using left.count/right.count here; we account for the sign bit separately later.
+        let count = Swift.max(lhs.magnitude.count, rhs.magnitude.count)
+        var words: [UInt] = []
+        words.reserveCapacity(count)
+        for i in 0 ..< count {
+            words.append(left[i] & right[i])
+        }
+        if lhs.sign == .minus && rhs.sign == .minus {
+            words.twosComplement()
+            return BigInt(sign: .minus, magnitude: BigUInt(words: words))
+        }
+        else {
+            return BigInt(sign: .plus, magnitude: BigUInt(words: words))
+        }
+    }
+
+    public static func |(lhs: inout BigInt, rhs: BigInt) -> BigInt {
+        let left = lhs.words
+        let right = rhs.words
+        // Note we aren't using left.count/right.count here; we account for the sign bit separately later.
+        let count = Swift.max(lhs.magnitude.count, rhs.magnitude.count)
+        var words: [UInt] = []
+        words.reserveCapacity(count)
+        for i in 0 ..< count {
+            words.append(left[i] | right[i])
+        }
+        if lhs.sign == .minus || rhs.sign == .minus {
+            words.twosComplement()
+            return BigInt(sign: .minus, magnitude: BigUInt(words: words))
+        }
+        else {
+            return BigInt(sign: .plus, magnitude: BigUInt(words: words))
+        }
+    }
+
+    public static func ^(lhs: inout BigInt, rhs: BigInt) -> BigInt {
+        let left = lhs.words
+        let right = rhs.words
+        // Note we aren't using left.count/right.count here; we account for the sign bit separately later.
+        let count = Swift.max(lhs.magnitude.count, rhs.magnitude.count)
+        var words: [UInt] = []
+        words.reserveCapacity(count)
+        for i in 0 ..< count {
+            words.append(left[i] ^ right[i])
+        }
+        if (lhs.sign == .minus) != (rhs.sign == .minus) {
+            words.twosComplement()
+            return BigInt(sign: .minus, magnitude: BigUInt(words: words))
+        }
+        else {
+            return BigInt(sign: .plus, magnitude: BigUInt(words: words))
+        }
+    }
+
+    public static func &=(lhs: inout BigInt, rhs: BigInt) {
+        lhs = lhs & rhs
+    }
+
+    public static func |=(lhs: inout BigInt, rhs: BigInt) {
+        lhs = lhs | rhs
+    }
+
+    public static func ^=(lhs: inout BigInt, rhs: BigInt) {
+        lhs = lhs ^ rhs
     }
 }
 
@@ -79,17 +289,17 @@ extension BigInt {
     /// - Returns: The integer represented by `text`, or nil if `text` contains a character that does not represent a numeral in `radix`.
     public init?(_ text: String, radix: Int = 10) {
         var text = text
-        var negative = false
+        var sign: Sign = .plus
         if text.characters.first == "-" {
-            negative = true
+            sign = .minus
             text = text.substring(from: text.index(after: text.startIndex))
         }
         else if text.characters.first == "+" {
             text = text.substring(from: text.index(after: text.startIndex))
         }
-        guard let abs = BigUInt(text, radix: radix) else { return nil }
-        self.abs = abs
-        self.negative = negative
+        guard let magnitude = BigUInt(text, radix: radix) else { return nil }
+        self.magnitude = magnitude
+        self.sign = sign
     }
 }
 
@@ -102,8 +312,8 @@ extension String {
     /// - Requires: radix > 1 && radix <= 36
     /// - Complexity: O(count) when radix is a power of two; otherwise O(count^2).
     public init(_ value: BigInt, radix: Int = 10, uppercase: Bool = false) {
-        self = String(value.abs, radix: radix, uppercase: uppercase)
-        if value.negative {
+        self = String(value.magnitude, radix: radix, uppercase: uppercase)
+        if value.sign == .minus {
             self = "-" + self
         }
     }
@@ -115,9 +325,8 @@ extension BigInt: CustomStringConvertible {
 }
 
 extension BigInt: ExpressibleByIntegerLiteral {
-
     /// Initialize a new big integer from an integer literal.
-    public init(integerLiteral value: IntMax) {
+    public init(integerLiteral value: Int64) {
         self.init(value)
     }
 }
@@ -146,27 +355,27 @@ extension BigInt: CustomPlaygroundQuickLookable {
     /// Return the playground quick look representation of this integer.
     public var customPlaygroundQuickLook: PlaygroundQuickLook {
         let text = String(self)
-        return PlaygroundQuickLook.text(text + " (\(self.abs.width) bits)")
+        return PlaygroundQuickLook.text(text + " (\(self.magnitude.bitWidth) bits)")
     }
 }
 
 extension BigInt: Comparable {
     /// Return true iff `a` is equal to `b`.
     public static func ==(a: BigInt, b: BigInt) -> Bool {
-        return a.negative == b.negative && a.abs == b.abs
+        return a.sign == b.sign && a.magnitude == b.magnitude
     }
 
     /// Return true iff `a` is less than `b`.
     public static func <(a: BigInt, b: BigInt) -> Bool {
-        switch (a.negative, b.negative) {
-        case (false, false):
-            return a.abs < b.abs
-        case (false, true):
+        switch (a.sign, b.sign) {
+        case (.plus, .plus):
+            return a.magnitude < b.magnitude
+        case (.plus, .minus):
             return false
-        case (true, false):
+        case (.minus, .plus):
             return true
-        case (true, true):
-            return a.abs > b.abs
+        case (.minus, .minus):
+            return a.magnitude > b.magnitude
         }
     }
 }
@@ -174,8 +383,8 @@ extension BigInt: Comparable {
 extension BigInt: SipHashable {
     /// Append this `BigInt` to the specified hasher.
     public func appendHashes(to hasher: inout SipHasher) {
-        hasher.append(negative)
-        hasher.append(abs)
+        hasher.append(sign)
+        hasher.append(magnitude)
     }
 }
 
@@ -195,129 +404,62 @@ extension BigInt: Strideable {
 }
 
 extension BigInt: SignedNumeric {
-    public init?<T>(exactly source: T) where T : BinaryInteger {
-        fatalError()
-    }
-    
-    /// Negate `a` and return the result.
-    public static prefix func -(a: BigInt) -> BigInt {
-        if a.abs.isZero { return a }
-        return BigInt(abs: a.abs, negative: !a.negative)
-    }
-
-    /// Subtract `b` from `a` and return the result.
-    public static func -(a: BigInt, b: BigInt) -> BigInt {
-        return a + (-b)
-    }
-    
-    public var magnitude: BigUInt {
-        return abs
-    }
-    
-    public static func abs(_ x: BigInt) -> BigInt {
-        return BigInt(x.abs)
+    public mutating func negate() {
+        guard !magnitude.isZero else { return }
+        self.sign = self.sign == .plus ? .minus : .plus
     }
 }
 
-extension BigInt: IntegerArithmetic {
-    public static var isSigned: Bool {
-        <#code#>
-    }
-    
-    public init<T>(_ source: T) where T : FloatingPoint {
-        <#code#>
-    }
-    
-    public init<T>(_ source: T) where T : BinaryInteger {
-        <#code#>
-    }
-    
-    public func _word(at n: Int) -> UInt {
-        fatalError()
-    }
-    
-    public var bitWidth: Int {
-        <#code#>
-    }
-    
-    public var trailingZeroBitCount: Int {
-        <#code#>
-    }
-    
-    /// Explicitly convert to IntMax, trapping on overflow.
-    public func toIntMax() -> IntMax {
-        precondition(abs.count <= 1)
-        return negative ? -IntMax(abs[0]) : IntMax(abs[0])
-    }
-
+extension BigInt {
     /// Add `a` to `b` and return the result.
     public static func +(a: BigInt, b: BigInt) -> BigInt {
-        switch (a.negative, b.negative) {
-        case (false, false):
-            return BigInt(abs: a.abs + b.abs, negative: false)
-        case (true, true):
-            return BigInt(abs: a.abs + b.abs, negative: true)
-        case (false, true):
-            if a.abs >= b.abs {
-                return BigInt(abs: a.abs - b.abs, negative: false)
+        switch (a.sign, b.sign) {
+        case (.plus, .plus):
+            return BigInt(sign: .plus, magnitude: a.magnitude + b.magnitude)
+        case (.minus, .minus):
+            return BigInt(sign: .minus, magnitude: a.magnitude + b.magnitude)
+        case (.plus, .minus):
+            if a.magnitude >= b.magnitude {
+                return BigInt(sign: .plus, magnitude: a.magnitude - b.magnitude)
             }
             else {
-                return BigInt(abs: b.abs - a.abs, negative: true)
+                return BigInt(sign: .minus, magnitude: b.magnitude - a.magnitude)
             }
-        case (true, false):
-            if b.abs >= a.abs {
-                return BigInt(abs: b.abs - a.abs, negative: false)
+        case (.minus, .plus):
+            if b.magnitude >= a.magnitude {
+                return BigInt(sign: .plus, magnitude: b.magnitude - a.magnitude)
             }
             else {
-                return BigInt(abs: a.abs - b.abs, negative: true)
+                return BigInt(sign: .minus, magnitude: a.magnitude - b.magnitude)
             }
         }
     }
 
+    /// Subtract `b` from `a` and return the result.
+    public static func -(a: BigInt, b: BigInt) -> BigInt {
+        return a + -b
+    }
+
     /// Multiply `a` with `b` and return the result.
     public static func *(a: BigInt, b: BigInt) -> BigInt {
-        return BigInt(abs: a.abs * b.abs, negative: a.negative != b.negative)
+        return BigInt(sign: a.sign == b.sign ? .plus : .minus, magnitude: a.magnitude * b.magnitude)
     }
 
     /// Divide `a` by `b` and return the quotient. Traps if `b` is zero.
     public static func /(a: BigInt, b: BigInt) -> BigInt {
-        return BigInt(abs: a.abs / b.abs, negative: a.negative != b.negative)
+        return BigInt(sign: a.sign == b.sign ? .plus : .minus, magnitude: a.magnitude / b.magnitude)
     }
 
     /// Divide `a` by `b` and return the remainder. The result has the same sign as `a`.
     public static func %(a: BigInt, b: BigInt) -> BigInt {
-        return BigInt(abs: a.abs % b.abs, negative: a.negative)
+        return BigInt(sign: a.sign, magnitude: a.magnitude % b.magnitude)
     }
   
     /// Return the result of `a` mod `b`. The result is always a nonnegative integer that is less than the absolute value of `b`.
     public static func modulus(_ a: BigInt,_ b: BigInt) -> BigInt {
-        let remainder = a.abs % b.abs
-        return BigInt(abs: a.negative && !remainder.isEmpty ? b.abs - remainder : remainder, negative: false)
-    }
-
-    /// Adds `lhs` and `rhs` together. An overflow is never reported.
-    public static func addWithOverflow(_ lhs: BigInt, _ rhs: BigInt) -> (BigInt, overflow: Bool) {
-        return (lhs + rhs, false)
-    }
-
-    /// Subtracts `rhs` from `lhs`. An overflow is never reported.
-    public static func subtractWithOverflow(_ lhs: BigInt, _ rhs: BigInt) -> (BigInt, overflow: Bool) {
-        return (lhs - rhs, false)
-    }
-
-    /// Multiplies `lhs` with `rhs`. An overflow is never reported.
-    public static func multiplyWithOverflow(_ lhs: BigInt, _ rhs: BigInt) -> (BigInt, overflow: Bool) {
-        return (lhs * rhs, false)
-    }
-
-    /// Divides `lhs` with `rhs`, returning the quotient, or trapping if `rhs` is zero. An overflow is never reported.
-    public static func divideWithOverflow(_ lhs: BigInt, _ rhs: BigInt) -> (BigInt, overflow: Bool) {
-        return (lhs / rhs, false)
-    }
-
-    /// Divides `lhs` with `rhs`, returning the remainder, or trapping if `rhs` is zero. An overflow is never reported.
-    public static func remainderWithOverflow(_ lhs: BigInt, _ rhs: BigInt) -> (BigInt, overflow: Bool) {
-        return (lhs % rhs, false)
+        let remainder = a.magnitude % b.magnitude
+        return BigInt(sign: .plus,
+                      magnitude: a.sign == .minus && !remainder.isZero ? b.magnitude - remainder : remainder)
     }
 }
 

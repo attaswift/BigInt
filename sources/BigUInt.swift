@@ -274,7 +274,6 @@ extension BigUInt: RandomAccessCollection {
     }
 }
 
-#if false // FIXME Reenable once BigInt works.
 extension BigUInt: Strideable {
     /// A type that can represent the distance between two values of `BigUInt`.
     public typealias Stride = BigInt
@@ -289,7 +288,6 @@ extension BigUInt: Strideable {
         return BigInt(other) - BigInt(self)
     }
 }
-#endif
 
 extension BigUInt {
     //MARK: Low and High

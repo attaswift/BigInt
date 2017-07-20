@@ -179,14 +179,12 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(ArithmeticOverflow.overflow, BigUInt(3).subtractingReportingOverflow(5).overflow)
     }
     
-    #if false // FIXME
     func testStrideableRequirements() {
         XCTAssertEqual(BigUInt(10), BigUInt(4).advanced(by: BigInt(6)))
         XCTAssertEqual(BigUInt(4), BigUInt(10).advanced(by: BigInt(-6)))
         XCTAssertEqual(BigInt(6), BigUInt(4).distance(to: 10))
         XCTAssertEqual(BigInt(-6), BigUInt(10).distance(to: 4))
     }
-    #endif
 
     func testConversionToString() {
         let sample = BigUInt("123456789ABCDEFEDCBA98765432123456789ABCDEF", radix: 16)!
