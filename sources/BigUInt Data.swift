@@ -57,7 +57,7 @@ extension BigUInt {
         var data = Data(count: byteCount)
         data.withUnsafeMutableBytes { (p: UnsafeMutablePointer<UInt8>) -> Void in
             var i = byteCount - 1
-            for var word in self {
+            for var word in self.words {
                 for _ in 0 ..< Word.bitWidth / 8 {
                     p[i] = UInt8(word & 0xFF)
                     word >>= 8

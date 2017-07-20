@@ -93,11 +93,11 @@ extension String {
         precondition(radix > 1)
         let (charsPerWord, power) = BigUInt.charsPerWord(forRadix: radix)
 
-        guard !v.isEmpty else { self = "0"; return }
+        guard !v.isZero else { self = "0"; return }
 
         var parts: [String]
         if power == 0 {
-            parts = v.map { String($0, radix: radix, uppercase: uppercase) }
+            parts = v.words.map { String($0, radix: radix, uppercase: uppercase) }
         }
         else {
             parts = []

@@ -13,7 +13,7 @@ extension BigUInt: SipHashable {
 
     /// Append this `BigUInt` to the specified hasher.
     public func appendHashes(to hasher: inout SipHasher) {
-        for word in self {
+        for word in self.words {
             hasher.append(word)
         }
     }

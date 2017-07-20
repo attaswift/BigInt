@@ -27,20 +27,26 @@
 ///
 /// Note that it is rarely a good idea to use big integers as collections; in the vast majority of cases it is much
 /// easier to work with the provided high-level methods and operators rather than with raw big digits.
-public struct BigUInt {
+public struct BigUInt: UnsignedInteger {
     /// The type representing a digit in `BigUInt`'s underlying number system.
     public typealias Word = UInt
     public typealias Words = [Word]
     
     public internal(set) var words: [Word]
-    
+
+    // FIXME: Remove
+    public func _word(at index: Int) -> UInt {
+        guard index < words.count else { return 0 }
+        return words[index]
+    }
+
     /// Initializes a new BigUInt with the specified digits. The digits are ordered from least to most significant.
     internal init(words: [Word]) {
         self.words = words
         shrink()
     }
     
-    internal init<Words: Collection>(words: Words) where Words.Element == Word {
+    internal init<Words: Sequence>(words: Words) where Words.Element == Word {
         self.words = Array(words)
         shrink()
     }
@@ -54,9 +60,14 @@ public struct BigUInt {
     public mutating func reserveCapacity(_ minimumCapacity: Int) {
         words.reserveCapacity(minimumCapacity)
     }
-}
 
-extension BigUInt: ExpressibleByIntegerLiteral {
+    /// Gets rid of leading zero digits in the digit array.
+    internal mutating func shrink() {
+        while words.last == 0 {
+            words.removeLast()
+        }
+    }
+
     //MARK: Init from Integer literals
     
     /// Initialize a new big integer from an integer literal.
@@ -87,7 +98,7 @@ extension BigUInt: ExpressibleByStringLiteral {
     }
 }
 
-extension BigUInt: UnsignedInteger {
+extension BigUInt {
     public static var isSigned: Bool {
         return false
     }
@@ -99,51 +110,20 @@ extension BigUInt: UnsignedInteger {
         return isZero ? 0 : 1
     }
     
-    /// The number of words used for the current binary representation of this value.
-    public var countRepresentedWords: Int {
-        return count
-    }
-    
-    public func _word(at n: Int) -> UInt {
-        // FIXME: This should not need to be overridden. See https://bugs.swift.org/browse/SR-5275
-        return self[n]
-    }
-    
     public init?<T: BinaryInteger>(exactly source: T) {
-        guard source >= 0 else { return nil }
-        self.words = source.words
-        shrink()
-    }
-    
-    public init<T: BinaryInteger>(_ source: T) {
-        self.init(exactly: source)!
-    }
-    
-    public init<T: BinaryInteger>(extendingOrTruncating source: T) {
-        self.words = source.words
-        shrink()
-    }
-    
-    public init<T: BinaryInteger>(clamping source: T) {
-        if source < 0 {
-            self.words = []
-        }
-        else {
-            self.words = source.words
-            shrink()
-        }
+        guard source >= (0 as T) else { return nil }
+        self.init(words: source.words)
     }
     
     public init?<T: FloatingPoint>(exactly source: T) {
-        guard T.radix == 2 else {
-            // FIXME
-            fatalError("Conversions from non-base-2 floating point numbers aren't supported yet")
-        }
+        // FIXME: This assumes 1 << Word.bitWidth is exactly representable in T. (This isn't necessarily the case for half floats and the like.)
         guard source.isFinite else { return nil }
         self.words = []
         var source = source.rounded(.towardZero)
         guard source.isZero || source.sign == .plus else { return nil }
-        let unit = T(sign: .plus, exponent: numericCast(Word.bitWidth), significand: 1)
+        let unit = (T.radix == 2
+            ? T(sign: .plus, exponent: numericCast(Word.bitWidth), significand: 1)
+            : (2 as T) * T((1 as Word) &<< (Word.bitWidth - 1)))
         while !source.isZero {
             let word = source.truncatingRemainder(dividingBy: unit)
             self.words.append(Word(word))
@@ -151,38 +131,32 @@ extension BigUInt: UnsignedInteger {
         }
         shrink()
     }
+
+    public init<T: BinaryInteger>(_ source: T) {
+        precondition(source >= (0 as T), "BigUInt cannot represent negative values")
+        self.init(words: source.words)
+    }
     
     public init<T: FloatingPoint>(_ source: T) {
         self.init(exactly: source)!
     }
-}
 
-extension BigUInt {
-    //MARK: Shrink
+    public init<T: BinaryInteger>(extendingOrTruncating source: T) {
+        self.init(words: source.words)
+    }
     
-    /// Gets rid of leading zero digits in the digit array.
-    internal mutating func shrink() {
-        while words.last == 0 {
-            words.removeLast()
+    public init<T: BinaryInteger>(clamping source: T) {
+        if source < 0 {
+            self.init()
+        }
+        else {
+            self.init(words: source.words)
         }
     }
 }
 
-extension BigUInt: RandomAccessCollection {
+extension BigUInt {
     //MARK: Collection
-
-    /// Big integers implement `Collection` to provide access to their big digits, indexed by integers; a zero index refers to the least significant digit.
-    public typealias Index = Int
-    /// The type representing the number of steps between two indices.
-    public typealias IndexDistance = Int
-    /// The type representing valid indices for subscripting the collection.
-    public typealias Indices = CountableRange<Int>
-    /// The type representing the iteration interface for the digits in a big integer.
-    public typealias Iterator = IndexingIterator<BigUInt>
-    /// Big integers can be contiguous digit subranges of another big integer.
-    public typealias SubSequence = BigUInt // FIXME this is wrong
-
-    public var indices: Indices { return words.indices }
 
     /// The index of the first digit, starting from the least significant. (This is always zero.)
     public var startIndex: Int { return words.startIndex }
@@ -190,47 +164,6 @@ extension BigUInt: RandomAccessCollection {
     public var endIndex: Int { return words.endIndex }
     /// The number of digits in this integer, excluding leading zero digits.
     public var count: Int { return words.count }
-
-    /// Returns the position immediately after the given index.
-    public func index(after i: Int) -> Int {
-        return i + 1
-    }
-
-    /// Returns the position immediately before the given index.
-    public func index(before i: Int) -> Int {
-        return i - 1
-    }
-
-    /// Replaces the given index with its successor.
-    public func formIndex(after i: inout Int) {
-        i += 1
-    }
-
-    /// Replaces the given index with its predecessor.
-    public func formIndex(before i: inout Int) {
-        i -= 1
-    }
-
-    /// Returns an index that is the specified distance from the given index.
-    public func index(_ i: Int, offsetBy n: Int) -> Int {
-        return i + n
-    }
-
-    /// Returns an index that is the specified distance from the given index,
-    /// unless that distance is beyond a given limiting index.
-    public func index(_ i: Int, offsetBy n: Int, limitedBy limit: Int) -> Int? {
-        let r = i + n
-        if n >= 0 {
-            return r <= limit ? r : nil
-        }
-        return r >= limit ? r : nil
-    }
-
-    /// Returns the number of steps between two indices.
-    public func distance(from start: Int, to end: Int) -> Int {
-        return end - start
-    }
-
 
     /// Get or set a digit at a given index.
     ///
@@ -272,6 +205,15 @@ extension BigUInt: RandomAccessCollection {
             return BigUInt(words: words[bounds.lowerBound ..< Swift.min(bounds.upperBound, endIndex)])
         }
     }
+
+    public subscript(bounds: ClosedRange<Int>) -> BigUInt {
+        return self[Range(bounds)]
+    }
+
+    public subscript(bounds: CountablePartialRangeFrom<Int>) -> BigUInt {
+        return self[bounds.lowerBound ..< self.count]
+    }
+
 }
 
 extension BigUInt: Strideable {
@@ -280,7 +222,7 @@ extension BigUInt: Strideable {
 
     /// Adds `n` to `self` and returns the result. Traps if the result would be less than zero.
     public func advanced(by n: BigInt) -> BigUInt {
-        return n < 0 ? self - n.abs : self + n.abs
+        return n.sign == .minus ? self - n.magnitude : self + n.magnitude
     }
 
     /// Returns the (potentially negative) difference between `self` and `other` as a `BigInt`. Never traps.

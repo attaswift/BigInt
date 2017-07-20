@@ -53,27 +53,27 @@ class BigUIntTests: XCTestCase {
     func testCollection() {
         let b0 = BigUInt()
         XCTAssertEqual(b0.count, 0)
-        XCTAssertEqual(Array(b0), [])
+        XCTAssertEqual(b0.words, [])
 
         let b1 = BigUInt(words: [1])
         XCTAssertEqual(b1.count, 1)
-        XCTAssertEqual(Array(b1), [1])
+        XCTAssertEqual(b1.words, [1])
 
         let b2 = BigUInt(words: [0, 1])
         XCTAssertEqual(b2.count, 2)
-        XCTAssertEqual(Array(b2), [0, 1])
+        XCTAssertEqual(b2.words, [0, 1])
 
         let b3 = BigUInt(words: [0, 1, 0])
         XCTAssertEqual(b3.count, 2)
-        XCTAssertEqual(Array(b3), [0, 1])
+        XCTAssertEqual(b3.words, [0, 1])
 
         let b4 = BigUInt(words: [1, 0, 0, 0])
         XCTAssertEqual(b4.count, 1)
-        XCTAssertEqual(Array(b4), [1])
+        XCTAssertEqual(b4.words, [1])
 
         let b5 = BigUInt(words: [0, 0, 0, 0, 0, 0])
         XCTAssertEqual(b5.count, 0)
-        XCTAssertEqual(Array(b5), [])
+        XCTAssertEqual(b5.words, [])
     }
 
     func testSubscriptingGetter() {
@@ -134,38 +134,10 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(slice.startIndex, 0)
         XCTAssertEqual(slice.endIndex, 3)
 
-        XCTAssertTrue(slice.elementsEqual([6, 8, 10]))
+        XCTAssertEqual(slice.words, [6, 8, 10])
         XCTAssertEqual(slice[0], 6)
         XCTAssertEqual(slice[1], 8)
         XCTAssertEqual(slice[2], 10)
-    }
-
-    func testIndices() {
-        let value = BigUInt(words: [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28])
-        XCTAssertEqual(0 ..< 15, value.indices)
-
-        XCTAssertEqual(3, value.index(after: 2))
-        XCTAssertEqual(1, value.index(before: 2))
-        var i = 2
-
-        value.formIndex(after: &i)
-        XCTAssertEqual(3, i)
-
-        value.formIndex(before: &i)
-        XCTAssertEqual(2, i)
-
-        XCTAssertEqual(5, value.index(2, offsetBy: 3))
-        XCTAssertEqual(1, value.index(3, offsetBy: -2))
-
-        XCTAssertEqual(10, value.index(3, offsetBy: 7, limitedBy: 11))
-        XCTAssertEqual(10, value.index(3, offsetBy: 7, limitedBy: 10))
-        XCTAssertEqual(nil, value.index(3, offsetBy: 7, limitedBy: 9))
-
-        XCTAssertEqual(3, value.index(7, offsetBy: -4, limitedBy: 2))
-        XCTAssertEqual(3, value.index(7, offsetBy: -4, limitedBy: 3))
-        XCTAssertEqual(nil, value.index(7, offsetBy: -4, limitedBy: 4))
-
-        XCTAssertEqual(2, value.distance(from: 3, to: 5))
     }
 
     func testIntegerArithmeticRequirements() {
@@ -432,18 +404,18 @@ class BigUIntTests: XCTestCase {
 
         var b = BigUInt(words: [1, 2, 3, 4])
         XCTAssertEqual(ArithmeticOverflow.none, b.subtractReportingOverflow(BigUInt(words: [0, 1, 1, 1])))
-        XCTAssertEqual(Array(b), [1, 1, 2, 3])
+        XCTAssertEqual(b.words, [1, 1, 2, 3])
 
         let b1 = BigUInt(words: [1, 1, 2, 3]).subtractingReportingOverflow(BigUInt(words: [1, 1, 3, 3]))
         XCTAssertEqual(b1.0, BigUInt(words: [0, 0, Word.max, Word.max]))
         XCTAssertEqual(ArithmeticOverflow.overflow, b1.1)
 
         let b2 = BigUInt(words: [0, 0, 1]) - BigUInt(words: [1])
-        XCTAssertEqual(Array(b2), [Word.max, Word.max])
+        XCTAssertEqual(b2.words, [Word.max, Word.max])
 
         var b3 = BigUInt(words: [1, 0, 0, 1])
         b3 -= 2
-        XCTAssertEqual(Array(b3), [Word.max, Word.max, Word.max])
+        XCTAssertEqual(b3.words, [Word.max, Word.max, Word.max])
     }
 
     func testMultiplyByWord() {
@@ -534,24 +506,24 @@ class BigUIntTests: XCTestCase {
         a <<= Word.bitWidth
         XCTAssertEqual(a.count, sample.count + 1)
         XCTAssertEqual(a[0], 0)
-        XCTAssertEqual(BigUInt(words: a[1...sample.count + 1]), sample) // FIXME slice
+        XCTAssertEqual(a[1...sample.count + 1].words, sample.words) // FIXME slice
 
         a = sample
         a <<= 100 * Word.bitWidth
         XCTAssertEqual(a.count, sample.count + 100)
         XCTAssertEqual(a[0..<100], 0)
-        XCTAssertEqual(BigUInt(words: a[100...sample.count + 100]), sample) // FIXME slice
+        XCTAssertEqual(a[100...sample.count + 100].words, sample.words) // FIXME slice
 
         a = sample
         a <<= 100 * Word.bitWidth + 2
         XCTAssertEqual(a.count, sample.count + 100)
         XCTAssertEqual(a[0..<100], 0)
-        XCTAssertEqual(BigUInt(words: a[100...sample.count + 100]), sample << 2) // FIXME slice
+        XCTAssertEqual(a[100...sample.count + 100].words, (sample << 2).words) // FIXME slice
 
         a = sample
         a <<= Word.bitWidth - 1
         XCTAssertEqual(a.count, sample.count + 1)
-        XCTAssertEqual(a, BigUInt(words: [0] + Array(sample)) / 2)
+        XCTAssertEqual(a, BigUInt(words: [0] + sample.words) / 2)
 
 
         a = sample
@@ -566,8 +538,8 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(sample << (Word.bitWidth - 1), BigUInt(words: [0] + sample.words) / 2)
         XCTAssertEqual(sample << (Word.bitWidth + 1), BigUInt(words: [0] + sample.words) * 2)
         XCTAssertEqual(sample << (Word.bitWidth + 2), BigUInt(words: [0] + sample.words) * 4)
-        XCTAssertEqual(sample << (2 * Word.bitWidth), BigUInt(words: [0, 0] + Array(sample)))
-        XCTAssertEqual(sample << (2 * Word.bitWidth + 2), BigUInt(words: [0, 0] + Array(4 * sample)))
+        XCTAssertEqual(sample << (2 * Word.bitWidth), BigUInt(words: [0, 0] + sample.words))
+        XCTAssertEqual(sample << (2 * Word.bitWidth + 2), BigUInt(words: [0, 0] + (4 * sample).words))
 
         XCTAssertEqual(sample << -1, sample / 2)
         XCTAssertEqual(sample << -4, sample / 16)
@@ -589,24 +561,24 @@ class BigUIntTests: XCTestCase {
         a &<<= Word.bitWidth
         XCTAssertEqual(a.count, sample.count + 1)
         XCTAssertEqual(a[0], 0)
-        XCTAssertEqual(BigUInt(words: a[1...sample.count + 1]), sample) // FIXME slice
+        XCTAssertEqual(a[1...sample.count + 1], sample)
 
         a = sample
         a &<<= 100 * Word.bitWidth
         XCTAssertEqual(a.count, sample.count + 100)
         XCTAssertEqual(a[0..<100], 0)
-        XCTAssertEqual(BigUInt(words: a[100...sample.count + 100]), sample) // FIXME slice
+        XCTAssertEqual(a[100...sample.count + 100], sample)
 
         a = sample
         a &<<= 100 * Word.bitWidth + 2
         XCTAssertEqual(a.count, sample.count + 100)
         XCTAssertEqual(a[0..<100], 0)
-        XCTAssertEqual(BigUInt(words: a[100...sample.count + 100]), sample << 2) // FIXME slice
+        XCTAssertEqual(a[100...sample.count + 100], sample << 2)
 
         a = sample
         a &<<= Word.bitWidth - 1
         XCTAssertEqual(a.count, sample.count + 1)
-        XCTAssertEqual(a, BigUInt(words: [0] + Array(sample)) / 2)
+        XCTAssertEqual(a, BigUInt(words: [0] + sample.words) / 2)
 
         XCTAssertEqual(sample &<< 0, sample)
         XCTAssertEqual(sample &<< 1, 2 * sample)
@@ -616,8 +588,8 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(sample &<< (Word.bitWidth - 1), BigUInt(words: [0] + sample.words) / 2)
         XCTAssertEqual(sample &<< (Word.bitWidth + 1), BigUInt(words: [0] + sample.words) * 2)
         XCTAssertEqual(sample &<< (Word.bitWidth + 2), BigUInt(words: [0] + sample.words) * 4)
-        XCTAssertEqual(sample &<< (2 * Word.bitWidth), BigUInt(words: [0, 0] + Array(sample)))
-        XCTAssertEqual(sample &<< (2 * Word.bitWidth + 2), BigUInt(words: [0, 0] + Array(4 * sample)))
+        XCTAssertEqual(sample &<< (2 * Word.bitWidth), BigUInt(words: [0, 0] + sample.words))
+        XCTAssertEqual(sample &<< (2 * Word.bitWidth + 2), BigUInt(words: [0, 0] + (4 * sample).words))
     }
 
     func testRightShifts() {

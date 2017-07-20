@@ -37,7 +37,7 @@ extension BigUInt {
     /// - Complexity: O(count)
     public var trailingZeroBitCount: Int {
         guard count > 0 else { return 0 }
-        let i = self.index { $0 != 0 }!
+        let i = self.words.index { $0 != 0 }!
         return i * Word.bitWidth + self[i].trailingZeroBitCount
     }
 
@@ -45,7 +45,7 @@ extension BigUInt {
     ///
     /// - Complexity: O(a.count)
     public static prefix func ~(a: BigUInt) -> BigUInt {
-        return BigUInt(words: a.map { ~$0 })
+        return BigUInt(words: a.words.map { ~$0 })
     }
 
     /// Calculate the bitwise OR of `a` and `b`, and store the result in `a`.
