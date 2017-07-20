@@ -1,3 +1,4 @@
+// swift-tools-version:4.0
 //
 //  Package.swift
 //  BigInt
@@ -10,7 +11,15 @@ import PackageDescription
 
 let package = Package(
     name: "BigInt",
+    products: [
+        .library(name: "BigInt", type: .dynamic, targets: ["BigInt"])
+    ],
     dependencies: [
-        .Package(url: "https://github.com/lorentey/SipHash", majorVersion: 1, minor: 1)
-    ]
+        .package(url: "https://github.com/lorentey/SipHash", from: "1.1.0")
+    ],
+    targets: [
+        .target(name: "BigInt", dependencies: ["SipHash"], path: "sources"),
+        .testTarget(name: "BigIntTests", dependencies: ["BigInt"], path: "tests")
+    ],
+    swiftLanguageVersions: [4]
 )
