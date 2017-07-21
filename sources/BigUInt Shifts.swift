@@ -110,19 +110,20 @@ extension BigUInt {
     /// Returns the result of shifting a value's binary representation the
     /// specified number of digits to the left.
     public static func &<<(left: BigUInt, right: BigUInt) -> BigUInt {
-        return left.shiftedLeft(by: right[0])
+        return left.shiftedLeft(by: Word(right))
     }
     
     /// Calculates the result of shifting a value's binary representation the
     /// specified number of digits to the left, and stores the result in the
     /// left-hand-side variable.
     public static func &<<=(left: inout BigUInt, right: BigUInt) {
-        left.shiftLeft(by: right[0])
+        left.shiftLeft(by: Word(right))
     }
 
     /// Returns the result of shifting a value's binary representation the
     /// specified number of digits to the right.
     public static func &>>(left: BigUInt, right: BigUInt) -> BigUInt {
+        guard right.count <= 1 else { return 0 }
         return left.shiftedRight(by: right[0])
     }
     
@@ -130,6 +131,7 @@ extension BigUInt {
     /// specified number of digits to the right, and stores the result in the
     /// left-hand-side variable.
     public static func &>>=(left: inout BigUInt, right: BigUInt) {
+        guard right.count <= 1 else { left = 0; return }
         left.shiftRight(by: right[0])
     }
     
