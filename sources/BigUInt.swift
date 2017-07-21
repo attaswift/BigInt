@@ -68,6 +68,12 @@ public struct BigUInt: UnsignedInteger {
     public init(integerLiteral value: UInt64) {
         self.init(value)
     }
+
+    // FIXME: Remove this
+    public func _word(at n: Int) -> UInt {
+        if n >= words.count { return 0 }
+        return words[n]
+    }
 }
 
 extension BigUInt: ExpressibleByStringLiteral {

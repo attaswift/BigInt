@@ -192,6 +192,11 @@ extension BigInt {
     public var words: Words {
         return Words(self)
     }
+
+    // FIXME: Remove this
+    public func _word(at n: Int) -> UInt {
+        return words[n]
+    }
 }
 
 extension BigInt {
