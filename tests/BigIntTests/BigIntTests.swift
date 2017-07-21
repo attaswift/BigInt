@@ -10,6 +10,8 @@ import XCTest
 @testable import BigInt
 
 class BigIntTests: XCTestCase {
+    typealias Word = BigInt.Word
+
     func testInit() {
         XCTAssertEqual(BigInt(Int64.min).sign, .minus)
         XCTAssertEqual(BigInt(Int64.min).magnitude - 1, BigInt(Int64.max).magnitude)
@@ -46,6 +48,24 @@ class BigIntTests: XCTestCase {
         XCTAssertEqual(BigInt(-1).sign, .minus)
         XCTAssertEqual(BigInt(0).sign, .plus)
         XCTAssertEqual(BigInt(1).sign, .plus)
+    }
+
+    func testWords() {
+        XCTAssertEqual(Array(BigInt(0).words), [])
+        XCTAssertEqual(Array(BigInt(1).words), [1])
+        XCTAssertEqual(Array(BigInt(-1).words), [Word.max])
+
+        XCTAssertEqual(Array((BigInt(1) << Word.bitWidth).words), [0, 1])
+        XCTAssertEqual(Array((-(BigInt(1) << Word.bitWidth)).words), [0, Word.max])
+
+        XCTAssertEqual(Array((BigInt(42) << Word.bitWidth).words), [0, 42])
+        XCTAssertEqual(Array((-(BigInt(42) << Word.bitWidth)).words), [0, Word.max - 41])
+
+        let huge = BigUInt(words: [0, 1, 2, 3, 4])
+        XCTAssertEqual(Array(BigInt(sign: .plus, magnitude: huge).words), [0, 1, 2, 3, 4])
+        XCTAssertEqual(Array(BigInt(sign: .minus, magnitude: huge).words),
+                       [0, Word.max, ~2, ~3, ~4] as [Word])
+
     }
 
     func testConversionToString() {

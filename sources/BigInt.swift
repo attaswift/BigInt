@@ -158,7 +158,7 @@ extension BigInt {
         public var count: Int {
             switch value.sign {
             case .plus:
-                if let high = value.magnitude.words.last, high >> (Word.bitWidth - 1) == 0 {
+                if let high = value.magnitude.words.last, high >> (Word.bitWidth - 1) != 0 {
                     return value.magnitude.count + 1
                 }
                 return value.magnitude.count
