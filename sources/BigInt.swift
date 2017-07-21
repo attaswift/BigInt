@@ -142,16 +142,16 @@ extension BigInt {
         public typealias Indices = CountableRange<Int>
 
         private let value: BigInt
-        private let carry: Int
+        private let decrementLimit: Int
 
         fileprivate init(_ value: BigInt) {
             self.value = value
             switch value.sign {
             case .plus:
-                self.carry = 0
+                self.decrementLimit = 0
             case .minus:
                 assert(!value.magnitude.isZero)
-                self.carry = value.magnitude.words.index(where: { $0 != 0 })! + 1
+                self.decrementLimit = value.magnitude.words.index(where: { $0 != 0 })!
             }
         }
 
@@ -180,7 +180,7 @@ extension BigInt {
             if value.sign == .plus {
                 return value.magnitude[index]
             }
-            else if index < carry {
+            else if index <= decrementLimit {
                 return ~(value.magnitude[index] &- 1)
             }
             else {
