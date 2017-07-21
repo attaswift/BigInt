@@ -55,6 +55,9 @@ class BigIntTests: XCTestCase {
         XCTAssertEqual(Array(BigInt(1).words), [1])
         XCTAssertEqual(Array(BigInt(-1).words), [Word.max])
 
+        XCTAssertEqual(Array(BigInt(sign: .plus, magnitude: BigUInt(words: [Word.max])).words), [Word.max, 0])
+        XCTAssertEqual(Array(BigInt(sign: .minus, magnitude: BigUInt(words: [Word.max])).words), [1, Word.max])
+
         XCTAssertEqual(Array((BigInt(1) << Word.bitWidth).words), [0, 1])
         XCTAssertEqual(Array((-(BigInt(1) << Word.bitWidth)).words), [0, Word.max])
 
@@ -66,6 +69,9 @@ class BigIntTests: XCTestCase {
         XCTAssertEqual(Array(BigInt(sign: .minus, magnitude: huge).words),
                        [0, Word.max, ~2, ~3, ~4] as [Word])
 
+
+        XCTAssertEqual(BigInt(1).words[100], 0)
+        XCTAssertEqual(BigInt(-1).words[100], Word.max)
     }
 
     func testConversionToString() {
