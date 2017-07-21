@@ -37,24 +37,32 @@ extension BigUInt: CustomStringConvertible {
     /// - Parameter `radix`: The base of the number system to use, or 10 if unspecified.
     /// - Returns: The integer represented by `text`, or nil if `text` contains a character that does not represent a numeral in `radix`.
     public init?(_ text: String, radix: Int = 10) {
+        // FIXME Remove this member when SE-0183 is done
+        self.init(Substring(text), radix: radix)
+    }
+
+    public init?<S: StringProtocol>(_ text: S, radix: Int = 10) {
         precondition(radix > 1)
         let (charsPerWord, power) = BigUInt.charsPerWord(forRadix: radix)
 
         var words: [Word] = []
-        var piece: String = ""
+        var end = text.endIndex
+        var start = end
         var count = 0
-        for c in text.characters.reversed() {
-            piece.insert(c, at: piece.startIndex)
+        while start != text.startIndex {
+            start = text.index(before: start)
             count += 1
             if count == charsPerWord {
-                guard let d = Word(piece, radix: radix) else { return nil }
+                // FIXME Remove String conversion when SE-0183 is done
+                guard let d = Word(String(text[start ..< end]), radix: radix) else { return nil }
                 words.append(d)
-                piece = ""
+                end = start
                 count = 0
             }
         }
-        if !piece.isEmpty {
-            guard let d = Word(piece, radix: radix) else { return nil }
+        if start != end {
+            // FIXME Remove String conversion when SE-0183 is done
+            guard let d = Word(String(text[start ..< end]), radix: radix) else { return nil }
             words.append(d)
         }
 

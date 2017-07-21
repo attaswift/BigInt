@@ -141,7 +141,7 @@ extension BigUInt {
             lhs = 0
         }
         else {
-            lhs.shiftRight(by: rhs.words.first ?? 0)
+            lhs.shiftRight(by: UInt(rhs))
         }
     }
     
@@ -160,7 +160,7 @@ extension BigUInt {
         if rhs > Word.max {
             return 0
         }
-        return lhs.shiftedRight(by: rhs.words.first ?? 0)
+        return lhs.shiftedRight(by: UInt(rhs))
     }
 
     public static func <<<Other: BinaryInteger>(lhs: BigUInt, rhs: Other) -> BigUInt {

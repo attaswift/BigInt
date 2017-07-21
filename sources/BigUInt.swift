@@ -34,12 +34,6 @@ public struct BigUInt: UnsignedInteger {
     
     public internal(set) var words: [Word]
 
-    // FIXME: Remove
-    public func _word(at index: Int) -> UInt {
-        guard index < words.count else { return 0 }
-        return words[index]
-    }
-
     /// Initializes a new BigUInt with the specified digits. The digits are ordered from least to most significant.
     internal init(words: [Word]) {
         self.words = words
