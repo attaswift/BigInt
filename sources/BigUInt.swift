@@ -116,18 +116,19 @@ extension BigUInt {
     }
     
     public init?<T: FloatingPoint>(exactly source: T) {
-        // FIXME: This assumes 1 << Word.bitWidth is exactly representable in T. (This isn't necessarily the case for half floats and the like.)
         guard source.isFinite else { return nil }
         self.words = []
-        var source = source.rounded(.towardZero)
-        guard source.isZero || source.sign == .plus else { return nil }
-        let unit = (T.radix == 2
-            ? T(sign: .plus, exponent: numericCast(Word.bitWidth), significand: 1)
-            : (2 as T) * T((1 as Word) &<< (Word.bitWidth - 1)))
-        while !source.isZero {
-            let word = source.truncatingRemainder(dividingBy: unit)
+        var value = source.rounded(.towardZero)
+        guard value == source else { return nil }
+        guard value.isZero || value.sign == .plus else { return nil }
+        let unit = (2 as T) * T((1 as Word) &<< (Word.bitWidth - 1))
+        // FIXME: Use a smaller unit when necessary
+        precondition(unit.isFinite, "Range of floating point type too narrow for conversion")
+        while !value.isZero {
+            let word = value.truncatingRemainder(dividingBy: unit)
             self.words.append(Word(word))
-            source /= unit
+            value /= unit
+            value.round(.towardZero)
         }
         shrink()
     }

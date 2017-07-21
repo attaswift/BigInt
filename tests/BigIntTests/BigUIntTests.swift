@@ -50,6 +50,34 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(BigUInt(extendedGraphemeClusterLiteral: "4"), BigUInt(4))
     }
 
+    func testInitFromFloats() {
+        XCTAssertEqual(BigUInt(exactly: 42.0 as Float), BigUInt(42))
+        XCTAssertEqual(BigUInt(exactly: 42.0 as Double), BigUInt(42))
+
+        XCTAssertEqual(BigUInt(exactly: -0.0 as Float), 0 as BigUInt)
+        XCTAssertEqual(BigUInt(exactly: -0.0 as Double), 0 as BigUInt)
+
+        XCTAssertNil(BigUInt(exactly: -42.0 as Float))
+        XCTAssertNil(BigUInt(exactly: -42.0 as Double))
+
+        XCTAssertNil(BigUInt(exactly: 42.5 as Float))
+        XCTAssertNil(BigUInt(exactly: 42.5 as Double))
+
+        XCTAssertNil(BigUInt(exactly: Float.leastNormalMagnitude))
+        XCTAssertNil(BigUInt(exactly: Double.leastNormalMagnitude))
+
+        XCTAssertNil(BigUInt(exactly: Float.infinity))
+        XCTAssertNil(BigUInt(exactly: Double.infinity))
+
+        XCTAssertNil(BigUInt(exactly: Float.nan))
+        XCTAssertNil(BigUInt(exactly: Double.nan))
+
+        XCTAssertEqual(BigUInt(exactly: Float.greatestFiniteMagnitude),
+                       "340282346638528859811704183484516925440" as BigUInt)
+        XCTAssertEqual(BigUInt(exactly: Double.greatestFiniteMagnitude),
+                       "179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" as BigUInt)
+    }
+
     func testCollection() {
         let b0 = BigUInt()
         XCTAssertEqual(b0.count, 0)
