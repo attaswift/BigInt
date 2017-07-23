@@ -45,7 +45,7 @@ extension BigUInt {
         // This is a Swift adaptation of "divmnu" from Hacker's Delight, which is in
         // turn a C adaptation of Knuth's Algorithm D (TAOCP vol 2, 4.3.1).
 
-        precondition(y.count > 0)
+        precondition(!y.isZero)
 
         // First, let's take care of the easy cases.
 

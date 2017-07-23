@@ -65,7 +65,6 @@ extension BigUInt {
         for i in 0 ..< Swift.max(a.count, b.count) {
             a[i] &= b[i]
         }
-        a.shrink()
     }
 
     /// Calculate the bitwise XOR of `a` and `b` and return the result.
@@ -76,6 +75,5 @@ extension BigUInt {
         for i in 0 ..< b.count {
             a[i] ^= b[i]
         }
-        a.shrink()
     }
 }

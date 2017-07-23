@@ -70,9 +70,9 @@ extension BigUInt {
         if down > 0 {
             var highbits: Word = 0
             for i in (ext ..< self.count).reversed() {
-                let Word = self[i]
-                result[i - ext] = highbits | Word >> down
-                highbits = Word << up
+                let word = self[i]
+                result[i - ext] = highbits | word >> down
+                highbits = word << up
             }
         }
         else {
@@ -82,7 +82,7 @@ extension BigUInt {
         }
         return result
     }
-    
+
     internal mutating func shiftRight(by amount: Word) {
         guard amount > 0 else { return }
         guard amount < self.bitWidth else { self = 0; return }
@@ -98,12 +98,11 @@ extension BigUInt {
             var i = self.count - 1
             var highbits: Word = 0
             while i >= 0 {
-                let Word = self[i]
-                self[i] = highbits | Word >> down
-                highbits = Word << up
+                let word = self[i]
+                self[i] = highbits | word >> down
+                highbits = word << up
                 i -= 1
             }
-            self.shrink()
         }
     }
     

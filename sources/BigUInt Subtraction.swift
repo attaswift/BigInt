@@ -18,6 +18,7 @@ extension BigUInt {
         precondition(shift >= 0)
         var carry: Word = word
         var i = shift
+        let count = self.count
         while carry > 0 && i < count {
             let (d, c) = self[i].subtractingReportingOverflow(carry)
             self[i] = d
@@ -68,7 +69,9 @@ extension BigUInt {
         precondition(shift >= 0)
         var carry = false
         var bi = 0
-        while bi < b.count || (shift + bi < count && carry) {
+        let bc = b.count
+        let count = self.count
+        while bi < bc || (shift + bi < count && carry) {
             let ai = shift + bi
             let (d, c) = self[ai].subtractingReportingOverflow(b[bi])
             if carry {

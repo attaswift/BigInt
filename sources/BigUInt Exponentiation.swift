@@ -46,16 +46,17 @@ extension BigUInt {
     ///
     /// - Complexity: O(exponent.count * modulus.count^log2(3)) or somesuch
     public func power(_ exponent: BigUInt, modulus: BigUInt) -> BigUInt {
-        if modulus == 1 { return 0 }
+        if modulus == (1 as BigUInt) { return 0 }
         var result = BigUInt(1)
         var b = self % modulus
-        var e = exponent
-        while e > 0 {
-            if e[0] & 1 == 1 {
-                result = (result * b) % modulus
+        for var e in exponent.words {
+            for _ in 0 ..< Word.bitWidth {
+                if e & 1 == 1 {
+                    result = (result * b) % modulus
+                }
+                e >>= 1
+                b = (b * b) % modulus
             }
-            e >>= 1
-            b = (b * b) % modulus
         }
         return result
     }
