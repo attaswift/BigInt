@@ -132,7 +132,7 @@ extension BigUInt {
     ///
     /// - Requires: !isZero
     /// - Complexity: O(count)
-    public mutating func decrement(atPosition shift: Int = 0) {
+    public mutating func decrement(shiftedBy shift: Int = 0) {
         self.subtract(1, shiftedBy: shift)
     }
 

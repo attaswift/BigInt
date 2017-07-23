@@ -42,7 +42,7 @@ extension BigUInt {
     ///   individually. (The fused operation doesn't need to allocate space for temporary big integers.)
     /// - Returns: `self` is set to `self + (x * y) << (shift * 2^Word.bitWidth)`
     /// - Complexity: O(count)
-    public mutating func multiplyAndAdd(_ x: BigUInt, _ y: Word, atPosition shift: Int = 0) {
+    public mutating func multiplyAndAdd(_ x: BigUInt, _ y: Word, shiftedBy shift: Int = 0) {
         precondition(shift >= 0)
         guard y != 0 && x.count > 0 else { return }
         guard y != 1 else { self.add(x, shiftedBy: shift); return }
@@ -102,7 +102,7 @@ extension BigUInt {
             let right = (xc < yc ? x : y)
             var result = BigUInt()
             for i in (0 ..< right.count).reversed() {
-                result.multiplyAndAdd(left, right[i], atPosition: i)
+                result.multiplyAndAdd(left, right[i], shiftedBy: i)
             }
             return result
         }

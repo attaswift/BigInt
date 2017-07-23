@@ -74,7 +74,7 @@ extension BigUInt {
     /// the word that is to be incremented.
     ///
     /// - Complexity: O(count + shift)
-    internal mutating func increment(atPosition shift: Int = 0) {
+    internal mutating func increment(shiftedBy shift: Int = 0) {
         self.addWord(1, shiftedBy: shift)
     }
 
