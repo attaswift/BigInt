@@ -32,7 +32,6 @@ extension BigUInt {
         return y << twos
     }
     
-    #if false // FIXME Reenable once BigInt works
     /// Returns the [multiplicative inverse of this integer in modulo `modulus` arithmetic][inverse],
     /// or `nil` if there is no such number.
     /// 
@@ -51,8 +50,7 @@ extension BigUInt {
             (r1, r2) = (r2, r1 - quotient * r2)
         }
         if r1 > 1 { return nil }
-        if t1.negative { return modulus - t1.abs }
-        return t1.abs
+        if t1.sign == .minus { return modulus - t1.magnitude }
+        return t1.magnitude
     }
-    #endif
 }
