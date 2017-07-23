@@ -6,6 +6,75 @@
 //  Copyright © 2016-2017 Károly Lőrentey.
 //
 
+//MARK: Full-width multiplication and division
+
+extension UInt {
+    /// Divide the two-digit number `(u1, u0)` by a single digit `v` and return the quotient and remainder.
+    ///
+    /// - Requires: `u1 < v`, so that the result will fit in a single digit.
+    /// - Complexity: O(1) with 2 divisions, 6 multiplications and ~12 or so additions/subtractions.
+    internal static func fullDivide(_ u: (high: UInt, low: UInt), _ v: UInt) -> (div: UInt, mod: UInt) {
+        // Division is complicated; doing it with single-digit operations is maddeningly complicated.
+        // This is a Swift adaptation for "divlu2" in Hacker's Delight,
+        // which is in turn a C adaptation of Knuth's Algorithm D (TAOCP vol 2, 4.3.1).
+        precondition(u.high < v)
+
+        /// Find the half-digit quotient in `(uh, ul) / vn`, which must be normalized.
+        ///
+        /// - Requires: uh < vn && ul.high == 0 && vn.width = width(Digit)
+        func quotient(_ uh: UInt, _ ul: UInt, _ vn: UInt) -> UInt {
+            let vn1 = vn >> 32
+            let vn0 = vn & 0xFFFFFFFF
+            let q = uh / vn1 // Approximated quotient.
+            let r = uh - q * vn1 // Remainder, less than vn1
+            let p = q * vn0
+            // q is often already correct, but sometimes the approximation overshoots by at most 2.
+            // The code that follows checks for this while being careful to only perform single-digit operations.
+            if q >> 32 == 0 && p <= (r << 32) | ul { return q }
+            if (r + vn1) >> 32 != 0 { return q - 1 }
+            if (q - 1) >> 32 == 0 && (p - vn0) <= ((r + vn1) << 32) + ul { return q - 1 }
+            assert((r + 2 * vn1) >> 32 != 0 || p - 2 * vn0 <= ((r + 2 * vn1) << 32) + ul)
+            return q - 2
+        }
+        /// Divide 3 half-digits by 2 half-digits to get a half-digit quotient and a full-digit remainder.
+        ///
+        /// - Requires: uh < vn && ul.high == 0 && vn.width = width(Digit)
+        func divmod(_ uh: UInt, _ ul: UInt, _ v: UInt) -> (div: UInt, mod: UInt) {
+            let q = quotient(uh, ul, v)
+            // Note that `uh.low` masks off a couple of bits, and `q * v` and the
+            // subtraction are likely to overflow. Despite this, the end result (remainder) will
+            // still be correct and it will fit inside a single (full) Digit.
+            let r = ((uh << 32) + ul) &- q &* v
+            assert(r < v)
+            return (q, r)
+        }
+
+        // Normalize u and v such that v has no leading zeroes.
+        let z = UInt(v.leadingZeroBitCount)
+        let w = UInt(UInt.bitWidth) - z
+        let vn = v << z
+
+        let un32 = (z == 0 ? u.high : (u.high << z) | (u.low >> w)) // No bits are lost
+        let un10 = u.low << z
+        let un1 = un10 >> 32
+        let un0 = un10 & 0xFFFFFFFF
+
+        // Divide `(un32,un10)` by `vn`, splitting the full 4/2 division into two 3/2 ones.
+        let (q1, un21) = divmod(un32, un1, vn)
+        let (q0, rn) = divmod(un21, un0, vn)
+
+        // Undo normalization of the remainder and combine the two halves of the quotient.
+        let mod = rn >> z
+        let div = (q1 << 32) + q0
+        return (div, mod)
+    }
+
+    func dividingFullWidth(_ dividend: (high: UInt, low: UInt.Magnitude)) -> (quotient: UInt, remainder: UInt) {
+        let r = UInt.fullDivide(dividend, self)
+        return (r.div, r.mod)
+    }
+}
+
 extension BigUInt {
     //MARK: Division
 
