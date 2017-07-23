@@ -41,7 +41,7 @@ extension BigUInt: CustomStringConvertible {
         self.init(Substring(text), radix: radix)
     }
 
-    public init?<S: StringProtocol>(_ text: S, radix: Int = 10) {
+    public init?(_ text: Substring, radix: Int = 10) {
         precondition(radix > 1)
         let (charsPerWord, power) = BigUInt.charsPerWord(forRadix: radix)
 
