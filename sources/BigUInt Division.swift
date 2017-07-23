@@ -136,7 +136,7 @@ extension BigUInt {
             // it may overshoot by at most 1, in which case the product will be greater
             // than the remainder.
             let product = divisor.multiplied(byWord: q)
-            if product <= remainder[j - dc ... j] { // FIXME: Compare slice directly
+            if product <= remainder.extract(j - dc ... j) {
                 remainder.subtract(product, shiftedBy: j - dc)
                 quotient[j - dc] = q
             }

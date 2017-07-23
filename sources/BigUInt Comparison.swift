@@ -37,12 +37,5 @@ extension BigUInt: Comparable {
     public static func <(a: BigUInt, b: BigUInt) -> Bool {
         return BigUInt.compare(a, b) == .orderedAscending
     }
-
-    /// Return true iff this integer is zero.
-    ///
-    /// - Complexity: O(1)
-    var isZero: Bool {
-        return count == 0
-    }
 }
 

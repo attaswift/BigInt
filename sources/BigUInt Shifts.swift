@@ -54,7 +54,7 @@ extension BigUInt {
             }
         }
         if ext > 0 && self.count > 0 {
-            self.words.insert(contentsOf: repeatElement(0 as Word, count: ext), at: 0)
+            self.shiftLeft(byWords: ext)
         }
     }
     
@@ -92,7 +92,7 @@ extension BigUInt {
         let up = Word(Word.bitWidth) - down
         
         if ext > 0 {
-            self.words.removeSubrange(0 ..< ext)
+            self.shiftRight(byWords: ext)
         }
         if down > 0 {
             var i = self.count - 1
