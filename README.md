@@ -116,18 +116,18 @@ Setup instructions:
 
     ```Swift
     .Package(url: "https://github.com/lorentey/BigInt.git", majorVersion: 2, minor: 1)
-     ```
+    ```
 
 - **CocoaPods:** Put this in your `Podfile`:
 
     ```Ruby
-pod 'BigInt', '~> 2.1'
+    pod 'BigInt', '~> 2.1'
     ```
 
 - **Carthage:** Put this in your `Cartfile`:
 
     ```
-github "lorentey/BigInt" ~> 2.1
+    github "lorentey/BigInt" ~> 2.1
     ```
 
 

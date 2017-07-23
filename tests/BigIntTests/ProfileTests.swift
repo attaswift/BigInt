@@ -11,6 +11,14 @@ import BigInt
 
 #if Profile
 
+func factorial(_ n: Int) -> BigUInt {
+    var fact = BigUInt(1)
+    for i in BigUInt.Word(1) ... BigUInt.Word(n) {
+        fact.multiply(byWord: i)
+    }
+    return fact
+}
+
 class ProfileTests: XCTestCase {
     typealias Word = BigUInt.Word
 
@@ -38,7 +46,8 @@ class ProfileTests: XCTestCase {
                 }
             }
         }
-        print(n1, n2)
+        noop(n1)
+        noop(n2)
     }
 
     func checkFactorial(fact: BigUInt, n: Int, file: StaticString = #file, line: UInt = #line) {
@@ -51,19 +60,44 @@ class ProfileTests: XCTestCase {
         XCTAssertEqual(remaining, 1, file: file, line: line)
     }
 
-    func testMultiplicationByDigit() {
+    func testDivisionOfFactorial() {
+        let n = 32767
+        let fact = factorial(n)
+        self.measure {
+            checkFactorial(fact: fact, n: n)
+        }
+    }
+
+    func testPrintingFactorial() {
+        let n = 32767
+        let fact = factorial(n)
+        var string: String = ""
+        self.measure {
+            string = String(fact, radix: 10)
+        }
+        XCTAssertEqual(BigUInt(string, radix: 10), fact)
+    }
+
+    func testReadingFactorial() {
+        let n = 32767
+        let fact = factorial(n)
+        let string = String(fact, radix: 10)
+        print(string)
+        self.measure {
+            XCTAssertEqual(BigUInt(string, radix: 10), fact)
+        }
+    }
+
+    func testFactorial() {
         var fact = BigUInt()
         let n = 32767
         self.measure {
-            fact = BigUInt(1)
-            for i in 1...n {
-                fact.multiply(byWord: Word(i))
-            }
+            fact = factorial(n)
         }
         checkFactorial(fact: fact, n: n)
     }
 
-    func testBalancedMultiplication() {
+    func testBalancedFactorial() {
         func balancedFactorial(level: Int, offset: Int = 0) -> BigUInt {
             if level == 0 {
                 return BigUInt(offset == 0 ? 1 : offset)
@@ -121,7 +155,12 @@ class ProfileTests: XCTestCase {
     }
 
     func testSquareRoot() {
-        var numbers: [BigUInt] = (1...1000).map { _ in BigUInt.randomInteger(withMaximumWidth: 60 * MemoryLayout<Word>.size * 8) }
+        var rnd = PseudoRandomNumbers(seed: 42)
+        func randomBigUInt() -> BigUInt {
+            return BigUInt(words: (0 ..< 60).map { _ in rnd.next()! })
+        }
+        let numbers = (0 ..< 1000).map { _ in randomBigUInt() }
+
         var roots: [BigUInt] = []
         self.measure {
             roots.removeAll()
