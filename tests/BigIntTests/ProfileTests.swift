@@ -11,10 +11,18 @@ import BigInt
 
 #if Profile
 
+func factorial(_ n: Int) -> BigUInt {
+    var fact = BigUInt(1)
+    for i in 1...n {
+        fact.multiply(byDigit: BigUInt.Digit(i))
+    }
+    return fact
+}
+
 class ProfileTests: XCTestCase {
     typealias Digit = BigUInt.Digit
 
-    func measure_(autostart: Bool = true, block: @escaping (Void)->Void) {
+    func measure_(autostart: Bool = true, block: @escaping ()->Void) {
         var round = 0
         self.measureMetrics(type(of: self).defaultPerformanceMetrics(), automaticallyStartMeasuring: autostart) {
             print("Round \(round) started")
@@ -38,7 +46,8 @@ class ProfileTests: XCTestCase {
                 }
             }
         }
-        print(n1, n2)
+        noop(n1)
+        noop(n2)
     }
 
     func checkFactorial(fact: BigUInt, n: Int, file: StaticString = #file, line: UInt = #line) {
@@ -51,19 +60,44 @@ class ProfileTests: XCTestCase {
         XCTAssertEqual(remaining, 1, file: file, line: line)
     }
 
-    func testMultiplicationByDigit() {
+    func testDivisionOfFactorial() {
+        let n = 32767
+        let fact = factorial(n)
+        self.measure {
+            self.checkFactorial(fact: fact, n: n)
+        }
+    }
+
+    func testPrintingFactorial() {
+        let n = 32767
+        let fact = factorial(n)
+        var string: String = ""
+        self.measure {
+            string = String(fact, radix: 10)
+        }
+        XCTAssertEqual(BigUInt(string, radix: 10), fact)
+    }
+
+    func testReadingFactorial() {
+        let n = 32767
+        let fact = factorial(n)
+        let string = String(fact, radix: 10)
+        print(string)
+        self.measure {
+            XCTAssertEqual(BigUInt(string, radix: 10), fact)
+        }
+    }
+
+    func testFactorial() {
         var fact = BigUInt()
         let n = 32767
         self.measure {
-            fact = BigUInt(1)
-            for i in 1...n {
-                fact.multiply(byDigit: Digit(i))
-            }
+            fact = factorial(n)
         }
         checkFactorial(fact: fact, n: n)
     }
 
-    func testBalancedMultiplication() {
+    func testBalancedFactorial() {
         func balancedFactorial(level: Int, offset: Int = 0) -> BigUInt {
             if level == 0 {
                 return BigUInt(offset == 0 ? 1 : offset)
@@ -79,7 +113,7 @@ class ProfileTests: XCTestCase {
         self.measure {
             fact = balancedFactorial(level: power)
         }
-        checkFactorial(fact: fact, n: 1 << power - 1)
+        checkFactorial(fact: fact, n: ((1 as Int) << power) - 1)
     }
 
     func testDivision() {
@@ -117,11 +151,17 @@ class ProfileTests: XCTestCase {
         for i in 0..<mods.count {
             XCTAssertEqual(mods[i], 0, "div = \(divs[i]), mod = \(mods[i]) for divisor = \(divisors[i])")
         }
-        checkFactorial(fact: fact, n: 1 << power - 1)
+        checkFactorial(fact: fact, n: ((1 as Int) << power) - 1)
     }
 
     func testSquareRoot() {
-        var numbers: [BigUInt] = (1...1000).map { _ in BigUInt.randomInteger(withMaximumWidth: 60 * MemoryLayout<Digit>.size * 8) }
+        var rnd = PseudoRandomNumbers(seed: 42)
+        func randomBigUInt() -> BigUInt {
+            let digits: [Digit] = (0 ..< 60).map { _ in rnd.next()! }
+            return BigUInt(digits)
+        }
+        let numbers = (0 ..< 1000).map { _ in randomBigUInt() }
+
         var roots: [BigUInt] = []
         self.measure {
             roots.removeAll()

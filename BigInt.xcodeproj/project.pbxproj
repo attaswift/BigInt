@@ -108,6 +108,10 @@
 		BB241CE41DDB79E30067F917 /* BigUIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C571DDB70690067F917 /* BigUIntTests.swift */; };
 		BB241CE51DDB79E30067F917 /* BitwiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C581DDB70690067F917 /* BitwiseTests.swift */; };
 		BB241CE61DDB79E30067F917 /* DigitsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C591DDB70690067F917 /* DigitsTests.swift */; };
+		BB4273F61F24AFCC00065766 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4273F41F24AFC800065766 /* Tools.swift */; };
+		BB4273F71F24AFCD00065766 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4273F41F24AFC800065766 /* Tools.swift */; };
+		BB4273F81F24AFCD00065766 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4273F41F24AFC800065766 /* Tools.swift */; };
+		BB4273F91F24AFCE00065766 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4273F41F24AFC800065766 /* Tools.swift */; };
 		BBB55ABD1C8F80020050DDA9 /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBB55AB21C8F80020050DDA9 /* BigInt.framework */; };
 		BBB55ADE1C8F88F20050DDA9 /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBB55AD41C8F88F20050DDA9 /* BigInt.framework */; };
 		BBB55B081C8F8CBC0050DDA9 /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBB55AFE1C8F8CBB0050DDA9 /* BigInt.framework */; };
@@ -183,6 +187,7 @@
 		BB241CEA1DDB7B620067F917 /* generate-docs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "generate-docs.sh"; sourceTree = "<group>"; };
 		BB241CEB1DDB7B620067F917 /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		BB241CF01DDB84210067F917 /* .codecov.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .codecov.yml; sourceTree = "<group>"; };
+		BB4273F41F24AFC800065766 /* Tools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
 		BBB55AB21C8F80020050DDA9 /* BigInt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BigInt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBB55AB71C8F80020050DDA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BBB55ABC1C8F80020050DDA9 /* BigInt-Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "BigInt-Test.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -355,6 +360,7 @@
 				BB241C581DDB70690067F917 /* BitwiseTests.swift */,
 				BB241C591DDB70690067F917 /* DigitsTests.swift */,
 				BB241C5A1DDB70690067F917 /* ProfileTests.swift */,
+				BB4273F41F24AFC800065766 /* Tools.swift */,
 				BBB55AC31C8F80020050DDA9 /* Info.plist */,
 			);
 			name = Tests;
@@ -663,6 +669,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB241CCA1DDB71A70067F917 /* ProfileTests.swift in Sources */,
+				BB4273F91F24AFCE00065766 /* Tools.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -699,6 +706,7 @@
 				BB241CE31DDB79E30067F917 /* BigIntTests.swift in Sources */,
 				BB241CE61DDB79E30067F917 /* DigitsTests.swift in Sources */,
 				BB241CBB1DDB71A50067F917 /* ProfileTests.swift in Sources */,
+				BB4273F61F24AFCC00065766 /* Tools.swift in Sources */,
 				BB241CE41DDB79E30067F917 /* BigUIntTests.swift in Sources */,
 				BB241CE51DDB79E30067F917 /* BitwiseTests.swift in Sources */,
 			);
@@ -737,6 +745,7 @@
 				BB241CDF1DDB79E30067F917 /* BigIntTests.swift in Sources */,
 				BB241CE21DDB79E30067F917 /* DigitsTests.swift in Sources */,
 				BB241CC01DDB71A60067F917 /* ProfileTests.swift in Sources */,
+				BB4273F71F24AFCD00065766 /* Tools.swift in Sources */,
 				BB241CE01DDB79E30067F917 /* BigUIntTests.swift in Sources */,
 				BB241CE11DDB79E30067F917 /* BitwiseTests.swift in Sources */,
 			);
@@ -801,6 +810,7 @@
 				BB241CDB1DDB79E20067F917 /* BigIntTests.swift in Sources */,
 				BB241CDE1DDB79E20067F917 /* DigitsTests.swift in Sources */,
 				BB241CC51DDB71A60067F917 /* ProfileTests.swift in Sources */,
+				BB4273F81F24AFCD00065766 /* Tools.swift in Sources */,
 				BB241CDC1DDB79E20067F917 /* BigUIntTests.swift in Sources */,
 				BB241CDD1DDB79E20067F917 /* BitwiseTests.swift in Sources */,
 			);
