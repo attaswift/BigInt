@@ -444,37 +444,37 @@ class BigUIntTests: XCTestCase {
 
     func testLowHigh() {
         let a = BigUInt(words: [0, 1, 2, 3])
-        XCTAssertEqual(a.low, BigUInt(words: [0, 1]))
-        XCTAssertEqual(a.high, BigUInt(words: [2, 3]))
-        XCTAssertEqual(a.low.low, BigUInt(words: [0]))
-        XCTAssertEqual(a.low.high, BigUInt(words: [1]))
-        XCTAssertEqual(a.high.low, BigUInt(words: [2]))
-        XCTAssertEqual(a.high.high, BigUInt(words: [3]))
+        check(a.low, .inline(0, 1), [0, 1])
+        check(a.high, .inline(2, 3), [2, 3])
+        check(a.low.low, .inline(0, 0), [])
+        check(a.low.high, .inline(1, 0), [1])
+        check(a.high.low, .inline(2, 0), [2])
+        check(a.high.high, .inline(3, 0), [3])
 
         let b = BigUInt(words: [0, 1, 2, 3, 4, 5])
 
         let bl = b.low
-        XCTAssertEqual(bl, BigUInt(words: [0, 1, 2]))
+        check(bl, .slice(from: 0, to: 3), [0, 1, 2])
         let bh = b.high
-        XCTAssertEqual(bh, BigUInt(words: [3, 4, 5]))
+        check(bh, .slice(from: 3, to: 6), [3, 4, 5])
 
         let bll = bl.low
-        XCTAssertEqual(bll, BigUInt(words: [0, 1]))
+        check(bll, .inline(0, 1), [0, 1])
         let blh = bl.high
-        XCTAssertEqual(blh, BigUInt(words: [2, 0]))
+        check(blh, .inline(2, 0), [2])
         let bhl = bh.low
-        XCTAssertEqual(bhl, BigUInt(words: [3, 4]))
+        check(bhl, .inline(3, 4), [3, 4])
         let bhh = bh.high
-        XCTAssertEqual(bhh, BigUInt(words: [5, 0]))
+        check(bhh, .inline(5, 0), [5])
 
         let blhl = bll.low
-        XCTAssertEqual(blhl, BigUInt(words: [0]))
+        check(blhl, .inline(0, 0), [])
         let blhh = bll.high
-        XCTAssertEqual(blhh, BigUInt(words: [1]))
+        check(blhh, .inline(1, 0), [1])
         let bhhl = bhl.low
-        XCTAssertEqual(bhhl, BigUInt(words: [3]))
+        check(bhhl, .inline(3, 0), [3])
         let bhhh = bhl.high
-        XCTAssertEqual(bhhh, BigUInt(words: [4]))
+        check(bhhh, .inline(4, 0), [4])
     }
 
     func testComparison() {
@@ -565,110 +565,102 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(BigUInt(0) + BigUInt(Word.max), BigUInt(Word.max))
         XCTAssertEqual(BigUInt(Word.max) + BigUInt(1), BigUInt(words: [0, 1]))
 
-        var b = BigUInt()
-        XCTAssertEqual(b, 0)
+        check(BigUInt(3) + BigUInt(42), .inline(45, 0), [45])
+        check(BigUInt(3) + BigUInt(42), .inline(45, 0), [45])
 
-        b.add(BigUInt(Word.max))
-        XCTAssertEqual(b, BigUInt(Word.max))
+        check(0 + BigUInt(Word.max), .inline(Word.max, 0), [Word.max])
+        check(1 + BigUInt(Word.max), .inline(0, 1), [0, 1])
+        check(BigUInt(low: 0, high: 1) + BigUInt(low: 3, high: 4), .inline(3, 5), [3, 5])
+        check(BigUInt(low: 3, high: 5) + BigUInt(low: 0, high: Word.max), .array, [3, 4, 1])
+        check(BigUInt(words: [3, 4, 1]) + BigUInt(low: 0, high: Word.max), .array, [3, 3, 2])
+        check(BigUInt(words: [3, 3, 2]) + 2, .array, [5, 3, 2])
+        check(BigUInt(words: [Word.max - 5, Word.max, 4, Word.max]).addingWord(6), .array, [0, 0, 5, Word.max])
 
-        b.add(1)
-        XCTAssertEqual(b, BigUInt(words: [0, 1]))
-
-        b.add(BigUInt(words: [3, 4]))
-        XCTAssertEqual(b, BigUInt(words: [3, 5]))
-
-        b.add(BigUInt(words: [0, Word.max]))
-        XCTAssertEqual(b, BigUInt(words: [3, 4, 1]))
-
-        b.add(BigUInt(words: [0, Word.max]))
-        XCTAssertEqual(b, BigUInt(words: [3, 3, 2]))
-
-        b += 2
-        XCTAssertEqual(b, BigUInt(words: [5, 3, 2]))
-
-        b = BigUInt(words: [Word.max, 2, Word.max])
+        var b = BigUInt(words: [Word.max, 2, Word.max])
         b.increment()
-        XCTAssertEqual(b, BigUInt(words: [0, 3, Word.max]))
-
-        XCTAssertEqual(BigUInt(words: [Word.max - 5, Word.max, 4, Word.max]).addingWord(6), BigUInt(words: [0, 0, 5, Word.max]))
-
+        check(b, .array, [0, 3, Word.max])
     }
 
     func testShiftedAddition() {
         var b = BigUInt()
         b.add(1, shiftedBy: 1)
-        XCTAssertEqual(b, BigUInt(words: [0, 1]))
+        check(b, .inline(0, 1), [0, 1])
 
         b.add(2, shiftedBy: 3)
-        XCTAssertEqual(b, BigUInt(words: [0, 1, 0, 2]))
+        check(b, .array, [0, 1, 0, 2])
 
         b.add(BigUInt(Word.max), shiftedBy: 1)
-        XCTAssertEqual(b, BigUInt(words: [0, 0, 1, 2]))
+        check(b, .array, [0, 0, 1, 2])
     }
 
     func testSubtraction() {
         var a1 = BigUInt(words: [1, 2, 3, 4])
         XCTAssertEqual(ArithmeticOverflow.none, a1.subtractWordReportingOverflow(3, shiftedBy: 1))
-        XCTAssertEqual(a1, BigUInt(words: [1, Word.max, 2, 4]))
+        check(a1, .array, [1, Word.max, 2, 4])
 
         let (diff, overflow) = BigUInt(words: [1, 2, 3, 4]).subtractingWordReportingOverflow(2)
-        XCTAssertEqual(diff, BigUInt(words: [Word.max, 1, 3, 4]))
         XCTAssertEqual(ArithmeticOverflow.none, overflow)
+        check(diff, .array, [Word.max, 1, 3, 4])
 
         var a2 = BigUInt(words: [1, 2, 3, 4])
         XCTAssertEqual(ArithmeticOverflow.overflow, a2.subtractWordReportingOverflow(5, shiftedBy: 3))
-        XCTAssertEqual(a2, BigUInt(words: [1, 2, 3, Word.max]))
+        check(a2, .array, [1, 2, 3, Word.max])
 
         var a3 = BigUInt(words: [1, 2, 3, 4])
         a3.subtractWord(4, shiftedBy: 3)
-        XCTAssertEqual(a3, BigUInt(words: [1, 2, 3]))
+        check(a3, .array, [1, 2, 3])
 
         var a4 = BigUInt(words: [1, 2, 3, 4])
         a4.decrement()
-        XCTAssertEqual(a4, BigUInt(words: [0, 2, 3, 4]))
+        check(a4, .array, [0, 2, 3, 4])
         a4.decrement()
-        XCTAssertEqual(a4, BigUInt(words: [Word.max, 1, 3, 4]))
+        check(a4, .array, [Word.max, 1, 3, 4])
 
-        XCTAssertEqual(BigUInt(words: [1, 2, 3, 4]).subtractingWord(5), BigUInt(words: [Word.max - 3, 1, 3, 4]))
+        check(BigUInt(words: [1, 2, 3, 4]).subtractingWord(5),
+              .array, [Word.max - 3, 1, 3, 4])
 
-        XCTAssertEqual(BigUInt(0) - BigUInt(0), BigUInt(0))
+        check(BigUInt(0) - BigUInt(0), .inline(0, 0), [])
 
         var b = BigUInt(words: [1, 2, 3, 4])
         XCTAssertEqual(ArithmeticOverflow.none, b.subtractReportingOverflow(BigUInt(words: [0, 1, 1, 1])))
-        XCTAssertEqual(Array(b.words), [1, 1, 2, 3])
+        check(b, .array, [1, 1, 2, 3])
 
         let b1 = BigUInt(words: [1, 1, 2, 3]).subtractingReportingOverflow(BigUInt(words: [1, 1, 3, 3]))
-        XCTAssertEqual(b1.0, BigUInt(words: [0, 0, Word.max, Word.max]))
-        XCTAssertEqual(ArithmeticOverflow.overflow, b1.1)
+        XCTAssertEqual(ArithmeticOverflow.overflow, b1.overflow)
+        check(b1.partialValue, .array, [0, 0, Word.max, Word.max])
 
         let b2 = BigUInt(words: [0, 0, 1]) - BigUInt(words: [1])
-        XCTAssertEqual(Array(b2.words), [Word.max, Word.max])
+        check(b2, .array, [Word.max, Word.max])
 
         var b3 = BigUInt(words: [1, 0, 0, 1])
         b3 -= 2
-        XCTAssertEqual(Array(b3.words), [Word.max, Word.max, Word.max])
+        check(b3, .array, [Word.max, Word.max, Word.max])
+
+        check(BigUInt(42) - BigUInt(23), .inline(19, 0), [19])
     }
 
     func testMultiplyByWord() {
-        XCTAssertEqual(BigUInt(words: [1, 2, 3, 4]).multiplied(byWord: 0), BigUInt(0))
-        XCTAssertEqual(BigUInt(words: [1, 2, 3, 4]).multiplied(byWord: 2), BigUInt(words: [2, 4, 6, 8]))
+        check(BigUInt(words: [1, 2, 3, 4]).multiplied(byWord: 0), .inline(0, 0), [])
+        check(BigUInt(words: [1, 2, 3, 4]).multiplied(byWord: 2), .array, [2, 4, 6, 8])
 
         let full = Word.max
 
-        let b = BigUInt(words: [full, 0, full, 0, full]).multiplied(byWord: 2)
-        XCTAssertEqual(b, BigUInt(words: [full - 1, 1, full - 1, 1, full - 1, 1]))
+        check(BigUInt(words: [full, 0, full, 0, full]).multiplied(byWord: 2),
+              .array, [full - 1, 1, full - 1, 1, full - 1, 1])
 
-        let c = BigUInt(words: [full, full, full]).multiplied(byWord: 2)
-        XCTAssertEqual(c, BigUInt(words: [full - 1, full, full, 1]))
+        check(BigUInt(words: [full, full, full]).multiplied(byWord: 2),
+              .array, [full - 1, full, full, 1])
 
-        let d = BigUInt(words: [full, full, full]).multiplied(byWord: full)
-        XCTAssertEqual(d, BigUInt(words: [1, full, full, full - 1]))
+        check(BigUInt(words: [full, full, full]).multiplied(byWord: full),
+              .array, [1, full, full, full - 1])
 
-        let e = BigUInt("11111111111111111111111111111111", radix: 16)!.multiplied(byWord: 15)
-        XCTAssertEqual(e, BigUInt("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", radix: 16)!)
+        check(BigUInt("11111111111111111111111111111111", radix: 16)!.multiplied(byWord: 15),
+              .array, convertWords([UInt64.max, UInt64.max]))
 
-        let f = BigUInt("11111111111111111111111111111112", radix: 16)!.multiplied(byWord: 15)
-        XCTAssertEqual(f, BigUInt("10000000000000000000000000000000E", radix: 16)!)
+        check(BigUInt("11111111111111111111111111111112", radix: 16)!.multiplied(byWord: 15),
+              .array, convertWords([0xE, 0, 0x1]))
+
+        check(BigUInt(low: 1, high: 2).multiplied(byWord: 3), .inline(3, 6), [3, 6])
     }
 
     func testMultiplication() {
@@ -1179,19 +1171,19 @@ class BigUIntTests: XCTestCase {
         let primes: [BigUInt.Word] = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 79, 83, 89, 97]
         let pseudoPrimes: [BigUInt] = [
             /*  2 */ 2_047,
-                     /*  3 */ 1_373_653,
-                              /*  5 */ 25_326_001,
-                                       /*  7 */ 3_215_031_751,
-                                                /* 11 */ 2_152_302_898_747,
-                                                         /* 13 */ 3_474_749_660_383,
-                                                                  /* 17 */ 341_550_071_728_321,
-                                                                           /* 19 */ 341_550_071_728_321,
-                                                                                    /* 23 */ 3_825_123_056_546_413_051,
-                                                                                             /* 29 */ 3_825_123_056_546_413_051,
-                                                                                                      /* 31 */ 3_825_123_056_546_413_051,
-                                                                                                               /* 37 */ "318665857834031151167461",
-                                                                                                                        /* 41 */ "3317044064679887385961981",
-                                                                                                                                 ]
+            /*  3 */ 1_373_653,
+            /*  5 */ 25_326_001,
+            /*  7 */ 3_215_031_751,
+            /* 11 */ 2_152_302_898_747,
+            /* 13 */ 3_474_749_660_383,
+            /* 17 */ 341_550_071_728_321,
+            /* 19 */ 341_550_071_728_321,
+            /* 23 */ 3_825_123_056_546_413_051,
+            /* 29 */ 3_825_123_056_546_413_051,
+            /* 31 */ 3_825_123_056_546_413_051,
+            /* 37 */ "318665857834031151167461",
+            /* 41 */ "3317044064679887385961981",
+        ]
         for i in 0..<pseudoPrimes.count {
             let candidate = pseudoPrimes[i]
             print(candidate)
