@@ -32,14 +32,7 @@ struct PseudoRandomNumbers: Sequence, IteratorProtocol {
 }
 
 func convertWords<S: Sequence>(_ wideWords: S) -> [UInt] where S.Element == UInt64 {
-    switch UInt.bitWidth {
-    case 64:
-        return wideWords.map { UInt($0) }
-    case 32:
-        return wideWords.flatMap { [UInt($0 & 0xFFFFFFFF), UInt($0 >> 32)]}
-    default:
-        fatalError("Unexpected word width")
-    }
+    return wideWords.flatMap { $0.words }
 }
 
 extension String {
