@@ -8,70 +8,89 @@
 
 //MARK: Full-width multiplication and division
 
-extension UInt {
-    /// Divide the two-digit number `(u1, u0)` by a single digit `v` and return the quotient and remainder.
+extension FixedWidthInteger where Magnitude == Self {
+    private var halfShift: Self {
+        return Self(Self.bitWidth / 2)
+
+    }
+    private var high: Self {
+        return self &>> halfShift
+    }
+
+    private var low: Self {
+        let mask: Self = 1 &<< halfShift - 1
+        return self & mask
+    }
+
+    private var upshifted: Self {
+        return self &<< halfShift
+    }
+
+    private var split: (high: Self, low: Self) {
+        return (self.high, self.low)
+    }
+
+    private init(_ value: (high: Self, low: Self)) {
+        self = value.high.upshifted + value.low
+    }
+
+    /// Divide the double-width integer `dividend` by `self` and return the quotient and remainder.
     ///
-    /// - Requires: `u1 < v`, so that the result will fit in a single digit.
+    /// - Requires: `dividend.high < self`, so that the result will fit in a single digit.
     /// - Complexity: O(1) with 2 divisions, 6 multiplications and ~12 or so additions/subtractions.
-    internal static func fullDivide(_ u: (high: UInt, low: UInt), _ v: UInt) -> (div: UInt, mod: UInt) {
+    internal func fastDividingFullWidth(_ dividend: (high: Self, low: Self.Magnitude)) -> (quotient: Self, remainder: Self) {
         // Division is complicated; doing it with single-digit operations is maddeningly complicated.
         // This is a Swift adaptation for "divlu2" in Hacker's Delight,
         // which is in turn a C adaptation of Knuth's Algorithm D (TAOCP vol 2, 4.3.1).
-        precondition(u.high < v)
+        precondition(dividend.high < self)
 
-        /// Find the half-digit quotient in `(uh, ul) / vn`, which must be normalized.
+        /// Find the half-digit quotient in `u / vn`, which must be normalized.
         ///
-        /// - Requires: uh < vn && ul.high == 0 && vn.width = width(Digit)
-        func quotient(_ uh: UInt, _ ul: UInt, _ vn: UInt) -> UInt {
-            let vn1 = vn >> 32
-            let vn0 = vn & 0xFFFFFFFF
-            let q = uh / vn1 // Approximated quotient.
-            let r = uh - q * vn1 // Remainder, less than vn1
+        /// - Requires: u.high < vn && u.low.high == 0 && vn.leadingZeroBitCount == 0
+        func quotient(dividing u: (high: Self, low: Self), by vn: Self) -> Self {
+            let (vn1, vn0) = vn.split
+            // Get approximate quotient.
+            let (q, r) = u.high.quotientAndRemainder(dividingBy: vn1)
             let p = q * vn0
             // q is often already correct, but sometimes the approximation overshoots by at most 2.
             // The code that follows checks for this while being careful to only perform single-digit operations.
-            if q >> 32 == 0 && p <= (r << 32) | ul { return q }
-            if (r + vn1) >> 32 != 0 { return q - 1 }
-            if (q - 1) >> 32 == 0 && (p - vn0) <= ((r + vn1) << 32) + ul { return q - 1 }
-            assert((r + 2 * vn1) >> 32 != 0 || p - 2 * vn0 <= ((r + 2 * vn1) << 32) + ul)
+            if q.high == 0 && p <= r.upshifted + u.low { return q }
+            let r2 = r + vn1
+            if r2.high != 0 { return q - 1 }
+            if (q - 1).high == 0 && p - vn0 <= r2.upshifted + u.low { return q - 1 }
+            //assert((r + 2 * vn1).high != 0 || p - 2 * vn0 <= (r + 2 * vn1).upshifted + u.low)
             return q - 2
         }
         /// Divide 3 half-digits by 2 half-digits to get a half-digit quotient and a full-digit remainder.
         ///
-        /// - Requires: uh < vn && ul.high == 0 && vn.width = width(Digit)
-        func divmod(_ uh: UInt, _ ul: UInt, _ v: UInt) -> (div: UInt, mod: UInt) {
-            let q = quotient(uh, ul, v)
+        /// - Requires: u.high < v && u.low.high == 0 && vn.width = width(Digit)
+        func quotientAndRemainder(dividing u: (high: Self, low: Self), by v: Self) -> (quotient: Self, remainder: Self) {
+            let q = quotient(dividing: u, by: v)
             // Note that `uh.low` masks off a couple of bits, and `q * v` and the
             // subtraction are likely to overflow. Despite this, the end result (remainder) will
             // still be correct and it will fit inside a single (full) Digit.
-            let r = ((uh << 32) + ul) &- q &* v
+            let r = Self(u) &- q &* v
             assert(r < v)
             return (q, r)
         }
 
-        // Normalize u and v such that v has no leading zeroes.
-        let z = UInt(v.leadingZeroBitCount)
-        let w = UInt(UInt.bitWidth) - z
-        let vn = v << z
+        // Normalize the dividend and the divisor (self) such that the divisor has no leading zeroes.
+        let z = Self(self.leadingZeroBitCount)
+        let w = Self(Self.bitWidth) - z
+        let vn = self << z
 
-        let un32 = (z == 0 ? u.high : (u.high << z) | (u.low >> w)) // No bits are lost
-        let un10 = u.low << z
-        let un1 = un10 >> 32
-        let un0 = un10 & 0xFFFFFFFF
+        let un32 = (z == 0 ? dividend.high : (dividend.high &<< z) | (dividend.low &>> w)) // No bits are lost
+        let un10 = dividend.low &<< z
+        let (un1, un0) = un10.split
 
         // Divide `(un32,un10)` by `vn`, splitting the full 4/2 division into two 3/2 ones.
-        let (q1, un21) = divmod(un32, un1, vn)
-        let (q0, rn) = divmod(un21, un0, vn)
+        let (q1, un21) = quotientAndRemainder(dividing: (un32, un1), by: vn)
+        let (q0, rn) = quotientAndRemainder(dividing: (un21, un0), by: vn)
 
         // Undo normalization of the remainder and combine the two halves of the quotient.
         let mod = rn >> z
-        let div = (q1 << 32) + q0
+        let div = Self((q1, q0))
         return (div, mod)
-    }
-
-    func dividingFullWidth(_ dividend: (high: UInt, low: UInt.Magnitude)) -> (quotient: UInt, remainder: UInt) {
-        let r = UInt.fullDivide(dividend, self)
-        return (r.div, r.mod)
     }
 }
 
@@ -89,7 +108,7 @@ extension BigUInt {
         var remainder: Word = 0
         for i in (0 ..< count).reversed() {
             let u = self[i]
-            (self[i], remainder) = y.dividingFullWidth((remainder, u))
+            (self[i], remainder) = y.fastDividingFullWidth((remainder, u))
         }
         return remainder
     }
@@ -117,12 +136,11 @@ extension BigUInt {
         precondition(!y.isZero)
 
         // First, let's take care of the easy cases.
-
         if self.count < y.count {
             return (0, self)
         }
         if y.count == 1 {
-            // The single-Word case reduces to a simpler loop.
+            // The single-word case reduces to a simpler loop.
             let (div, mod) = quotientAndRemainder(dividingByWord: y[0])
             return (div, BigUInt(mod))
         }
@@ -134,7 +152,7 @@ extension BigUInt {
         //
         // The tricky part is that the algorithm needs to be able to do n+1/n word divisions,
         // but we only have a primitive for dividing two words by a single
-        // Word. (Remember that this step is also tricky when we do it on paper!)
+        // word. (Remember that this step is also tricky when we do it on paper!)
         //
         // The solution is that the long division can be approximated by a single full division
         // using just the most significant words. We can then use multiplications and
@@ -150,7 +168,7 @@ extension BigUInt {
         ///
         /// - Requires: (x.0, x.1) <= y && y.0.high != 0
         /// - Returns: The exact value when it fits in a single word, otherwise `Word.max`.
-        func approximateQuotient(x: (Word, Word, Word), y: (Word, Word)) -> Word {
+        func approximateQuotient(dividing x: (Word, Word, Word), by y: (Word, Word)) -> Word {
             // Start with q = (x.0, x.1) / y.0, (or Word.max on overflow)
             var q: Word
             var r: Word
@@ -161,7 +179,7 @@ extension BigUInt {
                 r = s
             }
             else {
-                (q, r) = y.0.dividingFullWidth((x.0, x.1))
+                (q, r) = y.0.fastDividingFullWidth((x.0, x.1))
             }
             // Now refine q by considering x.2 and y.1.
             // Note that since y is normalized, q * y - x is between 0 and 2.
@@ -198,7 +216,7 @@ extension BigUInt {
             let r2 = remainder[j]
             let r1 = remainder[j - 1]
             let r0 = remainder[j - 2]
-            let q = approximateQuotient(x: (r2, r1, r0), y: (d1, d0))
+            let q = approximateQuotient(dividing: (r2, r1, r0), by: (d1, d0))
 
             // Multiply the entire divisor with `q` and subtract the result from remainder.
             // Normalization ensures the 3/2 quotient will either be exact for the full division, or
