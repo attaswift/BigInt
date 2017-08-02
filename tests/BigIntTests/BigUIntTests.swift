@@ -665,6 +665,9 @@ class BigUIntTests: XCTestCase {
 
     func testMultiplication() {
         func test() {
+            check(BigUInt(low: 1, high: 1) * BigUInt(word: 3), .inline(3, 3), [3, 3])
+            check(BigUInt(word: 4) * BigUInt(low: 1, high: 2), .inline(4, 8), [4, 8])
+
             XCTAssertEqual(
                 BigUInt(words: [1, 2, 3, 4]) * BigUInt(),
                 BigUInt())
