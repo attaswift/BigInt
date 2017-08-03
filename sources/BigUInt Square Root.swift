@@ -16,8 +16,12 @@ extension BigUInt {
         // This implementation uses Newton's method.
         guard !self.isZero else { return BigUInt() }
         var x = BigUInt(1) << ((self.bitWidth + 1) / 2)
+        var y: BigUInt = 0
         while true {
-            let y = (x + self / x) >> 1
+            y.set(to: self)
+            y /= x
+            y += x
+            y >>= 1
             if x == y || x == y - 1 { break }
             x = y
         }

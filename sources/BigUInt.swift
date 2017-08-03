@@ -227,6 +227,22 @@ extension BigUInt {
             break
         }
     }
+
+    /// Set this integer to 0 without releasing allocated storage capacity (if any).
+    mutating func clear() {
+        self.set(to: 0)
+    }
+
+    /// Set this integer to `value` by copying its digits without releasing allocated storage capacity (if any).
+    mutating func set(to value: BigUInt) {
+        switch kind {
+        case .inline, .slice:
+            self = value
+        case .array:
+            self.storage.removeAll(keepingCapacity: true)
+            self.storage.append(contentsOf: value.words)
+        }
+    }
 }
 
 extension BigUInt {

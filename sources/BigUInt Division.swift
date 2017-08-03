@@ -136,25 +136,21 @@ extension BigUInt {
         return (div, mod)
     }
 
-    /// Divide this integer by `y` and return the resulting quotient and remainder.
-    ///
-    /// - Requires: `y > 0`
-    /// - Returns: `(quotient, remainder)` where `quotient = floor(self/y)`, `remainder = self - quotient * y`
-    /// - Complexity: O(count^2)
-    public func quotientAndRemainder(dividingBy y: BigUInt) -> (quotient: BigUInt, remainder: BigUInt) {
+    static func divide(_ x: inout BigUInt, by y: inout BigUInt) {
         // This is a Swift adaptation of "divmnu" from Hacker's Delight, which is in
         // turn a C adaptation of Knuth's Algorithm D (TAOCP vol 2, 4.3.1).
 
         precondition(!y.isZero)
 
         // First, let's take care of the easy cases.
-        if self < y {
-            return (0, self)
+        if x < y {
+            (x, y) = (0, x)
+            return
         }
         if y.count == 1 {
             // The single-word case reduces to a simpler loop.
-            let (div, mod) = quotientAndRemainder(dividingByWord: y[0])
-            return (div, BigUInt(mod))
+            y = BigUInt(x.divide(byWord: y[0]))
+            return
         }
 
         // In the hard cases, we will perform the long division algorithm we learned in school.
@@ -214,39 +210,55 @@ extension BigUInt {
         // To satisfy this requirement, we will normalize the division by multiplying
         // both the divisor and the dividend by the same (small) factor.
         let z = y.leadingZeroBitCount
-        let divisor = y << z
-        var remainder = self << z // We'll calculate the remainder in the normalized dividend.
+        y <<= z
+        x <<= z // We'll calculate the remainder in the normalized dividend.
         var quotient = BigUInt()
-        assert(divisor.count == y.count && divisor.leadingZeroBitCount == 0)
+        assert(y.leadingZeroBitCount == 0)
 
         // We're ready to start the long division!
-        let dc = divisor.count
-        let d1 = divisor[dc - 1]
-        let d0 = divisor[dc - 2]
-        for j in (dc ... remainder.count).reversed() {
+        let dc = y.count
+        let d1 = y[dc - 1]
+        let d0 = y[dc - 2]
+        var product: BigUInt = 0
+        for j in (dc ... x.count).reversed() {
             // Approximate dividing the top dc+1 words of `remainder` using the topmost 3/2 words.
-            let r2 = remainder[j]
-            let r1 = remainder[j - 1]
-            let r0 = remainder[j - 2]
+            let r2 = x[j]
+            let r1 = x[j - 1]
+            let r0 = x[j - 2]
             let q = approximateQuotient(dividing: (r2, r1, r0), by: (d1, d0))
 
             // Multiply the entire divisor with `q` and subtract the result from remainder.
             // Normalization ensures the 3/2 quotient will either be exact for the full division, or
             // it may overshoot by at most 1, in which case the product will be greater
             // than the remainder.
-            let product = divisor.multiplied(byWord: q)
-            if product <= remainder.extract(j - dc ... j) {
-                remainder.subtract(product, shiftedBy: j - dc)
+            product.set(to: y)
+            product.multiply(byWord: q)
+            if product <= x.extract(j - dc ..< j + 1) {
+                x.subtract(product, shiftedBy: j - dc)
                 quotient[j - dc] = q
             }
             else {
                 // This case is extremely rare -- it has a probability of 1/2^(Word.bitWidth - 1).
-                remainder.subtract(product - divisor, shiftedBy: j - dc)
+                x.subtract(product - y, shiftedBy: j - dc)
                 quotient[j - dc] = q - 1
             }
         }
         // The remainder's normalization needs to be undone, but otherwise we're done.
-        return (quotient, remainder >> z)
+        x >>= z
+        y = x
+        x = quotient
+    }
+
+    /// Divide this integer by `y` and return the resulting quotient and remainder.
+    ///
+    /// - Requires: `y > 0`
+    /// - Returns: `(quotient, remainder)` where `quotient = floor(self/y)`, `remainder = self - quotient * y`
+    /// - Complexity: O(count^2)
+    public func quotientAndRemainder(dividingBy y: BigUInt) -> (quotient: BigUInt, remainder: BigUInt) {
+        var x = self
+        var y = y
+        BigUInt.divide(&x, by: &y)
+        return (x, y)
     }
 
     /// Divide `x` by `y` and return the quotient.
@@ -267,13 +279,16 @@ extension BigUInt {
     ///
     /// - Note: Use `divided(by:)` if you also need the remainder.
     public static func /=(x: inout BigUInt, y: BigUInt) {
-        x = x.quotientAndRemainder(dividingBy: y).quotient
+        var y = y
+        BigUInt.divide(&x, by: &y)
     }
 
     /// Divide `x` by `y` and store the remainder in `x`.
     ///
     /// - Note: Use `divided(by:)` if you also need the remainder.
     public static func %=(x: inout BigUInt, y: BigUInt) {
-        x = x.quotientAndRemainder(dividingBy: y).remainder
+        var y = y
+        BigUInt.divide(&x, by: &y)
+        x = y
     }
 }
