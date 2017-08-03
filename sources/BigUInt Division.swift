@@ -145,10 +145,10 @@ extension BigUInt {
             return (div, BigUInt(mod))
         }
 
-        // In the hard cases, we will simply perform the long division algorithm we
-        // learned in school. It works by successively calculating the single-word quotient of
-        // the top y.count + 1 words of x divided by y, replacing the top of x with the remainder,
-        // and repeating the process one word lower.
+        // In the hard cases, we will perform the long division algorithm we learned in school.
+        // It works by successively calculating the single-word quotient of the top y.count + 1
+        // words of x divided by y, replacing the top of x with the remainder, and repeating
+        // the process one word lower.
         //
         // The tricky part is that the algorithm needs to be able to do n+1/n word divisions,
         // but we only have a primitive for dividing two words by a single
@@ -199,7 +199,7 @@ extension BigUInt {
         // The function above requires that the divisor's most significant word is larger than
         // Word.max / 2. This ensures that the approximation has tiny error bounds,
         // which is what makes this entire approach viable.
-        // To satisfy this requirement, we can simply normalize the division by multiplying
+        // To satisfy this requirement, we will normalize the division by multiplying
         // both the divisor and the dividend by the same (small) factor.
         let z = y.leadingZeroBitCount
         let divisor = y << z
