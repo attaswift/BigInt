@@ -18,7 +18,7 @@ extension BigUInt {
         var x = BigUInt(1) << ((self.bitWidth + 1) / 2)
         var y: BigUInt = 0
         while true {
-            y.set(to: self)
+            y.load(self)
             y /= x
             y += x
             y >>= 1

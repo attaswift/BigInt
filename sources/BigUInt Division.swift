@@ -231,7 +231,7 @@ extension BigUInt {
             // Normalization ensures the 3/2 quotient will either be exact for the full division, or
             // it may overshoot by at most 1, in which case the product will be greater
             // than the remainder.
-            product.set(to: y)
+            product.load(y)
             product.multiply(byWord: q)
             if product <= x.extract(j - dc ..< j + 1) {
                 x.subtract(product, shiftedBy: j - dc)

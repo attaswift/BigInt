@@ -172,6 +172,11 @@ extension BigUInt {
         }
     }
 
+    var capacity: Int {
+        guard case .array = kind else { return 0 }
+        return storage.capacity
+    }
+
     mutating func reserveCapacity(_ minimumCapacity: Int) {
         switch kind {
         case let .inline(w0, w1):
@@ -230,11 +235,11 @@ extension BigUInt {
 
     /// Set this integer to 0 without releasing allocated storage capacity (if any).
     mutating func clear() {
-        self.set(to: 0)
+        self.load(0)
     }
 
     /// Set this integer to `value` by copying its digits without releasing allocated storage capacity (if any).
-    mutating func set(to value: BigUInt) {
+    mutating func load(_ value: BigUInt) {
         switch kind {
         case .inline, .slice:
             self = value
