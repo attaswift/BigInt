@@ -136,7 +136,7 @@ extension BigUInt {
         precondition(!y.isZero)
 
         // First, let's take care of the easy cases.
-        if self.count < y.count {
+        if self < y {
             return (0, self)
         }
         if y.count == 1 {
