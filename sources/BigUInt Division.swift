@@ -44,7 +44,19 @@ extension FixedWidthInteger where Magnitude == Self {
         // which is in turn a C adaptation of Knuth's Algorithm D (TAOCP vol 2, 4.3.1).
         precondition(dividend.high < self)
 
-        /// Find the half-digit quotient in `u / vn`, which must be normalized.
+        // This replaces the implementation in stdlib, which is much slower.
+        // FIXME: Speed up stdlib. It should use full-width idiv on Intel processors, and
+        // fall back to a reasonably fast algorithm elsewhere.
+
+        // The trick here is that we're actually implementing a 4/2 long division using half-words,
+        // with the long division loop unrolled into two 3/2 half-word divisions.
+        // Luckily, 3/2 half-word division can be approximated by a single full-word division operation
+        // that, when the divisor is normalized, differs from the correct result by at most 2.
+
+        /// Find the half-word quotient in `u / vn`, which must be normalized.
+        /// `u` contains three half-words in the two halves of `u.high` and the lower half of
+        /// `u.low`. (The weird distribution makes for a slightly better fit with the input.)
+        /// `vn` contains the normalized divisor, consisting of two half-words.
         ///
         /// - Requires: u.high < vn && u.low.high == 0 && vn.leadingZeroBitCount == 0
         func quotient(dividing u: (high: Self, low: Self), by vn: Self) -> Self {
