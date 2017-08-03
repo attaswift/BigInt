@@ -201,31 +201,56 @@ class BigUIntTests: XCTestCase {
         check(a, .array, [2, 3, 4, 5])
     }
 
+    func testCapacity() {
+        XCTAssertEqual(BigUInt(low: 1, high: 2).capacity, 0)
+        XCTAssertEqual(BigUInt(words: 1 ..< 10).extract(2 ..< 5).capacity, 0)
+        var words: [Word] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        words.reserveCapacity(100)
+        XCTAssertEqual(BigUInt(words: words).capacity, 100)
+    }
+
     func testReserveCapacity() {
         var a = BigUInt()
         a.reserveCapacity(100)
         check(a, .array, [])
-        XCTAssertEqual(a.storage.capacity, 100)
+        XCTAssertEqual(a.capacity, 100)
 
         a = BigUInt(word: 1)
         a.reserveCapacity(100)
         check(a, .array, [1])
-        XCTAssertEqual(a.storage.capacity, 100)
+        XCTAssertEqual(a.capacity, 100)
 
         a = BigUInt(low: 1, high: 2)
         a.reserveCapacity(100)
         check(a, .array, [1, 2])
-        XCTAssertEqual(a.storage.capacity, 100)
+        XCTAssertEqual(a.capacity, 100)
 
         a = BigUInt(words: [1, 2, 3, 4])
         a.reserveCapacity(100)
         check(a, .array, [1, 2, 3, 4])
-        XCTAssertEqual(a.storage.capacity, 100)
+        XCTAssertEqual(a.capacity, 100)
 
         a = BigUInt(words: [1, 2, 3, 4, 5, 6], from: 1, to: 5)
         a.reserveCapacity(100)
         check(a, .array, [2, 3, 4, 5])
-        XCTAssertEqual(a.storage.capacity, 100)
+        XCTAssertEqual(a.capacity, 100)
+    }
+
+    func testLoad() {
+        var a: BigUInt = 0
+        a.reserveCapacity(100)
+
+        a.load(BigUInt(low: 1, high: 2))
+        check(a, .array, [1, 2])
+        XCTAssertEqual(a.capacity, 100)
+
+        a.load(BigUInt(words: [1, 2, 3, 4, 5, 6]))
+        check(a, .array, [1, 2, 3, 4, 5, 6])
+        XCTAssertEqual(a.capacity, 100)
+
+        a.clear()
+        check(a, .array, [])
+        XCTAssertEqual(a.capacity, 100)
     }
 
     func testInitFromLiterals() {
