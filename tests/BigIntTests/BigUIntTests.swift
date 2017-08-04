@@ -534,45 +534,34 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(hashes.count, Set(hashes).count)
     }
 
-    func data(_ bytes: Array<UInt8>) -> Data {
-        var result: Data? = nil
-        bytes.withUnsafeBufferPointer { p in
-            result = Data(bytes: UnsafePointer<UInt8>(p.baseAddress!), count: p.count)
-        }
-        return result!
+    func checkData(_ bytes: [UInt8], _ value: BigUInt, file: StaticString = #file, line: UInt = #line) {
+        XCTAssertEqual(BigUInt(Data(bytes: bytes)), value, file: file, line: line)
+        XCTAssertEqual(bytes.withUnsafeBytes { buffer in BigUInt(buffer) }, value, file: file, line: line)
     }
 
-    func testConversionFromData() {
-        XCTAssertEqual(BigUInt(data([])), 0)
-        XCTAssertEqual(BigUInt(data([0])), 0)
-        XCTAssertEqual(BigUInt(data([0, 0, 0, 0, 0, 0, 0, 0])), 0)
-        XCTAssertEqual(BigUInt(data([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])), 0)
-        XCTAssertEqual(BigUInt(data([1])), 1)
-        XCTAssertEqual(BigUInt(data([2])), 2)
-        XCTAssertEqual(BigUInt(data([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1])), 1)
-        XCTAssertEqual(BigUInt(data([0x01, 0x02, 0x03, 0x04, 0x05])), 0x0102030405)
-        XCTAssertEqual(BigUInt(data([0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08])), 0x0102030405060708)
-        XCTAssertEqual(
-            BigUInt(data([0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A])),
-            BigUInt(0x0102) << 64 + BigUInt(0x030405060708090A))
-        XCTAssertEqual(
-            BigUInt(data([0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])),
-            BigUInt(1) << 80)
-        XCTAssertEqual(
-            BigUInt(data([0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10])),
-            BigUInt(0x0102030405060708) << 64 + BigUInt(0x090A0B0C0D0E0F10))
-
-        // The following test produced "expression was too complex" error on Swift 2.2.1
-        let d = data([0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11])
-        var b = BigUInt(1) << 128
-        b += BigUInt(0x0203040506070809) << 64
-        b += BigUInt(0x0A0B0C0D0E0F1011)
-        XCTAssertEqual(BigUInt(d), b)
+    func testConversionFromBytes() {
+        checkData([], 0)
+        checkData([0], 0)
+        checkData([0, 0, 0, 0, 0, 0, 0, 0], 0)
+        checkData([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0)
+        checkData([1], 1)
+        checkData([2], 2)
+        checkData([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 1)
+        checkData([0x01, 0x02, 0x03, 0x04, 0x05], 0x0102030405)
+        checkData([0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08], 0x0102030405060708)
+        checkData([0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A],
+                  BigUInt(0x0102) << 64 + BigUInt(0x030405060708090A))
+        checkData([0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],
+                  BigUInt(1) << 80)
+        checkData([0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10],
+                  BigUInt(0x0102030405060708) << 64 + BigUInt(0x090A0B0C0D0E0F10))
+        checkData([0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11],
+                  BigUInt(1) << 128 + BigUInt(0x0203040506070809) << 64 + BigUInt(0x0A0B0C0D0E0F1011))
     }
 
     func testConversionToData() {
         func test(_ b: BigUInt, _ d: Array<UInt8>, file: StaticString = #file, line: UInt = #line) {
-            let expected = data(d)
+            let expected = Data(d)
             let actual = b.serialize()
             XCTAssertEqual(actual, expected, file: file, line: line)
             XCTAssertEqual(BigUInt(actual), b, file: file, line: line)
@@ -1133,6 +1122,10 @@ class BigUIntTests: XCTestCase {
         a &>>= 1000
         XCTAssertEqual(a, 0)
 
+        a = sample
+        a &>>= BigUInt(low: 1, high: 2)
+        XCTAssertEqual(a, 0)
+
         XCTAssertEqual(sample &>> 0, sample)
         XCTAssertEqual(sample &>> 1, sample / 2)
         XCTAssertEqual(sample &>> 3, sample / 8)
@@ -1141,6 +1134,7 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(sample &>> (Word.bitWidth + 3), sample.extract(1...) / 8)
         XCTAssertEqual(sample &>> (sample.count * Word.bitWidth), 0)
         XCTAssertEqual(sample &>> (100 * Word.bitWidth), 0)
+        XCTAssertEqual(sample &>> BigUInt(low: 1, high: 2), 0)
     }
 
     func testSquareRoot() {

@@ -85,7 +85,7 @@ extension BigUInt {
 
     internal mutating func shiftRight(by amount: Word) {
         guard amount > 0 else { return }
-        guard amount < self.bitWidth else { self = 0; return }
+        guard amount < self.bitWidth else { self.clear(); return }
         
         let ext = Int(amount / Word(Word.bitWidth)) // External shift amount (new words)
         let down = Word(amount % Word(Word.bitWidth)) // Internal shift amount (subword shift)
@@ -130,7 +130,7 @@ extension BigUInt {
     /// specified number of digits to the right, and stores the result in the
     /// left-hand-side variable.
     public static func &>>=(left: inout BigUInt, right: BigUInt) {
-        guard right.count <= 1 else { left = 0; return }
+        guard right.count <= 1 else { left.clear(); return }
         left.shiftRight(by: right[0])
     }
     
@@ -139,7 +139,7 @@ extension BigUInt {
             lhs <<= (0 - rhs)
         }
         else if rhs >= lhs.bitWidth {
-            lhs = 0
+            lhs.clear()
         }
         else {
             lhs.shiftRight(by: UInt(rhs))

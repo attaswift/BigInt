@@ -13,6 +13,9 @@ class BigIntTests: XCTestCase {
     typealias Word = BigInt.Word
 
     func testInit() {
+        XCTAssertEqual(BigInt().sign, .plus)
+        XCTAssertEqual(BigInt().magnitude, 0)
+        
         XCTAssertEqual(BigInt(Int64.min).sign, .minus)
         XCTAssertEqual(BigInt(Int64.min).magnitude - 1, BigInt(Int64.max).magnitude)
 
@@ -42,6 +45,48 @@ class BigIntTests: XCTestCase {
 
         XCTAssertEqual(BigInt(unicodeScalarLiteral: UnicodeScalar(52)), BigInt(4))
         XCTAssertEqual(BigInt(extendedGraphemeClusterLiteral: "4"), BigInt(4))
+        
+        XCTAssertEqual(BigInt(42.0), 42)
+        XCTAssertEqual(BigInt(-42.0), -42)
+        XCTAssertEqual(BigInt(exactly: 42.0), 42)
+        XCTAssertEqual(BigInt(exactly: -42.0), -42)
+        XCTAssertNil(BigInt(exactly: Double.leastNormalMagnitude))
+        XCTAssertNil(BigInt(exactly: Double.leastNonzeroMagnitude))
+        XCTAssertNil(BigInt(exactly: Double.infinity))
+        XCTAssertNil(BigInt(exactly: Double.nan))
+        XCTAssertNil(BigInt(exactly: Double.signalingNaN))
+        XCTAssertEqual(BigInt(exactly: -42.0), -42)
+        XCTAssertEqual(BigInt(clamping: -42), -42)
+        XCTAssertEqual(BigInt(clamping: 42), 42)
+        XCTAssertEqual(BigInt(extendingOrTruncating: -42), -42)
+        XCTAssertEqual(BigInt(extendingOrTruncating: 42), 42)
+        
+        XCTAssertEqual(BigInt(words: []), 0)
+        XCTAssertEqual(BigInt(words: [1, 1]), BigInt(1) << Word.bitWidth + 1)
+        XCTAssertEqual(BigInt(words: [1, 2]), BigInt(2) << Word.bitWidth + 1)
+        XCTAssertEqual(BigInt(words: [0, Word.max]), -(BigInt(1) << Word.bitWidth))
+        XCTAssertEqual(BigInt(words: [1, Word.max]), -BigInt(Word.max))
+        XCTAssertEqual(BigInt(words: [1, Word.max, Word.max]), -BigInt(Word.max))
+    }
+
+    func testTwosComplement() {
+        func check(_ a: [Word], _ b: [Word], file: StaticString = #file, line: UInt = #line) {
+            var a2 = a
+            a2.twosComplement()
+            XCTAssertEqual(a2, b, file: file, line: line)
+            var b2 = b
+            b2.twosComplement()
+            XCTAssertEqual(b2, a, file: file, line: line)
+        }
+        check([1], [Word.max])
+        check([Word.max], [1])
+        check([1, 1], [Word.max, Word.max - 1])
+        check([(1 as Word) << (Word.bitWidth - 1)], [(1 as Word) << (Word.bitWidth - 1)])
+        check([0], [0])
+        check([0, 0, 1], [0, 0, Word.max])
+        check([0, 0, 1, 0, 1], [0, 0, Word.max, Word.max, Word.max - 1])
+        check([0, 0, 1, 1], [0, 0, Word.max, Word.max - 1])
+        check([0, 0, 1, 0, 0, 0], [0, 0, Word.max, Word.max, Word.max, Word.max])
     }
 
     func testSign() {
@@ -49,11 +94,36 @@ class BigIntTests: XCTestCase {
         XCTAssertEqual(BigInt(0).sign, .plus)
         XCTAssertEqual(BigInt(1).sign, .plus)
     }
+    
+    func testBitWidth() {
+        XCTAssertEqual(BigInt(0).bitWidth, 0)
+        XCTAssertEqual(BigInt(1).bitWidth, 2)
+        XCTAssertEqual(BigInt(-1).bitWidth, 2)
+        XCTAssertEqual((BigInt(1) << 64).bitWidth, Word.bitWidth + 2)
+        XCTAssertEqual(BigInt(Word.max).bitWidth, Word.bitWidth + 1)
+        XCTAssertEqual(BigInt(Word.max >> 1).bitWidth, Word.bitWidth)
+    }
+    
+    func testTrailingZeroBitCount() {
+        XCTAssertEqual(BigInt(0).trailingZeroBitCount, 0)
+        XCTAssertEqual(BigInt(1).trailingZeroBitCount, 0)
+        XCTAssertEqual(BigInt(-1).trailingZeroBitCount, 0)
+        XCTAssertEqual(BigInt(2).trailingZeroBitCount, 1)
+        XCTAssertEqual(BigInt(Word.max).trailingZeroBitCount, 0)
+        XCTAssertEqual(BigInt(-2).trailingZeroBitCount, 1)
+        XCTAssertEqual(-BigInt(Word.max).trailingZeroBitCount, 0)
+        XCTAssertEqual((BigInt(1) << 100).trailingZeroBitCount, 100)
+        XCTAssertEqual(((-BigInt(1)) << 100).trailingZeroBitCount, 100)
+    }
 
     func testWords() {
         XCTAssertEqual(Array(BigInt(0).words), [])
         XCTAssertEqual(Array(BigInt(1).words), [1])
         XCTAssertEqual(Array(BigInt(-1).words), [Word.max])
+
+        let highBit = (1 as Word) << (Word.bitWidth - 1)
+        XCTAssertEqual(Array(BigInt(highBit).words), [highBit, 0])
+        XCTAssertEqual(Array((-BigInt(highBit)).words), [highBit, Word.max])
 
         XCTAssertEqual(Array(BigInt(sign: .plus, magnitude: BigUInt(words: [Word.max])).words), [Word.max, 0])
         XCTAssertEqual(Array(BigInt(sign: .minus, magnitude: BigUInt(words: [Word.max])).words), [1, Word.max])
@@ -72,6 +142,62 @@ class BigIntTests: XCTestCase {
 
         XCTAssertEqual(BigInt(1).words[100], 0)
         XCTAssertEqual(BigInt(-1).words[100], Word.max)
+        
+        XCTAssertEqual(BigInt(words: [0, 1, 2, 3, 4]).words.indices, 0 ..< 5)
+    }
+    
+    func testComplement() {
+        XCTAssertEqual(~BigInt(-3), BigInt(2))
+        XCTAssertEqual(~BigInt(-2), BigInt(1))
+        XCTAssertEqual(~BigInt(-1), BigInt(0))
+        XCTAssertEqual(~BigInt(0), BigInt(-1))
+        XCTAssertEqual(~BigInt(1), BigInt(-2))
+        XCTAssertEqual(~BigInt(2), BigInt(-3))
+        
+        XCTAssertEqual(~BigInt(words: [1, 2, 3, 4]),
+                       BigInt(words: [Word.max - 1, Word.max - 2, Word.max - 3, Word.max - 4]))
+        XCTAssertEqual(~BigInt(words: [Word.max - 1, Word.max - 2, Word.max - 3, Word.max - 4]),
+                       BigInt(words: [1, 2, 3, 4]))
+    }
+    
+    func testBinaryAnd() {
+        XCTAssertEqual(BigInt(1) & BigInt(2), 0)
+        XCTAssertEqual(BigInt(-1) & BigInt(2), 2)
+        XCTAssertEqual(BigInt(-1) & BigInt(words: [1, 2, 3, 4]), BigInt(words: [1, 2, 3, 4]))
+        XCTAssertEqual(BigInt(-1) & -BigInt(words: [1, 2, 3, 4]), -BigInt(words: [1, 2, 3, 4]))
+        XCTAssertEqual(BigInt(Word.max) & BigInt(words: [1, 2, 3, 4]), BigInt(1))
+        XCTAssertEqual(BigInt(Word.max) & BigInt(words: [Word.max, 1, 2]), BigInt(Word.max))
+        XCTAssertEqual(BigInt(Word.max) & BigInt(words: [Word.max, Word.max - 1]), BigInt(Word.max))
+    }
+
+    func testBinaryOr() {
+        XCTAssertEqual(BigInt(1) | BigInt(2), 3)
+        XCTAssertEqual(BigInt(-1) | BigInt(2), -1)
+        XCTAssertEqual(BigInt(-1) | BigInt(words: [1, 2, 3, 4]), -1)
+        XCTAssertEqual(BigInt(-1) | -BigInt(words: [1, 2, 3, 4]), -1)
+        XCTAssertEqual(BigInt(Word.max) | BigInt(words: [1, 2, 3, 4]),
+                       BigInt(words: [Word.max, 2, 3, 4]))
+        XCTAssertEqual(BigInt(Word.max) | BigInt(words: [1, 2, 3, Word.max]),
+                       BigInt(words: [Word.max, 2, 3, Word.max]))
+        XCTAssertEqual(BigInt(Word.max) | BigInt(words: [Word.max - 1, Word.max - 1]),
+                       BigInt(words: [Word.max, Word.max - 1]))
+    }
+
+    func testBinaryXor() {
+        XCTAssertEqual(BigInt(1) ^ BigInt(2), 3)
+        XCTAssertEqual(BigInt(-1) ^ BigInt(2), -3)
+        XCTAssertEqual(BigInt(1) ^ BigInt(-2), -1)
+        XCTAssertEqual(BigInt(-1) ^ BigInt(-2), 1)
+        XCTAssertEqual(BigInt(-1) ^ BigInt(words: [1, 2, 3, 4]),
+                       BigInt(words: [~1, ~2, ~3, ~4] as [Word]))
+        XCTAssertEqual(BigInt(-1) ^ -BigInt(words: [1, 2, 3, 4]),
+                       BigInt(words: [0, 2, 3, 4]))
+        XCTAssertEqual(BigInt(Word.max) ^ BigInt(words: [1, 2, 3, 4]),
+                       BigInt(words: [~1, 2, 3, 4] as [Word]))
+        XCTAssertEqual(BigInt(Word.max) ^ BigInt(words: [1, 2, 3, Word.max]),
+                       BigInt(words: [~1, 2, 3, Word.max] as [Word]))
+        XCTAssertEqual(BigInt(Word.max) ^ BigInt(words: [Word.max - 1, Word.max - 1]),
+                       BigInt(words: [1, Word.max - 1]))
     }
 
     func testConversionToString() {
@@ -102,6 +228,15 @@ class BigIntTests: XCTestCase {
         XCTAssertNotEqual(BigInt(1).hashValue, BigInt(-1).hashValue)
     }
 
+    func testStrideable() {
+        XCTAssertEqual(BigInt(1).advanced(by: 100), 101)
+        XCTAssertEqual(BigInt(Word.max).advanced(by: 1 as BigInt.Stride), BigInt(1) << Word.bitWidth)
+
+        XCTAssertEqual(BigInt(Word.max).distance(to: BigInt(words: [0, 1])), BigInt(1))
+        XCTAssertEqual(BigInt(words: [0, 1]).distance(to: BigInt(Word.max)), BigInt(-1))
+        XCTAssertEqual(BigInt(0).distance(to: BigInt(words: [0, 1])), BigInt(words: [0, 1]))
+    }
+    
     func compare(_ a: Int, _ b: Int, r: Int, file: StaticString = #file, line: UInt = #line, op: (BigInt, BigInt) -> BigInt) {
         XCTAssertEqual(op(BigInt(a), BigInt(b)), BigInt(r), file: file, line: line)
     }
@@ -198,5 +333,64 @@ class BigIntTests: XCTestCase {
 
         a %= 7
         XCTAssertEqual(a, 3)
+    }
+
+    func testShifts() {
+        XCTAssertEqual(BigInt(1) << Word.bitWidth, BigInt(words: [0, 1]))
+        XCTAssertEqual(BigInt(-1) << Word.bitWidth, BigInt(words: [0, Word.max]))
+        XCTAssertEqual(BigInt(words: [0, 1]) << -Word.bitWidth, BigInt(1))
+
+        XCTAssertEqual(BigInt(words: [0, 1]) >> Word.bitWidth, BigInt(1))
+        XCTAssertEqual(BigInt(-1) >> Word.bitWidth, BigInt(-1))
+        XCTAssertEqual(BigInt(1) >> Word.bitWidth, BigInt(0))
+        XCTAssertEqual(BigInt(words: [0, Word.max]) >> Word.bitWidth, BigInt(-1))
+        XCTAssertEqual(BigInt(1) >> -Word.bitWidth, BigInt(words: [0, 1]))
+
+        XCTAssertEqual(BigInt(1) &<< BigInt(Word.bitWidth), BigInt(words: [0, 1]))
+        XCTAssertEqual(BigInt(words: [0, 1]) &>> BigInt(Word.bitWidth), BigInt(1))
+    }
+
+    func testShiftAssignments() {
+
+        var a: BigInt = 1
+        a <<= Word.bitWidth
+        XCTAssertEqual(a, BigInt(words: [0, 1]))
+
+        a = -1
+        a <<= Word.bitWidth
+        XCTAssertEqual(a, BigInt(words: [0, Word.max]))
+
+        a = BigInt(words: [0, 1])
+        a <<= -Word.bitWidth
+        XCTAssertEqual(a, 1)
+
+        a = BigInt(words: [0, 1])
+        a >>= Word.bitWidth
+        XCTAssertEqual(a, 1)
+
+        a = -1
+        a >>= Word.bitWidth
+        XCTAssertEqual(a, -1)
+
+        a = 1
+        a >>= Word.bitWidth
+        XCTAssertEqual(a, 0)
+
+        a = BigInt(words: [0, Word.max])
+        a >>= Word.bitWidth
+        XCTAssertEqual(a, BigInt(-1))
+
+        a = 1
+        a >>= -Word.bitWidth
+        XCTAssertEqual(a, BigInt(words: [0, 1]))
+
+        a = 1
+        a &<<= BigInt(Word.bitWidth)
+        XCTAssertEqual(a, BigInt(words: [0, 1]))
+
+        a = BigInt(words: [0, 1])
+        a &>>= BigInt(Word.bitWidth)
+        XCTAssertEqual(a, BigInt(1))
+
     }
 }

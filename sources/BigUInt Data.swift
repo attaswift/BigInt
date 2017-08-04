@@ -103,30 +103,5 @@ extension BigUInt {
         }
         return data
     }
-
-    public func serialize(into buffer: UnsafeMutableRawBufferPointer?) -> Int {
-        // This assumes Digit is binary.
-        precondition(Word.bitWidth % 8 == 0)
-
-        let byteCount = (self.bitWidth + 7) / 8
-
-        guard let buffer = buffer else { return byteCount }
-        guard byteCount > 0 else { return 0 }
-        precondition(buffer.count >= byteCount, "Buffer too small")
-
-        var i = byteCount - 1
-        for var word in self.words {
-            for _ in 0 ..< Word.bitWidth / 8 {
-                buffer[i] = UInt8(word & 0xFF)
-                word >>= 8
-                if i == 0 {
-                    assert(word == 0)
-                    break
-                }
-                i -= 1
-            }
-        }
-        return byteCount
-    }
 }
 
