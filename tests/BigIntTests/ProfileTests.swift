@@ -154,13 +154,13 @@ class ProfileTests: XCTestCase {
         checkFactorial(fact: fact, n: ((1 as Int) << power) - 1)
     }
 
-    func testSquareRoot() {
-        var rnd = PseudoRandomNumbers(seed: 42)
-        func randomBigUInt() -> BigUInt {
-            return BigUInt(words: (0 ..< 60).map { _ in rnd.next()! })
-        }
-        let numbers = (0 ..< 1000).map { _ in randomBigUInt() }
+    func randomBigUInts(_ count: Int, seed: UInt, withMaxWords words: Int) -> [BigUInt] {
+        var rnd = PseudoRandomNumbers(seed: seed)
+        return (0 ..< count).map { _ in BigUInt(words: (0 ..< words).map { _ in rnd.next()! }) }
+    }
 
+    func testSquareRoot() {
+        let numbers = randomBigUInts(1000, seed: 42, withMaxWords: 60)
         var roots: [BigUInt] = []
         self.measure {
             roots.removeAll()
@@ -178,7 +178,7 @@ class ProfileTests: XCTestCase {
 
     func testModularExponentiation() {
         let m15 = (BigUInt(1) << 1279) - BigUInt(1)
-        let tests = (1..<25).map { _ in BigUInt.randomInteger(withMaximumWidth: 1279) }
+        let tests = randomBigUInts(24, seed: 42, withMaxWords: 19)
         self.measure {
             for test in tests {
                 assert(test < m15)
