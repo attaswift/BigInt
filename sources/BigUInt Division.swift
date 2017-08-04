@@ -136,6 +136,8 @@ extension BigUInt {
         return (div, mod)
     }
 
+    /// Divide `x` by `y`, putting the quotient in `x` and the remainder in `y`.
+    /// Reusing integers like this reduces the number of allocations during the calculation.
     static func divide(_ x: inout BigUInt, by y: inout BigUInt) {
         // This is a Swift adaptation of "divmnu" from Hacker's Delight, which is in
         // turn a C adaptation of Knuth's Algorithm D (TAOCP vol 2, 4.3.1).

@@ -8,32 +8,22 @@
 
 /// An arbitary precision unsigned integer type, also known as a "big integer".
 ///
-/// Operations on big integers never overflow, but they might take a long time to execute.
+/// Operations on big integers never overflow, but they may take a long time to execute.
 /// The amount of memory (and address space) available is the only constraint to the magnitude of these numbers.
 ///
 /// This particular big integer type uses base-2^64 digits to represent integers; you can think of it as a wrapper
-/// around `Array<UInt64>`. In fact, `BigUInt` implements a mutable collection of its `UInt64` digits, with the
-/// digit at index 0 being the least significant.
-///
-/// To make memory management simple, `BigUInt` allows you to subscript it with out-of-bounds indexes:
-/// the subscript getter zero-extends the digit sequence, while the subscript setter automatically extends the
-/// underlying storage when necessary:
-///
-/// ```Swift
-/// var number = BigUInt(1)
-/// number[42]                // Not an error, returns 0
-/// number[23] = 1            // Not an error, number is now 2^1472 + 1.
-/// ```
-///
-/// Note that it is rarely a good idea to use big integers as collections; in the vast majority of cases it is much
-/// easier to work with the provided high-level methods and operators rather than with raw big digits.
+/// around `Array<UInt64>`. (In fact, `BigUInt` only uses an array if there are more than two digits.)
 public struct BigUInt: UnsignedInteger {
     /// The type representing a digit in `BigUInt`'s underlying number system.
     public typealias Word = UInt
 
+    /// The storage variants of a `BigUInt`.
     enum Kind {
+        /// Value consists of the two specified words (low and high). Either or both words may be zero.
         case inline(Word, Word)
+        /// Words are stored in a slice of the storage array.
         case slice(from: Int, to: Int)
+        /// Words are stored in the storage array.
         case array
     }
 
