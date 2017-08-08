@@ -104,6 +104,38 @@ extension FixedWidthInteger where Magnitude == Self {
         let div = Self((q1, q0))
         return (div, mod)
     }
+
+    /// Return the quotient of the 3/2-word division `x/y` as a single word.
+    ///
+    /// - Requires: (x.0, x.1) <= y && y.0.high != 0
+    /// - Returns: The exact value when it fits in a single word, otherwise `Self`.
+    static func approximateQuotient(dividing x: (Self, Self, Self), by y: (Self, Self)) -> Self {
+        // Start with q = (x.0, x.1) / y.0, (or Word.max on overflow)
+        var q: Self
+        var r: Self
+        if x.0 == y.0 {
+            q = Self.max
+            let (s, o) = x.0.addingReportingOverflow(x.1)
+            if o { return q }
+            r = s
+        }
+        else {
+            (q, r) = y.0.fastDividingFullWidth((x.0, x.1))
+        }
+        // Now refine q by considering x.2 and y.1.
+        // Note that since y is normalized, q * y - x is between 0 and 2.
+        let (ph, pl) = q.multipliedFullWidth(by: y.1)
+        if ph < r || (ph == r && pl <= x.2) { return q }
+
+        let (r1, ro) = r.addingReportingOverflow(y.0)
+        if ro { return q - 1 }
+
+        let (pl1, so) = pl.subtractingReportingOverflow(y.1)
+        let ph1 = (so ? ph - 1 : ph)
+
+        if ph1 < r1 || (ph1 == r1 && pl1 <= x.2) { return q - 1 }
+        return q - 2
+    }
 }
 
 extension BigUInt {
@@ -172,41 +204,8 @@ extension BigUInt {
         // and implements a 3/2 division. This results in an exact approximation in the
         // vast majority of cases, eliminating an extra subtraction over big integers.
         //
-        // Here is the code for the 3/2 division:
-
-        /// Return the quotient of the 3/2-word division `x/y` as a single word.
-        ///
-        /// - Requires: (x.0, x.1) <= y && y.0.high != 0
-        /// - Returns: The exact value when it fits in a single word, otherwise `Word.max`.
-        func approximateQuotient(dividing x: (Word, Word, Word), by y: (Word, Word)) -> Word {
-            // Start with q = (x.0, x.1) / y.0, (or Word.max on overflow)
-            var q: Word
-            var r: Word
-            if x.0 == y.0 {
-                q = Word.max
-                let (s, o) = x.0.addingReportingOverflow(x.1)
-                if o == .overflow { return q }
-                r = s
-            }
-            else {
-                (q, r) = y.0.fastDividingFullWidth((x.0, x.1))
-            }
-            // Now refine q by considering x.2 and y.1.
-            // Note that since y is normalized, q * y - x is between 0 and 2.
-            let (ph, pl) = q.multipliedFullWidth(by: y.1)
-            if ph < r || (ph == r && pl <= x.2) { return q }
-
-            let (r1, ro) = r.addingReportingOverflow(y.0)
-            if ro == .overflow { return q - 1 }
-
-            let (pl1, so) = pl.subtractingReportingOverflow(y.1)
-            let ph1 = (so == .overflow ? ph - 1 : ph)
-
-            if ph1 < r1 || (ph1 == r1 && pl1 <= x.2) { return q - 1 }
-            return q - 2
-        }
-
-        // The function above requires that the divisor's most significant word is larger than
+        // The function `approximateQuotient` above implements Knuth's 3/2 division algorithm.
+        // It requires that the divisor's most significant word is larger than
         // Word.max / 2. This ensures that the approximation has tiny error bounds,
         // which is what makes this entire approach viable.
         // To satisfy this requirement, we will normalize the division by multiplying
@@ -227,7 +226,7 @@ extension BigUInt {
             let r2 = x[j]
             let r1 = x[j - 1]
             let r0 = x[j - 2]
-            let q = approximateQuotient(dividing: (r2, r1, r0), by: (d1, d0))
+            let q = Word.approximateQuotient(dividing: (r2, r1, r0), by: (d1, d0))
 
             // Multiply the entire divisor with `q` and subtract the result from remainder.
             // Normalization ensures the 3/2 quotient will either be exact for the full division, or
@@ -241,7 +240,8 @@ extension BigUInt {
             }
             else {
                 // This case is extremely rare -- it has a probability of 1/2^(Word.bitWidth - 1).
-                x.subtract(product - y, shiftedBy: j - dc)
+                x.add(y, shiftedBy: j - dc)
+                x.subtract(product, shiftedBy: j - dc)
                 quotient[j - dc] = q - 1
             }
         }
@@ -250,6 +250,41 @@ extension BigUInt {
         y = x
         x = quotient
     }
+
+    /// Divide `x` by `y`, putting the remainder in `x`.
+    mutating func formRemainder(dividingBy y: BigUInt, normalizedBy shift: Int) {
+        precondition(!y.isZero)
+        assert(y.leadingZeroBitCount == 0)
+        if y.count == 1 {
+            let remainder = self.divide(byWord: y[0] >> shift)
+            self.load(BigUInt(remainder))
+            return
+        }
+        self <<= shift
+        if self >= y {
+            let dc = y.count
+            let d1 = y[dc - 1]
+            let d0 = y[dc - 2]
+            var product: BigUInt = 0
+            for j in (dc ... self.count).reversed() {
+                let r2 = self[j]
+                let r1 = self[j - 1]
+                let r0 = self[j - 2]
+                let q = Word.approximateQuotient(dividing: (r2, r1, r0), by: (d1, d0))
+                product.load(y)
+                product.multiply(byWord: q)
+                if product <= self.extract(j - dc ..< j + 1) {
+                    self.subtract(product, shiftedBy: j - dc)
+                }
+                else {
+                    self.add(y, shiftedBy: j - dc)
+                    self.subtract(product, shiftedBy: j - dc)
+                }
+            }
+        }
+        self >>= shift
+    }
+
 
     /// Divide this integer by `y` and return the resulting quotient and remainder.
     ///
@@ -274,7 +309,10 @@ extension BigUInt {
     ///
     /// - Note: Use `divided(by:)` if you also need the remainder.
     public static func %(x: BigUInt, y: BigUInt) -> BigUInt {
-        return x.quotientAndRemainder(dividingBy: y).remainder
+        var x = x
+        let shift = y.leadingZeroBitCount
+        x.formRemainder(dividingBy: y << shift, normalizedBy: shift)
+        return x
     }
 
     /// Divide `x` by `y` and store the quotient in `x`.
@@ -289,8 +327,7 @@ extension BigUInt {
     ///
     /// - Note: Use `divided(by:)` if you also need the remainder.
     public static func %=(x: inout BigUInt, y: BigUInt) {
-        var y = y
-        BigUInt.divide(&x, by: &y)
-        x = y
+        let shift = y.leadingZeroBitCount
+        x.formRemainder(dividingBy: y << shift, normalizedBy: shift)
     }
 }

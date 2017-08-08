@@ -58,8 +58,8 @@ class BigIntTests: XCTestCase {
         XCTAssertEqual(BigInt(exactly: -42.0), -42)
         XCTAssertEqual(BigInt(clamping: -42), -42)
         XCTAssertEqual(BigInt(clamping: 42), 42)
-        XCTAssertEqual(BigInt(extendingOrTruncating: -42), -42)
-        XCTAssertEqual(BigInt(extendingOrTruncating: 42), 42)
+        XCTAssertEqual(BigInt(truncatingIfNeeded: -42), -42)
+        XCTAssertEqual(BigInt(truncatingIfNeeded: 42), 42)
         
         XCTAssertEqual(BigInt(words: []), 0)
         XCTAssertEqual(BigInt(words: [1, 1]), BigInt(1) << Word.bitWidth + 1)

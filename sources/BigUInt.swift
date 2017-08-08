@@ -105,7 +105,7 @@ extension BigUInt {
         }
     }
 
-    public init?<T: FloatingPoint>(exactly source: T) {
+    public init?<T: BinaryFloatingPoint>(exactly source: T) {
         guard source.isFinite else { return nil }
         var words: [Word] = []
         var value = source.rounded(.towardZero)
@@ -128,11 +128,11 @@ extension BigUInt {
         self.init(exactly: source)!
     }
 
-    public init<T: FloatingPoint>(_ source: T) {
+    public init<T: BinaryFloatingPoint>(_ source: T) {
         self.init(exactly: source)!
     }
 
-    public init<T: BinaryInteger>(extendingOrTruncating source: T) {
+    public init<T: BinaryInteger>(truncatingIfNeeded source: T) {
         self.init(words: source.words)
     }
 

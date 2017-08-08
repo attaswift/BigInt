@@ -157,16 +157,16 @@ class BigUIntTests: XCTestCase {
 
         if Int8.Words.self == [Word].self {
             // FIXME: Remove this branch
-            check(BigUInt(extendingOrTruncating: 0 as Int8), .array, [])
-            check(BigUInt(extendingOrTruncating: 1 as Int8), .array, [1])
-            check(BigUInt(extendingOrTruncating: -1 as Int8), .array, [Word.max])
+            check(BigUInt(truncatingIfNeeded: 0 as Int8), .array, [])
+            check(BigUInt(truncatingIfNeeded: 1 as Int8), .array, [1])
+            check(BigUInt(truncatingIfNeeded: -1 as Int8), .array, [Word.max])
         }
         else {
-            check(BigUInt(extendingOrTruncating: 0 as Int8), .inline(0, 0), [])
-            check(BigUInt(extendingOrTruncating: 1 as Int8), .inline(1, 0), [1])
-            check(BigUInt(extendingOrTruncating: -1 as Int8), .inline(Word.max, 0), [Word.max])
+            check(BigUInt(truncatingIfNeeded: 0 as Int8), .inline(0, 0), [])
+            check(BigUInt(truncatingIfNeeded: 1 as Int8), .inline(1, 0), [1])
+            check(BigUInt(truncatingIfNeeded: -1 as Int8), .inline(Word.max, 0), [Word.max])
         }
-        check(BigUInt(extendingOrTruncating: BigUInt(words: [1, 2, 3])), .array, [1, 2, 3])
+        check(BigUInt(truncatingIfNeeded: BigUInt(words: [1, 2, 3])), .array, [1, 2, 3])
 
         check(BigUInt(clamping: 0), .inline(0, 0), [])
         check(BigUInt(clamping: -100), .inline(0, 0), [])
@@ -556,7 +556,7 @@ class BigUIntTests: XCTestCase {
         checkData([0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10],
                   BigUInt(0x0102030405060708) << 64 + BigUInt(0x090A0B0C0D0E0F10))
         checkData([0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11],
-                  BigUInt(1) << 128 + BigUInt(0x0203040506070809) << 64 + BigUInt(0x0A0B0C0D0E0F1011))
+                  ((BigUInt(1) << 128) as BigUInt) + BigUInt(0x0203040506070809) << 64 + BigUInt(0x0A0B0C0D0E0F1011))
     }
 
     func testConversionToData() {
@@ -609,15 +609,15 @@ class BigUIntTests: XCTestCase {
 
     func testSubtraction() {
         var a1 = BigUInt(words: [1, 2, 3, 4])
-        XCTAssertEqual(ArithmeticOverflow.none, a1.subtractWordReportingOverflow(3, shiftedBy: 1))
+        XCTAssertEqual(false, a1.subtractWordReportingOverflow(3, shiftedBy: 1))
         check(a1, .array, [1, Word.max, 2, 4])
 
         let (diff, overflow) = BigUInt(words: [1, 2, 3, 4]).subtractingWordReportingOverflow(2)
-        XCTAssertEqual(ArithmeticOverflow.none, overflow)
+        XCTAssertEqual(false, overflow)
         check(diff, .array, [Word.max, 1, 3, 4])
 
         var a2 = BigUInt(words: [1, 2, 3, 4])
-        XCTAssertEqual(ArithmeticOverflow.overflow, a2.subtractWordReportingOverflow(5, shiftedBy: 3))
+        XCTAssertEqual(true, a2.subtractWordReportingOverflow(5, shiftedBy: 3))
         check(a2, .array, [1, 2, 3, Word.max])
 
         var a3 = BigUInt(words: [1, 2, 3, 4])
@@ -636,11 +636,11 @@ class BigUIntTests: XCTestCase {
         check(BigUInt(0) - BigUInt(0), .inline(0, 0), [])
 
         var b = BigUInt(words: [1, 2, 3, 4])
-        XCTAssertEqual(ArithmeticOverflow.none, b.subtractReportingOverflow(BigUInt(words: [0, 1, 1, 1])))
+        XCTAssertEqual(false, b.subtractReportingOverflow(BigUInt(words: [0, 1, 1, 1])))
         check(b, .array, [1, 1, 2, 3])
 
         let b1 = BigUInt(words: [1, 1, 2, 3]).subtractingReportingOverflow(BigUInt(words: [1, 1, 3, 3]))
-        XCTAssertEqual(ArithmeticOverflow.overflow, b1.overflow)
+        XCTAssertEqual(true, b1.overflow)
         check(b1.partialValue, .array, [0, 0, Word.max, Word.max])
 
         let b2 = BigUInt(words: [0, 0, 1]) - BigUInt(words: [1])
@@ -741,7 +741,14 @@ class BigUIntTests: XCTestCase {
             if div * y + mod != x {
                 XCTFail("x:\(x) = div:\(div) * y:\(y) + mod:\(mod)", file: file, line: line)
             }
+
+            let shift = y.leadingZeroBitCount
+            let norm = y << shift
+            var rem = x
+            rem.formRemainder(dividingBy: norm, normalizedBy: shift)
+            XCTAssertEqual(rem, mod, file: file, line: line)
         }
+
         // These cases exercise all code paths in the division when Word is UInt8 or UInt64.
         test([], [1])
         test([1], [1])
@@ -985,53 +992,6 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(sample << -4, sample / 16)
     }
 
-    func testMaskedLeftShifts() {
-        let sample = BigUInt("123456789ABCDEF01234567891631832727633", radix: 16)!
-
-        var a = sample
-
-        a &<<= 0
-        XCTAssertEqual(a, sample)
-
-        a = sample
-        a &<<= 1
-        XCTAssertEqual(a, 2 * sample)
-
-        a = sample
-        a &<<= Word.bitWidth
-        XCTAssertEqual(a.count, sample.count + 1)
-        XCTAssertEqual(a[0], 0)
-        XCTAssertEqual(a.extract(1 ... sample.count + 1), sample)
-
-        a = sample
-        a &<<= 100 * Word.bitWidth
-        XCTAssertEqual(a.count, sample.count + 100)
-        XCTAssertEqual(a.extract(0 ..< 100), 0)
-        XCTAssertEqual(a.extract(100 ... sample.count + 100), sample)
-
-        a = sample
-        a &<<= 100 * Word.bitWidth + 2
-        XCTAssertEqual(a.count, sample.count + 100)
-        XCTAssertEqual(a.extract(0 ..< 100), 0)
-        XCTAssertEqual(a.extract(100 ... sample.count + 100), sample << 2)
-
-        a = sample
-        a &<<= Word.bitWidth - 1
-        XCTAssertEqual(a.count, sample.count + 1)
-        XCTAssertEqual(a, BigUInt(words: [0] + sample.words) / 2)
-
-        XCTAssertEqual(sample &<< 0, sample)
-        XCTAssertEqual(sample &<< 1, 2 * sample)
-        XCTAssertEqual(sample &<< 2, 4 * sample)
-        XCTAssertEqual(sample &<< 4, 16 * sample)
-        XCTAssertEqual(sample &<< Word.bitWidth, BigUInt(words: [0 as Word] + sample.words))
-        XCTAssertEqual(sample &<< (Word.bitWidth - 1), BigUInt(words: [0] + sample.words) / 2)
-        XCTAssertEqual(sample &<< (Word.bitWidth + 1), BigUInt(words: [0] + sample.words) * 2)
-        XCTAssertEqual(sample &<< (Word.bitWidth + 2), BigUInt(words: [0] + sample.words) * 4)
-        XCTAssertEqual(sample &<< (2 * Word.bitWidth), BigUInt(words: [0, 0] + sample.words))
-        XCTAssertEqual(sample &<< (2 * Word.bitWidth + 2), BigUInt(words: [0, 0] + (4 * sample).words))
-    }
-
     func testRightShifts() {
         let sample = BigUInt("123456789ABCDEF1234567891631832727633", radix: 16)!
 
@@ -1092,49 +1052,6 @@ class BigUIntTests: XCTestCase {
 
         XCTAssertEqual(sample >> -1, sample * 2)
         XCTAssertEqual(sample >> -4, sample * 16)
-    }
-
-    func testMaskedRightShifts() {
-        let sample = BigUInt("123456789ABCDEF1234567891631832727633", radix: 16)!
-
-        var a = sample
-
-        a &>>= 0
-        XCTAssertEqual(a, sample)
-
-        a = sample
-        a &>>= 1
-        XCTAssertEqual(a, sample / 2)
-
-        a = sample
-        a &>>= Word.bitWidth
-        XCTAssertEqual(a, sample.extract(1...))
-
-        a = sample
-        a &>>= BigUInt(Word.bitWidth + 2)
-        XCTAssertEqual(a, sample.extract(1...) / 4)
-
-        a = sample
-        a &>>= sample.count * Word.bitWidth
-        XCTAssertEqual(a, 0)
-
-        a = sample
-        a &>>= 1000
-        XCTAssertEqual(a, 0)
-
-        a = sample
-        a &>>= BigUInt(low: 1, high: 2)
-        XCTAssertEqual(a, 0)
-
-        XCTAssertEqual(sample &>> 0, sample)
-        XCTAssertEqual(sample &>> 1, sample / 2)
-        XCTAssertEqual(sample &>> 3, sample / 8)
-        XCTAssertEqual(sample &>> Word.bitWidth, sample.extract(1 ..< sample.count))
-        XCTAssertEqual(sample &>> (Word.bitWidth + 2), sample.extract(1...) / 4)
-        XCTAssertEqual(sample &>> (Word.bitWidth + 3), sample.extract(1...) / 8)
-        XCTAssertEqual(sample &>> (sample.count * Word.bitWidth), 0)
-        XCTAssertEqual(sample &>> (100 * Word.bitWidth), 0)
-        XCTAssertEqual(sample &>> BigUInt(low: 1, high: 2), 0)
     }
 
     func testSquareRoot() {

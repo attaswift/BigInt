@@ -20,7 +20,7 @@ extension BigUInt {
         while carry > 0 {
             let (d, c) = self[i].addingReportingOverflow(carry)
             self[i] = d
-            carry = (c == .overflow ? 1 : 0)
+            carry = (c ? 1 : 0)
             i += 1
         }
     }
@@ -50,11 +50,11 @@ extension BigUInt {
             if carry {
                 let (d2, c2) = d.addingReportingOverflow(1)
                 self[ai] = d2
-                carry = c == .overflow || c2 == .overflow
+                carry = c || c2
             }
             else {
                 self[ai] = d
-                carry = c == .overflow
+                carry = c
             }
             bi += 1
         }

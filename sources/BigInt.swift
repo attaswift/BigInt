@@ -58,9 +58,7 @@ extension Array where Element == UInt {
         var increment = true
         for i in 0 ..< self.count {
             if increment {
-                let r = (~self[i]).addingReportingOverflow(1)
-                self[i] = r.partialValue
-                increment = r.overflow == .overflow
+                (self[i], increment) = (~self[i]).addingReportingOverflow(1)
             }
             else {
                 self[i] = ~self[i]
@@ -102,7 +100,7 @@ extension BigInt {
         }
     }
 
-    public init<T>(_ source: T) where T : FloatingPoint {
+    public init<T>(_ source: T) where T : BinaryFloatingPoint {
         if source.sign == .plus {
             self.init(sign: .plus, magnitude: BigUInt(source))
         }
@@ -115,7 +113,7 @@ extension BigInt {
         self.init(source)
     }
 
-    public init?<T>(exactly source: T) where T : FloatingPoint {
+    public init?<T>(exactly source: T) where T : BinaryFloatingPoint {
         guard source.floatingPointClass == .positiveNormal
             || source.floatingPointClass == .negativeNormal else { return nil }
         guard source.rounded(.towardZero) == source else { return nil }
@@ -126,7 +124,7 @@ extension BigInt {
         self.init(source)
     }
 
-    public init<T>(extendingOrTruncating source: T) where T : BinaryInteger {
+    public init<T>(truncatingIfNeeded source: T) where T : BinaryInteger {
         self.init(source)
     }
 }

@@ -49,8 +49,11 @@ extension BigUInt {
         if test == 1 || test == dec { return true }
 
         if r > 0 {
+            let shift = self.leadingZeroBitCount
+            let normalized = self << shift
             for _ in 1 ..< r {
-                test = (test * test) % self
+                test *= test
+                test.formRemainder(dividingBy: normalized, normalizedBy: shift)
                 if test == 1 {
                     return false
                 }

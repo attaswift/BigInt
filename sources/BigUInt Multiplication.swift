@@ -22,7 +22,7 @@ extension BigUInt {
             let (h, l) = self[i].multipliedFullWidth(by: y)
             let (low, o) = l.addingReportingOverflow(carry)
             self[i] = low
-            carry = (o == .overflow ? h + 1 : h)
+            carry = (o ? h + 1 : h)
         }
         self[c] = carry
     }
@@ -53,18 +53,18 @@ extension BigUInt {
         while xi < xc || addCarry || mulCarry > 0 {
             let (h, l) = x[xi].multipliedFullWidth(by: y)
             let (low, o) = l.addingReportingOverflow(mulCarry)
-            mulCarry = (o == .overflow ? h + 1 : h)
+            mulCarry = (o ? h + 1 : h)
 
             let ai = shift + xi
             let (sum1, so1) = self[ai].addingReportingOverflow(low)
             if addCarry {
                 let (sum2, so2) = sum1.addingReportingOverflow(1)
                 self[ai] = sum2
-                addCarry = so1 == .overflow || so2 == .overflow
+                addCarry = so1 || so2
             }
             else {
                 self[ai] = sum1
-                addCarry = so1 == .overflow
+                addCarry = so1
             }
             xi += 1
         }

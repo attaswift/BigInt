@@ -15,7 +15,7 @@ struct TestDivision<Word: FixedWidthInteger> where Word.Magnitude == Word {
         var (ph, pl) = div.multipliedFullWidth(by: v)
         let (s, o) = pl.addingReportingOverflow(mod)
         pl = s
-        if o == .overflow { ph += Word(1) }
+        if o { ph += Word(1) }
 
         if mod >= v {
             XCTFail("For u = \(u), v = \(v): u mod v = \(mod), which is greater than v")

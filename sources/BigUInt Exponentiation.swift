@@ -30,10 +30,10 @@ extension BigUInt {
         var e = exponent
         while e > 0 {
             if e & 1 == 1 {
-                result = (result * b)
+                result *= b
             }
             e >>= 1
-            b = (b * b)
+            b *= b
         }
         return result
     }
@@ -47,15 +47,20 @@ extension BigUInt {
     /// - Complexity: O(exponent.count * modulus.count^log2(3)) or somesuch
     public func power(_ exponent: BigUInt, modulus: BigUInt) -> BigUInt {
         if modulus == (1 as BigUInt) { return 0 }
+        let shift = modulus.leadingZeroBitCount
+        let normalizedModulus = modulus << shift
         var result = BigUInt(1)
-        var b = self % modulus
+        var b = self
+        b.formRemainder(dividingBy: normalizedModulus, normalizedBy: shift)
         for var e in exponent.words {
             for _ in 0 ..< Word.bitWidth {
                 if e & 1 == 1 {
-                    result = (result * b) % modulus
+                    result *= b
+                    result.formRemainder(dividingBy: normalizedModulus, normalizedBy: shift)
                 }
                 e >>= 1
-                b = (b * b) % modulus
+                b *= b
+                b.formRemainder(dividingBy: normalizedModulus, normalizedBy: shift)
             }
         }
         return result
