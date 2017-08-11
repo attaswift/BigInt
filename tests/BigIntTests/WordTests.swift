@@ -46,7 +46,7 @@ struct TestDivision<Word: FixedWidthInteger> where Word.Magnitude == Word {
     }
 }
 
-class FullDivisionTests: XCTestCase {
+class WordTests: XCTestCase {
     func testFullDivide() {
         TestDivision<UInt8>.test()
         TestDivision<UInt16>.test()
@@ -65,4 +65,73 @@ class FullDivisionTests: XCTestCase {
         }
         #endif
     }
+    
+    func testConversion() {
+        enum Direction {
+            case unitsToWords
+            case wordsToUnits
+            case both
+        }
+        func test<Word: FixedWidthInteger, Unit: FixedWidthInteger>
+            (direction: Direction = .both,
+             words: [Word], of wtype: Word.Type = Word.self,
+             units: [Unit], of utype: Unit.Type = Unit.self,
+             file: StaticString = #file, line: UInt = #line) {
+            switch direction {
+            case .wordsToUnits, .both:
+                let actualUnits = [Unit](Units(of: Unit.self, words))
+                XCTAssertEqual(actualUnits, units, "words -> units", file: file, line: line)
+            default:
+                break
+            }
+            switch direction {
+            case .unitsToWords, .both:
+                var it = units.makeIterator()
+                let actualWords = [Word](count: units.count, generator: { () -> Unit? in it.next() })
+                XCTAssertEqual(actualWords, words, "units -> words", file: file, line: line)
+            default:
+                break
+            }
+        }
+
+
+        test(words: [], of: UInt8.self,
+             units: [], of: UInt8.self)
+        test(words: [0x01], of: UInt8.self,
+             units: [0x01], of: UInt8.self)
+        test(words: [0x01, 0x02], of: UInt8.self,
+             units: [0x02, 0x01], of: UInt8.self)
+
+        test(words: [], of: UInt8.self,
+             units: [], of: UInt16.self)
+        test(direction: .unitsToWords,
+             words: [0x01, 0x00], of: UInt8.self,
+             units: [0x0001], of: UInt16.self)
+        test(direction: .wordsToUnits,
+             words: [0x01], of: UInt8.self,
+             units: [0x0001], of: UInt16.self)
+        test(words: [0x01, 0x02], of: UInt8.self,
+             units: [0x0201], of: UInt16.self)
+        test(direction: .wordsToUnits,
+             words: [0x01, 0x02, 0x03], of: UInt8.self,
+             units: [0x0003, 0x0201], of: UInt16.self)
+        test(direction: .unitsToWords,
+             words: [0x01, 0x02, 0x03, 0x00], of: UInt8.self,
+             units: [0x0003, 0x0201], of: UInt16.self)
+
+        test(words: [], of: UInt16.self,
+             units: [], of: UInt8.self)
+        test(words: [0x1234], of: UInt16.self,
+             units: [0x12, 0x34], of: UInt8.self)
+        test(words: [0x5678, 0x1234], of: UInt16.self,
+             units: [0x12, 0x34, 0x56, 0x78], of: UInt8.self)
+        test(direction: .unitsToWords,
+             words: [0x789A, 0x3456, 0x12], of: UInt16.self,
+             units: [0x12, 0x34, 0x56, 0x78, 0x9A], of: UInt8.self)
+        test(direction: .wordsToUnits,
+             words: [0x789A, 0x3456, 0x12], of: UInt16.self,
+             units: [0x00, 0x12, 0x34, 0x56, 0x78, 0x9A], of: UInt8.self)
+    }
 }
+
+

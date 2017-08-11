@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import Foundation
 @testable import BigInt
 
 extension BigUInt.Kind: Equatable {
@@ -155,17 +156,9 @@ class BigUIntTests: XCTestCase {
         check(BigUInt(Double(sign: .plus, exponent: 2 * Word.bitWidth, significand: 1.0)),
               .array, [0, 0, 1])
 
-        if Int8.Words.self == [Word].self {
-            // FIXME: Remove this branch
-            check(BigUInt(truncatingIfNeeded: 0 as Int8), .array, [])
-            check(BigUInt(truncatingIfNeeded: 1 as Int8), .array, [1])
-            check(BigUInt(truncatingIfNeeded: -1 as Int8), .array, [Word.max])
-        }
-        else {
-            check(BigUInt(truncatingIfNeeded: 0 as Int8), .inline(0, 0), [])
-            check(BigUInt(truncatingIfNeeded: 1 as Int8), .inline(1, 0), [1])
-            check(BigUInt(truncatingIfNeeded: -1 as Int8), .inline(Word.max, 0), [Word.max])
-        }
+        check(BigUInt(truncatingIfNeeded: 0 as Int8), .inline(0, 0), [])
+        check(BigUInt(truncatingIfNeeded: 1 as Int8), .inline(1, 0), [1])
+        check(BigUInt(truncatingIfNeeded: -1 as Int8), .inline(Word.max, 0), [Word.max])
         check(BigUInt(truncatingIfNeeded: BigUInt(words: [1, 2, 3])), .array, [1, 2, 3])
 
         check(BigUInt(clamping: 0), .inline(0, 0), [])
@@ -572,6 +565,36 @@ class BigUIntTests: XCTestCase {
         test(BigUInt(2), [0x02])
         test(BigUInt(0x0102030405060708), [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08])
         test(BigUInt(0x01) << 64 + BigUInt(0x0203040506070809), [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 09])
+    }
+    
+    func testCodable() {
+        func test(_ a: BigUInt, file: StaticString = #file, line: UInt = #line) {
+            do {
+                let json = try JSONEncoder().encode(a)
+                print(String(data: json, encoding: .utf8)!)
+                let b = try JSONDecoder().decode(BigUInt.self, from: json)
+                XCTAssertEqual(a, b, file: file, line: line)
+            }
+            catch let error {
+                XCTFail("Error thrown: \(error.localizedDescription)", file: file, line: line)
+            }
+        }
+        test(0)
+        test(1)
+        test(0x0102030405060708)
+        test(BigUInt(1) << 64)
+        test(BigUInt(words: [1, 2, 3, 4, 5, 6, 7]))
+        
+        XCTAssertThrowsError(try JSONDecoder().decode(BigUInt.self, from: "[\"*\", 1]".data(using: .utf8)!)) { error in
+            guard let error = error as? DecodingError else { XCTFail("Expected a decoding error"); return }
+            guard case .dataCorrupted(let context) = error else { XCTFail("Expected a dataCorrupted error"); return }
+            XCTAssertEqual(context.debugDescription, "Invalid big integer sign")
+        }
+        XCTAssertThrowsError(try JSONDecoder().decode(BigUInt.self, from: "[\"-\", 1]".data(using: .utf8)!)) { error in
+            guard let error = error as? DecodingError else { XCTFail("Expected a decoding error"); return }
+            guard case .dataCorrupted(let context) = error else { XCTFail("Expected a dataCorrupted error"); return }
+            XCTAssertEqual(context.debugDescription, "BigUInt cannot hold a negative value")
+        }
     }
 
     func testAddition() {

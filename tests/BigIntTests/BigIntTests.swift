@@ -393,4 +393,33 @@ class BigIntTests: XCTestCase {
         XCTAssertEqual(a, BigInt(1))
 
     }
+    
+    func testCodable() {
+        func test(_ a: BigInt, file: StaticString = #file, line: UInt = #line) {
+            do {
+                let json = try JSONEncoder().encode(a)
+                print(String(data: json, encoding: .utf8)!)
+                let b = try JSONDecoder().decode(BigInt.self, from: json)
+                XCTAssertEqual(a, b, file: file, line: line)
+            }
+            catch let error {
+                XCTFail("Error thrown: \(error.localizedDescription)", file: file, line: line)
+            }
+        }
+        test(0)
+        test(1)
+        test(-1)
+        test(0x0102030405060708)
+        test(-0x0102030405060708)
+        test(BigInt(1) << 64)
+        test(-BigInt(1) << 64)
+        test(BigInt(words: [1, 2, 3, 4, 5, 6, 7]))
+        test(-BigInt(words: [1, 2, 3, 4, 5, 6, 7]))
+        
+        XCTAssertThrowsError(try JSONDecoder().decode(BigUInt.self, from: "[\"*\", 1]".data(using: .utf8)!)) { error in
+            guard let error = error as? DecodingError else { XCTFail("Expected a decoding error"); return }
+            guard case .dataCorrupted(let context) = error else { XCTFail("Expected a dataCorrupted error"); return }
+            XCTAssertEqual(context.debugDescription, "Invalid big integer sign")
+        }
+    }
 }

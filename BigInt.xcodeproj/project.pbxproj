@@ -100,6 +100,10 @@
 		BBC944391F24C25C00ED6C30 /* BigInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C2F1DDB70600067F917 /* BigInt.swift */; };
 		BBC9443A1F24C27E00ED6C30 /* BigIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C561DDB70690067F917 /* BigIntTests.swift */; };
 		BBC9443C1F24C27F00ED6C30 /* BigIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C561DDB70690067F917 /* BigIntTests.swift */; };
+		BBE4CA4E1F3DA5AB0062A281 /* BigUInt Coding.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE4CA4D1F3DA5AB0062A281 /* BigUInt Coding.swift */; };
+		BBE4CA4F1F3DAD380062A281 /* BigUInt Coding.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE4CA4D1F3DA5AB0062A281 /* BigUInt Coding.swift */; };
+		BBE4CA501F3DAD390062A281 /* BigUInt Coding.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE4CA4D1F3DA5AB0062A281 /* BigUInt Coding.swift */; };
+		BBE4CA511F3DAD390062A281 /* BigUInt Coding.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE4CA4D1F3DA5AB0062A281 /* BigUInt Coding.swift */; };
 		BBEAE4DD1F28C37800F4E329 /* WordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEAE4DC1F28C37800F4E329 /* WordTests.swift */; };
 		BBEAE4DF1F28C37800F4E329 /* WordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEAE4DC1F28C37800F4E329 /* WordTests.swift */; };
 		BBF16BD51F2BA51B00402089 /* ProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C5A1DDB70690067F917 /* ProfileTests.swift */; };
@@ -185,6 +189,7 @@
 		BBB55B1C1C8F90F60050DDA9 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		BBB55B1D1C8F9E850050DDA9 /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		BBB55B1E1C8F9E920050DDA9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		BBE4CA4D1F3DA5AB0062A281 /* BigUInt Coding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BigUInt Coding.swift"; sourceTree = "<group>"; };
 		BBEAE4DC1F28C37800F4E329 /* WordTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -316,6 +321,7 @@
 				BB241C321DDB70600067F917 /* BigUInt Comparison.swift */,
 				BB241C371DDB70600067F917 /* BigUInt Hashing.swift */,
 				BB241C331DDB70600067F917 /* BigUInt Data.swift */,
+				BBE4CA4D1F3DA5AB0062A281 /* BigUInt Coding.swift */,
 				BB241C301DDB70600067F917 /* BigUInt Addition.swift */,
 				BB241C3E1DDB70600067F917 /* BigUInt Subtraction.swift */,
 				BB241C381DDB70600067F917 /* BigUInt Multiplication.swift */,
@@ -676,6 +682,7 @@
 				BB241C511DDB70600067F917 /* BigUInt Square Root.swift in Sources */,
 				BB241C471DDB70600067F917 /* BigUInt Data.swift in Sources */,
 				BB241C461DDB70600067F917 /* BigUInt Comparison.swift in Sources */,
+				BBE4CA4E1F3DA5AB0062A281 /* BigUInt Coding.swift in Sources */,
 				BB241C491DDB70600067F917 /* BigUInt Exponentiation.swift in Sources */,
 				BB241C451DDB70600067F917 /* BigUInt Bitwise Ops.swift in Sources */,
 			);
@@ -712,6 +719,7 @@
 				BB241C8D1DDB71920067F917 /* BigUInt Shifts.swift in Sources */,
 				BB241C8F1DDB71920067F917 /* BigUInt GCD.swift in Sources */,
 				BB241C8E1DDB71920067F917 /* BigUInt Square Root.swift in Sources */,
+				BBE4CA4F1F3DAD380062A281 /* BigUInt Coding.swift in Sources */,
 				BB241C8B1DDB71920067F917 /* BigUInt Exponentiation.swift in Sources */,
 				BB241C871DDB71920067F917 /* BigUInt Addition.swift in Sources */,
 			);
@@ -747,6 +755,7 @@
 				BB241C791DDB71910067F917 /* BigUInt Shifts.swift in Sources */,
 				BB241C7B1DDB71910067F917 /* BigUInt GCD.swift in Sources */,
 				BB241C7A1DDB71910067F917 /* BigUInt Square Root.swift in Sources */,
+				BBE4CA501F3DAD390062A281 /* BigUInt Coding.swift in Sources */,
 				BB241C771DDB71910067F917 /* BigUInt Exponentiation.swift in Sources */,
 				BB241C731DDB71910067F917 /* BigUInt Addition.swift in Sources */,
 			);
@@ -771,6 +780,7 @@
 				BB241CA11DDB71920067F917 /* BigUInt Shifts.swift in Sources */,
 				BB241CA31DDB71920067F917 /* BigUInt GCD.swift in Sources */,
 				BB241CA21DDB71920067F917 /* BigUInt Square Root.swift in Sources */,
+				BBE4CA511F3DAD390062A281 /* BigUInt Coding.swift in Sources */,
 				BB241C9F1DDB71920067F917 /* BigUInt Exponentiation.swift in Sources */,
 				BB241C9B1DDB71920067F917 /* BigUInt Addition.swift in Sources */,
 			);
