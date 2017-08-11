@@ -362,12 +362,6 @@ extension BigUInt {
     }
 
     public var words: Words { return Words(self) }
-
-    // FIXME: Remove this
-    public func _word(at n: Int) -> UInt {
-        if n >= count { return 0 }
-        return self[n]
-    }
 }
 
 extension BigUInt: ExpressibleByStringLiteral {
