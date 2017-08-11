@@ -61,4 +61,16 @@ public struct BigInt: SignedInteger {
     public var isZero: Bool {
         return magnitude.isZero
     }
+
+    /// Returns `-1` if this value is negative and `1` if it’s positive; otherwise, `0`.
+    ///
+    /// - Returns: The sign of this number, expressed as an integer of the same type.
+    public func signum() -> BigInt {
+        switch sign {
+        case .plus:
+            return isZero ? 0 : 1
+        case .minus:
+            return -1
+        }
+    }
 }

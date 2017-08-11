@@ -12,6 +12,20 @@ import XCTest
 class BigIntTests: XCTestCase {
     typealias Word = BigInt.Word
 
+    func testSigns() {
+        XCTAssertTrue(BigInt.isSigned)
+
+        XCTAssertEqual(BigInt().signum(), 0)
+        XCTAssertEqual(BigInt(-2).signum(), -1)
+        XCTAssertEqual(BigInt(-1).signum(), -1)
+        XCTAssertEqual(BigInt(0).signum(), 0)
+        XCTAssertEqual(BigInt(1).signum(), 1)
+        XCTAssertEqual(BigInt(2).signum(), 1)
+
+        XCTAssertEqual(BigInt(words: [0, Word.max]).signum(), -1)
+        XCTAssertEqual(BigInt(words: [0, 1]).signum(), 1)
+    }
+
     func testInit() {
         XCTAssertEqual(BigInt().sign, .plus)
         XCTAssertEqual(BigInt().magnitude, 0)
