@@ -3,7 +3,7 @@
 //  BigInt
 //
 //  Created by Károly Lőrentey on 2017-08-11.
-//  Copyright © 2017 Károly Lőrentey. All rights reserved.
+//  Copyright © 2016-2017 Károly Lőrentey.
 //
 
 extension Array where Element == UInt {
@@ -41,6 +41,52 @@ extension BigUInt {
 }
 
 extension BigUInt {
+    /// The minimum number of bits required to represent this integer in binary.
+    ///
+    /// - Returns: floor(log2(2 * self + 1))
+    /// - Complexity: O(1)
+    public var bitWidth: Int {
+        guard count > 0 else { return 0 }
+        return count * Word.bitWidth - self[count - 1].leadingZeroBitCount
+    }
+
+    /// The number of leading zero bits in the binary representation of this integer in base `2^(Word.bitWidth)`.
+    /// This is useful when you need to normalize a `BigUInt` such that the top bit of its most significant word is 1.
+    ///
+    /// - Note: 0 is considered to have zero leading zero bits.
+    /// - Returns: A value in `0...(Word.bitWidth - 1)`.
+    /// - SeeAlso: width
+    /// - Complexity: O(1)
+    public var leadingZeroBitCount: Int {
+        guard count > 0 else { return 0 }
+        return self[count - 1].leadingZeroBitCount
+    }
+
+    /// The number of trailing zero bits in the binary representation of this integer.
+    ///
+    /// - Note: 0 is considered to have zero trailing zero bits.
+    /// - Returns: A value in `0...width`.
+    /// - Complexity: O(count)
+    public var trailingZeroBitCount: Int {
+        guard count > 0 else { return 0 }
+        let i = self.words.index { $0 != 0 }!
+        return i * Word.bitWidth + self[i].trailingZeroBitCount
+    }
+}
+
+extension BigInt {
+    public var bitWidth: Int {
+        guard !magnitude.isZero else { return 0 }
+        return magnitude.bitWidth + 1
+    }
+
+    public var trailingZeroBitCount: Int {
+        // Amazingly, this works fine for negative numbers
+        return magnitude.trailingZeroBitCount
+    }
+}
+
+extension BigUInt {
     public struct Words: RandomAccessCollection {
         private let value: BigUInt
 
@@ -55,6 +101,38 @@ extension BigUInt {
     }
 
     public var words: Words { return Words(self) }
+
+    public init<Words: Sequence>(words: Words) where Words.Element == Word {
+        let uc = words.underestimatedCount
+        if uc > 2 {
+            self.init(words: Array(words))
+        }
+        else {
+            var it = words.makeIterator()
+            guard let w0 = it.next() else {
+                self.init()
+                return
+            }
+            guard let w1 = it.next() else {
+                self.init(word: w0)
+                return
+            }
+            if let w2 = it.next() {
+                var words: [UInt] = []
+                words.reserveCapacity(Swift.max(3, uc))
+                words.append(w0)
+                words.append(w1)
+                words.append(w2)
+                while let word = it.next() {
+                    words.append(word)
+                }
+                self.init(words: words)
+            }
+            else {
+                self.init(low: w0, high: w1)
+            }
+        }
+    }
 }
 
 extension BigInt {
@@ -109,5 +187,16 @@ extension BigInt {
 
     public var words: Words {
         return Words(self)
+    }
+
+    public init<S: Sequence>(words: S) where S.Element == Word {
+        var words = Array(words)
+        if (words.last ?? 0) >> (Word.bitWidth - 1) == 0 {
+            self.init(sign: .plus, magnitude: BigUInt(words: words))
+        }
+        else {
+            words.twosComplement()
+            self.init(sign: .minus, magnitude: BigUInt(words: words))
+        }
     }
 }

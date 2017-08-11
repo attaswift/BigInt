@@ -1,5 +1,5 @@
 //
-//  BigUInt Addition.swift
+//  Addition.swift
 //  BigInt
 //
 //  Created by Károly Lőrentey on 2016-01-03.
@@ -92,3 +92,35 @@ extension BigUInt {
         a.add(b, shiftedBy: 0)
     }
 }
+
+extension BigInt {
+    /// Add `a` to `b` and return the result.
+    public static func +(a: BigInt, b: BigInt) -> BigInt {
+        switch (a.sign, b.sign) {
+        case (.plus, .plus):
+            return BigInt(sign: .plus, magnitude: a.magnitude + b.magnitude)
+        case (.minus, .minus):
+            return BigInt(sign: .minus, magnitude: a.magnitude + b.magnitude)
+        case (.plus, .minus):
+            if a.magnitude >= b.magnitude {
+                return BigInt(sign: .plus, magnitude: a.magnitude - b.magnitude)
+            }
+            else {
+                return BigInt(sign: .minus, magnitude: b.magnitude - a.magnitude)
+            }
+        case (.minus, .plus):
+            if b.magnitude >= a.magnitude {
+                return BigInt(sign: .plus, magnitude: b.magnitude - a.magnitude)
+            }
+            else {
+                return BigInt(sign: .minus, magnitude: a.magnitude - b.magnitude)
+            }
+        }
+    }
+
+    /// Add `b` to `a` in place.
+    public static func +=(a: inout BigInt, b: BigInt) {
+        a = a + b
+    }
+}
+

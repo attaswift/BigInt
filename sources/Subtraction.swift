@@ -1,5 +1,5 @@
 //
-//  BigUInt Subtraction.swift
+//  Subtraction.swift
 //  BigInt
 //
 //  Created by Károly Lőrentey on 2016-01-03.
@@ -151,4 +151,19 @@ extension BigUInt {
     public static func -=(a: inout BigUInt, b: BigUInt) {
         a.subtract(b)
     }
+}
+
+extension BigInt {
+    public mutating func negate() {
+        guard !magnitude.isZero else { return }
+        self.sign = self.sign == .plus ? .minus : .plus
+    }
+
+    /// Subtract `b` from `a` and return the result.
+    public static func -(a: BigInt, b: BigInt) -> BigInt {
+        return a + -b
+    }
+
+    /// Subtract `b` from `a` in place.
+    public static func -=(a: inout BigInt, b: BigInt) { a = a - b }
 }

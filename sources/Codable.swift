@@ -1,5 +1,5 @@
 //
-//  BigUInt Coding.swift
+//  Codable.swift
 //  BigInt
 //
 //  Created by Károly Lőrentey on 2017-8-11.

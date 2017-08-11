@@ -1,5 +1,5 @@
 //
-//  BigUInt Shifts.swift
+//  Shifts.swift
 //  BigInt
 //
 //  Created by Károly Lőrentey on 2016-01-03.
@@ -141,5 +141,71 @@ extension BigUInt {
             return lhs >> (0 - rhs)
         }
         return lhs.shiftedLeft(by: Word(exactly: rhs)!)
+    }
+}
+
+extension BigInt {
+    func shiftedLeft(by amount: Word) -> BigInt {
+        return BigInt(sign: self.sign, magnitude: self.magnitude.shiftedLeft(by: amount))
+    }
+    
+    mutating func shiftLeft(by amount: Word) {
+        self.magnitude.shiftLeft(by: amount)
+    }
+    
+    func shiftedRight(by amount: Word) -> BigInt {
+        let m = self.magnitude.shiftedRight(by: amount)
+        return BigInt(sign: self.sign, magnitude: self.sign == .minus && m.isZero ? 1 : m)
+    }
+    
+    mutating func shiftRight(by amount: Word) {
+        magnitude.shiftRight(by: amount)
+        if sign == .minus, magnitude.isZero {
+            magnitude.load(1)
+        }
+    }
+    
+    public static func &<<(left: BigInt, right: BigInt) -> BigInt {
+        return left.shiftedLeft(by: right.words[0])
+    }
+    
+    public static func &<<=(left: inout BigInt, right: BigInt) {
+        left.shiftLeft(by: right.words[0])
+    }
+    
+    public static func &>>(left: BigInt, right: BigInt) -> BigInt {
+        return left.shiftedRight(by: right.words[0])
+    }
+    
+    public static func &>>=(left: inout BigInt, right: BigInt) {
+        left.shiftRight(by: right.words[0])
+    }
+    
+    public static func <<<Other: BinaryInteger>(lhs: BigInt, rhs: Other) -> BigInt {
+        guard rhs >= (0 as Other) else { return lhs >> (0 - rhs) }
+        return lhs.shiftedLeft(by: Word(rhs))
+    }
+    
+    public static func <<=<Other: BinaryInteger>(lhs: inout BigInt, rhs: Other) {
+        if rhs < (0 as Other) {
+            lhs >>= (0 - rhs)
+        }
+        else {
+            lhs.shiftLeft(by: Word(rhs))
+        }
+    }
+    
+    public static func >><Other: BinaryInteger>(lhs: BigInt, rhs: Other) -> BigInt {
+        guard rhs >= (0 as Other) else { return lhs << (0 - rhs) }
+        return lhs.shiftedRight(by: Word(rhs))
+    }
+    
+    public static func >>=<Other: BinaryInteger>(lhs: inout BigInt, rhs: Other) {
+        if rhs < (0 as Other) {
+            lhs <<= (0 - rhs)
+        }
+        else {
+            lhs.shiftRight(by: Word(rhs))
+        }
     }
 }

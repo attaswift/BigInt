@@ -1,5 +1,5 @@
 //
-//  BigUInt Random.swift
+//  Random.swift
 //  BigInt
 //
 //  Created by Károly Lőrentey on 2016-01-04.

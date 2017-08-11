@@ -58,69 +58,30 @@ public struct BigUInt: UnsignedInteger {
         self.storage = words
         normalize()
     }
-
-    public init<Words: Sequence>(words: Words) where Words.Element == Word {
-        let uc = words.underestimatedCount
-        if uc > 2 {
-            self.init(words: Array(words))
-        }
-        else {
-            var it = words.makeIterator()
-            guard let w0 = it.next() else {
-                self.init()
-                return
-            }
-            guard let w1 = it.next() else {
-                self.init(word: w0)
-                return
-            }
-            if let w2 = it.next() {
-                var words: [UInt] = []
-                words.reserveCapacity(Swift.max(3, uc))
-                words.append(w0)
-                words.append(w1)
-                words.append(w2)
-                while let word = it.next() {
-                    words.append(word)
-                }
-                self.init(words: words)
-            }
-            else {
-                self.init(low: w0, high: w1)
-            }
-        }
-    }
 }
 
 extension BigUInt {
-    public init?<T: BinaryInteger>(exactly source: T) {
-        guard source >= (0 as T) else { return nil }
-        if source.bitWidth <= 2 * Word.bitWidth {
-            var it = source.words.makeIterator()
-            self.init(low: it.next() ?? 0, high: it.next() ?? 0)
-            precondition(it.next() == nil, "Length of BinaryInteger.words is greater than its bitWidth")
-        }
-        else {
-            self.init(words: source.words)
+    public static var isSigned: Bool {
+        return false
+    }
+
+    /// Return true iff this integer is zero.
+    ///
+    /// - Complexity: O(1)
+    var isZero: Bool {
+        switch kind {
+        case .inline(0, 0): return true
+        case .array: return storage.isEmpty
+        default:
+            return false
         }
     }
 
-    public init<T: BinaryInteger>(_ source: T) {
-        precondition(source >= (0 as T), "BigUInt cannot represent negative values")
-        self.init(exactly: source)!
-    }
-
-    public init<T: BinaryInteger>(truncatingIfNeeded source: T) {
-        self.init(words: source.words)
-    }
-
-    public init<T: BinaryInteger>(clamping source: T) {
-        if source <= (0 as T) {
-            self.init()
-        }
-        else {
-            self.init(words: source.words)
-        }
+    /// Returns `-1` if this value is negative and `1` if it’s positive; otherwise, `0`.
+    ///
+    /// - Returns: The sign of this number, expressed as an integer of the same type.
+    public func signum() -> BigUInt {
+        return isZero ? 0 : 1
     }
 }
 
@@ -322,73 +283,6 @@ extension BigUInt {
 
     internal func extract<Bounds: RangeExpression>(_ bounds: Bounds) -> BigUInt where Bounds.Bound == Int {
         return self.extract(bounds.relative(to: 0 ..< Int.max))
-    }
-}
-
-extension BigUInt: ExpressibleByStringLiteral {
-    //MARK: Init from literals
-
-    /// Initialize a new big integer from an integer literal.
-    public init(integerLiteral value: UInt64) {
-        self.init(value)
-    }
-
-    /// Initialize a new big integer from a Unicode scalar.
-    /// The scalar must represent a decimal digit.
-    public init(unicodeScalarLiteral value: UnicodeScalar) {
-        self = BigUInt(String(value), radix: 10)!
-    }
-
-    /// Initialize a new big integer from an extended grapheme cluster.
-    /// The cluster must consist of a decimal digit.
-    public init(extendedGraphemeClusterLiteral value: String) {
-        self = BigUInt(value, radix: 10)!
-    }
-
-    /// Initialize a new big integer from a decimal number represented by a string literal of arbitrary length.
-    /// The string must contain only decimal digits.
-    public init(stringLiteral value: StringLiteralType) {
-        self = BigUInt(value, radix: 10)!
-    }
-}
-
-extension BigUInt {
-    public static var isSigned: Bool {
-        return false
-    }
-
-    /// Return true iff this integer is zero.
-    ///
-    /// - Complexity: O(1)
-    var isZero: Bool {
-        switch kind {
-        case .inline(0, 0): return true
-        case .array: return storage.isEmpty
-        default:
-            return false
-        }
-    }
-
-    /// Returns `-1` if this value is negative and `1` if it’s positive; otherwise, `0`.
-    ///
-    /// - Returns: The sign of this number, expressed as an integer of the same type.
-    public func signum() -> BigUInt {
-        return isZero ? 0 : 1
-    }
-}
-
-extension BigUInt: Strideable {
-    /// A type that can represent the distance between two values of `BigUInt`.
-    public typealias Stride = BigInt
-
-    /// Adds `n` to `self` and returns the result. Traps if the result would be less than zero.
-    public func advanced(by n: BigInt) -> BigUInt {
-        return n.sign == .minus ? self - n.magnitude : self + n.magnitude
-    }
-
-    /// Returns the (potentially negative) difference between `self` and `other` as a `BigInt`. Never traps.
-    public func distance(to other: BigUInt) -> BigInt {
-        return BigInt(other) - BigInt(self)
     }
 }
 

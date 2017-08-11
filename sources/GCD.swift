@@ -1,5 +1,5 @@
 //
-//  BigUInt GCD.swift
+//  GCD.swift
 //  BigInt
 //
 //  Created by Károly Lőrentey on 2016-01-03.

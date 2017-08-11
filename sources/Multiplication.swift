@@ -1,5 +1,5 @@
 //
-//  BigUInt Multiplication.swift
+//  Multiplication.swift
 //  BigInt
 //
 //  Created by Károly Lőrentey on 2016-01-03.
@@ -152,4 +152,14 @@ extension BigUInt {
     public static func *=(a: inout BigUInt, b: BigUInt) {
         a = a * b
     }
+}
+
+extension BigInt {
+    /// Multiply `a` with `b` and return the result.
+    public static func *(a: BigInt, b: BigInt) -> BigInt {
+        return BigInt(sign: a.sign == b.sign ? .plus : .minus, magnitude: a.magnitude * b.magnitude)
+    }
+
+    /// Multiply `a` with `b` in place.
+    public static func *=(a: inout BigInt, b: BigInt) { a = a * b }
 }

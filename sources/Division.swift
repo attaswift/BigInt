@@ -1,5 +1,5 @@
 //
-//  BigUInt Division.swift
+//  Division.swift
 //  BigInt
 //
 //  Created by Károly Lőrentey on 2016-01-03.
@@ -330,4 +330,30 @@ extension BigUInt {
         let shift = y.leadingZeroBitCount
         x.formRemainder(dividingBy: y << shift, normalizedBy: shift)
     }
+}
+
+extension BigInt {
+    /// Divide `a` by `b` and return the quotient. Traps if `b` is zero.
+    public static func /(a: BigInt, b: BigInt) -> BigInt {
+        return BigInt(sign: a.sign == b.sign ? .plus : .minus, magnitude: a.magnitude / b.magnitude)
+    }
+
+    /// Divide `a` by `b` and return the remainder. The result has the same sign as `a`.
+    public static func %(a: BigInt, b: BigInt) -> BigInt {
+        return BigInt(sign: a.sign, magnitude: a.magnitude % b.magnitude)
+    }
+
+    /// Return the result of `a` mod `b`. The result is always a nonnegative integer that is less than the absolute value of `b`.
+    public static func modulus(_ a: BigInt,_ b: BigInt) -> BigInt {
+        let remainder = a.magnitude % b.magnitude
+        return BigInt(sign: .plus,
+                      magnitude: a.sign == .minus && !remainder.isZero ? b.magnitude - remainder : remainder)
+    }
+}
+
+extension BigInt {
+    /// Divide `a` by `b` storing the quotient in `a`.
+    public static func /=(a: inout BigInt, b: BigInt) { a = a / b }
+    /// Divide `a` by `b` storing the remainder in `a`.
+    public static func %=(a: inout BigInt, b: BigInt) { a = a % b }
 }

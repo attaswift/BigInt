@@ -1,14 +1,14 @@
 //
-//  BigUInt Radix Conversion.swift
+//  String Conversion.swift
 //  BigInt
 //
 //  Created by Károly Lőrentey on 2016-01-03.
 //  Copyright © 2016-2017 Károly Lőrentey.
 //
 
-extension BigUInt: CustomStringConvertible {
+extension BigUInt {
 
-    //MARK: Radix Conversion
+    //MARK: String Conversion
 
     /// Calculates the number of numerals in a given radix that fit inside a single `Word`.
     ///
@@ -77,10 +77,33 @@ extension BigUInt: CustomStringConvertible {
             }
         }
     }
+}
 
-    /// Return the decimal representation of this integer.
-    public var description: String {
-        return String(self, radix: 10)
+extension BigInt {
+    /// Initialize a big integer from an ASCII representation in a given radix. Numerals above `9` are represented by
+    /// letters from the English alphabet.
+    ///
+    /// - Requires: `radix > 1 && radix < 36`
+    /// - Parameter `text`: A string optionally starting with "-" or "+" followed by characters corresponding to numerals in the given radix. (0-9, a-z, A-Z)
+    /// - Parameter `radix`: The base of the number system to use, or 10 if unspecified.
+    /// - Returns: The integer represented by `text`, or nil if `text` contains a character that does not represent a numeral in `radix`.
+    public init?<S: StringProtocol>(_ text: S, radix: Int = 10) {
+        self.init(Substring(text), radix: radix)
+    }
+
+    init?(_ text: Substring, radix: Int = 10) {
+        var text = text
+        var sign: Sign = .plus
+        if text.characters.first == "-" {
+            sign = .minus
+            text = text.dropFirst()
+        }
+        else if text.characters.first == "+" {
+            text = text.dropFirst()
+        }
+        guard let magnitude = BigUInt(text, radix: radix) else { return nil }
+        self.magnitude = magnitude
+        self.sign = sign
     }
 }
 
@@ -130,6 +153,74 @@ extension String {
             self += part
         }
     }
+
+    /// Initialize a new string representing a signed big integer in the given radix (base).
+    ///
+    /// Numerals greater than 9 are represented as letters from the English alphabet,
+    /// starting with `a` if `uppercase` is false or `A` otherwise.
+    ///
+    /// - Requires: radix > 1 && radix <= 36
+    /// - Complexity: O(count) when radix is a power of two; otherwise O(count^2).
+    public init(_ value: BigInt, radix: Int = 10, uppercase: Bool = false) {
+        self = String(value.magnitude, radix: radix, uppercase: uppercase)
+        if value.sign == .minus {
+            self = "-" + self
+        }
+    }
+}
+
+extension BigUInt: ExpressibleByStringLiteral {
+    /// Initialize a new big integer from a Unicode scalar.
+    /// The scalar must represent a decimal digit.
+    public init(unicodeScalarLiteral value: UnicodeScalar) {
+        self = BigUInt(String(value), radix: 10)!
+    }
+
+    /// Initialize a new big integer from an extended grapheme cluster.
+    /// The cluster must consist of a decimal digit.
+    public init(extendedGraphemeClusterLiteral value: String) {
+        self = BigUInt(value, radix: 10)!
+    }
+
+    /// Initialize a new big integer from a decimal number represented by a string literal of arbitrary length.
+    /// The string must contain only decimal digits.
+    public init(stringLiteral value: StringLiteralType) {
+        self = BigUInt(value, radix: 10)!
+    }
+}
+
+extension BigInt: ExpressibleByStringLiteral {
+    /// Initialize a new big integer from a Unicode scalar.
+    /// The scalar must represent a decimal digit.
+    public init(unicodeScalarLiteral value: UnicodeScalar) {
+        self = BigInt(String(value), radix: 10)!
+    }
+
+    /// Initialize a new big integer from an extended grapheme cluster.
+    /// The cluster must consist of a decimal digit.
+    public init(extendedGraphemeClusterLiteral value: String) {
+        self = BigInt(value, radix: 10)!
+    }
+
+    /// Initialize a new big integer from a decimal number represented by a string literal of arbitrary length.
+    /// The string must contain only decimal digits.
+    public init(stringLiteral value: StringLiteralType) {
+        self = BigInt(value, radix: 10)!
+    }
+}
+
+extension BigUInt: CustomStringConvertible {
+    /// Return the decimal representation of this integer.
+    public var description: String {
+        return String(self, radix: 10)
+    }
+}
+
+extension BigInt: CustomStringConvertible {
+    /// Return the decimal representation of this integer.
+    public var description: String {
+        return String(self, radix: 10)
+    }
 }
 
 extension BigUInt: CustomPlaygroundQuickLookable {
@@ -137,5 +228,13 @@ extension BigUInt: CustomPlaygroundQuickLookable {
     public var customPlaygroundQuickLook: PlaygroundQuickLook {
         let text = String(self)
         return PlaygroundQuickLook.text(text + " (\(self.bitWidth) bits)")
+    }
+}
+
+extension BigInt: CustomPlaygroundQuickLookable {
+    /// Return the playground quick look representation of this integer.
+    public var customPlaygroundQuickLook: PlaygroundQuickLook {
+        let text = String(self)
+        return PlaygroundQuickLook.text(text + " (\(self.magnitude.bitWidth) bits)")
     }
 }
