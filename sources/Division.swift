@@ -333,6 +333,19 @@ extension BigUInt {
 }
 
 extension BigInt {
+    /// Divide this integer by `y` and return the resulting quotient and remainder.
+    ///
+    /// - Requires: `y > 0`
+    /// - Returns: `(quotient, remainder)` where `quotient = floor(self/y)`, `remainder = self - quotient * y`
+    /// - Complexity: O(count^2)
+    public func quotientAndRemainder(dividingBy y: BigInt) -> (quotient: BigInt, remainder: BigInt) {
+        var a = self.magnitude
+        var b = y.magnitude
+        BigUInt.divide(&a, by: &b)
+        return (BigInt(sign: self.sign == y.sign ? .plus : .minus, magnitude: a),
+                BigInt(sign: self.sign, magnitude: b))
+    }
+
     /// Divide `a` by `b` and return the quotient. Traps if `b` is zero.
     public static func /(a: BigInt, b: BigInt) -> BigInt {
         return BigInt(sign: a.sign == b.sign ? .plus : .minus, magnitude: a.magnitude / b.magnitude)

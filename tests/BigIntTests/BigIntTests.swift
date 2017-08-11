@@ -313,6 +313,21 @@ class BigIntTests: XCTestCase {
         compare(-2, -3, r: 6, op: *)
     }
 
+    func testQuotientAndRemainder() {
+        func compare(_ a: BigInt, _ b: BigInt, r: (BigInt, BigInt), file: StaticString = #file, line: UInt = #line) {
+            let actual = a.quotientAndRemainder(dividingBy: b)
+            XCTAssertEqual(actual.quotient, r.0, "quotient", file: file, line: line)
+            XCTAssertEqual(actual.remainder, r.1, "remainder", file: file, line: line)
+        }
+
+        compare(0, 1, r: (0, 0))
+        compare(0, -1, r: (0, 0))
+        compare(7, 4, r: (1, 3))
+        compare(7, -4, r: (-1, 3))
+        compare(-7, 4, r: (-1, -3))
+        compare(-7, -4, r: (1, -3))
+    }
+
     func testDivision() {
         compare(0, 1, r: 0, op: /)
         compare(0, -1, r: 0, op: /)
