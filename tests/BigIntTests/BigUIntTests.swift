@@ -24,11 +24,13 @@ extension BigUInt.Kind: Equatable {
 class BigUIntTests: XCTestCase {
     typealias Word = BigUInt.Word
 
-    func check(_ value: BigUInt, _ kind: BigUInt.Kind, _ words: [Word], file: StaticString = #file, line: UInt = #line) {
-        XCTAssertEqual(
-            value.kind, kind,
-            "Mismatching kind: \(value.kind) vs. \(kind)",
-            file: file, line: line)
+    func check(_ value: BigUInt, _ kind: BigUInt.Kind?, _ words: [Word], file: StaticString = #file, line: UInt = #line) {
+        if let kind = kind {
+            XCTAssertEqual(
+                value.kind, kind,
+                "Mismatching kind: \(value.kind) vs. \(kind)",
+                file: file, line: line)
+        }
         XCTAssertEqual(
             Array(value.words), words,
             "Mismatching words: \(value.words) vs. \(words)",
@@ -55,7 +57,7 @@ class BigUIntTests: XCTestCase {
         }
     }
 
-    func check(_ value: BigUInt?, _ kind: BigUInt.Kind, _ words: [Word], file: StaticString = #file, line: UInt = #line) {
+    func check(_ value: BigUInt?, _ kind: BigUInt.Kind?, _ words: [Word], file: StaticString = #file, line: UInt = #line) {
         guard let value = value else {
             XCTFail("Expected non-nil BigUInt", file: file, line: line)
             return
@@ -338,6 +340,22 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(BigUInt(words: []).signum(), 0)
         XCTAssertEqual(BigUInt(words: [0, 1, 2]).signum(), 1)
         XCTAssertEqual(BigUInt(word: 42).signum(), 1)
+    }
+
+    func testBits() {
+        let indices: Set<Int> = [0, 13, 59, 64, 79, 130]
+        var value: BigUInt = 0
+        for i in indices {
+            value[bitAt: i] = true
+        }
+        for i in 0 ..< 300 {
+            XCTAssertEqual(value[bitAt: i], indices.contains(i))
+        }
+        check(value, nil, convertWords([0x0800000000002001, 0x8001, 0x04]))
+        for i in indices {
+            value[bitAt: i] = false
+        }
+        check(value, nil, [])
     }
 
     func testStrideableRequirements() {

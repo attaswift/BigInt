@@ -53,20 +53,6 @@ public struct BigInt: BinaryInteger {
     }
 }
 
-extension Array where Element == UInt {
-    mutating func twosComplement() {
-        var increment = true
-        for i in 0 ..< self.count {
-            if increment {
-                (self[i], increment) = (~self[i]).addingReportingOverflow(1)
-            }
-            else {
-                self[i] = ~self[i]
-            }
-        }
-    }
-}
-
 extension BigInt {
     public init() {
         self.init(sign: .plus, magnitude: 0)
@@ -149,59 +135,6 @@ extension BigInt {
     public var trailingZeroBitCount: Int {
         // Amazingly, this works fine for negative numbers
         return magnitude.trailingZeroBitCount
-    }
-
-    public struct Words: RandomAccessCollection {
-        public typealias Indices = CountableRange<Int>
-
-        private let value: BigInt
-        private let decrementLimit: Int
-
-        fileprivate init(_ value: BigInt) {
-            self.value = value
-            switch value.sign {
-            case .plus:
-                self.decrementLimit = 0
-            case .minus:
-                assert(!value.magnitude.isZero)
-                self.decrementLimit = value.magnitude.words.index(where: { $0 != 0 })!
-            }
-        }
-
-        public var count: Int {
-            switch value.sign {
-            case .plus:
-                if let high = value.magnitude.words.last, high >> (Word.bitWidth - 1) != 0 {
-                    return value.magnitude.count + 1
-                }
-                return value.magnitude.count
-            case .minus:
-                let high = value.magnitude.words.last!
-                if high >> (Word.bitWidth - 1) != 0 {
-                    return value.magnitude.count + 1
-                }
-                return value.magnitude.count
-            }
-        }
-
-        public var indices: Indices { return 0 ..< count }
-        public var startIndex: Int { return 0 }
-        public var endIndex: Int { return count }
-
-        public subscript(_ index: Int) -> UInt {
-            // Note that indices above `endIndex` are accepted.
-            if value.sign == .plus {
-                return value.magnitude[index]
-            }
-            if index <= decrementLimit {
-                return ~(value.magnitude[index] &- 1)
-            }
-            return ~value.magnitude[index]
-        }
-    }
-
-    public var words: Words {
-        return Words(self)
     }
 }
 

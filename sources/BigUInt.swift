@@ -347,23 +347,6 @@ extension BigUInt {
     }
 }
 
-extension BigUInt {
-    public struct Words: RandomAccessCollection {
-        private let value: BigUInt
-
-        fileprivate init(_ value: BigUInt) { self.value = value }
-
-        public var startIndex: Int { return 0 }
-        public var endIndex: Int { return value.count }
-
-        public subscript(_ index: Int) -> Word {
-            return value[index]
-        }
-    }
-
-    public var words: Words { return Words(self) }
-}
-
 extension BigUInt: ExpressibleByStringLiteral {
     //MARK: Init from literals
 
