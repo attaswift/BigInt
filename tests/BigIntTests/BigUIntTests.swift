@@ -223,13 +223,7 @@ class BigUIntTests: XCTestCase {
 
         check(BigUInt(clamping: 0), .inline(0, 0), [])
         check(BigUInt(clamping: -100), .inline(0, 0), [])
-        if Word.Words.self == [Word].self {
-            // FIXME: Remove this branch
-            check(BigUInt(clamping: Word.max), .array, [Word.max])
-        }
-        else {
-            check(BigUInt(clamping: Word.max), .inline(Word.max, 0), [Word.max])
-        }
+        check(BigUInt(clamping: Word.max), .inline(Word.max, 0), [Word.max])
     }
 
     func testEnsureArray() {
