@@ -134,6 +134,13 @@ extension BigInt {
         return true
     }
 
+    /// Return true iff this integer is zero.
+    ///
+    /// - Complexity: O(1)
+    public var isZero: Bool {
+        return magnitude.isZero
+    }
+    
     public var bitWidth: Int {
         guard !magnitude.isZero else { return 0 }
         return magnitude.bitWidth + 1
