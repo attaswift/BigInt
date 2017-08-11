@@ -159,7 +159,7 @@ class BigUIntTests: XCTestCase {
 
     func testConversionToFloatingPoint() {
         func test<F: BinaryFloatingPoint>(_ a: BigUInt, _ b: F, file: StaticString = #file, line: UInt = #line)
-        where F.RawExponent: FixedWidthInteger {
+        where F.RawExponent: FixedWidthInteger, F.RawSignificand: FixedWidthInteger {
             let f = F(a)
             XCTAssertEqual(f, b, file: file, line: line)
         }
@@ -175,6 +175,7 @@ class BigUIntTests: XCTestCase {
         test(BigUInt(1) << 1024, Double.infinity)
         test(BigUInt(words: convertWords([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFFFFFFFFFFFFF800])),
              Double.greatestFiniteMagnitude)
+        test(BigUInt(UInt64.max), 0x1p64 as Double)
 
         for i in 0 ..< 100 {
             test(BigUInt(i), Float(i))
@@ -187,6 +188,27 @@ class BigUIntTests: XCTestCase {
         test(BigUInt(1) << 1024, Float.infinity)
         test(BigUInt(words: convertWords([0, 0xFFFFFF0000000000])),
              Float.greatestFiniteMagnitude)
+
+        // Test rounding
+        test(BigUInt(0xFFFFFF0000000000 as UInt64), 0xFFFFFFp40 as Float)
+        test(BigUInt(0xFFFFFF7FFFFFFFFF as UInt64), 0xFFFFFFp40 as Float)
+        test(BigUInt(0xFFFFFF8000000000 as UInt64), 0x1p64 as Float)
+        test(BigUInt(0xFFFFFFFFFFFFFFFF as UInt64), 0x1p64 as Float)
+
+        test(BigUInt(0xFFFFFE0000000000 as UInt64), 0xFFFFFEp40 as Float)
+        test(BigUInt(0xFFFFFE7FFFFFFFFF as UInt64), 0xFFFFFEp40 as Float)
+        test(BigUInt(0xFFFFFE8000000000 as UInt64), 0xFFFFFEp40 as Float)
+        test(BigUInt(0xFFFFFEFFFFFFFFFF as UInt64), 0xFFFFFEp40 as Float)
+
+        test(BigUInt(0x8000010000000000 as UInt64), 0x800001p40 as Float)
+        test(BigUInt(0x8000017FFFFFFFFF as UInt64), 0x800001p40 as Float)
+        test(BigUInt(0x8000018000000000 as UInt64), 0x800002p40 as Float)
+        test(BigUInt(0x800001FFFFFFFFFF as UInt64), 0x800002p40 as Float)
+
+        test(BigUInt(0x8000020000000000 as UInt64), 0x800002p40 as Float)
+        test(BigUInt(0x8000027FFFFFFFFF as UInt64), 0x800002p40 as Float)
+        test(BigUInt(0x8000028000000000 as UInt64), 0x800002p40 as Float)
+        test(BigUInt(0x800002FFFFFFFFFF as UInt64), 0x800002p40 as Float)
     }
 
     func testInit_Misc() {

@@ -76,7 +76,7 @@ class BigIntTests: XCTestCase {
 
     func testConversionToFloatingPoint() {
         func test<F: BinaryFloatingPoint>(_ a: BigInt, _ b: F, file: StaticString = #file, line: UInt = #line)
-            where F.RawExponent: FixedWidthInteger {
+        where F.RawExponent: FixedWidthInteger, F.RawSignificand: FixedWidthInteger {
                 let f = F(a)
                 XCTAssertEqual(f, b, file: file, line: line)
         }

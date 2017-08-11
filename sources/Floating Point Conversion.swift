@@ -41,19 +41,29 @@ extension BigInt {
     }
 }
 
-extension BinaryFloatingPoint where RawExponent: FixedWidthInteger {
+extension BinaryFloatingPoint where RawExponent: FixedWidthInteger, RawSignificand: FixedWidthInteger {
     public init(_ value: BigInt) {
         guard !value.isZero else { self = 0; return }
-        let bias = 1 << (Self.exponentBitCount - 1) - 1
-        let bitWidth = value.magnitude.bitWidth
-        guard bitWidth - 1 <= bias else { self = Self.infinity; return }
-        var significand = value.magnitude >> (bitWidth - Self.significandBitCount - 1)
-        if !significand.isZero {
-            // Clear highest bit
-            significand[bitAt: bitWidth - 1] = false
+        let v = value.magnitude
+        let bitWidth = v.bitWidth
+        var exponent = bitWidth - 1
+        let shift = bitWidth - Self.significandBitCount - 1
+        var significand = value.magnitude >> (shift - 1)
+        if significand[0] & 3 == 3 { // Handle rounding
+            significand >>= 1
+            significand += 1
+            if significand.trailingZeroBitCount >= Self.significandBitCount {
+                exponent += 1
+            }
         }
+        else {
+            significand >>= 1
+        }
+        let bias = 1 << (Self.exponentBitCount - 1) - 1
+        guard exponent <= bias else { self = Self.infinity; return }
+        significand &= 1 << Self.significandBitCount - 1
         self = Self.init(sign: value.sign == .plus ? .plus : .minus,
-                         exponentBitPattern: RawExponent(bias + bitWidth - 1),
+                         exponentBitPattern: RawExponent(bias + exponent),
                          significandBitPattern: RawSignificand(significand))
     }
 
