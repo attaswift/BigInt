@@ -46,27 +46,64 @@ class BigIntTests: XCTestCase {
         XCTAssertEqual(BigInt(unicodeScalarLiteral: UnicodeScalar(52)), BigInt(4))
         XCTAssertEqual(BigInt(extendedGraphemeClusterLiteral: "4"), BigInt(4))
         
-        XCTAssertEqual(BigInt(42.0), 42)
-        XCTAssertEqual(BigInt(-42.0), -42)
-        XCTAssertEqual(BigInt(exactly: 42.0), 42)
-        XCTAssertEqual(BigInt(exactly: -42.0), -42)
-        XCTAssertNil(BigInt(exactly: Double.leastNormalMagnitude))
-        XCTAssertNil(BigInt(exactly: Double.leastNonzeroMagnitude))
-        XCTAssertNil(BigInt(exactly: Double.infinity))
-        XCTAssertNil(BigInt(exactly: Double.nan))
-        XCTAssertNil(BigInt(exactly: Double.signalingNaN))
-        XCTAssertEqual(BigInt(exactly: -42.0), -42)
-        XCTAssertEqual(BigInt(clamping: -42), -42)
-        XCTAssertEqual(BigInt(clamping: 42), 42)
-        XCTAssertEqual(BigInt(truncatingIfNeeded: -42), -42)
-        XCTAssertEqual(BigInt(truncatingIfNeeded: 42), 42)
-        
         XCTAssertEqual(BigInt(words: []), 0)
         XCTAssertEqual(BigInt(words: [1, 1]), BigInt(1) << Word.bitWidth + 1)
         XCTAssertEqual(BigInt(words: [1, 2]), BigInt(2) << Word.bitWidth + 1)
         XCTAssertEqual(BigInt(words: [0, Word.max]), -(BigInt(1) << Word.bitWidth))
         XCTAssertEqual(BigInt(words: [1, Word.max]), -BigInt(Word.max))
         XCTAssertEqual(BigInt(words: [1, Word.max, Word.max]), -BigInt(Word.max))
+    }
+
+    func testInit_FloatingPoint() {
+        XCTAssertEqual(BigInt(42.0), 42)
+        XCTAssertEqual(BigInt(-42.0), -42)
+        XCTAssertEqual(BigInt(42.5), 42)
+        XCTAssertEqual(BigInt(-42.5), -42)
+        XCTAssertEqual(BigInt(exactly: 42.0), 42)
+        XCTAssertEqual(BigInt(exactly: -42.0), -42)
+        XCTAssertNil(BigInt(exactly: 42.5))
+        XCTAssertNil(BigInt(exactly: -42.5))
+        XCTAssertNil(BigInt(exactly: Double.leastNormalMagnitude))
+        XCTAssertNil(BigInt(exactly: Double.leastNonzeroMagnitude))
+        XCTAssertNil(BigInt(exactly: Double.infinity))
+        XCTAssertNil(BigInt(exactly: Double.nan))
+        XCTAssertNil(BigInt(exactly: Double.signalingNaN))
+        XCTAssertEqual(BigInt(clamping: -42), -42)
+        XCTAssertEqual(BigInt(clamping: 42), 42)
+        XCTAssertEqual(BigInt(truncatingIfNeeded: -42), -42)
+        XCTAssertEqual(BigInt(truncatingIfNeeded: 42), 42)
+    }
+
+    func testConversionToFloatingPoint() {
+        func test<F: BinaryFloatingPoint>(_ a: BigInt, _ b: F, file: StaticString = #file, line: UInt = #line)
+            where F.RawExponent: FixedWidthInteger {
+                let f = F(a)
+                XCTAssertEqual(f, b, file: file, line: line)
+        }
+
+        for i in -100 ..< 100 {
+            test(BigInt(i), Double(i))
+        }
+        test(BigInt(0x5A5A5A), 0x5A5A5A as Double)
+        test(BigInt(1) << 64, 0x1p64 as Double)
+        test(BigInt(0x5A5A5A) << 64, 0x5A5A5Ap64 as Double)
+        test(BigInt(1) << 1023, 0x1p1023 as Double)
+        test(BigInt(10) << 1020, 0xAp1020 as Double)
+        test(BigInt(1) << 1024, Double.infinity)
+        test(BigInt(words: convertWords([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFFFFFFFFFFFFF800, 0])),
+             Double.greatestFiniteMagnitude)
+
+        for i in -100 ..< 100 {
+            test(BigInt(i), Float(i))
+        }
+        test(BigInt(0x5A5A5A), 0x5A5A5A as Float)
+        test(BigInt(1) << 64, 0x1p64 as Float)
+        test(BigInt(0x5A5A5A) << 64, 0x5A5A5Ap64 as Float)
+        test(BigInt(1) << 1023, 0x1p1023 as Float)
+        test(BigInt(10) << 1020, 0xAp1020 as Float)
+        test(BigInt(1) << 1024, Float.infinity)
+        test(BigInt(words: convertWords([0, 0xFFFFFF0000000000, 0])),
+             Float.greatestFiniteMagnitude)
     }
 
     func testTwosComplement() {

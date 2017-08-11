@@ -120,8 +120,8 @@ class BigUIntTests: XCTestCase {
     }
 
     func testInit_FloatingPoint() {
-        check(BigUInt(exactly: -0.0 as Float), .array, [])
-        check(BigUInt(exactly: -0.0 as Double), .array, [])
+        check(BigUInt(exactly: -0.0 as Float), nil, [])
+        check(BigUInt(exactly: -0.0 as Double), nil, [])
 
         XCTAssertNil(BigUInt(exactly: -42.0 as Float))
         XCTAssertNil(BigUInt(exactly: -42.0 as Double))
@@ -129,13 +129,13 @@ class BigUIntTests: XCTestCase {
         XCTAssertNil(BigUInt(exactly: 42.5 as Float))
         XCTAssertNil(BigUInt(exactly: 42.5 as Double))
 
-        check(BigUInt(exactly: 100 as Float), .array, [100])
-        check(BigUInt(exactly: 100 as Double), .array, [100])
+        check(BigUInt(exactly: 100 as Float), nil, [100])
+        check(BigUInt(exactly: 100 as Double), nil, [100])
 
-        check(BigUInt(exactly: Float.greatestFiniteMagnitude), .array,
+        check(BigUInt(exactly: Float.greatestFiniteMagnitude), nil,
               convertWords([0, 0xFFFFFF0000000000]))
 
-        check(BigUInt(exactly: Double.greatestFiniteMagnitude), .array,
+        check(BigUInt(exactly: Double.greatestFiniteMagnitude), nil,
               convertWords([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFFFFFFFFFFFFF800]))
 
         XCTAssertNil(BigUInt(exactly: Float.leastNormalMagnitude))
@@ -146,17 +146,53 @@ class BigUIntTests: XCTestCase {
 
         XCTAssertNil(BigUInt(exactly: Float.nan))
         XCTAssertNil(BigUInt(exactly: Double.nan))
+
+        check(BigUInt(0 as Float), nil, [])
+        check(BigUInt(Float.leastNonzeroMagnitude), nil, [])
+        check(BigUInt(Float.leastNormalMagnitude), nil, [])
+        check(BigUInt(0.5 as Float), nil, [])
+        check(BigUInt(1.5 as Float), nil, [1])
+        check(BigUInt(42 as Float), nil, [42])
+        check(BigUInt(Double(sign: .plus, exponent: 2 * Word.bitWidth, significand: 1.0)),
+              nil, [0, 0, 1])
+    }
+
+    func testConversionToFloatingPoint() {
+        func test<F: BinaryFloatingPoint>(_ a: BigUInt, _ b: F, file: StaticString = #file, line: UInt = #line)
+        where F.RawExponent: FixedWidthInteger {
+            let f = F(a)
+            XCTAssertEqual(f, b, file: file, line: line)
+        }
+
+        for i in 0 ..< 100 {
+            test(BigUInt(i), Double(i))
+        }
+        test(BigUInt(0x5A5A5A), 0x5A5A5A as Double)
+        test(BigUInt(1) << 64, 0x1p64 as Double)
+        test(BigUInt(0x5A5A5A) << 64, 0x5A5A5Ap64 as Double)
+        test(BigUInt(1) << 1023, 0x1p1023 as Double)
+        test(BigUInt(10) << 1020, 0xAp1020 as Double)
+        test(BigUInt(1) << 1024, Double.infinity)
+        test(BigUInt(words: convertWords([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFFFFFFFFFFFFF800])),
+             Double.greatestFiniteMagnitude)
+
+        for i in 0 ..< 100 {
+            test(BigUInt(i), Float(i))
+        }
+        test(BigUInt(0x5A5A5A), 0x5A5A5A as Float)
+        test(BigUInt(1) << 64, 0x1p64 as Float)
+        test(BigUInt(0x5A5A5A) << 64, 0x5A5A5Ap64 as Float)
+        test(BigUInt(1) << 1023, 0x1p1023 as Float)
+        test(BigUInt(10) << 1020, 0xAp1020 as Float)
+        test(BigUInt(1) << 1024, Float.infinity)
+        test(BigUInt(words: convertWords([0, 0xFFFFFF0000000000])),
+             Float.greatestFiniteMagnitude)
     }
 
     func testInit_Misc() {
         check(BigUInt(0), .inline(0, 0), [])
         check(BigUInt(42), .inline(42, 0), [42])
         check(BigUInt(BigUInt(words: [1, 2, 3])), .array, [1, 2, 3])
-
-        check(BigUInt(0 as Float), .array, [])
-        check(BigUInt(42 as Float), .array, [42])
-        check(BigUInt(Double(sign: .plus, exponent: 2 * Word.bitWidth, significand: 1.0)),
-              .array, [0, 0, 1])
 
         check(BigUInt(truncatingIfNeeded: 0 as Int8), .inline(0, 0), [])
         check(BigUInt(truncatingIfNeeded: 1 as Int8), .inline(1, 0), [1])

@@ -105,30 +105,8 @@ extension BigUInt {
         }
     }
 
-    public init?<T: BinaryFloatingPoint>(exactly source: T) {
-        guard source.isFinite else { return nil }
-        var words: [Word] = []
-        var value = source.rounded(.towardZero)
-        guard value == source else { return nil }
-        guard value.isZero || value.sign == .plus else { return nil }
-        let unit = (2 as T) * T((1 as Word) &<< (Word.bitWidth - 1))
-        // FIXME: Use a smaller unit when necessary
-        precondition(unit.isFinite, "Range of floating point type too narrow for conversion")
-        while !value.isZero {
-            let word = value.truncatingRemainder(dividingBy: unit)
-            words.append(Word(word))
-            value /= unit
-            value.round(.towardZero)
-        }
-        self.init(words: words)
-    }
-
     public init<T: BinaryInteger>(_ source: T) {
         precondition(source >= (0 as T), "BigUInt cannot represent negative values")
-        self.init(exactly: source)!
-    }
-
-    public init<T: BinaryFloatingPoint>(_ source: T) {
         self.init(exactly: source)!
     }
 

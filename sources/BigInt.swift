@@ -86,23 +86,7 @@ extension BigInt {
         }
     }
 
-    public init<T>(_ source: T) where T : BinaryFloatingPoint {
-        if source.sign == .plus {
-            self.init(sign: .plus, magnitude: BigUInt(source))
-        }
-        else {
-            self.init(sign: .minus, magnitude: BigUInt(-source))
-        }
-    }
-
     public init?<T>(exactly source: T) where T : BinaryInteger {
-        self.init(source)
-    }
-
-    public init?<T>(exactly source: T) where T : BinaryFloatingPoint {
-        guard source.floatingPointClass == .positiveNormal
-            || source.floatingPointClass == .negativeNormal else { return nil }
-        guard source.rounded(.towardZero) == source else { return nil }
         self.init(source)
     }
 

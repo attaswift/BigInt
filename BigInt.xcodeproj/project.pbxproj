@@ -92,6 +92,10 @@
 		BB99168F1F32610700CCFDDC /* BigIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C561DDB70690067F917 /* BigIntTests.swift */; };
 		BB9916901F32610A00CCFDDC /* BigUIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C571DDB70690067F917 /* BigUIntTests.swift */; };
 		BB9916911F33C32000CCFDDC /* WordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEAE4DC1F28C37800F4E329 /* WordTests.swift */; };
+		BBABCDD21F3E17A8009CA8BC /* Floating Point Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBABCDD11F3E17A8009CA8BC /* Floating Point Conversion.swift */; };
+		BBABCDD31F3E17A8009CA8BC /* Floating Point Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBABCDD11F3E17A8009CA8BC /* Floating Point Conversion.swift */; };
+		BBABCDD41F3E17A8009CA8BC /* Floating Point Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBABCDD11F3E17A8009CA8BC /* Floating Point Conversion.swift */; };
+		BBABCDD51F3E17A8009CA8BC /* Floating Point Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBABCDD11F3E17A8009CA8BC /* Floating Point Conversion.swift */; };
 		BBABCDD71F3E2038009CA8BC /* Words and Bits.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBABCDD61F3E2038009CA8BC /* Words and Bits.swift */; };
 		BBABCDD81F3E2038009CA8BC /* Words and Bits.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBABCDD61F3E2038009CA8BC /* Words and Bits.swift */; };
 		BBABCDD91F3E2038009CA8BC /* Words and Bits.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBABCDD61F3E2038009CA8BC /* Words and Bits.swift */; };
@@ -180,6 +184,7 @@
 		BB241CEB1DDB7B620067F917 /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		BB241CF01DDB84210067F917 /* .codecov.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .codecov.yml; sourceTree = "<group>"; };
 		BB4273F41F24AFC800065766 /* Tools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
+		BBABCDD11F3E17A8009CA8BC /* Floating Point Conversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Floating Point Conversion.swift"; sourceTree = "<group>"; };
 		BBABCDD61F3E2038009CA8BC /* Words and Bits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Words and Bits.swift"; sourceTree = "<group>"; };
 		BBB55AB21C8F80020050DDA9 /* BigInt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BigInt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBB55AB71C8F80020050DDA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -324,6 +329,7 @@
 			children = (
 				BB241C3F1DDB70600067F917 /* BigUInt.swift */,
 				BBABCDD61F3E2038009CA8BC /* Words and Bits.swift */,
+				BBABCDD11F3E17A8009CA8BC /* Floating Point Conversion.swift */,
 				BB241C321DDB70600067F917 /* BigUInt Comparison.swift */,
 				BB241C371DDB70600067F917 /* BigUInt Hashing.swift */,
 				BB241C331DDB70600067F917 /* BigUInt Data.swift */,
@@ -679,6 +685,7 @@
 				BBABCDD71F3E2038009CA8BC /* Words and Bits.swift in Sources */,
 				BBC944391F24C25C00ED6C30 /* BigInt.swift in Sources */,
 				BB241C4D1DDB70600067F917 /* BigUInt Prime Test.swift in Sources */,
+				BBABCDD21F3E17A8009CA8BC /* Floating Point Conversion.swift in Sources */,
 				BB241C4B1DDB70600067F917 /* BigUInt Hashing.swift in Sources */,
 				BB241C4A1DDB70600067F917 /* BigUInt GCD.swift in Sources */,
 				BB241C4E1DDB70600067F917 /* BigUInt Radix Conversion.swift in Sources */,
@@ -717,6 +724,7 @@
 				BBABCDD81F3E2038009CA8BC /* Words and Bits.swift in Sources */,
 				BB64CD611F1D65D000C1B077 /* BigInt.swift in Sources */,
 				BB241C851DDB71920067F917 /* BigUInt Hashing.swift in Sources */,
+				BBABCDD31F3E17A8009CA8BC /* Floating Point Conversion.swift in Sources */,
 				BB241C881DDB71920067F917 /* BigUInt Subtraction.swift in Sources */,
 				BB241C8A1DDB71920067F917 /* BigUInt Division.swift in Sources */,
 				BB241C831DDB71920067F917 /* BigUInt.swift in Sources */,
@@ -754,6 +762,7 @@
 				BBABCDD91F3E2038009CA8BC /* Words and Bits.swift in Sources */,
 				BBC944371F24C25A00ED6C30 /* BigInt.swift in Sources */,
 				BB241C711DDB71910067F917 /* BigUInt Hashing.swift in Sources */,
+				BBABCDD41F3E17A8009CA8BC /* Floating Point Conversion.swift in Sources */,
 				BB241C741DDB71910067F917 /* BigUInt Subtraction.swift in Sources */,
 				BB241C761DDB71910067F917 /* BigUInt Division.swift in Sources */,
 				BB241C6F1DDB71910067F917 /* BigUInt.swift in Sources */,
@@ -780,6 +789,7 @@
 				BBABCDDA1F3E2038009CA8BC /* Words and Bits.swift in Sources */,
 				BBC944381F24C25B00ED6C30 /* BigInt.swift in Sources */,
 				BB241C991DDB71920067F917 /* BigUInt Hashing.swift in Sources */,
+				BBABCDD51F3E17A8009CA8BC /* Floating Point Conversion.swift in Sources */,
 				BB241C9C1DDB71920067F917 /* BigUInt Subtraction.swift in Sources */,
 				BB241C9E1DDB71920067F917 /* BigUInt Division.swift in Sources */,
 				BB241C971DDB71920067F917 /* BigUInt.swift in Sources */,
