@@ -38,8 +38,10 @@ extension BigUInt {
     /// [inverse]: https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm#Modular_integers
     ///
     /// - Returns: If `gcd(self, modulus) == 1`, the value returned is an integer `a < modulus` such that `(a * self) % modulus == 1`. If `self` and `modulus` aren't coprime, the return value is `nil`.
+    /// - Requires: modulus > 1
     /// - Complexity: O(count^3)
     public func inverse(_ modulus: BigUInt) -> BigUInt? {
+        precondition(modulus > 1)
         var t1 = BigInt(0)
         var t2 = BigInt(1)
         var r1 = modulus
