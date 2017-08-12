@@ -925,19 +925,29 @@ class BigUIntTests: XCTestCase {
 
     func testExponentiation() {
         XCTAssertEqual(BigUInt(0).power(0), BigUInt(1))
-        XCTAssertEqual(BigUInt(1).power(0), BigUInt(1))
         XCTAssertEqual(BigUInt(0).power(1), BigUInt(0))
+
+        XCTAssertEqual(BigUInt(1).power(0), BigUInt(1))
         XCTAssertEqual(BigUInt(1).power(1), BigUInt(1))
+        XCTAssertEqual(BigUInt(1).power(-1), BigUInt(1))
+        XCTAssertEqual(BigUInt(1).power(-2), BigUInt(1))
+        XCTAssertEqual(BigUInt(1).power(-3), BigUInt(1))
+        XCTAssertEqual(BigUInt(1).power(-4), BigUInt(1))
 
         XCTAssertEqual(BigUInt(2).power(0), BigUInt(1))
         XCTAssertEqual(BigUInt(2).power(1), BigUInt(2))
         XCTAssertEqual(BigUInt(2).power(2), BigUInt(4))
         XCTAssertEqual(BigUInt(2).power(3), BigUInt(8))
+        XCTAssertEqual(BigUInt(2).power(-1), BigUInt(0))
+        XCTAssertEqual(BigUInt(2).power(-2), BigUInt(0))
+        XCTAssertEqual(BigUInt(2).power(-3), BigUInt(0))
 
         XCTAssertEqual(BigUInt(3).power(0), BigUInt(1))
         XCTAssertEqual(BigUInt(3).power(1), BigUInt(3))
         XCTAssertEqual(BigUInt(3).power(2), BigUInt(9))
         XCTAssertEqual(BigUInt(3).power(3), BigUInt(27))
+        XCTAssertEqual(BigUInt(3).power(-1), BigUInt(0))
+        XCTAssertEqual(BigUInt(3).power(-2), BigUInt(0))
 
         XCTAssertEqual((BigUInt(1) << 256).power(0), BigUInt(1))
         XCTAssertEqual((BigUInt(1) << 256).power(1), BigUInt(1) << 256)

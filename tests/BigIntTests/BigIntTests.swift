@@ -401,6 +401,61 @@ class BigIntTests: XCTestCase {
         XCTAssertEqual(a, 3)
     }
 
+    func testExponentiation() {
+        XCTAssertEqual(BigInt(0).power(0), 1)
+        XCTAssertEqual(BigInt(0).power(1), 0)
+        XCTAssertEqual(BigInt(0).power(2), 0)
+
+        XCTAssertEqual(BigInt(1).power(-2), 1)
+        XCTAssertEqual(BigInt(1).power(-1), 1)
+        XCTAssertEqual(BigInt(1).power(0), 1)
+        XCTAssertEqual(BigInt(1).power(1), 1)
+        XCTAssertEqual(BigInt(1).power(2), 1)
+
+        XCTAssertEqual(BigInt(2).power(-4), 0)
+        XCTAssertEqual(BigInt(2).power(-3), 0)
+        XCTAssertEqual(BigInt(2).power(-2), 0)
+        XCTAssertEqual(BigInt(2).power(-1), 0)
+        XCTAssertEqual(BigInt(2).power(0), 1)
+        XCTAssertEqual(BigInt(2).power(1), 2)
+        XCTAssertEqual(BigInt(2).power(2), 4)
+        XCTAssertEqual(BigInt(2).power(3), 8)
+        XCTAssertEqual(BigInt(2).power(4), 16)
+
+        XCTAssertEqual(BigInt(-1).power(-4), 1)
+        XCTAssertEqual(BigInt(-1).power(-3), -1)
+        XCTAssertEqual(BigInt(-1).power(-2), 1)
+        XCTAssertEqual(BigInt(-1).power(-1), -1)
+        XCTAssertEqual(BigInt(-1).power(0), 1)
+        XCTAssertEqual(BigInt(-1).power(1), -1)
+        XCTAssertEqual(BigInt(-1).power(2), 1)
+        XCTAssertEqual(BigInt(-1).power(3), -1)
+        XCTAssertEqual(BigInt(-1).power(4), 1)
+
+        XCTAssertEqual(BigInt(-2).power(-4), 0)
+        XCTAssertEqual(BigInt(-2).power(-3), 0)
+        XCTAssertEqual(BigInt(-2).power(-2), 0)
+        XCTAssertEqual(BigInt(-2).power(-1), 0)
+        XCTAssertEqual(BigInt(-2).power(0), 1)
+        XCTAssertEqual(BigInt(-2).power(1), -2)
+        XCTAssertEqual(BigInt(-2).power(2), 4)
+        XCTAssertEqual(BigInt(-2).power(3), -8)
+        XCTAssertEqual(BigInt(-2).power(4), 16)
+    }
+
+    func testModularExponentiation() {
+        for i in -5 ... 5 {
+            for j in -5 ... 5 {
+                for m in [-7, -5, -3, -2, -1, 1, 2, 3, 5, 7] {
+                    guard i != 0 || j >= 0 else { continue }
+                    XCTAssertEqual(BigInt(i).power(BigInt(j), modulus: BigInt(m)),
+                                   BigInt(i).power(j).modulus(BigInt(m)),
+                                   "\(i), \(j), \(m)")
+                }
+            }
+        }
+    }
+
     func testShifts() {
         XCTAssertEqual(BigInt(1) << Word.bitWidth, BigInt(words: [0, 1]))
         XCTAssertEqual(BigInt(-1) << Word.bitWidth, BigInt(words: [0, Word.max]))
