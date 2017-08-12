@@ -357,10 +357,12 @@ extension BigInt {
     }
 
     /// Return the result of `a` mod `b`. The result is always a nonnegative integer that is less than the absolute value of `b`.
-    public static func modulus(_ a: BigInt,_ b: BigInt) -> BigInt {
-        let remainder = a.magnitude % b.magnitude
-        return BigInt(sign: .plus,
-                      magnitude: a.sign == .minus && !remainder.isZero ? b.magnitude - remainder : remainder)
+    public func modulus(_ mod: BigInt) -> BigInt {
+        let remainder = self.magnitude % mod.magnitude
+        return BigInt(
+            self.sign == .minus && !remainder.isZero
+                ? mod.magnitude - remainder
+                : remainder)
     }
 }
 
