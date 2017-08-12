@@ -466,6 +466,28 @@ class BigIntTests: XCTestCase {
         XCTAssertEqual(BigInt(9).squareRoot(), 3)
     }
 
+    func testGCD() {
+        XCTAssertEqual(BigInt(12).greatestCommonDivisor(with: 15), 3)
+        XCTAssertEqual(BigInt(-12).greatestCommonDivisor(with: 15), 3)
+        XCTAssertEqual(BigInt(12).greatestCommonDivisor(with: -15), 3)
+        XCTAssertEqual(BigInt(-12).greatestCommonDivisor(with: -15), 3)
+    }
+
+    func testInverse() {
+        for base in -100 ... 100 {
+            for modulus in [2, 3, 4, 5] {
+                let base = BigInt(base)
+                let modulus = BigInt(modulus)
+                if let inverse = base.inverse(modulus) {
+                    XCTAssertEqual((base * inverse).modulus(modulus), 1, "\(base), \(modulus), \(inverse)")
+                }
+                else {
+                    XCTAssertGreaterThan(BigInt(base).greatestCommonDivisor(with: modulus), 1, "\(base), \(modulus)")
+                }
+            }
+        }
+    }
+
     func testShifts() {
         XCTAssertEqual(BigInt(1) << Word.bitWidth, BigInt(words: [0, 1]))
         XCTAssertEqual(BigInt(-1) << Word.bitWidth, BigInt(words: [0, Word.max]))

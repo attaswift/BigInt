@@ -56,3 +56,25 @@ extension BigUInt {
         return t1.magnitude
     }
 }
+
+extension BigInt {
+    /// Returns the greatest common divisor of `a` and `b`.
+    ///
+    /// - Complexity: O(count^2) where count = max(a.count, b.count)
+    public func greatestCommonDivisor(with b: BigInt) -> BigInt {
+        return BigInt(self.magnitude.greatestCommonDivisor(with: b.magnitude))
+    }
+
+    /// Returns the [multiplicative inverse of this integer in modulo `modulus` arithmetic][inverse],
+    /// or `nil` if there is no such number.
+    ///
+    /// [inverse]: https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm#Modular_integers
+    ///
+    /// - Returns: If `gcd(self, modulus) == 1`, the value returned is an integer `a < modulus` such that `(a * self) % modulus == 1`. If `self` and `modulus` aren't coprime, the return value is `nil`.
+    /// - Requires: modulus.magnitude > 1
+    /// - Complexity: O(count^3)
+    public func inverse(_ modulus: BigInt) -> BigInt? {
+        guard let inv = self.magnitude.inverse(modulus.magnitude) else { return nil }
+        return BigInt(self.sign == .plus || inv.isZero ? inv : modulus.magnitude - inv)
+    }
+}
