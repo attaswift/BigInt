@@ -456,6 +456,16 @@ class BigIntTests: XCTestCase {
         }
     }
 
+    func testSquareRoot() {
+        XCTAssertEqual(BigInt(0).squareRoot(), 0)
+        XCTAssertEqual(BigInt(1).squareRoot(), 1)
+        XCTAssertEqual(BigInt(2).squareRoot(), 1)
+        XCTAssertEqual(BigInt(3).squareRoot(), 1)
+        XCTAssertEqual(BigInt(4).squareRoot(), 2)
+        XCTAssertEqual(BigInt(5).squareRoot(), 2)
+        XCTAssertEqual(BigInt(9).squareRoot(), 3)
+    }
+
     func testShifts() {
         XCTAssertEqual(BigInt(1) << Word.bitWidth, BigInt(words: [0, 1]))
         XCTAssertEqual(BigInt(-1) << Word.bitWidth, BigInt(words: [0, Word.max]))

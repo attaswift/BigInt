@@ -1164,9 +1164,13 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(BigUInt(256).squareRoot(), 16)
 
         func checkSqrt(_ value: BigUInt, file: StaticString = #file, line: UInt = #line) {
-            let root = sample.squareRoot()
-            XCTAssertLessThanOrEqual(root * root, sample, file: file, line: line)
-            XCTAssertGreaterThan((root + 1) * (root + 1), sample, file: file, line: line)
+            let root = value.squareRoot()
+            XCTAssertLessThanOrEqual(root * root, value, "\(value)", file: file, line: line)
+            XCTAssertGreaterThan((root + 1) * (root + 1), value, "\(value)", file: file, line: line)
+        }
+        for i in 0 ... 100 {
+            checkSqrt(BigUInt(i))
+            checkSqrt(BigUInt(i) << 100)
         }
         checkSqrt(sample)
         checkSqrt(sample * sample)

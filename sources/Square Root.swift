@@ -8,10 +8,10 @@
 
 //MARK: Square Root
 
-/// Returns the integer square root of a big integer; i.e., the largest integer whose square isn't greater than `value`.
-///
-/// - Returns: floor(sqrt(value))
 extension BigUInt {
+    /// Returns the integer square root of a big integer; i.e., the largest integer whose square isn't greater than `value`.
+    ///
+    /// - Returns: floor(sqrt(self))
     public func squareRoot() -> BigUInt {
         // This implementation uses Newton's method.
         guard !self.isZero else { return BigUInt() }
@@ -26,5 +26,16 @@ extension BigUInt {
             x = y
         }
         return x
+    }
+}
+
+extension BigInt {
+    /// Returns the integer square root of a big integer; i.e., the largest integer whose square isn't greater than `value`.
+    ///
+    /// - Requires: self >= 0
+    /// - Returns: floor(sqrt(self))
+    public func squareRoot() -> BigInt {
+        precondition(self.sign == .plus)
+        return BigInt(sign: .plus, magnitude: self.magnitude.squareRoot())
     }
 }
