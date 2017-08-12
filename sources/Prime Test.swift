@@ -120,3 +120,34 @@ extension BigUInt {
         return true
     }
 }
+
+extension BigInt {
+    //MARK: Primality Testing
+
+    /// Returns true iff this integer passes the [strong probable prime test][sppt] for the specified base.
+    ///
+    /// [sppt]: https://en.wikipedia.org/wiki/Probable_prime
+    public func isStrongProbablePrime(_ base: BigInt) -> Bool {
+        precondition(base.sign == .plus)
+        if self.sign == .minus { return false }
+        return self.magnitude.isStrongProbablePrime(base.magnitude)
+    }
+
+    /// Returns true if this integer is probably prime. Returns false if this integer is definitely not prime.
+    ///
+    /// This function performs a probabilistic [Miller-Rabin Primality Test][mrpt], consisting of `rounds` iterations,
+    /// each calculating the strong probable prime test for a random base. The number of rounds is 10 by default,
+    /// but you may specify your own choice.
+    ///
+    /// To speed things up, the function checks if `self` is divisible by the first few prime numbers before
+    /// diving into (slower) Miller-Rabin testing.
+    ///
+    /// Also, when `self` is less than 82 bits wide, `isPrime` does a deterministic test that is guaranteed to
+    /// return a correct result.
+    ///
+    /// [mrpt]: https://en.wikipedia.org/wiki/Miller–Rabin_primality_test
+    public func isPrime(rounds: Int = 10) -> Bool {
+        if self.sign == .minus { return false }
+        return self.magnitude.isPrime(rounds: rounds)
+    }
+}

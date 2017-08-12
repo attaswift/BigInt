@@ -488,6 +488,15 @@ class BigIntTests: XCTestCase {
         }
     }
 
+    func testPrimes() {
+        XCTAssertFalse(BigInt(-7).isPrime())
+        XCTAssertTrue(BigInt(103).isPrime())
+
+        XCTAssertFalse(BigInt(-3_215_031_751).isStrongProbablePrime(7))
+        XCTAssertTrue(BigInt(3_215_031_751).isStrongProbablePrime(7))
+        XCTAssertFalse(BigInt(3_215_031_751).isPrime())
+    }
+
     func testShifts() {
         XCTAssertEqual(BigInt(1) << Word.bitWidth, BigInt(words: [0, 1]))
         XCTAssertEqual(BigInt(-1) << Word.bitWidth, BigInt(words: [0, Word.max]))
