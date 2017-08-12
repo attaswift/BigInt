@@ -9,19 +9,19 @@
 extension BigUInt {
     //MARK: Greatest Common Divisor
     
-    /// Returns the greatest common divisor of `a` and `b`.
+    /// Returns the greatest common divisor of `self` and `b`.
     ///
-    /// - Complexity: O(count^2) where count = max(a.count, b.count)
-    public static func gcd(_ a: BigUInt, _ b: BigUInt) -> BigUInt {
+    /// - Complexity: O(count^2) where count = max(self.count, b.count)
+    public func greatestCommonDivisor(with b: BigUInt) -> BigUInt {
         // This is Stein's algorithm: https://en.wikipedia.org/wiki/Binary_GCD_algorithm
-        if a.isZero { return b }
-        if b.isZero { return a }
+        if self.isZero { return b }
+        if b.isZero { return self }
 
-        let az = a.trailingZeroBitCount
+        let az = self.trailingZeroBitCount
         let bz = b.trailingZeroBitCount
         let twos = Swift.min(az, bz)
 
-        var (x, y) = (a >> az, b >> bz)
+        var (x, y) = (self >> az, b >> bz)
         if x < y { swap(&x, &y) }
 
         while !x.isZero {

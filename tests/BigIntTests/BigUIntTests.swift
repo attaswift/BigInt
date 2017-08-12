@@ -1179,30 +1179,31 @@ class BigUIntTests: XCTestCase {
     }
 
     func testGCD() {
-        XCTAssertEqual(BigUInt.gcd(0, 2982891), 2982891)
-        XCTAssertEqual(BigUInt.gcd(2982891, 0), 2982891)
-        XCTAssertEqual(BigUInt.gcd(0, 0), 0)
+        XCTAssertEqual(BigUInt(0).greatestCommonDivisor(with: 2982891), 2982891)
+        XCTAssertEqual(BigUInt(2982891).greatestCommonDivisor(with: 0), 2982891)
+        XCTAssertEqual(BigUInt(0).greatestCommonDivisor(with: 0), 0)
 
-        XCTAssertEqual(BigUInt.gcd(4, 6), 2)
-        XCTAssertEqual(BigUInt.gcd(15, 10), 5)
-        XCTAssertEqual(BigUInt.gcd(8 * 3 * 25 * 7, 2 * 9 * 5 * 49), 2 * 3 * 5 * 7)
+        XCTAssertEqual(BigUInt(4).greatestCommonDivisor(with: 6), 2)
+        XCTAssertEqual(BigUInt(15).greatestCommonDivisor(with: 10), 5)
+        XCTAssertEqual(BigUInt(8 * 3 * 25 * 7).greatestCommonDivisor(with: 2 * 9 * 5 * 49), 2 * 3 * 5 * 7)
 
         var fibo: [BigUInt] = [0, 1]
         for i in 0...10000 {
             fibo.append(fibo[i] + fibo[i + 1])
         }
 
-        XCTAssertEqual(BigUInt.gcd(fibo[100], fibo[101]), 1)
-        XCTAssertEqual(BigUInt.gcd(fibo[1000], fibo[1001]), 1)
-        XCTAssertEqual(BigUInt.gcd(fibo[10000], fibo[10001]), 1)
+        XCTAssertEqual(BigUInt(fibo[100]).greatestCommonDivisor(with: fibo[101]), 1)
+        XCTAssertEqual(BigUInt(fibo[1000]).greatestCommonDivisor(with: fibo[1001]), 1)
+        XCTAssertEqual(BigUInt(fibo[10000]).greatestCommonDivisor(with: fibo[10001]), 1)
 
-        XCTAssertEqual(BigUInt.gcd(3 * 5 * 7 * 9, 5 * 7 * 7), 5 * 7)
-        XCTAssertEqual(BigUInt.gcd(fibo[4], fibo[2]), fibo[2])
-        XCTAssertEqual(BigUInt.gcd(fibo[3 * 5 * 7 * 9], fibo[5 * 7 * 7 * 9]), fibo[5 * 7 * 9])
-        XCTAssertEqual(BigUInt.gcd(fibo[7 * 17 * 83], fibo[6 * 17 * 83]), fibo[17 * 83])
+        XCTAssertEqual(BigUInt(3 * 5 * 7 * 9).greatestCommonDivisor(with: 5 * 7 * 7), 5 * 7)
+        XCTAssertEqual(BigUInt(fibo[4]).greatestCommonDivisor(with: fibo[2]), fibo[2])
+        XCTAssertEqual(BigUInt(fibo[3 * 5 * 7 * 9]).greatestCommonDivisor(with: fibo[5 * 7 * 7 * 9]), fibo[5 * 7 * 9])
+        XCTAssertEqual(BigUInt(fibo[7 * 17 * 83]).greatestCommonDivisor(with: fibo[6 * 17 * 83]), fibo[17 * 83])
     }
 
     func testInverse() {
+        XCTAssertNil(BigUInt(4).inverse(2))
         XCTAssertNil(BigUInt(4).inverse(8))
         XCTAssertNil(BigUInt(12).inverse(15))
         XCTAssertEqual(BigUInt(13).inverse(15), 7)
