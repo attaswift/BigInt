@@ -205,9 +205,8 @@ class ProfileTests: XCTestCase {
         self.measure {
             for i in limit - count ..< limit {
                 let bi = BigUInt(i)
-
-                let g1 = BigUInt.gcd(fibo[i], fibo[j])
-                let g2 = Int(BigUInt.gcd(bi, bj).words[0])
+                let g1 = fibo[i].greatestCommonDivisor(with: fibo[j])
+                let g2 = Int(bi.greatestCommonDivisor(with: bj).words[0])
                 XCTAssertEqual(g1, fibo[g2])
             }
         }
