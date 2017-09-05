@@ -12,10 +12,11 @@ import PackageDescription
 let package = Package(
     name: "BigInt",
     products: [
-        .library(name: "BigInt", type: .dynamic, targets: ["BigInt"])
+        .library(name: "BigInt", type: .dynamic, targets: ["BigInt"]),
+        .library(name: "BigInt", type: .static, targets: ["BigInt"])
     ],
     dependencies: [
-        .package(url: "https://github.com/lorentey/SipHash", from: "1.1.0")
+        .package(url: "https://github.com/attaswift/SipHash", from: "1.1.0")
     ],
     targets: [
         .target(name: "BigInt", dependencies: ["SipHash"], path: "sources"),

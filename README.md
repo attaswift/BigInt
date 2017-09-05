@@ -1,4 +1,4 @@
-[![BigInt](https://github.com/lorentey/BigInt/raw/master/images/banner.png)](https://github.com/lorentey/BigInt)
+[![BigInt](https://github.com/attaswift/BigInt/raw/master/images/banner.png)](https://github.com/attaswift/BigInt)
 
 * [Overview](#overview)
 * [API Documentation](#api)
@@ -13,12 +13,12 @@
 	* [Calculating the Digits of π](#pi)
 
 [![Swift 3](https://img.shields.io/badge/Swift-3.0.1-blue.svg)](https://developer.apple.com/swift/)
-[![Documented](https://img.shields.io/cocoapods/metrics/doc-percent/BigInt.svg)](http://lorentey.github.io/BigInt/)
+[![Documented](https://img.shields.io/cocoapods/metrics/doc-percent/BigInt.svg)](http://attaswift.github.io/BigInt/)
 [![License](https://img.shields.io/badge/licence-MIT-blue.svg)](http://cocoapods.org/pods/BigInt)
 [![Platform](https://img.shields.io/cocoapods/p/BigInt.svg)](http://cocoapods.org/pods/BigInt)
 
-[![Build Status](https://travis-ci.org/lorentey/BigInt.svg?branch=master)](https://travis-ci.org/lorentey/BigInt)
-[![Code Coverage](https://codecov.io/github/lorentey/BigInt/coverage.svg?branch=master)](https://codecov.io/github/lorentey/BigInt?branch=master)
+[![Build Status](https://travis-ci.org/attaswift/BigInt.svg?branch=master)](https://travis-ci.org/attaswift/BigInt)
+[![Code Coverage](https://codecov.io/github/attaswift/BigInt/coverage.svg?branch=master)](https://codecov.io/github/attaswift/BigInt?branch=master)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg)](https://github.com/Carthage/Carthage)
 [![Version](https://img.shields.io/cocoapods/v/BigInt.svg)](http://cocoapods.org/pods/BigInt)
 
@@ -90,7 +90,7 @@ in it.
 
 ## <a name="api">API Documentation</a>
 
-Generated API docs are available at http://lorentey.github.io/BigInt/.
+Generated API docs are available at http://attaswift.github.io/BigInt/.
 
 ## <a name="license">License</a>
 
@@ -115,7 +115,7 @@ Setup instructions:
   Add this to the dependency section of your `Package.swift` manifest:
 
     ```Swift
-    .Package(url: "https://github.com/lorentey/BigInt.git", majorVersion: 2, minor: 1)
+    .Package(url: "https://github.com/attaswift/BigInt.git", majorVersion: 2, minor: 1)
     ```
 
 - **CocoaPods:** Put this in your `Podfile`:
@@ -127,7 +127,7 @@ Setup instructions:
 - **Carthage:** Put this in your `Cartfile`:
 
     ```
-    github "lorentey/BigInt" ~> 2.1
+    github "attaswift/BigInt" ~> 2.1
     ```
 
 
@@ -169,38 +169,38 @@ performance. Unfortunately, the same is not true for `BigUInt`'s methods.
 Of course, as a last resort, we could just duplicate the code to create a separate
 generic variant that was slower but more flexible.
 
-[license]: https://github.com/lorentey/BigInt/blob/master/LICENSE.md
+[license]: https://github.com/attaswift/BigInt/blob/master/LICENSE.md
 [twitter]: https://twitter.com/lorentey
-[BigUInt]: http://lorentey.github.io/BigInt/Structs/BigUInt.html
-[BigInt]: http://lorentey.github.io/BigInt/Structs/BigInt.html
-[comparison]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Comparison
-[hashing]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Hashing
-[addition]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Addition
-[subtraction]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Subtraction
-[mul]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:ZFV6BigInt7BigUIntoi1mFTS0_S0__S0_
-[fused]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt14multiplyAndAddFTS0_Vs6UInt6410atPositionSi_T_
-[multiplication]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Multiplication
-[division]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Division
-[divide]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt7dividedFT2byS0__T8quotientS0_9remainderS0__
-[bitwise]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Bitwise%20Operations
-[width]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:vV6BigInt7BigUInt5widthSi
-[leadingZeroBitCount]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:vV6BigInt7BigUInt13leadingZeroBitCountSi
-[trailingZeroBitCount]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:vV6BigInt7BigUInt14trailingZeroBitCountSi
-[shift]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Shift%20Operators
-[data]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/NSData%20Conversion
-[random]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Random%20Integers
-[radix1]: http://lorentey.github.io/BigInt/Extensions/String.html#/s:FE6BigIntSScFTVS_7BigUInt5radixSi9uppercaseSb_SS
-[radix2]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUIntcFTSS5radixSi_GSqS0__
-[sqrt]: http://lorentey.github.io/BigInt/Functions.html#/s:F6BigInt4sqrtFVS_7BigUIntS0_
-[GCD]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:ZFV6BigInt7BigUInt3gcdFTS0_S0__S0_
-[powmod]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt5powerFTS0_7modulusS0__S0_
-[power]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt5powerFSiS0_
-[inverse]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt7inverseFS0_GSqS0__
-[prime]: http://lorentey.github.io/BigInt/Structs/BigUInt.html#/Primality%20Testing
-[abs]: http://lorentey.github.io/BigInt/Structs/BigInt.html#/s:vV6BigInt6BigInt3absVS_7BigUInt
-[negative]: http://lorentey.github.io/BigInt/Structs/BigInt.html#/s:vV6BigInt6BigInt8negativeSb
-[subscript]: https://github.com/lorentey/BigInt/blob/v2.0.0/Sources/BigUInt.swift#L216-L239
-[fullmuldiv]: https://github.com/lorentey/BigInt/blob/v2.0.0/Sources/BigDigit.swift#L96-L167
+[BigUInt]: http://attaswift.github.io/BigInt/Structs/BigUInt.html
+[BigInt]: http://attaswift.github.io/BigInt/Structs/BigInt.html
+[comparison]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/Comparison
+[hashing]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/Hashing
+[addition]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/Addition
+[subtraction]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/Subtraction
+[mul]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/s:ZFV6BigInt7BigUIntoi1mFTS0_S0__S0_
+[fused]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt14multiplyAndAddFTS0_Vs6UInt6410atPositionSi_T_
+[multiplication]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/Multiplication
+[division]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/Division
+[divide]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt7dividedFT2byS0__T8quotientS0_9remainderS0__
+[bitwise]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/Bitwise%20Operations
+[width]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/s:vV6BigInt7BigUInt5widthSi
+[leadingZeroBitCount]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/s:vV6BigInt7BigUInt13leadingZeroBitCountSi
+[trailingZeroBitCount]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/s:vV6BigInt7BigUInt14trailingZeroBitCountSi
+[shift]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/Shift%20Operators
+[data]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/NSData%20Conversion
+[random]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/Random%20Integers
+[radix1]: http://attaswift.github.io/BigInt/Extensions/String.html#/s:FE6BigIntSScFTVS_7BigUInt5radixSi9uppercaseSb_SS
+[radix2]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUIntcFTSS5radixSi_GSqS0__
+[sqrt]: http://attaswift.github.io/BigInt/Functions.html#/s:F6BigInt4sqrtFVS_7BigUIntS0_
+[GCD]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/s:ZFV6BigInt7BigUInt3gcdFTS0_S0__S0_
+[powmod]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt5powerFTS0_7modulusS0__S0_
+[power]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt5powerFSiS0_
+[inverse]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt7inverseFS0_GSqS0__
+[prime]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/Primality%20Testing
+[abs]: http://attaswift.github.io/BigInt/Structs/BigInt.html#/s:vV6BigInt6BigInt3absVS_7BigUInt
+[negative]: http://attaswift.github.io/BigInt/Structs/BigInt.html#/s:vV6BigInt6BigInt8negativeSb
+[subscript]: https://github.com/attaswift/BigInt/blob/v2.0.0/Sources/BigUInt.swift#L216-L239
+[fullmuldiv]: https://github.com/attaswift/BigInt/blob/v2.0.0/Sources/BigDigit.swift#L96-L167
 
 
 ## <a name="samples">Calculation Samples</a>
