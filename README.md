@@ -13,7 +13,6 @@
 	* [Calculating the Digits of π](#pi)
 
 [![Swift 3](https://img.shields.io/badge/Swift-4-blue.svg)](https://developer.apple.com/swift/)
-[![Documented](https://img.shields.io/cocoapods/metrics/doc-percent/BigInt.svg)](http://attaswift.github.io/BigInt/)
 [![License](https://img.shields.io/badge/licence-MIT-blue.svg)](http://cocoapods.org/pods/BigInt)
 [![Platform](https://img.shields.io/cocoapods/p/BigInt.svg)](http://cocoapods.org/pods/BigInt)
 
