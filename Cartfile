@@ -1,1 +1,1 @@
-github "attaswift/SipHash" "swift4"
+github "attaswift/SipHash" ~> 1.2
