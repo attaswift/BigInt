@@ -21,7 +21,7 @@ extension Array where Element == UInt {
 }
 
 extension BigUInt {
-    subscript(bitAt index: Int) -> Bool {
+    public subscript(bitAt index: Int) -> Bool {
         get {
             precondition(index >= 0)
             let (i, j) = index.quotientAndRemainder(dividingBy: Word.bitWidth)
