@@ -27,8 +27,8 @@ public struct BigUInt: UnsignedInteger {
         case array
     }
 
-    internal private(set) var kind: Kind // Internal for testing only
-    internal private(set) var storage: [Word] // Internal for testing only; stored separately to prevent COW copies
+    internal fileprivate (set) var kind: Kind // Internal for testing only
+    internal fileprivate (set) var storage: [Word] // Internal for testing only; stored separately to prevent COW copies
 
     /// Initializes a new BigUInt with value 0.
     public init() {
