@@ -8,6 +8,9 @@
     <script src="js/jquery.min.js" defer></script>
     <script src="js/jazzy.js" defer></script>
     
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
   </head>
   <body>
 
@@ -19,18 +22,24 @@
         <a class="header-link" href="index.html">
           BigInt Docs
         </a>
-         (100% documented)
+         (92% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
       </p>
     
         <p class="header-col header-col--secondary">
-          <a class="header-link" href="https://github.com/lorentey/BigInt">
+          <a class="header-link" href="https://github.com/attaswift/BigInt">
             <img class="header-icon" src="img/gh.png"/>
             View on GitHub
           </a>
         </p>
     
         <p class="header-col header-col--secondary">
-          <a class="header-link" href="dash-feed://https%3A%2F%2Florentey%2Egithub%2Eio%2FBigInt%2Freference%2Fdocsets%2FBigInt%2Exml">
+          <a class="header-link" href="dash-feed://https%3A%2F%2Fattaswift%2Egithub%2Eio%2FBigInt%2Freference%2Fdocsets%2FBigInt%2Exml">
             <img class="header-icon" src="img/dash.png"/>
             Install in Dash
           </a>
@@ -50,37 +59,30 @@
             <a class="nav-group-name-link" href="Extensions.html">Extensions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/BinaryFloatingPoint.html">BinaryFloatingPoint</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Extensions/String.html">String</a>
               </li>
             </ul>
           </li>
           <li class="nav-group-name">
-            <a class="nav-group-name-link" href="Functions.html">Functions</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Functions.html#/s:F6BigInt4sqrtFVS_7BigUIntS0_">sqrt(_:)</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a class="nav-group-name-link" href="Protocols.html">Protocols</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Protocols/ShiftOperations.html">ShiftOperations</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a class="nav-group-name-link" href="Structs.html">Structs</a>
+            <a class="nav-group-name-link" href="Structs.html">Structures</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/BigInt.html">BigInt</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/BigInt/Sign.html">– Sign</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/BigInt/Words.html">– Words</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/BigUInt.html">BigUInt</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Structs/DigitIterator.html">DigitIterator</a>
+                <a class="nav-group-task-link" href="Structs/BigUInt/Words.html">– Words</a>
               </li>
             </ul>
           </li>
@@ -99,13 +101,37 @@
         <section class="section">
           <div class="section-content">
             <div class="task-group">
-              <div class="task-name-container">
-                <a name="/BigInt"></a>
-                <a name="//apple_ref/swift/Section/BigInt" class="dashAnchor"></a>
-                <a href="#/BigInt">
-                  <h3 class="section-name">BigInt</h3>
-                </a>
-              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:s19BinaryFloatingPointP"></a>
+                    <a name="//apple_ref/swift/Extension/BinaryFloatingPoint" class="dashAnchor"></a>
+                    <a class="token" href="#/s:s19BinaryFloatingPointP">BinaryFloatingPoint</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Extensions/BinaryFloatingPoint.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">BinaryFloatingPoint</span> <span class="p">:</span> <span class="kt">FloatingPoint</span><span class="p">,</span> <span class="kt">ExpressibleByFloatLiteral</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
               <ul class="item-container">
                 <li class="item">
                   <div>
@@ -142,8 +168,8 @@
       </article>
     </div>
     <section class="footer">
-      <p>© 2016 <a class="link" href="https://twitter.com/lorentey" target="_blank" rel="external">Károly Lőrentey</a>. (Last updated: 2016-11-15)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>© 2016 <a class="link" href="https://twitter.com/lorentey" target="_blank" rel="external">Károly Lőrentey</a>. (Last updated: 2017-10-10)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.4</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>
