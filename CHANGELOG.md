@@ -1,3 +1,10 @@
+# 3.0.1 (2017-10-10)
+
+This release contains the following bug fixes:
+
+- Issue #27 — changing scope of `BigUInt` methods `kind` and `storage` to be `fileprivate`
+- Making `subscript` method of `BigUInt` public
+
 # 3.0.0 (2017-09-07)
 
 This is a major release upgrading BigInt to the new integer protocols introduced in Swift 4 as part of [SE-0104, Protocol-oriented integers][se-0104].
