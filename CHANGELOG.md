@@ -1,3 +1,11 @@
+# 3.0.2 (2017-12-25)
+
+This release contains the following packaging fix:
+
+- Fixed product definitions in Package.swift not to create a duplicate library. (Issue #37)
+
+There were no functional changes.
+
 # 3.0.1 (2017-10-10)
 
 This release contains the following bug fixes:
