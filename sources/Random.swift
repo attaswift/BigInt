@@ -26,7 +26,13 @@ extension BigUInt {
         assert(byteCount > 0)
 
         let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: byteCount)
+      #if os(Linux)
+        for i in 0..<byteCount {
+          buffer[i] = UInt8(swift_stdlib_cxx11_mt19937_uniform(UInt32(UInt8.max)))
+        }
+      #else
         arc4random_buf(buffer, byteCount)
+      #endif
         if width % 8 != 0 {
             buffer[0] &= UInt8(1 << (width % 8) - 1)
         }
