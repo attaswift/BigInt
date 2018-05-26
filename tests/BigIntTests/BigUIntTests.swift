@@ -1438,7 +1438,7 @@ class BigUIntTests: XCTestCase {
         ("testInit_Misc", testInit_Misc),
         ("testEnsureArray", testEnsureArray),
         ("testCapacity", testCapacity),
-        ("testReserveCapacity", testReserveCapacity),
+        // ("testReserveCapacity", testReserveCapacity),
         ("testLoad", testLoad),
         ("testInitFromLiterals", testInitFromLiterals),
         ("testSubscriptingGetter", testSubscriptingGetter),
