@@ -9,20 +9,15 @@
 
 import PackageDescription
 
-// @attaswift: remove this pragma after you have fixed SipHash!
-#if os(Linux)
-let sipHashURL = "https://github.com/dankogai/SipHash"
-#else
-let sipHashURL = "https://github.com/attaswift/SipHash"
-#endif
-
 let package = Package(
     name: "BigInt",
     products: [
         .library(name: "BigInt", targets: ["BigInt"])
     ],
     dependencies: [
-        .package(url: sipHashURL, from: "1.2.0")
+      // @attaswift: remove this pragma after you have fixed SipHash!
+      .package(url: "https://github.com/dankogai/SipHash", .branch("master"))
+        //.package(url: "https://github.com/attaswift/SipHash", from: "1.2.0")
     ],
     targets: [
         .target(name: "BigInt", dependencies: ["SipHash"], path: "sources"),
