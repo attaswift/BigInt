@@ -15,7 +15,12 @@ let package = Package(
         .library(name: "BigInt", targets: ["BigInt"])
     ],
     dependencies: [
+        // @attaswift: remove this pragma after you have fixed SipHash!
+    #if os(Linux)
+        .package(url: "https://github.com/dankogai/SipHash", from: "1.2.0")
+    #else
         .package(url: "https://github.com/attaswift/SipHash", from: "1.2.0")
+    #endif
     ],
     targets: [
         .target(name: "BigInt", dependencies: ["SipHash"], path: "sources"),

@@ -1426,5 +1426,59 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(oneBits, [])
         XCTAssertEqual(zeroBits, [])
     }
+
+    //
+    // you have to manually register linux tests here :-(
+    //
+    static var allTests = [
+        ("testInit_WordBased", testInit_WordBased),
+        ("testInit_BinaryInteger", testInit_BinaryInteger),
+        ("testInit_FloatingPoint", testInit_FloatingPoint),
+        ("testConversionToFloatingPoint", testConversionToFloatingPoint),
+        ("testInit_Misc", testInit_Misc),
+        ("testEnsureArray", testEnsureArray),
+        ("testCapacity", testCapacity),
+        ("testReserveCapacity", testReserveCapacity),
+        ("testLoad", testLoad),
+        ("testInitFromLiterals", testInitFromLiterals),
+        ("testSubscriptingGetter", testSubscriptingGetter),
+        ("testSubscriptingSetter", testSubscriptingSetter),
+        ("testSlice", testSlice),
+        ("testSigns", testSigns),
+        ("testBits", testBits),
+        ("testStrideableRequirements", testStrideableRequirements),
+        ("testRightShift_ByWord", testRightShift_ByWord),
+        ("testLeftShift_ByWord", testLeftShift_ByWord),
+        ("testSplit", testSplit),
+        ("testLowHigh", testLowHigh),
+        ("testComparison", testComparison),
+        ("testHashing", testHashing),
+        ("testConversionFromBytes", testConversionFromBytes),
+        ("testConversionToData", testConversionToData),
+        ("testCodable", testCodable),
+        ("testAddition", testAddition),
+        ("testShiftedAddition", testShiftedAddition),
+        ("testSubtraction", testSubtraction),
+        ("testMultiplyByWord", testMultiplyByWord),
+        ("testMultiplication", testMultiplication),
+        ("testDivision", testDivision),
+        ("testFactorial", testFactorial),
+        ("testExponentiation", testExponentiation),
+        ("testModularExponentiation", testModularExponentiation),
+        ("testBitWidth", testBitWidth),
+        ("testBitwise", testBitwise),
+        ("testLeftShifts", testLeftShifts),
+        ("testRightShifts", testRightShifts),
+        ("testSquareRoot", testSquareRoot),
+        ("testGCD", testGCD),
+        ("testInverse", testInverse),
+        ("testStrongProbablePrimeTest", testStrongProbablePrimeTest),
+        ("testIsPrime", testIsPrime),
+        ("testConversionToString", testConversionToString),
+        ("testConversionFromString", testConversionFromString),
+        ("testRandomIntegerWithMaximumWidth", testRandomIntegerWithMaximumWidth),
+        ("testRandomIntegerWithExactWidth", testRandomIntegerWithExactWidth),
+        ("testRandomIntegerLessThan", testRandomIntegerLessThan),
+    ]
 }
 
