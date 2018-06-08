@@ -237,6 +237,6 @@ extension BigInt: CustomPlaygroundDisplayConvertible {
     /// Return the playground quick look representation of this integer.
     public var playgroundDescription: Any {
         let text = String(self)
-        return text + " (\(self.bitWidth) bits)"
+        return text + " (\(self.magnitude.bitWidth) bits)"
     }
 }
