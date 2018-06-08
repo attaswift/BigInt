@@ -636,7 +636,7 @@ class BigUIntTests: XCTestCase {
         test(BigUInt(0x0102030405060708), [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08])
         test(BigUInt(0x01) << 64 + BigUInt(0x0203040506070809), [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 09])
     }
-    
+
     func testCodable() {
         func test(_ a: BigUInt, file: StaticString = #file, line: UInt = #line) {
             do {
@@ -654,7 +654,7 @@ class BigUIntTests: XCTestCase {
         test(0x0102030405060708)
         test(BigUInt(1) << 64)
         test(BigUInt(words: [1, 2, 3, 4, 5, 6, 7]))
-        
+
         XCTAssertThrowsError(try JSONDecoder().decode(BigUInt.self, from: "[\"*\", 1]".data(using: .utf8)!)) { error in
             guard let error = error as? DecodingError else { XCTFail("Expected a decoding error"); return }
             guard case .dataCorrupted(let context) = error else { XCTFail("Expected a dataCorrupted error"); return }
@@ -1307,10 +1307,10 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(String(BigUInt("2908B5129F59DB6A41", radix: 16)!, radix: 31), "100000000000000")
         XCTAssertEqual(String(sample, radix: 31), "ptf96helfaqi7ogc3jbonmccrhmnc2b61s")
 
-        let quickLook = BigUInt(513).customPlaygroundQuickLook
-        if case PlaygroundQuickLook.text("513 (10 bits)") = quickLook {
+        let quickLook = BigUInt(513).playgroundDescription as? String
+        if quickLook == "513 (10 bits)" {
         } else {
-            XCTFail("Unexpected playground QuickLook representation: \(quickLook)")
+            XCTFail("Unexpected playground QuickLook representation: \(quickLook ?? "nil")")
         }
     }
 
@@ -1426,5 +1426,58 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(oneBits, [])
         XCTAssertEqual(zeroBits, [])
     }
-}
 
+    //
+    // you have to manually register linux tests here :-(
+    //
+    static var allTests = [
+        ("testInit_WordBased", testInit_WordBased),
+        ("testInit_BinaryInteger", testInit_BinaryInteger),
+        ("testInit_FloatingPoint", testInit_FloatingPoint),
+        ("testConversionToFloatingPoint", testConversionToFloatingPoint),
+        ("testInit_Misc", testInit_Misc),
+        ("testEnsureArray", testEnsureArray),
+        // ("testCapacity", testCapacity),
+        // ("testReserveCapacity", testReserveCapacity),
+        // ("testLoad", testLoad),
+        ("testInitFromLiterals", testInitFromLiterals),
+        ("testSubscriptingGetter", testSubscriptingGetter),
+        ("testSubscriptingSetter", testSubscriptingSetter),
+        ("testSlice", testSlice),
+        ("testSigns", testSigns),
+        ("testBits", testBits),
+        ("testStrideableRequirements", testStrideableRequirements),
+        ("testRightShift_ByWord", testRightShift_ByWord),
+        ("testLeftShift_ByWord", testLeftShift_ByWord),
+        ("testSplit", testSplit),
+        ("testLowHigh", testLowHigh),
+        ("testComparison", testComparison),
+        ("testHashing", testHashing),
+        ("testConversionFromBytes", testConversionFromBytes),
+        ("testConversionToData", testConversionToData),
+        ("testCodable", testCodable),
+        ("testAddition", testAddition),
+        ("testShiftedAddition", testShiftedAddition),
+        ("testSubtraction", testSubtraction),
+        ("testMultiplyByWord", testMultiplyByWord),
+        ("testMultiplication", testMultiplication),
+        ("testDivision", testDivision),
+        ("testFactorial", testFactorial),
+        ("testExponentiation", testExponentiation),
+        ("testModularExponentiation", testModularExponentiation),
+        ("testBitWidth", testBitWidth),
+        ("testBitwise", testBitwise),
+        ("testLeftShifts", testLeftShifts),
+        ("testRightShifts", testRightShifts),
+        ("testSquareRoot", testSquareRoot),
+        ("testGCD", testGCD),
+        ("testInverse", testInverse),
+        ("testStrongProbablePrimeTest", testStrongProbablePrimeTest),
+        ("testIsPrime", testIsPrime),
+        ("testConversionToString", testConversionToString),
+        ("testConversionFromString", testConversionFromString),
+        ("testRandomIntegerWithMaximumWidth", testRandomIntegerWithMaximumWidth),
+        ("testRandomIntegerWithExactWidth", testRandomIntegerWithExactWidth),
+        ("testRandomIntegerLessThan", testRandomIntegerLessThan),
+    ]
+}

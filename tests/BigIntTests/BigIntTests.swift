@@ -29,7 +29,7 @@ class BigIntTests: XCTestCase {
     func testInit() {
         XCTAssertEqual(BigInt().sign, .plus)
         XCTAssertEqual(BigInt().magnitude, 0)
-        
+
         XCTAssertEqual(BigInt(Int64.min).sign, .minus)
         XCTAssertEqual(BigInt(Int64.min).magnitude - 1, BigInt(Int64.max).magnitude)
 
@@ -59,7 +59,7 @@ class BigIntTests: XCTestCase {
 
         XCTAssertEqual(BigInt(unicodeScalarLiteral: UnicodeScalar(52)), BigInt(4))
         XCTAssertEqual(BigInt(extendedGraphemeClusterLiteral: "4"), BigInt(4))
-        
+
         XCTAssertEqual(BigInt(words: []), 0)
         XCTAssertEqual(BigInt(words: [1, 1]), BigInt(1) << Word.bitWidth + 1)
         XCTAssertEqual(BigInt(words: [1, 2]), BigInt(2) << Word.bitWidth + 1)
@@ -145,7 +145,7 @@ class BigIntTests: XCTestCase {
         XCTAssertEqual(BigInt(0).sign, .plus)
         XCTAssertEqual(BigInt(1).sign, .plus)
     }
-    
+
     func testBitWidth() {
         XCTAssertEqual(BigInt(0).bitWidth, 0)
         XCTAssertEqual(BigInt(1).bitWidth, 2)
@@ -154,7 +154,7 @@ class BigIntTests: XCTestCase {
         XCTAssertEqual(BigInt(Word.max).bitWidth, Word.bitWidth + 1)
         XCTAssertEqual(BigInt(Word.max >> 1).bitWidth, Word.bitWidth)
     }
-    
+
     func testTrailingZeroBitCount() {
         XCTAssertEqual(BigInt(0).trailingZeroBitCount, 0)
         XCTAssertEqual(BigInt(1).trailingZeroBitCount, 0)
@@ -193,10 +193,10 @@ class BigIntTests: XCTestCase {
 
         XCTAssertEqual(BigInt(1).words[100], 0)
         XCTAssertEqual(BigInt(-1).words[100], Word.max)
-        
+
         XCTAssertEqual(BigInt(words: [0, 1, 2, 3, 4]).words.indices, 0 ..< 5)
     }
-    
+
     func testComplement() {
         XCTAssertEqual(~BigInt(-3), BigInt(2))
         XCTAssertEqual(~BigInt(-2), BigInt(1))
@@ -204,13 +204,13 @@ class BigIntTests: XCTestCase {
         XCTAssertEqual(~BigInt(0), BigInt(-1))
         XCTAssertEqual(~BigInt(1), BigInt(-2))
         XCTAssertEqual(~BigInt(2), BigInt(-3))
-        
+
         XCTAssertEqual(~BigInt(words: [1, 2, 3, 4]),
                        BigInt(words: [Word.max - 1, Word.max - 2, Word.max - 3, Word.max - 4]))
         XCTAssertEqual(~BigInt(words: [Word.max - 1, Word.max - 2, Word.max - 3, Word.max - 4]),
                        BigInt(words: [1, 2, 3, 4]))
     }
-    
+
     func testBinaryAnd() {
         XCTAssertEqual(BigInt(1) & BigInt(2), 0)
         XCTAssertEqual(BigInt(-1) & BigInt(2), 2)
@@ -255,10 +255,10 @@ class BigIntTests: XCTestCase {
         let b = BigInt(-256)
         XCTAssertEqual(b.description, "-256")
         XCTAssertEqual(String(b, radix: 16, uppercase: true), "-100")
-        let pql = b.customPlaygroundQuickLook
-        if case PlaygroundQuickLook.text("-256 (9 bits)") = pql {}
+        let pql = b.playgroundDescription as? String
+        if pql == "-256 (9 bits)" {}
         else {
-            XCTFail("Unexpected Playground Quick Look: \(pql)")
+            XCTFail("Unexpected Playground Quick Look: \(pql ?? "nil")")
         }
     }
 
@@ -287,7 +287,7 @@ class BigIntTests: XCTestCase {
         XCTAssertEqual(BigInt(words: [0, 1]).distance(to: BigInt(Word.max)), BigInt(-1))
         XCTAssertEqual(BigInt(0).distance(to: BigInt(words: [0, 1])), BigInt(words: [0, 1]))
     }
-    
+
     func compare(_ a: Int, _ b: Int, r: Int, file: StaticString = #file, line: UInt = #line, op: (BigInt, BigInt) -> BigInt) {
         XCTAssertEqual(op(BigInt(a), BigInt(b)), BigInt(r), file: file, line: line)
     }
@@ -359,7 +359,7 @@ class BigIntTests: XCTestCase {
         compare(-7, 4, r: -3, op: %)
         compare(-7, -4, r:-3, op: %)
     }
-  
+
     func testModulo() {
         XCTAssertEqual(BigInt(22).modulus(5), 2)
         XCTAssertEqual(BigInt(-22).modulus(5), 3)
@@ -555,7 +555,7 @@ class BigIntTests: XCTestCase {
         XCTAssertEqual(a, BigInt(1))
 
     }
-    
+
     func testCodable() {
         func test(_ a: BigInt, file: StaticString = #file, line: UInt = #line) {
             do {
@@ -577,11 +577,54 @@ class BigIntTests: XCTestCase {
         test(-BigInt(1) << 64)
         test(BigInt(words: [1, 2, 3, 4, 5, 6, 7]))
         test(-BigInt(words: [1, 2, 3, 4, 5, 6, 7]))
-        
+
         XCTAssertThrowsError(try JSONDecoder().decode(BigUInt.self, from: "[\"*\", 1]".data(using: .utf8)!)) { error in
             guard let error = error as? DecodingError else { XCTFail("Expected a decoding error"); return }
             guard case .dataCorrupted(let context) = error else { XCTFail("Expected a dataCorrupted error"); return }
             XCTAssertEqual(context.debugDescription, "Invalid big integer sign")
         }
     }
+    //
+    // you have to manually register linux tests here :-(
+    //
+    static var allTests = [
+        ("testSigns", testSigns),
+        ("testInit", testInit),
+        ("testInit_FloatingPoint", testInit_FloatingPoint),
+        ("testConversionToFloatingPoint", testConversionToFloatingPoint),
+        ("testTwosComplement", testTwosComplement),
+        ("testSign", testSign),
+        ("testBitWidth", testBitWidth),
+        ("testTrailingZeroBitCount", testTrailingZeroBitCount),
+        ("testWords", testWords),
+        ("testComplement", testComplement),
+        ("testBinaryAnd", testBinaryAnd),
+        ("testBinaryOr", testBinaryOr),
+        ("testBinaryXor", testBinaryXor),
+        ("testConversionToString", testConversionToString),
+        ("testComparable", testComparable),
+        ("testHashable", testHashable),
+        ("testStrideable", testStrideable),
+        ("testAddition", testAddition),
+        ("testNegation", testNegation),
+        ("testSubtraction", testSubtraction),
+        ("testMultiplication", testMultiplication),
+        ("testQuotientAndRemainder", testQuotientAndRemainder),
+        ("testDivision", testDivision),
+        ("testRemainder", testRemainder),
+        ("testModulo", testModulo),
+        ("testStrideableRequirements", testStrideableRequirements),
+        ("testAbsoluteValuableRequirements", testAbsoluteValuableRequirements),
+        ("testIntegerArithmeticRequirements", testIntegerArithmeticRequirements),
+        ("testAssignmentOperators", testAssignmentOperators),
+        ("testExponentiation", testExponentiation),
+        ("testModularExponentiation", testModularExponentiation),
+        ("testSquareRoot", testSquareRoot),
+        ("testGCD", testGCD),
+        ("testInverse", testInverse),
+        ("testPrimes", testPrimes),
+        ("testShifts", testShifts),
+        ("testShiftAssignments", testShiftAssignments),
+        ("testCodable", testCodable),
+    ]
 }
