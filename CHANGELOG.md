@@ -1,3 +1,12 @@
+# 3.1.0 (2018-06-08)
+
+This release contains the following changes:
+
+- Swift 4.1 compatibility for Linux and macOS
+- Fix warnings for Swift 4.1
+
+There were no functional changes.
+
 # 3.0.2 (2017-12-25)
 
 This release contains the following packaging fix:
@@ -42,9 +51,9 @@ This release contains the following changes:
 
 This release contains the following bugfix:
 
-- Issue #12: The iOS target in the supplied Xcode project file no longer copies extraneous files 
+- Issue #12: The iOS target in the supplied Xcode project file no longer copies extraneous files
   as resources into the framework bundle. The set of such files included generate-docs.sh, which
-  led to App Store rejections for apps that build BigInt using the project file. 
+  led to App Store rejections for apps that build BigInt using the project file.
   (Thanks to @arrrnas and @wuftymerguftyguff)
 
 No source-level changes were made.
@@ -130,26 +139,26 @@ BigInt 1.2.0 also features support for both Carthage and CocoaPods deployments.
 
 # 1.0.0 (2016-01-04)
 
-This is the first release of the BigInt module, providing arbitrary precision integer arithmetic operations 
+This is the first release of the BigInt module, providing arbitrary precision integer arithmetic operations
 in pure Swift.
 
 Two big integer types are included: `BigUInt` and `BigInt`, the latter being the signed variant.
-Both of these are Swift structs with copy-on-write value semantics, and they can be used much 
+Both of these are Swift structs with copy-on-write value semantics, and they can be used much
 like any other integer type.
 
-The library provides implementations for some of the most frequently useful functions on 
+The library provides implementations for some of the most frequently useful functions on
 big integers, including
 
 - All functionality from `Comparable` and `Hashable`
 - The full set of arithmetic operators: `+`, `-`, `*`, `/`, `%`, `+=`, `-=`, `*=`, `/=`, `%=`
-- Addition and subtraction have variants that allow for shifting the digits of the second 
+- Addition and subtraction have variants that allow for shifting the digits of the second
 operand on the fly.
-- Unsigned subtraction will trap when the result would be negative. (There are variants 
+- Unsigned subtraction will trap when the result would be negative. (There are variants
 that return an overflow flag.)
-- Multiplication uses brute force for numbers up to 1024 digits, then switches to Karatsuba's recursive method. 
-(This limit is configurable, see `BigUInt.directMultiplicationLimit`.) 
+- Multiplication uses brute force for numbers up to 1024 digits, then switches to Karatsuba's recursive method.
+(This limit is configurable, see `BigUInt.directMultiplicationLimit`.)
 A fused multiply-add method is also available.
-- Division uses Knuth's Algorithm D, with its 3/2 digits wide quotient approximation. 
+- Division uses Knuth's Algorithm D, with its 3/2 digits wide quotient approximation.
 It will trap when the divisor is zero. `BigUInt.divmod` returns the quotient and
 remainder at once; this is faster than calculating them separately.
 - Bitwise operators: `~`, `|`, `&`, `^`, `|=`, `&=`, `^=`, plus the following read-only properties:
