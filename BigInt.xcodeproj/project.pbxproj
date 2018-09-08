@@ -74,14 +74,6 @@
 		BB241CA61DDB71920067F917 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C3B1DDB70600067F917 /* Random.swift */; };
 		BB241CBB1DDB71A50067F917 /* ProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C5A1DDB70690067F917 /* ProfileTests.swift */; };
 		BB241CC51DDB71A60067F917 /* ProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C5A1DDB70690067F917 /* ProfileTests.swift */; };
-		BB241CCD1DDB71DB0067F917 /* SipHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB241CCC1DDB71DB0067F917 /* SipHash.framework */; };
-		BB241CCF1DDB71E30067F917 /* SipHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB241CCE1DDB71E30067F917 /* SipHash.framework */; };
-		BB241CD11DDB71EA0067F917 /* SipHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB241CD01DDB71EA0067F917 /* SipHash.framework */; };
-		BB241CD31DDB71F20067F917 /* SipHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB241CD21DDB71F20067F917 /* SipHash.framework */; };
-		BB241CD41DDB78920067F917 /* SipHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB241CCE1DDB71E30067F917 /* SipHash.framework */; };
-		BB241CD61DDB789D0067F917 /* SipHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB241CD51DDB789D0067F917 /* SipHash.framework */; };
-		BB241CD81DDB78A30067F917 /* SipHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB241CD71DDB78A30067F917 /* SipHash.framework */; };
-		BB241CD91DDB78AA0067F917 /* SipHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB241CCE1DDB71E30067F917 /* SipHash.framework */; };
 		BB241CDC1DDB79E20067F917 /* BigUIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C571DDB70690067F917 /* BigUIntTests.swift */; };
 		BB241CE41DDB79E30067F917 /* BigUIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C571DDB70690067F917 /* BigUIntTests.swift */; };
 		BB4273F61F24AFCC00065766 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4273F41F24AFC800065766 /* Tools.swift */; };
@@ -180,12 +172,6 @@
 		BB241C571DDB70690067F917 /* BigUIntTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BigUIntTests.swift; sourceTree = "<group>"; };
 		BB241C5A1DDB70690067F917 /* ProfileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTests.swift; sourceTree = "<group>"; };
 		BB241C6A1DDB70B00067F917 /* BigInt Benchmark.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "BigInt Benchmark.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BB241CCC1DDB71DB0067F917 /* SipHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SipHash.framework; path = "Carthage/Checkouts/SipHash/build/Debug-iphoneos/SipHash.framework"; sourceTree = "<group>"; };
-		BB241CCE1DDB71E30067F917 /* SipHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SipHash.framework; path = "../../Library/Developer/Xcode/DerivedData/BigInt-aibydghxjcolwocpvmpgshvylvps/Build/Products/Debug/SipHash.framework"; sourceTree = "<group>"; };
-		BB241CD01DDB71EA0067F917 /* SipHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SipHash.framework; path = "Carthage/Checkouts/SipHash/build/Debug-watchos/SipHash.framework"; sourceTree = "<group>"; };
-		BB241CD21DDB71F20067F917 /* SipHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SipHash.framework; path = "Carthage/Checkouts/SipHash/build/Debug-appletvos/SipHash.framework"; sourceTree = "<group>"; };
-		BB241CD51DDB789D0067F917 /* SipHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SipHash.framework; path = "Carthage/Checkouts/SipHash/build/Debug-iphoneos/SipHash.framework"; sourceTree = "<group>"; };
-		BB241CD71DDB78A30067F917 /* SipHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SipHash.framework; path = "Carthage/Checkouts/SipHash/build/Debug-appletvos/SipHash.framework"; sourceTree = "<group>"; };
 		BB241CE81DDB7B620067F917 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		BB241CE91DDB7B620067F917 /* Demo.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Demo.playground; sourceTree = "<group>"; };
 		BB241CEA1DDB7B620067F917 /* generate-docs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "generate-docs.sh"; sourceTree = "<group>"; };
@@ -218,7 +204,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB241CD91DDB78AA0067F917 /* SipHash.framework in Frameworks */,
 				BB241C651DDB70B00067F917 /* BigInt.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -227,7 +212,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB241CCD1DDB71DB0067F917 /* SipHash.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,7 +219,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB241CD61DDB789D0067F917 /* SipHash.framework in Frameworks */,
 				BBB55ABD1C8F80020050DDA9 /* BigInt.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -244,7 +227,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB241CCF1DDB71E30067F917 /* SipHash.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,7 +234,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB241CD41DDB78920067F917 /* SipHash.framework in Frameworks */,
 				BBB55ADE1C8F88F20050DDA9 /* BigInt.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -261,7 +242,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB241CD11DDB71EA0067F917 /* SipHash.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,7 +249,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB241CD31DDB71F20067F917 /* SipHash.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,7 +256,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB241CD81DDB78A30067F917 /* SipHash.framework in Frameworks */,
 				BBB55B081C8F8CBC0050DDA9 /* BigInt.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -288,12 +266,6 @@
 		BB241CCB1DDB71DB0067F917 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BB241CD71DDB78A30067F917 /* SipHash.framework */,
-				BB241CD51DDB789D0067F917 /* SipHash.framework */,
-				BB241CD21DDB71F20067F917 /* SipHash.framework */,
-				BB241CD01DDB71EA0067F917 /* SipHash.framework */,
-				BB241CCE1DDB71E30067F917 /* SipHash.framework */,
-				BB241CCC1DDB71DB0067F917 /* SipHash.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
