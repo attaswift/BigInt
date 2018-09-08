@@ -175,7 +175,6 @@
 		BB241CE81DDB7B620067F917 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		BB241CE91DDB7B620067F917 /* Demo.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Demo.playground; sourceTree = "<group>"; };
 		BB241CEA1DDB7B620067F917 /* generate-docs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "generate-docs.sh"; sourceTree = "<group>"; };
-		BB241CEB1DDB7B620067F917 /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		BB241CF01DDB84210067F917 /* .codecov.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .codecov.yml; sourceTree = "<group>"; };
 		BB4273F41F24AFC800065766 /* Tools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
 		BB9889A41F3E5C3100014740 /* Strideable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strideable.swift; sourceTree = "<group>"; };
@@ -278,7 +277,6 @@
 				BB241CE81DDB7B620067F917 /* CHANGELOG.md */,
 				BB241BC51DD9F6490067F917 /* Package.swift */,
 				BB241BC71DD9F7D60067F917 /* BigInt.podspec */,
-				BB241CEB1DDB7B620067F917 /* Cartfile */,
 				BBB55B1C1C8F90F60050DDA9 /* .travis.yml */,
 				BB241CF01DDB84210067F917 /* .codecov.yml */,
 				BBB55ACC1C8F80660050DDA9 /* version.xcconfig */,
