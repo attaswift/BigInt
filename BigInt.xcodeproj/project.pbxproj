@@ -945,7 +945,7 @@
 				OTHER_SWIFT_FLAGS = "-DDebug";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
@@ -996,7 +996,7 @@
 				OTHER_SWIFT_FLAGS = "-DProfile";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				VALIDATE_PRODUCT = YES;
 				VERSION_INFO_PREFIX = "";
 			};
