@@ -1,3 +1,11 @@
+# 3.2.0 (2018-06-08)
+
+This release contains the following changes:
+
+- Swift 5.0 compatibility for Linux and macOS
+
+There were no functional changes.
+
 # 3.1.0 (2018-06-08)
 
 This release contains the following changes:
