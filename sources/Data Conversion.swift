@@ -87,7 +87,7 @@ extension BigUInt {
         guard byteCount > 0 else { return Data() }
 
         var data = Data(count: byteCount)
-        data.withUnsafeMutableBytes {  (p: UnsafeMutableRawBufferPointer) in
+        data.withUnsafeMutableBytes { p in
             var i = byteCount - 1
             for var word in self.words {
                 for _ in 0 ..< Word.bitWidth / 8 {
