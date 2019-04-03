@@ -1,5 +1,5 @@
 // Increment the build number whenever you modify the version string.
-VERSION_STRING = 3.2.0
+VERSION_STRING = 4.0.0
 BUILD_NUMBER = 12
 
 PROJECT_NAME = BigInt
