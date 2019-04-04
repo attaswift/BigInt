@@ -331,8 +331,7 @@
 				BB241C3B1DDB70600067F917 /* Random.swift */,
 				BBB55AB71C8F80020050DDA9 /* Info.plist */,
 			);
-			name = Sources;
-			path = sources;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		BBB55AC01C8F80020050DDA9 /* Tests */ = {
@@ -346,7 +345,7 @@
 				BBB55AC31C8F80020050DDA9 /* Info.plist */,
 			);
 			name = Tests;
-			path = tests/BigIntTests;
+			path = Tests/BigIntTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -547,11 +546,11 @@
 					};
 					BBB55AD31C8F88F20050DDA9 = {
 						CreatedOnToolsVersion = 7.3;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1020;
 					};
 					BBB55ADC1C8F88F20050DDA9 = {
 						CreatedOnToolsVersion = 7.3;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1020;
 					};
 					BBB55AF01C8F8BE00050DDA9 = {
 						CreatedOnToolsVersion = 7.3;
