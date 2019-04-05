@@ -15,8 +15,8 @@ let package = Package(
         .library(name: "BigInt", targets: ["BigInt"])
     ],
     targets: [
-        .target(name: "BigInt", path: "sources"),
-        .testTarget(name: "BigIntTests", dependencies: ["BigInt"], path: "tests")
+        .target(name: "BigInt", path: "Sources"),
+        .testTarget(name: "BigIntTests", dependencies: ["BigInt"], path: "Tests")
     ],
     swiftLanguageVersions: [.v4_2, .version("5")]
 )
