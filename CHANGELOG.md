@@ -3,7 +3,7 @@
 This release contains the following changes:
 
 - Swift 5.0 compatibility for Linux and macOS
-- Removed Removed SipHash dependency
+- Removed SipHash dependency
 
 There were no functional changes.
 
