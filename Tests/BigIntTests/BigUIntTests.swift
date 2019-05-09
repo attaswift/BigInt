@@ -598,7 +598,7 @@ class BigUIntTests: XCTestCase {
     }
 
     func checkData(_ bytes: [UInt8], _ value: BigUInt, file: StaticString = #file, line: UInt = #line) {
-        XCTAssertEqual(BigUInt(Data(bytes: bytes)), value, file: file, line: line)
+        XCTAssertEqual(BigUInt(Data(bytes)), value, file: file, line: line)
         XCTAssertEqual(bytes.withUnsafeBytes { buffer in BigUInt(buffer) }, value, file: file, line: line)
     }
 

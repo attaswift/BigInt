@@ -1,3 +1,11 @@
+# 4.0.1 (2019-05-09)
+
+This release contains the following changes:
+
+- Cleaned warnings on Swift 5
+
+There were no functional changes.
+
 # 4.0.0 (2019-04-03)
 
 This release contains the following changes:
