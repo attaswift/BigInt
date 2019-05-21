@@ -156,6 +156,22 @@ class BigUIntTests: XCTestCase {
         check(BigUInt(Double(sign: .plus, exponent: 2 * Word.bitWidth, significand: 1.0)),
               nil, [0, 0, 1])
     }
+    
+    func testInit_Buffer() {
+        func test(_ b: BigUInt, _ d: Array<UInt8>, file: StaticString = #file, line: UInt = #line) {
+            d.withUnsafeBytes { buffer in
+                let initialized = BigUInt(buffer)
+                XCTAssertEqual(initialized, b, file: file, line: line)
+            }
+        }
+        
+        // Positive integers
+        test(BigUInt(), [])
+        test(BigUInt(1), [0x01])
+        test(BigUInt(2), [0x02])
+        test(BigUInt(0x0102030405060708), [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08])
+        test(BigUInt(0x01) << 64 + BigUInt(0x0203040506070809), [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 09])
+    }
 
     func testConversionToFloatingPoint() {
         func test<F: BinaryFloatingPoint>(_ a: BigUInt, _ b: F, file: StaticString = #file, line: UInt = #line)
@@ -1435,6 +1451,7 @@ class BigUIntTests: XCTestCase {
         ("testInit_WordBased", testInit_WordBased),
         ("testInit_BinaryInteger", testInit_BinaryInteger),
         ("testInit_FloatingPoint", testInit_FloatingPoint),
+        ("testInit_Buffer", testInit_Buffer),
         ("testConversionToFloatingPoint", testConversionToFloatingPoint),
         ("testInit_Misc", testInit_Misc),
         ("testEnsureArray", testEnsureArray),
