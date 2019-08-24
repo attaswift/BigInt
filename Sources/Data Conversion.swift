@@ -60,8 +60,9 @@ extension BigUInt {
             c = 0
             index -= 1
         }
-        var word: Word = 0
-        data.enumerateBytes { p, byteIndex, stop in
+        let word: Word = data.withUnsafeBytes { buffPtr in
+            var word: Word = 0
+            let p = buffPtr.bindMemory(to: UInt8.self)
             for byte in p {
                 word <<= 8
                 word += Word(byte)
@@ -73,6 +74,7 @@ extension BigUInt {
                     word = 0
                 }
             }
+            return word
         }
         assert(c == 0 && word == 0 && index == -1)
     }
@@ -87,7 +89,8 @@ extension BigUInt {
         guard byteCount > 0 else { return Data() }
 
         var data = Data(count: byteCount)
-        data.withUnsafeMutableBytes { (p: UnsafeMutablePointer<UInt8>) -> Void in
+        data.withUnsafeMutableBytes { buffPtr in
+            let p = buffPtr.bindMemory(to: UInt8.self)
             var i = byteCount - 1
             for var word in self.words {
                 for _ in 0 ..< Word.bitWidth / 8 {
