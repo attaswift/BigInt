@@ -12,7 +12,7 @@
 	* [RSA Cryptography](#rsa)
 	* [Calculating the Digits of π](#pi)
 
-[![Swift 3](https://img.shields.io/badge/Swift-4-blue.svg)](https://developer.apple.com/swift/)
+[![Swift 3](https://img.shields.io/badge/Swift-5-blue.svg)](https://developer.apple.com/swift/)
 [![License](https://img.shields.io/badge/licence-MIT-blue.svg)](http://cocoapods.org/pods/BigInt)
 [![Platform](https://img.shields.io/cocoapods/p/BigInt.svg)](http://cocoapods.org/pods/BigInt)
 
@@ -105,6 +105,7 @@ The last version with support for Swift 2 was BigInt 1.3.0.)
 | 3.x           | 2.1.0              |
 | 4.0           | 3.1.0              |
 | 4.2           | 4.0.0              |
+| 5.0           | 5.0.0              |
 
 BigInt deploys to macOS 10.10, iOS 9, watchOS 2 and tvOS 9.
 It has been tested on the latest OS releases only---however, as the module uses very few platform-provided APIs,
@@ -120,19 +121,19 @@ Setup instructions:
   Add this to the dependency section of your `Package.swift` manifest:
 
     ```Swift
-    .package(url: "https://github.com/attaswift/BigInt.git", from: "4.0.0")
+    .package(url: "https://github.com/attaswift/BigInt.git", from: "5.0.0")
     ```
 
 - **CocoaPods:** Put this in your `Podfile`:
 
     ```Ruby
-    pod 'BigInt', '~> 4.0'
+    pod 'BigInt', '~> 5.0'
     ```
 
 - **Carthage:** Put this in your `Cartfile`:
 
     ```
-    github "attaswift/BigInt" ~> 4.0
+    github "attaswift/BigInt" ~> 5.0
     ```
 
 ## <a name="notes">Implementation notes</a>
