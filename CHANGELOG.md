@@ -1,3 +1,11 @@
+# 5.0.0 (2019-08-24)
+
+This release contains the following changes:
+
+- Swift 5 compatibility
+
+There were no functional changes.
+
 # 4.0.1 (2019-05-09)
 
 This release contains the following changes:
