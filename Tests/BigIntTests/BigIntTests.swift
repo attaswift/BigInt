@@ -66,6 +66,9 @@ class BigIntTests: XCTestCase {
         XCTAssertEqual(BigInt(words: [0, Word.max]), -(BigInt(1) << Word.bitWidth))
         XCTAssertEqual(BigInt(words: [1, Word.max]), -BigInt(Word.max))
         XCTAssertEqual(BigInt(words: [1, Word.max, Word.max]), -BigInt(Word.max))
+        
+        XCTAssertEqual(BigInt(exactly: 1), BigInt(1))
+        XCTAssertEqual(BigInt(exactly: -1), BigInt(-1))
     }
 
     func testInit_FloatingPoint() {
