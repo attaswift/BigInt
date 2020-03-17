@@ -1,3 +1,9 @@
+# 5.1.0 (2020-03-17)
+
+This release contains the following changes:
+
+- Added support to serialize/deserialize BigInt in a manner similar to BigUInt
+
 # 5.0.0 (2019-08-24)
 
 This release contains the following changes:
