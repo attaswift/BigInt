@@ -11,7 +11,7 @@ Pod::Spec.new do |spec|
     spec.homepage     = 'https://github.com/attaswift/BigInt'
     spec.author       = 'Károly Lőrentey'
     spec.source       = { :git => 'https://github.com/attaswift/BigInt.git', :tag => 'v' + String(spec.version) }
-    spec.source_files = 'sources/*.swift'
+    spec.source_files = 'Sources/*.swift'
     spec.social_media_url = 'https://twitter.com/lorentey'
     spec.documentation_url = 'http://attaswift.github.io/BigInt/'
 end
