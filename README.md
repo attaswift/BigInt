@@ -111,7 +111,7 @@ BigInt deploys to macOS 10.10, iOS 9, watchOS 2 and tvOS 9.
 It has been tested on the latest OS releases only---however, as the module uses very few platform-provided APIs,
 there should be very few issues with earlier versions.
 
-BigInt uses no APIs specific to Apple platforms except for `arc4random_buf` in `BigUInt Random.swift`, so
+BigInt uses no APIs specific to Apple platforms, so
 it should be easy to port it to other operating systems.
 
 Setup instructions:

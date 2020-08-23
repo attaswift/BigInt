@@ -1444,6 +1444,40 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(zeroBits, [])
     }
 
+    func testRandomFunctionsUseProvidedGenerator() {
+        // Here I verify that each of the randomInteger functions uses the provided RNG, and not SystemRandomNumberGenerator.
+        // This is important because all but BigUInt.randomInteger(withMaximumWidth:using:) are built on that base function, and it is easy to forget to pass along the provided generator and get a default SystemRandomNumberGenerator instead.
+
+        // Since SystemRandomNumberGenerator is seeded randomly, repeated uses should give varying results.
+        // So here I pass the same deterministic RNG repeatedly and verify that I get the same result each time.
+
+        struct CountingRNG: RandomNumberGenerator {
+            var i: UInt64 = 12345
+            mutating func next() -> UInt64 {
+                i += 1
+                return i
+            }
+        }
+
+        func gen(_ body: (inout CountingRNG) -> BigUInt) -> BigUInt {
+            var rng = CountingRNG()
+            return body(&rng)
+        }
+
+        func check(_ body: (inout CountingRNG) -> BigUInt) {
+            let expected = gen(body)
+            for _ in 0 ..< 100 {
+                let actual = gen(body)
+                XCTAssertEqual(expected, actual)
+            }
+        }
+
+        check { BigUInt.randomInteger(withMaximumWidth: 200, using: &$0) }
+        check { BigUInt.randomInteger(withExactWidth: 200, using: &$0) }
+        let limit = BigUInt(UInt64.max) * BigUInt(UInt64.max) * BigUInt(UInt64.max)
+        check { BigUInt.randomInteger(lessThan: limit, using: &$0) }
+    }
+
     //
     // you have to manually register linux tests here :-(
     //
@@ -1497,5 +1531,6 @@ class BigUIntTests: XCTestCase {
         ("testRandomIntegerWithMaximumWidth", testRandomIntegerWithMaximumWidth),
         ("testRandomIntegerWithExactWidth", testRandomIntegerWithExactWidth),
         ("testRandomIntegerLessThan", testRandomIntegerLessThan),
+        ("testRandomFunctionsUseProvidedGenerator", testRandomFunctionsUseProvidedGenerator),
     ]
 }
