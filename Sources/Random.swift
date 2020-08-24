@@ -16,6 +16,10 @@ extension BigUInt {
         var result = BigUInt.zero
         var bitsLeft = width
         var i = 0
+        let wordsNeeded = (width + Word.bitWidth - 1) / Word.bitWidth
+        if wordsNeeded > 2 {
+            result.reserveCapacity(wordsNeeded)
+        }
         while bitsLeft >= Word.bitWidth {
             result[i] = generator.next()
             i += 1
