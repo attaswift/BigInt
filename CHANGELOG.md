@@ -1,3 +1,9 @@
+# 5.2.0 (2020-08-24)
+
+This release contains the following changes:
+
+- Added support for the use of RandomNumberGenerator
+
 # 5.1.0 (2020-03-17)
 
 This release contains the following changes:
