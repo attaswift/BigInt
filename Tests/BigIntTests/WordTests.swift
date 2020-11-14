@@ -9,11 +9,12 @@
 import XCTest
 @testable import BigInt
 
-struct TestDivision<Word: FixedWidthInteger> where Word.Magnitude == Word {
+// where Word.Magnitude == Word 
+struct TestDivision<Word: FixedWidthInteger> {
     static func testDivision(_ u: (high: Word, low: Word.Magnitude), _ v: Word) {
         let (div, mod) = v.fastDividingFullWidth(u)
         var (ph, pl) = div.multipliedFullWidth(by: v)
-        let (s, o) = pl.addingReportingOverflow(mod)
+        let (s, o) = pl.addingReportingOverflow((mod as! Word.Magnitude))
         pl = s
         if o { ph += Word(1) }
 
