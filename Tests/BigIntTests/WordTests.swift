@@ -9,7 +9,7 @@
 import XCTest
 @testable import BigInt
 
-// where Word.Magnitude == Word 
+// TODO: Return to `where Word.Magnitude == Word` when SR-13491 is resolved
 struct TestDivision<Word: FixedWidthInteger> {
     static func testDivision(_ u: (high: Word, low: Word.Magnitude), _ v: Word) {
         let (div, mod) = v.fastDividingFullWidth(u)

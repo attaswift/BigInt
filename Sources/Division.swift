@@ -8,7 +8,7 @@
 
 //MARK: Full-width multiplication and division
 
-// where Magnitude == Self 
+// TODO: Return to `where Magnitude == Self` when SR-13491 is resolved
 extension FixedWidthInteger {
     private var halfShift: Self {
         return Self(Self.bitWidth / 2)
