@@ -15,19 +15,15 @@ jobs:
       run: swift build --build-tests
     - name: Run tests
       run: swift test
-    - name: Test macOS
-      run: xcrun xcodebuild -workspace BigInt.xcworkspace -scheme BigInt-macOS test
-    - name: Test iOS
-      run: xcrun xcodebuild -workspace BigInt.xcworkspace -scheme BigInt-iOS -destination generic/platform=iOS
-    - name: Test watchOS
-      run: xcrun xcodebuild -workspace BigInt.xcworkspace -scheme BigInt-watchOS
-    - name: Test tvOS
-      run: xcrun xcodebuild -workspace BigInt.xcworkspace -scheme BigInt-tvOS
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
-      with:
-        fail_ci_if_error: true
-        verbose: true
+  xcode:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        scheme: [BigInt-macOS, BigInt-iOS, BigInt-watchOS, BigInt-tvOS]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: xcrun xcodebuild -workspace BigInt.xcworkspace -scheme ${{ matrix.scheme }}
   linux:
     container:
       image: swift:${{ matrix.linux }}
@@ -41,3 +37,11 @@ jobs:
       run: swift build --build-tests --enable-test-discovery
     - name: Test
       run: swift test --enable-test-discovery
+  codecov:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Test and generate code coverage report
+      run: xcrun xcodebuild -workspace BigInt.xcworkspace -scheme BigInt-macOS test
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
