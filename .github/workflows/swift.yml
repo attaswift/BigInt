@@ -23,6 +23,11 @@ jobs:
       run: xcrun xcodebuild -workspace BigInt.xcworkspace -scheme BigInt-watchOS
     - name: Test tvOS
       run: xcrun xcodebuild -workspace BigInt.xcworkspace -scheme BigInt-tvOS
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        fail_ci_if_error: true
+        verbose: true
   linux:
     container:
       image: swift:${{ matrix.linux }}
