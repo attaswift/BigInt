@@ -2,7 +2,7 @@ name: Swift
 
 on:
   push:
-    branches: [ master, github-action ]
+    branches: [ master ]
   pull_request:
     branches: [ master ]
    
@@ -15,6 +15,19 @@ jobs:
       run: swift build --build-tests
     - name: Run tests
       run: swift test
+    - name: Test macOS
+      run: xcrun xcodebuild -workspace BigInt.xcworkspace -scheme BigInt-macOS test
+    - name: Test iOS
+      run: xcrun xcodebuild -workspace BigInt.xcworkspace -scheme BigInt-iOS -destination generic/platform=iOS
+    - name: Test watchOS
+      run: xcrun xcodebuild -workspace BigInt.xcworkspace -scheme BigInt-watchOS
+    - name: Test tvOS
+      run: xcrun xcodebuild -workspace BigInt.xcworkspace -scheme BigInt-tvOS
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        fail_ci_if_error: true
+        verbose: true
   linux:
     container:
       image: swift:${{ matrix.linux }}
