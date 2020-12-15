@@ -12,12 +12,13 @@
 	* [RSA Cryptography](#rsa)
 	* [Calculating the Digits of π](#pi)
 
-[![Swift 3](https://img.shields.io/badge/Swift-5-blue.svg)](https://developer.apple.com/swift/)
+[![Swift 5](https://img.shields.io/badge/Swift-5-blue.svg)](https://developer.apple.com/swift/)
 [![License](https://img.shields.io/badge/licence-MIT-blue.svg)](http://cocoapods.org/pods/BigInt)
 [![Platform](https://img.shields.io/cocoapods/p/BigInt.svg)](http://cocoapods.org/pods/BigInt)
 
 ![Build Status](https://github.com/attaswift/BigInt/workflows/Swift/badge.svg?branch=master)
 [![Code Coverage](https://codecov.io/github/attaswift/BigInt/coverage.svg?branch=master)](https://codecov.io/github/attaswift/BigInt?branch=master)
+[![jazzy](https://raw.githubusercontent.com/attaswift/BigInt/master/docs/badge.svg)](https://attaswift.github.io/BigInt/)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg)](https://github.com/Carthage/Carthage)
 [![Version](https://img.shields.io/cocoapods/v/BigInt.svg)](http://cocoapods.org/pods/BigInt)
 
@@ -89,7 +90,7 @@ in it.
 
 ## <a name="api">API Documentation</a>
 
-Generated API docs are available at http://attaswift.github.io/BigInt/.
+Generated API docs are available at https://attaswift.github.io/BigInt/.
 
 ## <a name="license">License</a>
 
