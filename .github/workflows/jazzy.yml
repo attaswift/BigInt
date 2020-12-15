@@ -14,10 +14,12 @@ jobs:
       run: gem install jazzy
     - name: Generate documentation
       run: |
-        jazzy --clean \
+        jazzy \
+        --clean \
         --github-file-prefix "https://github.com/attaswift/$module/tree/${GITHUB_REF}" \
         --module-version "${{ github.event.release.tag_name }}" \
-        --copyright "© $(date '+%Y') [Károly Lőrentey](https://twitter.com/lorentey). (Last updated: $(date '+%Y-%m-%d'))"
+        --copyright "© $(date '+%Y') [Károly Lőrentey](https://twitter.com/lorentey). (Last updated: $(date '+%Y-%m-%d'))" \
+        --config .jazzy.yml
     - name: Commit docs
       run: |
         git config --local user.email "bot@github.com"
