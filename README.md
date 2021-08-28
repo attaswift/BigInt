@@ -144,7 +144,7 @@ digit at index 0. As a convenience, [`BigUInt`][BigUInt] allows you to subscript
 or above its `count`. [The subscript operator][subscript] returns 0 for out-of-bound `get`s and
 automatically extends the array on out-of-bound `set`s. This makes memory management simpler.
 
-[`BigInt`][BigInt] is just a tiny wrapper around a `BigUInt` [absolute value][abs] and a
+[`BigInt`][BigInt] is just a tiny wrapper around a `BigUInt` [absolute value][magnitude] and a
 [sign bit][negative], both of which are accessible as public read-write properties.
 
 ### <a name="generics">Why is there no generic `BigInt<Digit>` type?</a>
