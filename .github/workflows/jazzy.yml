@@ -26,4 +26,4 @@ jobs:
         git config --local user.name "GitHub Actions"
         git add ./docs
         git commit -m "Update docs"
-        git push
+        git push origin HEAD:master
