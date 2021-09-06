@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          BigInt v5.2.1 Docs
+          BigInt  Docs
         </a>
          (85% documented)
       </p>
@@ -99,6 +99,7 @@
                   
                   <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">BigInt</span> <span class="p">:</span> <span class="kt">SignedInteger</span></code></pre>
 <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">BigInt</span><span class="p">:</span> <span class="kt">Codable</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">BigInt</span><span class="p">:</span> <span class="kt">Comparable</span></code></pre>
 <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">BigInt</span><span class="p">:</span> <span class="kt">Hashable</span></code></pre>
 <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">BigInt</span><span class="p">:</span> <span class="kt">ExpressibleByIntegerLiteral</span></code></pre>
 <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">BigInt</span><span class="p">:</span> <span class="kt">Strideable</span></code></pre>
@@ -121,11 +122,11 @@ properties.</p>
 
 <p>Not all algorithms of <code><a href="../Structs/BigUInt.html">BigUInt</a></code> are available for <code>BigInt</code> values; for example, there is no square root or
 primality test for signed integers. When you need to call one of these, just extract the absolute value:</p>
-<pre class="highlight plaintext"><code>BigInt(255).abs.isPrime()   // Returns false
+<pre class="highlight plaintext"><code>BigInt(255).magnitude.isPrime()   // Returns false
 </code></pre>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/attaswift/tree/v5.2.1/Sources/BigInt.swift#L29-L74">Show on GitHub</a>
+                <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/BigInt.swift#L29-L74">Show on GitHub</a>
               </div>
           </div>
         </section>
@@ -160,7 +161,7 @@ primality test for signed integers. When you need to call one of these, just ext
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/BigInt.swift#L30-L33">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/BigInt.swift#L30-L33">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -189,7 +190,7 @@ primality test for signed integers. When you need to call one of these, just ext
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/BigInt.swift#L">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/BigInt.swift#L">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -219,7 +220,7 @@ primality test for signed integers. When you need to call one of these, just ext
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/BigInt.swift#L38">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/BigInt.swift#L38">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -248,7 +249,7 @@ primality test for signed integers. When you need to call one of these, just ext
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/BigInt.swift#L40-L42">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/BigInt.swift#L40-L42">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -278,7 +279,7 @@ primality test for signed integers. When you need to call one of these, just ext
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/BigInt.swift#L45">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/BigInt.swift#L45">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -308,7 +309,7 @@ primality test for signed integers. When you need to call one of these, just ext
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/BigInt.swift#L48">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/BigInt.swift#L48">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -338,7 +339,7 @@ primality test for signed integers. When you need to call one of these, just ext
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/BigInt.swift#L51-L54">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/BigInt.swift#L51-L54">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -373,7 +374,7 @@ primality test for signed integers. When you need to call one of these, just ext
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/BigInt.swift#L59-L61">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/BigInt.swift#L59-L61">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -407,7 +408,7 @@ primality test for signed integers. When you need to call one of these, just ext
                         <p>The sign of this number, expressed as an integer of the same type.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/BigInt.swift#L66-L73">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/BigInt.swift#L66-L73">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -437,7 +438,7 @@ primality test for signed integers. When you need to call one of these, just ext
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Addition.swift#L98-L119">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Addition.swift#L98-L119">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -467,7 +468,7 @@ primality test for signed integers. When you need to call one of these, just ext
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Addition.swift#L122-L124">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Addition.swift#L122-L124">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -510,7 +511,7 @@ primality test for signed integers. When you need to call one of these, just ext
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Bitwise Ops.swift#L50-L57">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Bitwise Ops.swift#L50-L57">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -540,7 +541,7 @@ primality test for signed integers. When you need to call one of these, just ext
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Bitwise Ops.swift#L59-L74">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Bitwise Ops.swift#L59-L74">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -570,7 +571,7 @@ primality test for signed integers. When you need to call one of these, just ext
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Bitwise Ops.swift#L76-L91">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Bitwise Ops.swift#L76-L91">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -600,7 +601,7 @@ primality test for signed integers. When you need to call one of these, just ext
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Bitwise Ops.swift#L93-L108">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Bitwise Ops.swift#L93-L108">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -630,7 +631,7 @@ primality test for signed integers. When you need to call one of these, just ext
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Bitwise Ops.swift#L110-L112">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Bitwise Ops.swift#L110-L112">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -660,7 +661,7 @@ primality test for signed integers. When you need to call one of these, just ext
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Bitwise Ops.swift#L114-L116">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Bitwise Ops.swift#L114-L116">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -690,7 +691,7 @@ primality test for signed integers. When you need to call one of these, just ext
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Bitwise Ops.swift#L118-L120">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Bitwise Ops.swift#L118-L120">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -719,7 +720,7 @@ primality test for signed integers. When you need to call one of these, just ext
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Codable.swift#L104-L127">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Codable.swift#L104-L127">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -748,7 +749,7 @@ primality test for signed integers. When you need to call one of these, just ext
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Codable.swift#L129-L139">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Codable.swift#L129-L139">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -778,7 +779,7 @@ primality test for signed integers. When you need to call one of these, just ext
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Comparable.swift#L44-L46">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Comparable.swift#L44-L46">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -808,7 +809,7 @@ primality test for signed integers. When you need to call one of these, just ext
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Comparable.swift#L49-L60">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Comparable.swift#L49-L60">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -839,7 +840,7 @@ where the first byte indicates sign (0 for positive, 1 for negative)</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Data Conversion.swift#L116-L135">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Data Conversion.swift#L116-L135">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -871,7 +872,7 @@ byte to represent the sign (0 for positive, 1 for negative)</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Data Conversion.swift#L140-L159">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Data Conversion.swift#L140-L159">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -901,7 +902,7 @@ byte to represent the sign (0 for positive, 1 for negative)</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Data Conversion.swift#L162-L178">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Data Conversion.swift#L162-L178">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -957,7 +958,7 @@ byte to represent the sign (0 for positive, 1 for negative)</p>
                         <p><code>(quotient, remainder)</code> where <code>quotient = floor(self/y)</code>, <code>remainder = self - quotient * y</code></p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Division.swift#L342-L348">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Division.swift#L342-L348">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -987,7 +988,7 @@ byte to represent the sign (0 for positive, 1 for negative)</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Division.swift#L351-L353">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Division.swift#L351-L353">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1017,7 +1018,7 @@ byte to represent the sign (0 for positive, 1 for negative)</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Division.swift#L356-L358">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Division.swift#L356-L358">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1047,7 +1048,7 @@ byte to represent the sign (0 for positive, 1 for negative)</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Division.swift#L361-L367">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Division.swift#L361-L367">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1077,7 +1078,7 @@ byte to represent the sign (0 for positive, 1 for negative)</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Division.swift#L372">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Division.swift#L372">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1107,7 +1108,7 @@ byte to represent the sign (0 for positive, 1 for negative)</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Division.swift#L374">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Division.swift#L374">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1158,7 +1159,7 @@ byte to represent the sign (0 for positive, 1 for negative)</p>
                         <p>1 if <code>exponent == 0</code>, otherwise <code>self</code> raised to <code>exponent</code>. (This implies that <code>0.power(0) == 1</code>.)</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Exponentiation.swift#L88-L91">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Exponentiation.swift#L88-L91">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1195,7 +1196,7 @@ byte to represent the sign (0 for positive, 1 for negative)</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Exponentiation.swift#L100-L118">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Exponentiation.swift#L100-L118">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1224,7 +1225,7 @@ byte to represent the sign (0 for positive, 1 for negative)</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Floating Point Conversion.swift#L28-L37">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Floating Point Conversion.swift#L28-L37">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1253,7 +1254,7 @@ byte to represent the sign (0 for positive, 1 for negative)</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Floating Point Conversion.swift#L39-L41">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Floating Point Conversion.swift#L39-L41">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1288,7 +1289,7 @@ byte to represent the sign (0 for positive, 1 for negative)</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/GCD.swift#L64-L66">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/GCD.swift#L64-L66">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1332,7 +1333,7 @@ or <code>nil</code> if there is no such number.</p>
                         <p>If <code>gcd(self, modulus) == 1</code>, the value returned is an integer <code>a &lt; modulus</code> such that <code>(a * self) % modulus == 1</code>. If <code>self</code> and <code>modulus</code> aren&rsquo;t coprime, the return value is <code>nil</code>.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/GCD.swift#L76-L79">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/GCD.swift#L76-L79">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1362,7 +1363,7 @@ or <code>nil</code> if there is no such number.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Hashable.swift#L22-L25">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Hashable.swift#L22-L25">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1392,7 +1393,7 @@ or <code>nil</code> if there is no such number.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Integer Conversion.swift#L42-L44">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Integer Conversion.swift#L42-L44">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1422,7 +1423,7 @@ or <code>nil</code> if there is no such number.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Integer Conversion.swift#L47-L50">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Integer Conversion.swift#L47-L50">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1451,7 +1452,7 @@ or <code>nil</code> if there is no such number.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Integer Conversion.swift#L52-L61">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Integer Conversion.swift#L52-L61">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1480,7 +1481,7 @@ or <code>nil</code> if there is no such number.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Integer Conversion.swift#L63-L65">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Integer Conversion.swift#L63-L65">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1509,7 +1510,7 @@ or <code>nil</code> if there is no such number.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Integer Conversion.swift#L67-L69">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Integer Conversion.swift#L67-L69">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1538,7 +1539,7 @@ or <code>nil</code> if there is no such number.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Integer Conversion.swift#L71-L73">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Integer Conversion.swift#L71-L73">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1568,7 +1569,7 @@ or <code>nil</code> if there is no such number.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Integer Conversion.swift#L85-L87">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Integer Conversion.swift#L85-L87">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1598,7 +1599,7 @@ or <code>nil</code> if there is no such number.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Multiplication.swift#L159-L161">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Multiplication.swift#L159-L161">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1628,7 +1629,7 @@ or <code>nil</code> if there is no such number.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Multiplication.swift#L164">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Multiplication.swift#L164">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1671,7 +1672,7 @@ or <code>nil</code> if there is no such number.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Prime Test.swift#L130-L134">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Prime Test.swift#L130-L134">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1711,7 +1712,7 @@ return a correct result.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Prime Test.swift#L149-L152">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Prime Test.swift#L149-L152">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1741,7 +1742,7 @@ return a correct result.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Shifts.swift#L168-L170">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Shifts.swift#L168-L170">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1771,7 +1772,7 @@ return a correct result.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Shifts.swift#L172-L174">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Shifts.swift#L172-L174">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1801,7 +1802,7 @@ return a correct result.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Shifts.swift#L176-L178">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Shifts.swift#L176-L178">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1831,7 +1832,7 @@ return a correct result.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Shifts.swift#L180-L182">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Shifts.swift#L180-L182">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1861,7 +1862,7 @@ return a correct result.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Shifts.swift#L184-L187">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Shifts.swift#L184-L187">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1891,7 +1892,7 @@ return a correct result.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Shifts.swift#L189-L196">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Shifts.swift#L189-L196">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1921,7 +1922,7 @@ return a correct result.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Shifts.swift#L198-L201">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Shifts.swift#L198-L201">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1951,7 +1952,7 @@ return a correct result.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Shifts.swift#L203-L210">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Shifts.swift#L203-L210">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2003,7 +2004,7 @@ return a correct result.</p>
                         <p>floor(sqrt(self))</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Square Root.swift#L37-L40">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Square Root.swift#L37-L40">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2032,7 +2033,7 @@ return a correct result.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Strideable.swift#L">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Strideable.swift#L">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2062,7 +2063,7 @@ return a correct result.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Strideable.swift#L28-L30">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Strideable.swift#L28-L30">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2092,7 +2093,7 @@ return a correct result.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Strideable.swift#L33-L35">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Strideable.swift#L33-L35">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2132,7 +2133,7 @@ letters from the English alphabet.</p>
                         <p>The integer represented by <code>text</code>, or nil if <code>text</code> contains a character that does not represent a numeral in <code>radix</code>.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/String Conversion.swift#L83-L101">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/String Conversion.swift#L83-L101">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2163,7 +2164,7 @@ The scalar must represent a decimal digit.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/String Conversion.swift#L189-L191">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/String Conversion.swift#L189-L191">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2194,7 +2195,7 @@ The cluster must consist of a decimal digit.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/String Conversion.swift#L195-L197">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/String Conversion.swift#L195-L197">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2225,7 +2226,7 @@ The string must contain only decimal digits.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/String Conversion.swift#L201-L203">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/String Conversion.swift#L201-L203">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2255,7 +2256,7 @@ The string must contain only decimal digits.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/String Conversion.swift#L215-L217">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/String Conversion.swift#L215-L217">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2285,7 +2286,7 @@ The string must contain only decimal digits.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/String Conversion.swift#L232-L235">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/String Conversion.swift#L232-L235">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2315,7 +2316,7 @@ The string must contain only decimal digits.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Subtraction.swift#L157-L160">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Subtraction.swift#L157-L160">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2345,7 +2346,7 @@ The string must contain only decimal digits.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Subtraction.swift#L163-L165">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Subtraction.swift#L163-L165">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2375,7 +2376,7 @@ The string must contain only decimal digits.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Subtraction.swift#L168">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Subtraction.swift#L168">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2405,7 +2406,7 @@ The string must contain only decimal digits.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Words and Bits.swift#L78-L81">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Words and Bits.swift#L78-L81">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2435,7 +2436,7 @@ The string must contain only decimal digits.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Words and Bits.swift#L83-L86">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Words and Bits.swift#L83-L86">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2465,7 +2466,7 @@ The string must contain only decimal digits.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Words and Bits.swift#L139-L186">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Words and Bits.swift#L139-L186">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2495,7 +2496,7 @@ The string must contain only decimal digits.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Words and Bits.swift#L188-L190">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Words and Bits.swift#L188-L190">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2525,7 +2526,7 @@ The string must contain only decimal digits.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/attaswift/tree/v5.2.1/Sources/Words and Bits.swift#L192-L201">Show on GitHub</a>
+                        <a href="https://github.com/attaswift//tree/refs/tags/v5.3.0/Sources/Words and Bits.swift#L192-L201">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2538,8 +2539,8 @@ The string must contain only decimal digits.</p>
       </article>
     </div>
     <section class="footer">
-      <p>© 2020 <a class="link" href="https://twitter.com/lorentey" target="_blank" rel="external">Károly Lőrentey</a>. (Last updated: 2020-12-15)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>© 2021 <a class="link" href="https://twitter.com/lorentey" target="_blank" rel="noopener" rel="external">Károly Lőrentey</a>. (Last updated: 2021-09-06)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="noopener" rel="external">jazzy ♪♫ v0.14.0</a>, a <a class="link" href="https://realm.io" target="_blank" rel="noopener" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>
