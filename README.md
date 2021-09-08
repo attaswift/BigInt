@@ -59,7 +59,7 @@ big integers, including
     remainder at once; this is faster than calculating them separately.
 
 - [Bitwise operators][bitwise]: `~`, `|`, `&`, `^`, `|=`, `&=`, `^=`, plus the following read-only properties:
-  - [`width`][width]: the minimum number of bits required to store the integer,
+  - [`bitWidth`][bitWidth]: the minimum number of bits required to store the integer,
   - [`trailingZeroBitCount`][trailingZeroBitCount]: the number of trailing zero bits in the binary representation,
   - [`leadingZeroBitCount`][leadingZeroBitCount]: the number of leading zero bits (when the last digit isn't full),
 
