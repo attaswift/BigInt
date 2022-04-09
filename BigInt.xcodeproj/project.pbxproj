@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		903767082801E0F000F4DF61 /* NodeTests+Support.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903767062801E0F000F4DF61 /* NodeTests+Support.swift */; };
+		903767092801E0F000F4DF61 /* NodeTests+Support.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903767062801E0F000F4DF61 /* NodeTests+Support.swift */; };
+		9037670A2801E0F000F4DF61 /* NodeTests+Support.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903767062801E0F000F4DF61 /* NodeTests+Support.swift */; };
+		9037670B2801E0F000F4DF61 /* NodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903767072801E0F000F4DF61 /* NodeTests.swift */; };
+		9037670C2801E0F000F4DF61 /* NodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903767072801E0F000F4DF61 /* NodeTests.swift */; };
+		9037670D2801E0F000F4DF61 /* NodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903767072801E0F000F4DF61 /* NodeTests.swift */; };
 		BB241C441DDB70600067F917 /* Addition.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C301DDB70600067F917 /* Addition.swift */; };
 		BB241C451DDB70600067F917 /* Bitwise Ops.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C311DDB70600067F917 /* Bitwise Ops.swift */; };
 		BB241C461DDB70600067F917 /* Comparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C321DDB70600067F917 /* Comparable.swift */; };
@@ -149,6 +155,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		903767062801E0F000F4DF61 /* NodeTests+Support.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NodeTests+Support.swift"; sourceTree = "<group>"; };
+		903767072801E0F000F4DF61 /* NodeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeTests.swift; sourceTree = "<group>"; };
 		BB241BC51DD9F6490067F917 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		BB241BC71DD9F7D60067F917 /* BigInt.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; path = BigInt.podspec; sourceTree = "<group>"; };
 		BB241C2F1DDB70600067F917 /* BigInt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BigInt.swift; sourceTree = "<group>"; };
@@ -260,6 +268,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		903767052801E0CB00F4DF61 /* Violet - Node */ = {
+			isa = PBXGroup;
+			children = (
+				903767072801E0F000F4DF61 /* NodeTests.swift */,
+				903767062801E0F000F4DF61 /* NodeTests+Support.swift */,
+			);
+			path = "Violet - Node";
+			sourceTree = "<group>";
+		};
 		BB241CCB1DDB71DB0067F917 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -333,6 +350,7 @@
 		BBB55AC01C8F80020050DDA9 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				903767052801E0CB00F4DF61 /* Violet - Node */,
 				BB241C561DDB70690067F917 /* BigIntTests.swift */,
 				BB241C571DDB70690067F917 /* BigUIntTests.swift */,
 				BBEAE4DC1F28C37800F4E329 /* WordTests.swift */,
@@ -692,6 +710,8 @@
 				BB4273F61F24AFCC00065766 /* Tools.swift in Sources */,
 				BBEAE4DD1F28C37800F4E329 /* WordTests.swift in Sources */,
 				BB241CE41DDB79E30067F917 /* BigUIntTests.swift in Sources */,
+				903767082801E0F000F4DF61 /* NodeTests+Support.swift in Sources */,
+				9037670B2801E0F000F4DF61 /* NodeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -728,6 +748,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				903767092801E0F000F4DF61 /* NodeTests+Support.swift in Sources */,
+				9037670C2801E0F000F4DF61 /* NodeTests.swift in Sources */,
 				BB4273F71F24AFCD00065766 /* Tools.swift in Sources */,
 				BB9916911F33C32000CCFDDC /* WordTests.swift in Sources */,
 				BB9916901F32610A00CCFDDC /* BigUIntTests.swift in Sources */,
@@ -802,6 +824,8 @@
 				BB4273F81F24AFCD00065766 /* Tools.swift in Sources */,
 				BBEAE4DF1F28C37800F4E329 /* WordTests.swift in Sources */,
 				BB241CDC1DDB79E20067F917 /* BigUIntTests.swift in Sources */,
+				9037670A2801E0F000F4DF61 /* NodeTests+Support.swift in Sources */,
+				9037670D2801E0F000F4DF61 /* NodeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
