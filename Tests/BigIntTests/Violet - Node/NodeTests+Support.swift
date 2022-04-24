@@ -1,3 +1,6 @@
+// This file was written by LiarPrincess for Violet - Python VM written in Swift.
+// https://github.com/LiarPrincess/Violet
+
 import XCTest
 import BigInt
 
