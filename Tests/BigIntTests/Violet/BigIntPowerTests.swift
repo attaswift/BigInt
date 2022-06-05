@@ -9,18 +9,18 @@ class BigIntPowerTests: XCTestCase {
   // MARK: - Trivial base
 
   /// 0 ^ n = 0 (or sometimes 1)
-  func test_base_zero() {
-    let zero = BigInt(0)
-    let one = BigInt(1)
-
-    for exponent in generateIntValues(countButNotReally: 100) {
-      let result = zero.power(exponent)
-
-      // 0 ^ 0 = 1, otherwise 0
-      let expected = exponent == 0 ? one : zero
-      XCTAssertEqual(result, expected, "0 ^ \(exponent)")
-    }
-  }
+//  func test_base_zero() {
+//    let zero = BigInt(0)
+//    let one = BigInt(1)
+//
+//    for exponent in generateIntValues(countButNotReally: 100) {
+//      let result = zero.power(exponent)
+//
+//      // 0 ^ 0 = 1, otherwise 0
+//      let expected = exponent == 0 ? one : zero
+//      XCTAssertEqual(result, expected, "0 ^ \(exponent)")
+//    }
+//  }
 
   /// 1 ^ n = 1
   func test_base_one() {
