@@ -19,17 +19,17 @@ class BigIntPropertyTests: XCTestCase {
 
   // MARK: - Words
 
-  func test_words_zero() {
-    let value = BigInt(0)
-    XCTAssertWords(value, WordsTestCases.zeroWords)
-  }
-
-  func test_words_int() {
-    for (value, expected) in WordsTestCases.int {
-      let bigInt = BigInt(value)
-      XCTAssertWords(bigInt, expected)
-    }
-  }
+//  func test_words_zero() {
+//    let value = BigInt(0)
+//    XCTAssertWords(value, WordsTestCases.zeroWords)
+//  }
+//
+//  func test_words_int() {
+//    for (value, expected) in WordsTestCases.int {
+//      let bigInt = BigInt(value)
+//      XCTAssertWords(bigInt, expected)
+//    }
+//  }
 
   func test_words_multipleWords_positive() {
     for (words, expected) in WordsTestCases.heapPositive {
@@ -39,13 +39,13 @@ class BigIntPropertyTests: XCTestCase {
     }
   }
 
-  func test_words_multipleWords_negative_powerOf2() {
-    for (words, expected) in WordsTestCases.heapNegative_powerOf2 {
-      let heap = BigIntPrototype(isNegative: true, words: words)
-      let bigInt = heap.create()
-      XCTAssertWords(bigInt, expected)
-    }
-  }
+//  func test_words_multipleWords_negative_powerOf2() {
+//    for (words, expected) in WordsTestCases.heapNegative_powerOf2 {
+//      let heap = BigIntPrototype(isNegative: true, words: words)
+//      let bigInt = heap.create()
+//      XCTAssertWords(bigInt, expected)
+//    }
+//  }
 
   func test_words_multipleWords_negative_notPowerOf2() {
     for (words, expected) in WordsTestCases.heapNegative_notPowerOf2 {
@@ -57,16 +57,16 @@ class BigIntPropertyTests: XCTestCase {
 
   // MARK: - Bit width
 
-  func test_bitWidth_trivial() {
-    let zero = BigInt(0)
-    XCTAssertEqual(zero.bitWidth, 1) //  0 is just 0
-
-    let plus1 = BigInt(1)
-    XCTAssertEqual(plus1.bitWidth, 2) // 1 needs '0' prefix -> '01'
-
-    let minus1 = BigInt(-1)
-    XCTAssertEqual(minus1.bitWidth, 1) // -1 is just 1
-  }
+//  func test_bitWidth_trivial() {
+//    let zero = BigInt(0)
+//    XCTAssertEqual(zero.bitWidth, 1) //  0 is just 0
+//
+//    let plus1 = BigInt(1)
+//    XCTAssertEqual(plus1.bitWidth, 2) // 1 needs '0' prefix -> '01'
+//
+//    let minus1 = BigInt(-1)
+//    XCTAssertEqual(minus1.bitWidth, 1) // -1 is just 1
+//  }
 
   func test_bitWidth_positivePowersOf2() {
     for (int, power, expected) in BitWidthTestCases.positivePowersOf2 {
@@ -75,19 +75,19 @@ class BigIntPropertyTests: XCTestCase {
     }
   }
 
-  func test_bitWidth_negativePowersOf2() {
-    for (int, power, expected) in BitWidthTestCases.negativePowersOf2 {
-      let bigInt = BigInt(int)
-      XCTAssertEqual(bigInt.bitWidth, expected, "for \(int) (2^\(power))")
-    }
-  }
-
-  func test_bitWidth_smiTestCases() {
-    for (value, expected) in BitWidthTestCases.smi {
-      let bigInt = BigInt(value)
-      XCTAssertEqual(bigInt.bitWidth, expected, "\(value)")
-    }
-  }
+//  func test_bitWidth_negativePowersOf2() {
+//    for (int, power, expected) in BitWidthTestCases.negativePowersOf2 {
+//      let bigInt = BigInt(int)
+//      XCTAssertEqual(bigInt.bitWidth, expected, "for \(int) (2^\(power))")
+//    }
+//  }
+//
+//  func test_bitWidth_smiTestCases() {
+//    for (value, expected) in BitWidthTestCases.smi {
+//      let bigInt = BigInt(value)
+//      XCTAssertEqual(bigInt.bitWidth, expected, "\(value)")
+//    }
+//  }
 
   func test_bitWidth_multipleWords_positivePowersOf2() {
     let correction = BitWidthTestCases.positivePowersOf2Correction
@@ -107,23 +107,23 @@ class BigIntPropertyTests: XCTestCase {
     }
   }
 
-  func test_bitWidth_multipleWords_negativePowersOf2() {
-    let correction = BitWidthTestCases.negativePowersOf2Correction
-
-    for zeroWordCount in [1, 2] {
-      let zeroWords = [Word](repeating: 0, count: zeroWordCount)
-      let zeroWordsBitWidth = zeroWordCount * Word.bitWidth
-
-      for (power, value) in allPositivePowersOf2(type: Word.self) {
-        let words = zeroWords + [value]
-        let heap = BigIntPrototype(isNegative: true, words: words)
-        let bigInt = heap.create()
-
-        let expected = power + correction + zeroWordsBitWidth
-        XCTAssertEqual(bigInt.bitWidth, expected, "\(heap)")
-      }
-    }
-  }
+//  func test_bitWidth_multipleWords_negativePowersOf2() {
+//    let correction = BitWidthTestCases.negativePowersOf2Correction
+//
+//    for zeroWordCount in [1, 2] {
+//      let zeroWords = [Word](repeating: 0, count: zeroWordCount)
+//      let zeroWordsBitWidth = zeroWordCount * Word.bitWidth
+//
+//      for (power, value) in allPositivePowersOf2(type: Word.self) {
+//        let words = zeroWords + [value]
+//        let heap = BigIntPrototype(isNegative: true, words: words)
+//        let bigInt = heap.create()
+//
+//        let expected = power + correction + zeroWordsBitWidth
+//        XCTAssertEqual(bigInt.bitWidth, expected, "\(heap)")
+//      }
+//    }
+//  }
 
   // MARK: - Trailing zero bit count
 
