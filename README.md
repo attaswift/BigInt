@@ -5,7 +5,6 @@
 * [License](#license)
 * [Requirements and Integration](#integration)
 * [Implementation Notes](#notes)
-    * [Full-width multiplication and division primitives](#fullwidth)
     * [Why is there no generic `BigInt<Digit>` type?](#generics)
 * [Calculation Samples](#samples)
 	* [Obligatory factorial demo](#factorial)
