@@ -46,6 +46,10 @@
 		225EE204284C38BC00C26613 /* ApplyA_UndoA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225EE200284C38BC00C26613 /* ApplyA_UndoA.swift */; };
 		225EE205284C38BC00C26613 /* ApplyA_UndoA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225EE200284C38BC00C26613 /* ApplyA_UndoA.swift */; };
 		225EE206284C38BC00C26613 /* ApplyA_UndoA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225EE200284C38BC00C26613 /* ApplyA_UndoA.swift */; };
+		7400AF912ADAF5A000E86CA5 /* LosslessStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7400AF902ADAF59F00E86CA5 /* LosslessStringConvertible.swift */; };
+		7400AF922ADAF5A000E86CA5 /* LosslessStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7400AF902ADAF59F00E86CA5 /* LosslessStringConvertible.swift */; };
+		7400AF932ADAF5A000E86CA5 /* LosslessStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7400AF902ADAF59F00E86CA5 /* LosslessStringConvertible.swift */; };
+		7400AF942ADAF5A000E86CA5 /* LosslessStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7400AF902ADAF59F00E86CA5 /* LosslessStringConvertible.swift */; };
 		BB241C441DDB70600067F917 /* Addition.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C301DDB70600067F917 /* Addition.swift */; };
 		BB241C451DDB70600067F917 /* Bitwise Ops.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C311DDB70600067F917 /* Bitwise Ops.swift */; };
 		BB241C461DDB70600067F917 /* Comparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB241C321DDB70600067F917 /* Comparable.swift */; };
@@ -201,6 +205,7 @@
 		225EE1EE284C38B400C26613 /* GlobalFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFunctions.swift; sourceTree = "<group>"; };
 		225EE1FF284C38BC00C26613 /* ApplyA_ApplyB_Equals_ApplyAB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplyA_ApplyB_Equals_ApplyAB.swift; sourceTree = "<group>"; };
 		225EE200284C38BC00C26613 /* ApplyA_UndoA.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplyA_UndoA.swift; sourceTree = "<group>"; };
+		7400AF902ADAF59F00E86CA5 /* LosslessStringConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LosslessStringConvertible.swift; sourceTree = "<group>"; };
 		BB241BC51DD9F6490067F917 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		BB241BC71DD9F7D60067F917 /* BigInt.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; path = BigInt.podspec; sourceTree = "<group>"; };
 		BB241C2F1DDB70600067F917 /* BigInt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BigInt.swift; sourceTree = "<group>"; };
@@ -394,6 +399,7 @@
 				BBABCDD61F3E2038009CA8BC /* Words and Bits.swift */,
 				BB9889A91F3E5CC600014740 /* Integer Conversion.swift */,
 				BBABCDD11F3E17A8009CA8BC /* Floating Point Conversion.swift */,
+				7400AF902ADAF59F00E86CA5 /* LosslessStringConvertible.swift */,
 				BB241C3A1DDB70600067F917 /* String Conversion.swift */,
 				BB241C331DDB70600067F917 /* Data Conversion.swift */,
 				BB241C321DDB70600067F917 /* Comparable.swift */,
@@ -766,6 +772,7 @@
 				BB241C511DDB70600067F917 /* Square Root.swift in Sources */,
 				BB241C471DDB70600067F917 /* Data Conversion.swift in Sources */,
 				BB241C461DDB70600067F917 /* Comparable.swift in Sources */,
+				7400AF912ADAF5A000E86CA5 /* LosslessStringConvertible.swift in Sources */,
 				BBE4CA4E1F3DA5AB0062A281 /* Codable.swift in Sources */,
 				BB241C491DDB70600067F917 /* Exponentiation.swift in Sources */,
 				BB241C451DDB70600067F917 /* Bitwise Ops.swift in Sources */,
@@ -820,6 +827,7 @@
 				BB241C8D1DDB71920067F917 /* Shifts.swift in Sources */,
 				BB241C8F1DDB71920067F917 /* GCD.swift in Sources */,
 				BB241C8E1DDB71920067F917 /* Square Root.swift in Sources */,
+				7400AF922ADAF5A000E86CA5 /* LosslessStringConvertible.swift in Sources */,
 				BBE4CA4F1F3DAD380062A281 /* Codable.swift in Sources */,
 				BB241C8B1DDB71920067F917 /* Exponentiation.swift in Sources */,
 				BB241C871DDB71920067F917 /* Addition.swift in Sources */,
@@ -873,6 +881,7 @@
 				BB241C791DDB71910067F917 /* Shifts.swift in Sources */,
 				BB241C7B1DDB71910067F917 /* GCD.swift in Sources */,
 				BB241C7A1DDB71910067F917 /* Square Root.swift in Sources */,
+				7400AF932ADAF5A000E86CA5 /* LosslessStringConvertible.swift in Sources */,
 				BBE4CA501F3DAD390062A281 /* Codable.swift in Sources */,
 				BB241C771DDB71910067F917 /* Exponentiation.swift in Sources */,
 				BB241C731DDB71910067F917 /* Addition.swift in Sources */,
@@ -902,6 +911,7 @@
 				BB241CA11DDB71920067F917 /* Shifts.swift in Sources */,
 				BB241CA31DDB71920067F917 /* GCD.swift in Sources */,
 				BB241CA21DDB71920067F917 /* Square Root.swift in Sources */,
+				7400AF942ADAF5A000E86CA5 /* LosslessStringConvertible.swift in Sources */,
 				BBE4CA511F3DAD390062A281 /* Codable.swift in Sources */,
 				BB241C9F1DDB71920067F917 /* Exponentiation.swift in Sources */,
 				BB241C9B1DDB71920067F917 /* Addition.swift in Sources */,
