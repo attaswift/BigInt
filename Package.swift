@@ -28,6 +28,5 @@ let package = Package(
     targets: [
         .target(name: "BigInt", path: "Sources"),
         .testTarget(name: "BigIntTests", dependencies: ["BigInt"], path: "Tests")
-    ],
-    swiftLanguageVersions: [.v5]
+    ]
 )

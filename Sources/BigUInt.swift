@@ -13,7 +13,7 @@
 ///
 /// This particular big integer type uses base-2^64 digits to represent integers; you can think of it as a wrapper
 /// around `Array<UInt64>`. (In fact, `BigUInt` only uses an array if there are more than two digits.)
-public struct BigUInt: UnsignedInteger {
+public struct BigUInt: UnsignedInteger, Sendable {
     /// The type representing a digit in `BigUInt`'s underlying number system.
     public typealias Word = UInt
 

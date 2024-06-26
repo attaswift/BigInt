@@ -81,7 +81,7 @@ extension BigUInt {
     }
 
     /// Multiplication switches to an asymptotically better recursive algorithm when arguments have more words than this limit.
-    public static var directMultiplicationLimit: Int = 1024
+    public static let directMultiplicationLimit: Int = 1024
 
     /// Multiply `a` by `b` and return the result.
     ///
