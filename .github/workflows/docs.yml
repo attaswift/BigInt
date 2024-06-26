@@ -1,0 +1,26 @@
+name: Docs
+
+on:
+  push:
+    tags:
+      - '*'
+   
+jobs:
+  macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Generate documentation
+      run: |
+        swift package --allow-writing-to-directory docs generate-documentation \
+        --target BigInt \
+        --disable-indexing \
+        --output-path docs \
+        --transform-for-static-hosting
+    - name: Commit docs
+      run: |
+        git config --local user.email "bot@github.com"
+        git config --local user.name "GitHub Actions"
+        git add ./docs
+        git commit -m "Update docs"
+        git push origin HEAD:master
