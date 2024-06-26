@@ -15,16 +15,16 @@ let f100 = fact(100)
 let f1000 = fact(1000)
 //: That last value seems quite large. Just how many decimal digits is it? Let's convert it to a `String` to find out.
 let decimal = String(f1000)
-let digitCount = decimal.characters.count
+let digitCount = decimal.count
 //: Wow. 2500 digits is peanuts for `BigInt`, but Xcode's playground tech isn't designed to perform well with much more loop iterations, so let's stay at this level for now.
 let ff2 = f1000 * f1000
-String(ff2).characters.count
+String(ff2).count
 
 let ff4 = ff2 * ff2
-String(ff4).characters.count
+String(ff4).count
 
 let ff8 = ff4 * ff4
-String(ff8).characters.count
+String(ff8).count
 //: That last operation multiplied two 10000-digit numbers; you may have noticed it took a couple of seconds to compute that value. Converting such huge values to decimal isn't particularly cheap, either.
 //:
 //: [Next](@next)
