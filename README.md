@@ -11,9 +11,10 @@
 	* [RSA Cryptography](#rsa)
 	* [Calculating the Digits of π](#pi)
 
-[![Swift 5](https://img.shields.io/badge/Swift-5-blue.svg)](https://developer.apple.com/swift/)
+[![Swift](https://github.com/attaswift/BigInt/actions/workflows/swift.yml/badge.svg?branch=master)](https://github.com/attaswift/BigInt/actions/workflows/swift.yml)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fattaswift%2FBigInt%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/attaswift/BigInt)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fattaswift%2FBigInt%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/attaswift/BigInt)
 
-![Build Status](https://github.com/attaswift/BigInt/workflows/Swift/badge.svg?branch=master)
 <!-- [![Code Coverage](https://codecov.io/github/attaswift/BigInt/coverage.svg?branch=master)](https://codecov.io/github/attaswift/BigInt?branch=master) -->
 
 ## <a name="overview">Overview</a>
