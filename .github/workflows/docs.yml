@@ -16,6 +16,7 @@ jobs:
         --target BigInt \
         --disable-indexing \
         --output-path docs \
+        --hosting-base-path BigInt \
         --transform-for-static-hosting
     - name: Commit docs
       run: |
