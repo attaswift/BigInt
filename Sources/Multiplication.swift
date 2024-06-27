@@ -40,7 +40,7 @@ extension BigUInt {
     ///
     /// - Note: This is the fused multiply/shift/add operation; it is more efficient than doing the components
     ///   individually. (The fused operation doesn't need to allocate space for temporary big integers.)
-    /// - Returns: `self` is set to `self + (x * y) << (shift * 2^Word.bitWidth)`
+    ///   `self` is set to `self + (x * y) << (shift * 2^Word.bitWidth)`
     /// - Complexity: O(count)
     public mutating func multiplyAndAdd(_ x: BigUInt, _ y: Word, shiftedBy shift: Int = 0) {
         precondition(shift >= 0)
@@ -81,7 +81,7 @@ extension BigUInt {
     }
 
     /// Multiplication switches to an asymptotically better recursive algorithm when arguments have more words than this limit.
-    public static var directMultiplicationLimit: Int = 1024
+    public static let directMultiplicationLimit: Int = 1024
 
     /// Multiply `a` by `b` and return the result.
     ///

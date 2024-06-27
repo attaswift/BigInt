@@ -13,7 +13,7 @@
 ///
 /// This particular big integer type uses base-2^64 digits to represent integers; you can think of it as a wrapper
 /// around `Array<UInt64>`. (In fact, `BigUInt` only uses an array if there are more than two digits.)
-public struct BigUInt: UnsignedInteger {
+public struct BigUInt: UnsignedInteger, Sendable {
     /// The type representing a digit in `BigUInt`'s underlying number system.
     public typealias Word = UInt
 
@@ -27,8 +27,8 @@ public struct BigUInt: UnsignedInteger {
         case array
     }
 
-    internal fileprivate (set) var kind: Kind // Internal for testing only
-    internal fileprivate (set) var storage: [Word] // Internal for testing only; stored separately to prevent COW copies
+    fileprivate(set) var kind: Kind // Internal for testing only
+    fileprivate(set) var storage: [Word] // Internal for testing only; stored separately to prevent COW copies
 
     /// Initializes a new BigUInt with value 0.
     public init() {

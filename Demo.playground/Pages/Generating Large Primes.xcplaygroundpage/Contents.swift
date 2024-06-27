@@ -10,7 +10,7 @@ import BigInt
 func findNextPrime(after integer: BigUInt) -> BigUInt {
     var candidate = integer
     repeat {
-        candidate.increment()
+        candidate += 1
     } while !candidate.isPrime()
     return candidate
 }

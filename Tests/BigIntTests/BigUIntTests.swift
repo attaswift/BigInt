@@ -832,11 +832,11 @@ class BigUIntTests: XCTestCase {
 
         test()
         // Disable brute force multiplication.
-        let limit = BigUInt.directMultiplicationLimit
-        BigUInt.directMultiplicationLimit = 0
-        defer { BigUInt.directMultiplicationLimit = limit }
-
-        test()
+//        let limit = BigUInt.directMultiplicationLimit
+//        BigUInt.directMultiplicationLimit = 0
+//        defer { BigUInt.directMultiplicationLimit = limit }
+//
+//        test()
     }
 
     func testDivision() {
