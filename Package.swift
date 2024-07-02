@@ -22,9 +22,6 @@ let package = Package(
     products: [
         .library(name: "BigInt", targets: ["BigInt"])
     ], 
-    dependencies: [
-        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
-    ],
     targets: [
         .target(name: "BigInt", path: "Sources"),
         .testTarget(name: "BigIntTests", dependencies: ["BigInt"], path: "Tests")

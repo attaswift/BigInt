@@ -85,7 +85,7 @@ in it.
 
 ## <a name="api">API Documentation</a>
 
-Generated API docs are available at https://attaswift.github.io/BigInt/documentation/bigint/.
+Generated API docs are available at https://attaswift.github.io/BigInt/.
 
 ## <a name="license">License</a>
 
@@ -150,20 +150,34 @@ generic variant that was slower but more flexible.
 
 [license]: https://github.com/attaswift/BigInt/blob/master/LICENSE.md
 [twitter]: https://twitter.com/lorentey
-[BigInt]: https://attaswift.github.io/BigInt/documentation/bigint/bigint
-[BigUInt]: https://attaswift.github.io/BigInt/documentation/bigint/biguint
-[hashing]: https://attaswift.github.io/BigInt/documentation/bigint/bigint/hashable-implementations
-[addition]: https://attaswift.github.io/BigInt/documentation/bigint/bigint/additivearithmetic-implementations
-[mul]: https://attaswift.github.io/BigInt/documentation/bigint/biguint/multiplied(by:)
-[width]: https://attaswift.github.io/BigInt/documentation/bigint/bigint/bitwidth
-[leadingZeroBitCount]: https://attaswift.github.io/BigInt/documentation/bigint/biguint/leadingzerobitcount
-[trailingZeroBitCount]: https://attaswift.github.io/BigInt/documentation/bigint/bigint/trailingzerobitcount
+[BigUInt]: http://attaswift.github.io/BigInt/Structs/BigUInt.html
+[BigInt]: http://attaswift.github.io/BigInt/Structs/BigInt.html
+[comparison]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/Comparison
+[hashing]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/Hashing
+[addition]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/Addition
+[subtraction]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/Subtraction
+[mul]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/s:ZFV6BigInt7BigUIntoi1mFTS0_S0__S0_
+[fused]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt14multiplyAndAddFTS0_Vs6UInt6410atPositionSi_T_
+[multiplication]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/Multiplication
+[division]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/Division
+[divide]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt7dividedFT2byS0__T8quotientS0_9remainderS0__
+[bitwise]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/Bitwise%20Operations
+[width]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/s:vV6BigInt7BigUInt5widthSi
+[leadingZeroBitCount]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/s:vV6BigInt7BigUInt13leadingZeroBitCountSi
+[trailingZeroBitCount]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/s:vV6BigInt7BigUInt14trailingZeroBitCountSi
+[shift]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/Shift%20Operators
+[data]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/NSData%20Conversion
+[random]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/Random%20Integers
+[radix1]: http://attaswift.github.io/BigInt/Extensions/String.html#/s:FE6BigIntSScFTVS_7BigUInt5radixSi9uppercaseSb_SS
+[radix2]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUIntcFTSS5radixSi_GSqS0__
 [sqrt]: http://attaswift.github.io/BigInt/Functions.html#/s:F6BigInt4sqrtFVS_7BigUIntS0_
-[GCD]: https://attaswift.github.io/BigInt/documentation/bigint/bigint/greatestcommondivisor(with:)
-[powmod]: https://attaswift.github.io/BigInt/documentation/bigint/bigint/power(_:modulus:)
-[power]: https://attaswift.github.io/BigInt/documentation/bigint/bigint/power(_:)
-[inverse]: https://attaswift.github.io/BigInt/documentation/bigint/bigint/inverse(_:)
-[prime]: https://attaswift.github.io/BigInt/documentation/bigint/bigint/isprime(rounds:)
+[GCD]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/s:ZFV6BigInt7BigUInt3gcdFTS0_S0__S0_
+[powmod]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt5powerFTS0_7modulusS0__S0_
+[power]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt5powerFSiS0_
+[inverse]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/s:FV6BigInt7BigUInt7inverseFS0_GSqS0__
+[prime]: http://attaswift.github.io/BigInt/Structs/BigUInt.html#/Primality%20Testing
+[abs]: http://attaswift.github.io/BigInt/Structs/BigInt.html#/s:vV6BigInt6BigInt3absVS_7BigUInt
+[negative]: http://attaswift.github.io/BigInt/Structs/BigInt.html#/s:vV6BigInt6BigInt8negativeSb
 [subscript]: https://github.com/attaswift/BigInt/blob/v2.0.0/Sources/BigUInt.swift#L216-L239
 [fullmuldiv]: https://github.com/attaswift/BigInt/blob/v2.0.0/Sources/BigDigit.swift#L96-L167
 
