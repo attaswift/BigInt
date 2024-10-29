@@ -75,37 +75,9 @@ extension BigUInt {
     /// Initializes an integer from the bits stored inside a piece of `Data`.
     /// The data is assumed to be in network (big-endian) byte order.
     public init(_ data: Data) {
-        // This assumes Word is binary.
-        precondition(Word.bitWidth % 8 == 0)
-
-        self.init()
-
-        let length = data.count
-        guard length > 0 else { return }
-        let bytesPerDigit = Word.bitWidth / 8
-        var index = length / bytesPerDigit
-        var c = bytesPerDigit - length % bytesPerDigit
-        if c == bytesPerDigit {
-            c = 0
-            index -= 1
-        }
-        let word: Word = data.withUnsafeBytes { buffPtr in
-            var word: Word = 0
-            let p = buffPtr.bindMemory(to: UInt8.self)
-            for byte in p {
-                word <<= 8
-                word += Word(byte)
-                c += 1
-                if c == bytesPerDigit {
-                    self[index] = word
-                    index -= 1
-                    c = 0
-                    word = 0
-                }
-            }
-            return word
-        }
-        assert(c == 0 && word == 0 && index == -1)
+        self = data.withUnsafeBytes({ buffer in
+            BigUInt(buffer)
+        })
     }
 
     /// Return a `Data` value that contains the base-256 representation of this integer, in network (big-endian) byte order.
@@ -172,24 +144,9 @@ extension BigInt {
     /// The data is assumed to be in network (big-endian) byte order with a first
     /// byte to represent the sign (0 for positive, 1 for negative)
     public init(_ data: Data) {
-        // This assumes Word is binary.
-        // This is the same assumption made when initializing BigUInt from Data
-        precondition(Word.bitWidth % 8 == 0)
-
-        self.init()
-        
-        // Serialized data for a BigInt should contain at least 2 bytes: one representing
-        // the sign, and another for the non-zero magnitude. Zero is represented by an
-        // empty Data struct, and negative zero is not supported.
-        guard data.count > 1, let firstByte = data.first else { return }
-        
-        // The first byte gives the sign
-        // This byte is compared to a bitmask to allow additional functionality to be added
-        // to this byte in the future.
-        self.sign = firstByte & 0b1 == 0 ? .plus : .minus
-        
-        // The remaining bytes are read and stored as the magnitude
-        self.magnitude = BigUInt(data.dropFirst(1))
+        self = data.withUnsafeBytes({ buffer in
+            BigInt(buffer)
+        })
     }
     
     /// Return a `Data` value that contains the base-256 representation of this integer, in network (big-endian) byte order and a prepended byte to indicate the sign (0 for positive, 1 for negative)
