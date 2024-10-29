@@ -156,7 +156,43 @@ class BigUIntTests: XCTestCase {
         check(BigUInt(Double(sign: .plus, exponent: 2 * Word.bitWidth, significand: 1.0)),
               nil, [0, 0, 1])
     }
-    
+
+    func testInit_Decimal() throws {
+        XCTAssertEqual(BigUInt(exactly: Decimal(0)), 0)
+        XCTAssertEqual(BigUInt(exactly: Decimal(Double.nan)), nil)
+        XCTAssertEqual(BigUInt(exactly: Decimal(10)), 10)
+        XCTAssertEqual(BigUInt(exactly: Decimal(1000)), 1000)
+        XCTAssertEqual(BigUInt(exactly: Decimal(1000.1)), nil)
+        XCTAssertEqual(BigUInt(exactly: Decimal(1000.9)), nil)
+        XCTAssertEqual(BigUInt(exactly: Decimal(1001.5)), nil)
+        XCTAssertEqual(BigUInt(exactly: Decimal(UInt.max) + 5), "18446744073709551620")
+        XCTAssertEqual(BigUInt(exactly: (Decimal(UInt.max) + 5.5)), nil)
+        XCTAssertEqual(BigUInt(truncating: Decimal(0)), 0)
+        XCTAssertEqual(BigUInt(truncating: Decimal(Double.nan)), nil)
+        XCTAssertEqual(BigUInt(truncating: Decimal(10)), 10)
+        XCTAssertEqual(BigUInt(truncating: Decimal(1000)), 1000)
+        XCTAssertEqual(BigUInt(truncating: Decimal(1000.1)), 1000)
+        XCTAssertEqual(BigUInt(truncating: Decimal(1000.9)), 1000)
+        XCTAssertEqual(BigUInt(truncating: Decimal(1001.5)), 1001)
+        XCTAssertEqual(BigUInt(truncating: Decimal(UInt.max) + 5), "18446744073709551620")
+        XCTAssertEqual(BigUInt(truncating: (Decimal(UInt.max) + 5.5)), "18446744073709551620")
+
+        XCTAssertEqual(BigUInt(exactly: -Decimal(10)), nil)
+        XCTAssertEqual(BigUInt(exactly: -Decimal(1000)), nil)
+        XCTAssertEqual(BigUInt(exactly: -Decimal(1000.1)), nil)
+        XCTAssertEqual(BigUInt(exactly: -Decimal(1000.9)), nil)
+        XCTAssertEqual(BigUInt(exactly: -Decimal(1001.5)), nil)
+        XCTAssertEqual(BigUInt(exactly: -Decimal(UInt.max) + 5), nil)
+        XCTAssertEqual(BigUInt(exactly: -(Decimal(UInt.max) + 5.5)), nil)
+        XCTAssertEqual(BigUInt(truncating: -Decimal(10)), nil)
+        XCTAssertEqual(BigUInt(truncating: -Decimal(1000)), nil)
+        XCTAssertEqual(BigUInt(truncating: -Decimal(1000.1)), nil)
+        XCTAssertEqual(BigUInt(truncating: -Decimal(1000.9)), nil)
+        XCTAssertEqual(BigUInt(truncating: -Decimal(1001.5)), nil)
+        XCTAssertEqual(BigUInt(truncating: -Decimal(UInt.max) + 5), nil)
+        XCTAssertEqual(BigUInt(truncating: -(Decimal(UInt.max) + 5.5)), nil)
+    }
+
     func testInit_Buffer() {
         func test(_ b: BigUInt, _ d: Array<UInt8>, file: StaticString = #file, line: UInt = #line) {
             d.withUnsafeBytes { buffer in
