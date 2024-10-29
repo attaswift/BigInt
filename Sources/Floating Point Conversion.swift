@@ -67,14 +67,9 @@ extension BigUInt {
 
 extension BigInt {
     public init?<T: BinaryFloatingPoint>(exactly source: T) {
-        switch source.sign{
-        case .plus:
-            guard let magnitude = BigUInt(exactly: source) else { return nil }
-            self = BigInt(sign: .plus, magnitude: magnitude)
-        case .minus:
-            guard let magnitude = BigUInt(exactly: -source) else { return nil }
-            self = BigInt(sign: .minus, magnitude: magnitude)
-        }
+        guard let magnitude = BigUInt(exactly: source.magnitude) else { return nil }
+        let sign = BigInt.Sign(source.sign)
+        self.init(sign: sign, magnitude: magnitude)
     }
 
     public init<T: BinaryFloatingPoint>(_ source: T) {
