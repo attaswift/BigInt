@@ -221,12 +221,27 @@ extension BigInt: CustomStringConvertible {
     }
 }
 
+extension BigUInt: CustomDebugStringConvertible {
+    /// Return the decimal representation of this integer.
+    public var debugDescription: String {
+        let text = String(self)
+        return text + " (\(self.bitWidth) bits)"
+    }
+}
+
+extension BigInt: CustomDebugStringConvertible {
+    /// Return the decimal representation of this integer.
+    public var debugDescription: String {
+        let text = String(self)
+        return text + " (\(self.magnitude.bitWidth) bits)"
+    }
+}
+
 extension BigUInt: CustomPlaygroundDisplayConvertible {
 
     /// Return the playground quick look representation of this integer.
     public var playgroundDescription: Any {
-        let text = String(self)
-        return text + " (\(self.bitWidth) bits)"
+        debugDescription
     }
 }
 
@@ -234,7 +249,6 @@ extension BigInt: CustomPlaygroundDisplayConvertible {
 
     /// Return the playground quick look representation of this integer.
     public var playgroundDescription: Any {
-        let text = String(self)
-        return text + " (\(self.magnitude.bitWidth) bits)"
+        debugDescription
     }
 }
