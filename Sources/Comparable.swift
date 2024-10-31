@@ -6,9 +6,19 @@
 //  Copyright © 2016-2017 Károly Lőrentey.
 //
 
+#if canImport(Foundation)
 import Foundation
+#endif
 
 extension BigUInt: Comparable {
+    #if !canImport(Foundation)
+    public enum ComparisonResult: Sendable, Comparable, Hashable {
+        case orderedDescending
+        case orderedSame
+        case orderedAscending
+    }
+    #endif
+
     //MARK: Comparison
     
     /// Compare `a` to `b` and return an `NSComparisonResult` indicating their order.

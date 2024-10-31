@@ -8,6 +8,7 @@
 
 import XCTest
 @testable import BigInt
+import Foundation
 
 class BigIntTests: XCTestCase {
     typealias Word = BigInt.Word
@@ -90,7 +91,43 @@ class BigIntTests: XCTestCase {
         XCTAssertEqual(BigInt(truncatingIfNeeded: -42), -42)
         XCTAssertEqual(BigInt(truncatingIfNeeded: 42), 42)
     }
-    
+
+    func testInit_Decimal() throws {
+        XCTAssertEqual(BigInt(exactly: Decimal(0)), 0)
+        XCTAssertEqual(BigInt(exactly: Decimal(Double.nan)), nil)
+        XCTAssertEqual(BigInt(exactly: Decimal(10)), 10)
+        XCTAssertEqual(BigInt(exactly: Decimal(1000)), 1000)
+        XCTAssertEqual(BigInt(exactly: Decimal(1000.1)), nil)
+        XCTAssertEqual(BigInt(exactly: Decimal(1000.9)), nil)
+        XCTAssertEqual(BigInt(exactly: Decimal(1001.5)), nil)
+        XCTAssertEqual(BigInt(exactly: Decimal(UInt.max) + 5), "18446744073709551620")
+        XCTAssertEqual(BigInt(exactly: (Decimal(UInt.max) + 5.5)), nil)
+        XCTAssertEqual(BigInt(truncating: Decimal(0)), 0)
+        XCTAssertEqual(BigInt(truncating: Decimal(Double.nan)), nil)
+        XCTAssertEqual(BigInt(truncating: Decimal(10)), 10)
+        XCTAssertEqual(BigInt(truncating: Decimal(1000)), 1000)
+        XCTAssertEqual(BigInt(truncating: Decimal(1000.1)), 1000)
+        XCTAssertEqual(BigInt(truncating: Decimal(1000.9)), 1000)
+        XCTAssertEqual(BigInt(truncating: Decimal(1001.5)), 1001)
+        XCTAssertEqual(BigInt(truncating: Decimal(UInt.max) + 5), "18446744073709551620")
+        XCTAssertEqual(BigInt(truncating: (Decimal(UInt.max) + 5.5)), "18446744073709551620")
+
+        XCTAssertEqual(BigInt(exactly: -Decimal(10)), -10)
+        XCTAssertEqual(BigInt(exactly: -Decimal(1000)), -1000)
+        XCTAssertEqual(BigInt(exactly: -Decimal(1000.1)), nil)
+        XCTAssertEqual(BigInt(exactly: -Decimal(1000.9)), nil)
+        XCTAssertEqual(BigInt(exactly: -Decimal(1001.5)), nil)
+        XCTAssertEqual(BigInt(exactly: -(Decimal(UInt.max) + 5)), "-18446744073709551620")
+        XCTAssertEqual(BigInt(exactly: -(Decimal(UInt.max) + 5.5)), nil)
+        XCTAssertEqual(BigInt(truncating: -Decimal(10)), -10)
+        XCTAssertEqual(BigInt(truncating: -Decimal(1000)), -1000)
+        XCTAssertEqual(BigInt(truncating: -Decimal(1000.1)), -1000)
+        XCTAssertEqual(BigInt(truncating: -Decimal(1000.9)), -1000)
+        XCTAssertEqual(BigInt(truncating: -Decimal(1001.5)), -1001)
+        XCTAssertEqual(BigInt(truncating: -(Decimal(UInt.max) + 5)), "-18446744073709551620")
+        XCTAssertEqual(BigInt(truncating: -(Decimal(UInt.max) + 5.5)), "-18446744073709551620")
+    }
+
     func testInit_Buffer() {
         func test(_ b: BigInt, _ d: Array<UInt8>, file: StaticString = #file, line: UInt = #line) {
             d.withUnsafeBytes { buffer in

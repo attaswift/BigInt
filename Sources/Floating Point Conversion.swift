@@ -6,6 +6,10 @@
 //  Copyright © 2016-2017 Károly Lőrentey.
 //
 
+#if canImport(Foundation)
+import Foundation
+#endif
+
 extension BigUInt {
     public init?<T: BinaryFloatingPoint>(exactly source: T) {
         guard source.isFinite else { return nil }
@@ -22,23 +26,69 @@ extension BigUInt {
     public init<T: BinaryFloatingPoint>(_ source: T) {
         self.init(exactly: source.rounded(.towardZero))!
     }
+
+    #if canImport(Foundation)
+    public init?(exactly source: Decimal) {
+        guard source.isFinite else { return nil }
+        guard !source.isZero else { self = 0; return }
+        guard source.sign == .plus else { return nil }
+        assert(source.floatingPointClass == .positiveNormal)
+        guard source.exponent >= 0 else { return nil }
+        let intMaxD = Decimal(UInt.max)
+        let intMaxB = BigUInt(UInt.max)
+        var start = BigUInt()
+        var value = source
+        while value >= intMaxD {
+            start += intMaxB
+            value -= intMaxD
+        }
+        start += BigUInt((value as NSNumber).uintValue)
+        self = start
+    }
+
+    public init?(truncating source: Decimal) {
+        guard source.isFinite else { return nil }
+        guard !source.isZero else { self = 0; return }
+        guard source.sign == .plus else { return nil }
+        assert(source.floatingPointClass == .positiveNormal)
+        let intMaxD = Decimal(UInt.max)
+        let intMaxB = BigUInt(UInt.max)
+        var start = BigUInt()
+        var value = source
+        while value >= intMaxD {
+            start += intMaxB
+            value -= intMaxD
+        }
+        start += BigUInt((value as NSNumber).uintValue)
+        self = start
+    }
+    #endif
 }
 
 extension BigInt {
     public init?<T: BinaryFloatingPoint>(exactly source: T) {
-        switch source.sign{
-        case .plus:
-            guard let magnitude = BigUInt(exactly: source) else { return nil }
-            self = BigInt(sign: .plus, magnitude: magnitude)
-        case .minus:
-            guard let magnitude = BigUInt(exactly: -source) else { return nil }
-            self = BigInt(sign: .minus, magnitude: magnitude)
-        }
+        guard let magnitude = BigUInt(exactly: source.magnitude) else { return nil }
+        let sign = BigInt.Sign(source.sign)
+        self.init(sign: sign, magnitude: magnitude)
     }
 
     public init<T: BinaryFloatingPoint>(_ source: T) {
         self.init(exactly: source.rounded(.towardZero))!
     }
+
+    #if canImport(Foundation)
+    public init?(exactly source: Decimal) {
+        guard let magnitude = BigUInt(exactly: source.magnitude) else { return nil }
+        let sign = BigInt.Sign(source.sign)
+        self.init(sign: sign, magnitude: magnitude)
+    }
+
+    public init?(truncating source: Decimal) {
+        guard let magnitude = BigUInt(truncating: source.magnitude) else { return nil }
+        let sign = BigInt.Sign(source.sign)
+        self.init(sign: sign, magnitude: magnitude)
+    }
+    #endif
 }
 
 extension BinaryFloatingPoint where RawExponent: FixedWidthInteger, RawSignificand: FixedWidthInteger {
@@ -69,5 +119,16 @@ extension BinaryFloatingPoint where RawExponent: FixedWidthInteger, RawSignifica
 
     public init(_ value: BigUInt) {
         self.init(BigInt(sign: .plus, magnitude: value))
+    }
+}
+
+extension BigInt.Sign {
+    public init(_ sign: FloatingPointSign) {
+        switch sign {
+        case .plus:
+            self = .plus
+        case .minus:
+            self = .minus
+        }
     }
 }
