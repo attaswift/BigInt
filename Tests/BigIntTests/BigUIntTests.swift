@@ -167,6 +167,8 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(BigUInt(exactly: Decimal(1001.5)), nil)
         XCTAssertEqual(BigUInt(exactly: Decimal(UInt.max) + 5), "18446744073709551620")
         XCTAssertEqual(BigUInt(exactly: (Decimal(UInt.max) + 5.5)), nil)
+        XCTAssertEqual(BigUInt(exactly: Decimal.greatestFiniteMagnitude),
+                       "3402823669209384634633746074317682114550000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
         XCTAssertEqual(BigUInt(truncating: Decimal(0)), 0)
         XCTAssertEqual(BigUInt(truncating: Decimal(Double.nan)), nil)
         XCTAssertEqual(BigUInt(truncating: Decimal(10)), 10)
@@ -184,6 +186,7 @@ class BigUIntTests: XCTestCase {
         XCTAssertEqual(BigUInt(exactly: -Decimal(1001.5)), nil)
         XCTAssertEqual(BigUInt(exactly: -Decimal(UInt.max) + 5), nil)
         XCTAssertEqual(BigUInt(exactly: -(Decimal(UInt.max) + 5.5)), nil)
+        XCTAssertEqual(BigUInt(exactly: Decimal.leastFiniteMagnitude), nil)
         XCTAssertEqual(BigUInt(truncating: -Decimal(10)), nil)
         XCTAssertEqual(BigUInt(truncating: -Decimal(1000)), nil)
         XCTAssertEqual(BigUInt(truncating: -Decimal(1000.1)), nil)
@@ -1513,5 +1516,4 @@ class BigUIntTests: XCTestCase {
         let limit = BigUInt(UInt64.max) * BigUInt(UInt64.max) * BigUInt(UInt64.max)
         check { BigUInt.randomInteger(lessThan: limit, using: &$0) }
     }
-    
 }
