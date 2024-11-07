@@ -29,38 +29,30 @@ extension BigUInt {
 
     #if canImport(Foundation)
     public init?(exactly source: Decimal) {
-        guard source.isFinite else { return nil }
-        guard !source.isZero else { self = 0; return }
-        guard source.sign == .plus else { return nil }
-        assert(source.floatingPointClass == .positiveNormal)
         guard source.exponent >= 0 else { return nil }
-        let intMaxD = Decimal(UInt.max)
-        let intMaxB = BigUInt(UInt.max)
-        var start = BigUInt()
-        var value = source
-        while value >= intMaxD {
-            start += intMaxB
-            value -= intMaxD
-        }
-        start += BigUInt((value as NSNumber).uintValue)
-        self = start
+        self.init(commonDecimal: source)
     }
 
     public init?(truncating source: Decimal) {
-        guard source.isFinite else { return nil }
-        guard !source.isZero else { self = 0; return }
-        guard source.sign == .plus else { return nil }
-        assert(source.floatingPointClass == .positiveNormal)
-        let intMaxD = Decimal(UInt.max)
-        let intMaxB = BigUInt(UInt.max)
-        var start = BigUInt()
-        var value = source
-        while value >= intMaxD {
-            start += intMaxB
-            value -= intMaxD
+        self.init(commonDecimal: source)
+    }
+
+    private init?(commonDecimal source: Decimal) {
+        var integer = source
+        if source.exponent < 0 {
+            var source = source
+            NSDecimalRound(&integer, &source, 0, .down)
         }
-        start += BigUInt((value as NSNumber).uintValue)
-        self = start
+
+        guard !integer.isZero else { self = 0; return }
+        guard integer.isFinite else { return nil }
+        guard integer.sign == .plus else { return nil }
+        assert(integer.floatingPointClass == .positiveNormal)
+
+        let significand = BigUInt("\(integer.significand)")!
+        let exponent = BigUInt(10).power(integer.exponent)
+
+        self = significand * exponent
     }
     #endif
 }
