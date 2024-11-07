@@ -102,6 +102,8 @@ class BigIntTests: XCTestCase {
         XCTAssertEqual(BigInt(exactly: Decimal(1001.5)), nil)
         XCTAssertEqual(BigInt(exactly: Decimal(UInt.max) + 5), "18446744073709551620")
         XCTAssertEqual(BigInt(exactly: (Decimal(UInt.max) + 5.5)), nil)
+        XCTAssertEqual(BigInt(exactly: Decimal.greatestFiniteMagnitude),
+                       "3402823669209384634633746074317682114550000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
         XCTAssertEqual(BigInt(truncating: Decimal(0)), 0)
         XCTAssertEqual(BigInt(truncating: Decimal(Double.nan)), nil)
         XCTAssertEqual(BigInt(truncating: Decimal(10)), 10)
@@ -119,6 +121,8 @@ class BigIntTests: XCTestCase {
         XCTAssertEqual(BigInt(exactly: -Decimal(1001.5)), nil)
         XCTAssertEqual(BigInt(exactly: -(Decimal(UInt.max) + 5)), "-18446744073709551620")
         XCTAssertEqual(BigInt(exactly: -(Decimal(UInt.max) + 5.5)), nil)
+        XCTAssertEqual(BigInt(exactly: Decimal.leastFiniteMagnitude),
+                       "-3402823669209384634633746074317682114550000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
         XCTAssertEqual(BigInt(truncating: -Decimal(10)), -10)
         XCTAssertEqual(BigInt(truncating: -Decimal(1000)), -1000)
         XCTAssertEqual(BigInt(truncating: -Decimal(1000.1)), -1000)
