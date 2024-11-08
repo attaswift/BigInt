@@ -49,8 +49,11 @@ extension BigUInt {
         guard integer.sign == .plus else { return nil }
         assert(integer.floatingPointClass == .positiveNormal)
 
-        // keeping around in case the `Decimal._mantissa` property gets deprecated in the future.
-//        let significand = BigUInt("\(integer.significand)")!
+        #if os(Linux)
+        // `Decimal._mantissa` has an internal access level on linux, and it might get
+        // deprecated in the future, so keeping the string implementation around for now.
+        let significand = BigUInt("\(integer.significand)")!
+        #else
         let significand = {
             var start = BigUInt(0)
             for (place, value) in integer.significand.mantissaParts.enumerated() {
@@ -59,6 +62,7 @@ extension BigUInt {
             }
             return start
         }()
+        #endif
         let exponent = BigUInt(10).power(integer.exponent)
 
         self = significand * exponent
@@ -134,7 +138,7 @@ extension BigInt.Sign {
     }
 }
 
-#if canImport(Foundation)
+#if canImport(Foundation) && !os(Linux)
 private extension Decimal {
     var mantissaParts: [UInt16] {
         [
