@@ -185,6 +185,18 @@ class BigIntTests: XCTestCase {
         test(BigInt(1) << 1024, Float.infinity)
         test(BigInt(words: convertWords([0, 0xFFFFFF0000000000, 0])),
              Float.greatestFiniteMagnitude)
+
+        XCTAssertEqual(Decimal(BigInt(0)), 0)
+        XCTAssertEqual(Decimal(BigInt(20)), 20)
+        XCTAssertEqual(Decimal(BigInt(123456789)), 123456789)
+        XCTAssertEqual(Decimal(BigInt(exactly: Decimal.greatestFiniteMagnitude)!), .greatestFiniteMagnitude)
+        XCTAssertEqual(Decimal(BigInt(exactly: Decimal.greatestFiniteMagnitude)! * 2), .greatestFiniteMagnitude)
+        XCTAssertEqual(Decimal(-BigInt(0)), 0)
+        XCTAssertEqual(Decimal(-BigInt(20)), -20)
+        XCTAssertEqual(Decimal(-BigInt(123456789)), -123456789)
+        XCTAssertEqual(Decimal(-BigInt(exactly: Decimal.greatestFiniteMagnitude)!), -.greatestFiniteMagnitude)
+        XCTAssertEqual(Decimal(-BigInt(exactly: Decimal.greatestFiniteMagnitude)! * 2), -.greatestFiniteMagnitude)
+
     }
 
     func testTwosComplement() {

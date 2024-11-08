@@ -264,6 +264,12 @@ class BigUIntTests: XCTestCase {
         test(BigUInt(0x8000027FFFFFFFFF as UInt64), 0x800002p40 as Float)
         test(BigUInt(0x8000028000000000 as UInt64), 0x800002p40 as Float)
         test(BigUInt(0x800002FFFFFFFFFF as UInt64), 0x800002p40 as Float)
+
+        XCTAssertEqual(Decimal(BigUInt(0)), 0)
+        XCTAssertEqual(Decimal(BigUInt(20)), 20)
+        XCTAssertEqual(Decimal(BigUInt(123456789)), 123456789)
+        XCTAssertEqual(Decimal(BigUInt(exactly: Decimal.greatestFiniteMagnitude)!), .greatestFiniteMagnitude)
+        XCTAssertEqual(Decimal(BigUInt(exactly: Decimal.greatestFiniteMagnitude)! * 2), .greatestFiniteMagnitude)
     }
 
     func testInit_Misc() {

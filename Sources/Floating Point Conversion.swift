@@ -138,6 +138,31 @@ extension BigInt.Sign {
     }
 }
 
+#if canImport(Foundation)
+public extension Decimal {
+    init(_ value: BigUInt) {
+        guard
+            value < BigUInt(exactly: Decimal.greatestFiniteMagnitude)!
+        else {
+            self = .greatestFiniteMagnitude
+            return
+        }
+        guard !value.isZero else { self = 0; return }
+
+        self.init(string: "\(value)")!
+    }
+
+    init(_ value: BigInt) {
+        if value >= 0 {
+            self.init(BigUInt(value))
+        } else {
+            self.init(value.magnitude)
+            self *= -1
+        }
+    }
+}
+#endif
+
 #if canImport(Foundation) && !os(Linux)
 private extension Decimal {
     var mantissaParts: [UInt16] {
