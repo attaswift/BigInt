@@ -53,7 +53,6 @@ extension BigUInt {
         let byteCount = (self.bitWidth + 7) / 8
 
         let buffer = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: byteCount)
-        buffer.initialize(repeating: 0)
 
         guard byteCount > 0 else { return UnsafeRawBufferPointer(start: buffer.baseAddress, count: 0) }
 
@@ -69,6 +68,8 @@ extension BigUInt {
                 i -= 1
             }
         }
+        let zeroOut = UnsafeMutableBufferPointer<UInt8>(start: buffer.baseAddress, count: i)
+        zeroOut.initialize(repeating: 0)
         return UnsafeRawBufferPointer(start: buffer.baseAddress, count: byteCount)
     }
 
