@@ -264,6 +264,12 @@ class BigUIntTests: XCTestCase {
         test(BigUInt(0x8000027FFFFFFFFF as UInt64), 0x800002p40 as Float)
         test(BigUInt(0x8000028000000000 as UInt64), 0x800002p40 as Float)
         test(BigUInt(0x800002FFFFFFFFFF as UInt64), 0x800002p40 as Float)
+
+        XCTAssertEqual(Decimal(BigUInt(0)), 0)
+        XCTAssertEqual(Decimal(BigUInt(20)), 20)
+        XCTAssertEqual(Decimal(BigUInt(123456789)), 123456789)
+        XCTAssertEqual(Decimal(BigUInt(exactly: Decimal.greatestFiniteMagnitude)!), .greatestFiniteMagnitude)
+        XCTAssertEqual(Decimal(BigUInt(exactly: Decimal.greatestFiniteMagnitude)! * 2), .greatestFiniteMagnitude)
     }
 
     func testInit_Misc() {
@@ -688,6 +694,7 @@ class BigUIntTests: XCTestCase {
         test(BigUInt(), [])
         test(BigUInt(1), [0x01])
         test(BigUInt(2), [0x02])
+        test(BigUInt(0x010203), [0x1, 0x2, 0x3])
         test(BigUInt(0x0102030405060708), [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08])
         test(BigUInt(0x01) << 64 + BigUInt(0x0203040506070809), [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09])
     }
