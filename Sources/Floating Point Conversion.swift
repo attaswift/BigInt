@@ -49,7 +49,7 @@ extension BigUInt {
         guard integer.sign == .plus else { return nil }
         assert(integer.floatingPointClass == .positiveNormal)
 
-        #if os(Linux)
+        #if os(Linux) || os(Windows)
         // `Decimal._mantissa` has an internal access level on linux, and it might get
         // deprecated in the future, so keeping the string implementation around for now.
         let significand = BigUInt("\(integer.significand)")!
@@ -163,7 +163,7 @@ public extension Decimal {
 }
 #endif
 
-#if canImport(Foundation) && !os(Linux)
+#if canImport(Foundation) && !(os(Linux) || os(Windows))
 private extension Decimal {
     var mantissaParts: [UInt16] {
         [
