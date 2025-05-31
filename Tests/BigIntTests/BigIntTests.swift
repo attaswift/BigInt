@@ -663,6 +663,44 @@ class BigIntTests: XCTestCase {
             XCTAssertEqual(context.debugDescription, "Invalid big integer sign")
         }
     }
+
+    func testDecodableString() {
+        func test(_ a: BigInt, _ v: String? = nil, file: StaticString = #file, line: UInt = #line) {
+            do {
+                let json = try JSONEncoder().encode(v ?? a.description)
+                let b = try JSONDecoder().decode(BigInt.self, from: json)
+                XCTAssertEqual(a, b, file: file, line: line)
+            } catch let error {
+                XCTFail("Error thrown: \(error.localizedDescription)", file: file, line: line)
+            }
+        }
+
+        test(1, "1")
+        test(1, "+1")
+        test(-1, "-1")
+        test(0, "+0")
+        test(0, "-0")
+        test(15, "0xf")
+        test(15, "0Xf")
+        test(15, "0x0f")
+        test(BigInt(1) << 64)
+        test(-BigInt(1) << 64)
+    } 
+
+    func testDecodableStringError() {
+        func test(_ v: String, _ m: String) {
+            XCTAssertThrowsError(try JSONDecoder().decode(BigInt.self, from: try! JSONEncoder().encode(v))) { error in
+                guard let error = error as? DecodingError else { XCTFail("Expected a decoding error"); return }
+                guard case .dataCorrupted(let context) = error else { XCTFail("Expected a dataCorrupted error"); return }
+                XCTAssertEqual(m, context.debugDescription)
+            }
+        }
+
+        test("124q", "Invalid decimal BigInt string")
+        test("-124q", "Invalid decimal BigInt string")
+        test("0xXYZ", "Invalid hexadecimal BigInt string")
+    }
+
     
     func testConversionToData() {
         func test(_ b: BigInt, _ d: Array<UInt8>, file: StaticString = #file, line: UInt = #line) {

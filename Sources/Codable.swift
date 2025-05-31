@@ -102,28 +102,42 @@ extension Array where Element: FixedWidthInteger {
 
 extension BigInt: Codable {
     public init(from decoder: Decoder) throws {
-        var container = try decoder.unkeyedContainer()
+        if let container = try? decoder.singleValueContainer(), let stringValue = try? container.decode(String.self) {
+            if stringValue.hasPrefix("0x") || stringValue.hasPrefix("0X") {
+                guard let bigUInt = BigUInt(stringValue.dropFirst(2), radix: 16) else {
+                    throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid hexadecimal BigInt string")
+                }
+                self.init(sign: .plus, magnitude: bigUInt)
+            } else {
+                guard let bigInt = BigInt(stringValue) else {
+                    throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid decimal BigInt string")
+                }
+                self = bigInt
+            }
+        } else {
+            var container = try decoder.unkeyedContainer()
 
-        // Decode sign
-        let sign: BigInt.Sign
-        switch try container.decode(String.self) {
-        case "+":
-            sign = .plus
-        case "-":
-            sign = .minus
-        default:
-            throw DecodingError.dataCorrupted(.init(codingPath: container.codingPath,
-                                                    debugDescription: "Invalid big integer sign"))
+                // Decode sign
+                let sign: BigInt.Sign
+                switch try container.decode(String.self) {
+                    case "+":
+                        sign = .plus
+                    case "-":
+                            sign = .minus
+                    default:
+                                throw DecodingError.dataCorrupted(.init(codingPath: container.codingPath,
+                                            debugDescription: "Invalid big integer sign"))
+                }
+
+            // Decode magnitude
+            let words = try [UInt](count: container.count?.advanced(by: -1)) { () -> UInt64? in
+                guard !container.isAtEnd else { return nil }
+                return try container.decode(UInt64.self)
+            }
+            let magnitude = BigUInt(words: words)
+
+                self.init(sign: sign, magnitude: magnitude)
         }
-
-        // Decode magnitude
-        let words = try [UInt](count: container.count?.advanced(by: -1)) { () -> UInt64? in
-            guard !container.isAtEnd else { return nil }
-            return try container.decode(UInt64.self)
-        }
-        let magnitude = BigUInt(words: words)
-
-        self.init(sign: sign, magnitude: magnitude)
     }
 
     public func encode(to encoder: Encoder) throws {
