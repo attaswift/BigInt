@@ -29,6 +29,14 @@ jobs:
     - name: Test
       run: swift test --enable-test-discovery --parallel
       
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Test
+        uses: skiptools/swift-android-action@v2
+
   # codecov:
   #   runs-on: macos-latest
   #   steps:
