@@ -34,6 +34,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Setup Environment
+        run: echo "ANDROID_NDK_HOME=${HOME}/Library/Android/sdk/ndk/27.2.12479018" >> $GITHUB_ENV
       - name: Test
         uses: skiptools/swift-android-action@v2
 
