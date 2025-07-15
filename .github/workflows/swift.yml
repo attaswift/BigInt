@@ -25,9 +25,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build
-      run: swift build --build-tests --enable-test-discovery
+      run: swift build --build-tests --enable-test-discovery -Xswiftc -strict-concurrency=complete
     - name: Test
-      run: swift test --enable-test-discovery --parallel
+      run: swift test --enable-test-discovery --parallel -Xswiftc -strict-concurrency=complete
       
   android:
     runs-on: macos-13
