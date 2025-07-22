@@ -1,5 +1,5 @@
 {
-    "name": "Hylo LLVM",
+    "name": "BigInt Dev",
     "build": {
         "dockerfile": "Dockerfile"
     },
