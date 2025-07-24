@@ -66,7 +66,7 @@ internal enum WordsTestCases {
   internal typealias HeapTestCase = (words: [Word], expected: [UInt])
 
   // words: 1000 0000
-  internal static var heapPositive: [HeapTestCase] = {
+  internal static let heapPositive: [HeapTestCase] = {
     var result = [HeapTestCase]()
 
     for zeroWordCount in [1, 2] {
@@ -92,7 +92,7 @@ internal enum WordsTestCases {
   // words:      1000 0000
   // invert:     0111 1111
   // complement: 1000 0000
-  internal static var heapNegative_powerOf2: [HeapTestCase] = {
+  internal static let heapNegative_powerOf2: [HeapTestCase] = {
     var result = [HeapTestCase]()
 
     for zeroWordCount in [1, 2] {
@@ -121,7 +121,7 @@ internal enum WordsTestCases {
   // words:           1000 0001
   // invert:          0111 1110
   // complement: 1111 0111 1111
-  internal static var heapNegative_notPowerOf2: [HeapTestCase] = {
+  internal static let heapNegative_notPowerOf2: [HeapTestCase] = {
     var result = [HeapTestCase]()
 
     for zeroWordCount in [1, 2] {

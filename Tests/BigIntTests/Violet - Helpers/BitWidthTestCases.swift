@@ -62,7 +62,7 @@ internal enum BitWidthTestCases {
   // TLDR: bitWidth = power + 2
   internal static let positivePowersOf2Correction = 2
 
-  internal static var positivePowersOf2: [PowerTestCase] = {
+  internal static let positivePowersOf2: [PowerTestCase] = {
     var result = [PowerTestCase]()
 
     for (power, value) in allPositivePowersOf2(type: Int.self) {
@@ -86,7 +86,7 @@ internal enum BitWidthTestCases {
   // TLDR: bitWidth = power + 1
   internal static let negativePowersOf2Correction = 1
 
-  internal static var negativePowersOf2: [PowerTestCase] = {
+  internal static let negativePowersOf2: [PowerTestCase] = {
     var result = [PowerTestCase]()
 
     for (power, value) in allNegativePowersOf2(type: Int.self) {

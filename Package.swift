@@ -21,9 +21,13 @@ let package = Package(
     ],
     products: [
         .library(name: "BigInt", targets: ["BigInt"])
-    ], 
+    ],
     targets: [
-        .target(name: "BigInt", path: "Sources"),
-        .testTarget(name: "BigIntTests", dependencies: ["BigInt"], path: "Tests")
+        .target(
+            name: "BigInt", path: "Sources",
+            swiftSettings: [.enableExperimentalFeature("StrictConcurrency")]),
+        .testTarget(
+            name: "BigIntTests", dependencies: ["BigInt"], path: "Tests",
+            swiftSettings: [.enableExperimentalFeature("StrictConcurrency")]),
     ]
 )
