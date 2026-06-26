@@ -1,8 +1,6 @@
 {
     "name": "BigInt Dev",
-    "build": {
-        "dockerfile": "Dockerfile"
-    },
+    "image": "swift:6.3",
     "features": {
         "ghcr.io/devcontainers/features/common-utils:2": {
             "installZsh": "false",
