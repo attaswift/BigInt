@@ -7,43 +7,89 @@ on:
    
 jobs:
   macos:
-    runs-on: macos-latest
+    runs-on: ${{ matrix.macos }}
+    strategy:
+      matrix:
+        macos: [macos-15, macos-15-intel, macos-26, macos-26-intel]
+        swift: [6.3.2]
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
+    - name: Cache Swift Toolchain
+      uses: actions/cache@v6
+      with:
+        path: ~/.swiftly/toolchains
+        key: swiftly-macos-${{ matrix.swift }}-${{ runner.os }}
+    - name: Install Swift Toolchain
+      run: |
+        curl -O https://download.swift.org/swiftly/darwin/swiftly.pkg && \
+        installer -pkg swiftly.pkg -target CurrentUserHomeDirectory && \
+        ~/.swiftly/bin/swiftly init --quiet-shell-followup && \
+        . "${SWIFTLY_HOME_DIR:-$HOME/.swiftly}/env.sh" && \
+        hash -r
+        echo "SWIFTLY_HOME_DIR=${SWIFTLY_HOME_DIR}" >> "${GITHUB_ENV}"
+        echo "SWIFTLY_BIN_DIR=${SWIFTLY_BIN_DIR}" >> "${GITHUB_ENV}"
+        swiftly install ${{ matrix.swift }}
+        swiftly use ${{ matrix.swift }}
     - name: Build
-      run: swift build --build-tests
+      run: |
+        . "${SWIFTLY_HOME_DIR:-$HOME/.swiftly}/env.sh" && \
+        swift build --build-tests
     - name: Run tests
-      run: swift test --parallel
+      run: |
+        . "${SWIFTLY_HOME_DIR:-$HOME/.swiftly}/env.sh" && \
+        swift test --parallel
 
   linux:
     container:
-      image: swift:${{ matrix.linux }}
-    runs-on: ubuntu-latest
+      image: swift:${{ matrix.swift }}-${{ matrix.linux }}
+    runs-on: ${{ matrix.arch }} 
     strategy:
       matrix:
-        linux: [focal, jammy, noble]
+        linux: [jammy, noble]
+        swift: [6.3.2]
+        arch: [ubuntu-24.04-arm, ubuntu-24.04]
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
     - name: Build
       run: swift build --build-tests --enable-test-discovery -Xswiftc -strict-concurrency=complete
     - name: Test
       run: swift test --enable-test-discovery --parallel -Xswiftc -strict-concurrency=complete
-      
-  android:
-    runs-on: macos-13
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Environment
-        run: echo "ANDROID_NDK_HOME=${HOME}/Library/Android/sdk/ndk/27.2.12479018" >> $GITHUB_ENV
-      - name: Test
-        uses: skiptools/swift-android-action@v2
 
-  # codecov:
-  #   runs-on: macos-latest
-  #   steps:
-  #   - uses: actions/checkout@v4
-  #   - name: Test and generate code coverage report
-  #     run: swift test --enable-code-coverage
-  #   - name: Upload coverage to Codecov
-  #     uses: codecov/codecov-action@v4
+  wasm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Cache Swift Toolchain
+        uses: actions/cache@v6
+        with:
+          path: ~/.local/share/swiftly/toolchains
+          key: swiftly-wasm-6.3.2-${{ runner.os }}
+      - name: Install Swift Toolchain
+        run: |
+          curl -O https://download.swift.org/swiftly/linux/swiftly-$(uname -m).tar.gz && \
+          tar zxf swiftly-$(uname -m).tar.gz && \
+          ./swiftly init --quiet-shell-followup && \
+          . "${SWIFTLY_HOME_DIR:-$HOME/.local/share/swiftly}/env.sh" && \
+          hash -r
+          swiftly install 6.3.2
+          swiftly use 6.3.2
+          echo "SWIFTLY_HOME_DIR=${SWIFTLY_HOME_DIR}" >> "${GITHUB_ENV}"
+          echo "SWIFTLY_BIN_DIR=${SWIFTLY_BIN_DIR}" >> "${GITHUB_ENV}"
+      - name: Install WebAssembly Swift SDK
+        run: swift sdk install https://download.swift.org/swift-6.3.2-release/wasm-sdk/swift-6.3.2-RELEASE/swift-6.3.2-RELEASE_wasm.artifactbundle.tar.gz --checksum a61f0584c93283589f8b2f42db05c1f9a182b506c2957271402992655591dd7c
+      - name: Build for WebAssembly
+        run: swift build --swift-sdk swift-6.3.2-RELEASE_wasm
+
+  windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v7
+    - name: Install Swift
+      uses: compnerd/gha-setup-swift@main
+      with:
+        branch: swift-6.3.2-release
+        tag: 6.3.2-RELEASE
+    - name: Build
+      run: swift build --build-tests
+    - name: Run tests
+      run: swift test --parallel
