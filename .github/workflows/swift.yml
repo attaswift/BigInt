@@ -64,6 +64,8 @@ jobs:
         with:
           path: ~/.local/share/swiftly/toolchains
           key: swiftly-wasm-6.3.2-${{ runner.os }}
+      - name: Install system dependencies
+        run: sudo apt-get -y install libcurl4-openssl-dev
       - name: Install Swift Toolchain
         run: |
           curl -O https://download.swift.org/swiftly/linux/swiftly-$(uname -m).tar.gz && \
@@ -77,8 +79,6 @@ jobs:
           echo "SWIFTLY_BIN_DIR=${SWIFTLY_BIN_DIR}" >> "${GITHUB_ENV}"
       - name: Install WebAssembly Swift SDK
         run: swift sdk install https://download.swift.org/swift-6.3.2-release/wasm-sdk/swift-6.3.2-RELEASE/swift-6.3.2-RELEASE_wasm.artifactbundle.tar.gz --checksum a61f0584c93283589f8b2f42db05c1f9a182b506c2957271402992655591dd7c
-      - name: Install system dependencies
-        run: sudo apt-get -y install libcurl4-openssl-dev
       - name: Build for WebAssembly
         run: swift build --swift-sdk swift-6.3.2-RELEASE_wasm
 

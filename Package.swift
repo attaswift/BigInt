@@ -1,4 +1,4 @@
-// swift-tools-version:6.3
+// swift-tools-version:6.0
 //
 //  Package.swift
 //  BigInt
@@ -24,10 +24,8 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "BigInt", path: "Sources",
-            swiftSettings: [.enableExperimentalFeature("StrictConcurrency")]),
+            name: "BigInt", path: "Sources"),
         .testTarget(
-            name: "BigIntTests", dependencies: ["BigInt"], path: "Tests",
-            swiftSettings: [.enableExperimentalFeature("StrictConcurrency")]),
+            name: "BigIntTests", dependencies: ["BigInt"], path: "Tests"),
     ]
 )
