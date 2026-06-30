@@ -89,7 +89,7 @@ struct ApplyA_ApplyB_Equals_ApplyAB {
       let a_b = value + testCase.a + testCase.b
       let ab = value + testCase.c
 
-      #expect(a_b == ab, Comment(rawValue: "\(value) + \(testCase.a) + \(testCase.b) vs \(value) + \(testCase.c)"))
+      #expect(a_b == ab, "\(value) + \(testCase.a) + \(testCase.b) vs \(value) + \( testCase.c)")
 
       var inoutA_B = value
       inoutA_B += testCase.a
@@ -99,7 +99,7 @@ struct ApplyA_ApplyB_Equals_ApplyAB {
       inoutAB += testCase.c
       assert(inoutAB == ab)
 
-      #expect(inoutA_B == inoutAB, Comment(rawValue: "inout: \(value) + \(testCase.a) + \(testCase.b) vs \(value) + \(testCase.c)"))
+      #expect(inoutA_B == inoutAB, "inout: \(value) + \(testCase.a) + \(testCase.b) vs \(value) + \( testCase.c)")
     }
   }
 
@@ -122,7 +122,7 @@ struct ApplyA_ApplyB_Equals_ApplyAB {
       let a_b = value - testCase.a - testCase.b
       let ab = value - testCase.c
 
-      #expect(a_b == ab, Comment(rawValue: "\(value) - \(testCase.a) - \(testCase.b) vs \(value) - \(testCase.c)"))
+      #expect(a_b == ab, "\(value) - \(testCase.a) - \(testCase.b) vs \(value) - \( testCase.c)")
 
       var inoutA_B = value
       inoutA_B -= testCase.a
@@ -132,7 +132,7 @@ struct ApplyA_ApplyB_Equals_ApplyAB {
       inoutAB -= testCase.c
       assert(inoutAB == ab)
 
-      #expect(inoutA_B == inoutAB, Comment(rawValue: "inout: \(value) - \(testCase.a) - \(testCase.b) vs \(value) - \(testCase.c)"))
+      #expect(inoutA_B == inoutAB, "inout: \(value) - \(testCase.a) - \(testCase.b) vs \(value) - \( testCase.c)")
     }
   }
 
@@ -154,7 +154,7 @@ struct ApplyA_ApplyB_Equals_ApplyAB {
       let a_b = value * testCase.a * testCase.b
       let ab = value * testCase.c
 
-      #expect(a_b == ab, Comment(rawValue: "\(value) * \(testCase.a) * \(testCase.b) vs \(value) * \(testCase.c)"))
+      #expect(a_b == ab, "\(value) * \(testCase.a) * \(testCase.b) vs \(value) * \( testCase.c)")
 
       var inoutA_B = value
       inoutA_B *= testCase.a
@@ -164,7 +164,7 @@ struct ApplyA_ApplyB_Equals_ApplyAB {
       inoutAB *= testCase.c
       assert(inoutAB == ab)
 
-      #expect(inoutA_B == inoutAB, Comment(rawValue: "inout: \(value) * \(testCase.a) * \(testCase.b) vs \(value) * \(testCase.c)"))
+      #expect(inoutA_B == inoutAB, "inout: \(value) * \(testCase.a) * \(testCase.b) vs \(value) * \( testCase.c)")
     }
   }
 
@@ -191,7 +191,7 @@ struct ApplyA_ApplyB_Equals_ApplyAB {
       let a_b = value / testCase.a / testCase.b
       let ab = value / testCase.c
 
-      #expect(a_b == ab, Comment(rawValue: "\(value) / \(testCase.a) / \(testCase.b) vs \(value) / \(testCase.c)"))
+      #expect(a_b == ab, "\(value) / \(testCase.a) / \(testCase.b) vs \(value) / \( testCase.c)")
 
       var inoutA_B = value
       inoutA_B /= testCase.a
@@ -201,7 +201,7 @@ struct ApplyA_ApplyB_Equals_ApplyAB {
       inoutAB /= testCase.c
       assert(inoutAB == ab)
 
-      #expect(inoutA_B == inoutAB, Comment(rawValue: "inout: \(value) / \(testCase.a) / \(testCase.b) vs \(value) / \(testCase.c)"))
+      #expect(inoutA_B == inoutAB, "inout: \(value) / \(testCase.a) / \(testCase.b) vs \(value) / \( testCase.c)")
     }
   }
 
@@ -238,7 +238,7 @@ struct ApplyA_ApplyB_Equals_ApplyAB {
       let a_b = (value << testCase.a) << testCase.b
       let ab = value << testCase.c
 
-      #expect(a_b == ab, Comment(rawValue: "(\(value) << \(testCase.a)) << \(testCase.b) vs \(value) << \(testCase.c)"))
+      #expect(a_b == ab, "(\(value) << \(testCase.a)) << \(testCase.b) vs \(value) << \( testCase.c)")
 
       var inoutA_B = value
       inoutA_B <<= testCase.a
@@ -248,7 +248,7 @@ struct ApplyA_ApplyB_Equals_ApplyAB {
       inoutAB <<= testCase.c
       assert(inoutAB == ab)
 
-      #expect(inoutA_B == inoutAB, Comment(rawValue: "inout: (\(value) << \(testCase.a)) << \(testCase.b) vs \(value) << \(testCase.c)"))
+      #expect(inoutA_B == inoutAB, "inout: (\(value) << \(testCase.a)) << \(testCase.b) vs \(value) << \( testCase.c)")
     }
   }
 
@@ -287,7 +287,7 @@ struct ApplyA_ApplyB_Equals_ApplyAB {
       let a_b = (value >> testCase.a) >> testCase.b
       let ab = value >> testCase.c
 
-      #expect(a_b == ab, Comment(rawValue: "(\(value) >> \(testCase.a)) >> \(testCase.b) vs \(value) >> \(testCase.c)"))
+      #expect(a_b == ab, "(\(value) >> \(testCase.a)) >> \(testCase.b) vs \(value) >> \( testCase.c)")
 
       var inoutA_B = value
       inoutA_B >>= testCase.a
@@ -297,7 +297,7 @@ struct ApplyA_ApplyB_Equals_ApplyAB {
       inoutAB >>= testCase.c
       assert(inoutAB == ab)
 
-      #expect(inoutA_B == inoutAB, Comment(rawValue: "inout: (\(value) >> \(testCase.a)) >> \(testCase.b) vs \(value) >> \(testCase.c)"))
+      #expect(inoutA_B == inoutAB, "inout: (\(value) >> \(testCase.a)) >> \(testCase.b) vs \(value) >> \( testCase.c)")
     }
   }
 

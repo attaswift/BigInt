@@ -26,16 +26,16 @@ extension BigUInt.Kind: Equatable {
 
     func check(_ value: BigUInt, _ kind: BigUInt.Kind?, _ words: [Word]) {
         if let kind = kind {
-            #expect(value.kind == kind, Comment(rawValue: "Mismatching kind: \(value.kind) vs. \(kind)"))
+            #expect(value.kind == kind, "Mismatching kind: \(value.kind) vs. \(kind)")
         }
-        #expect(Array(value.words) == words, Comment(rawValue: "Mismatching words: \(value.words) vs. \(words)"))
-        #expect(value.isZero == words.isEmpty, Comment(rawValue: "Mismatching isZero: \(value.isZero) vs. \(words.isEmpty)"))
-        #expect(value.count == words.count, Comment(rawValue: "Mismatching count: \(value.count) vs. \(words.count)"))
+        #expect(Array(value.words) == words, "Mismatching words: \(value.words) vs. \(words)")
+        #expect(value.isZero == words.isEmpty, "Mismatching isZero: \(value.isZero) vs. \(words.isEmpty)")
+        #expect(value.count == words.count, "Mismatching count: \(value.count) vs. \(words.count)")
         for i in 0 ..< words.count {
-            #expect(value[i] == words[i], Comment(rawValue: "Mismatching word at index \(i): \(value[i]) vs. \(words[i])"))
+            #expect(value[i] == words[i], "Mismatching word at index \(i): \(value[i]) vs. \(words[i])")
         }
         for i in words.count ..< words.count + 10 {
-            #expect(value[i] == 0, Comment(rawValue: "Expected 0 word at index \(i), got \(value[i])"))
+            #expect(value[i] == 0, "Expected 0 word at index \(i), got \(value[i])")
         }
     }
 

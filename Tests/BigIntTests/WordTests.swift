@@ -79,8 +79,7 @@ struct WordTests {
         func test<Word: FixedWidthInteger, Unit: FixedWidthInteger>
             (direction: Direction = .both,
              words: [Word], of wtype: Word.Type = Word.self,
-             units: [Unit], of utype: Unit.Type = Unit.self,
-             file: StaticString = #file, line: UInt = #line) {
+             units: [Unit], of utype: Unit.Type = Unit.self) {
             switch direction {
             case .wordsToUnits, .both:
                 let actualUnits = [Unit](Units(of: Unit.self, words))

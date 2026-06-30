@@ -23,13 +23,13 @@ struct BigIntPropertyTests {
 
 //  func test_words_zero() {
 //    let value = BigInt(0)
-//    XCTAssertWords(value, WordsTestCases.zeroWords)
+//    expectWords(value, WordsTestCases.zeroWords)
 //  }
 //
 //  func test_words_int() {
 //    for (value, expected) in WordsTestCases.int {
 //      let bigInt = BigInt(value)
-//      XCTAssertWords(bigInt, expected)
+//      expectWords(bigInt, expected)
 //    }
 //  }
 
@@ -38,7 +38,7 @@ struct BigIntPropertyTests {
     for (words, expected) in WordsTestCases.heapPositive {
       let heap = BigIntPrototype(isNegative: false, words: words)
       let bigInt = heap.create()
-      XCTAssertWords(bigInt, expected)
+      expectWords(bigInt, expected)
     }
   }
 
@@ -46,7 +46,7 @@ struct BigIntPropertyTests {
 //    for (words, expected) in WordsTestCases.heapNegative_powerOf2 {
 //      let heap = BigIntPrototype(isNegative: true, words: words)
 //      let bigInt = heap.create()
-//      XCTAssertWords(bigInt, expected)
+//      expectWords(bigInt, expected)
 //    }
 //  }
 
@@ -55,7 +55,7 @@ struct BigIntPropertyTests {
     for (words, expected) in WordsTestCases.heapNegative_notPowerOf2 {
       let heap = BigIntPrototype(isNegative: true, words: words)
       let bigInt = heap.create()
-      XCTAssertWords(bigInt, expected)
+      expectWords(bigInt, expected)
     }
   }
 

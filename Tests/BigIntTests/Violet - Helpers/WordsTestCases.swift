@@ -5,18 +5,18 @@ import Testing
 
 // MARK: - Asserts
 
-internal func XCTAssertWords(_ value: BigInt,
-                             _ expected: [UInt]) {
-  XCTAssertWords(
+internal func expectWords(_ value: BigInt,
+                          _ expected: [UInt]) {
+  expectWords(
     value: String(value, radix: 10, uppercase: false),
     words: Array(value.words),
     expected: expected
   )
 }
 
-private func XCTAssertWords(value: String,
-                            words: [UInt],
-                            expected: [UInt]) {
+private func expectWords(value: String,
+                         words: [UInt],
+                         expected: [UInt]) {
   #expect(words.count == expected.count, "Count for \(value)")
   guard words.count == expected.count else {
     return

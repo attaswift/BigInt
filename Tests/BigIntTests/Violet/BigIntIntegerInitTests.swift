@@ -33,9 +33,7 @@ struct BigIntIntegerInitTests {
   }
 
   private func exactly_inRange<T: FixedWidthInteger>(
-    type: T.Type,
-    file: StaticString = #file,
-    line: UInt = #line
+    type: T.Type
   ) {
     var values: [T] = [0, 42, T.max, T.max - 1, T.min, T.min + 1]
     values.append(contentsOf: allPositivePowersOf2(type: T.self).map { $0.value })
@@ -86,9 +84,7 @@ struct BigIntIntegerInitTests {
   }
 
   private func exactly_biggerThanMax<T: FixedWidthInteger>(
-    type: T.Type,
-    file: StaticString = #file,
-    line: UInt = #line
+    type: T.Type
   ) {
     let max = type.max
 
@@ -120,9 +116,7 @@ struct BigIntIntegerInitTests {
   }
 
   private func exactly_lessThanMin<T: FixedWidthInteger>(
-    type: T.Type,
-    file: StaticString = #file,
-    line: UInt = #line
+    type: T.Type
   ) {
     let min = type.min
 
@@ -156,9 +150,7 @@ struct BigIntIntegerInitTests {
   }
 
   private func clamping_inRange<T: FixedWidthInteger>(
-    type: T.Type,
-    file: StaticString = #file,
-    line: UInt = #line
+    type: T.Type
   ) {
 
     var values: [T] = [0, 42, T.max, T.max - 1, T.min, T.min + 1]
@@ -207,9 +199,7 @@ struct BigIntIntegerInitTests {
   }
 
   private func clamping_biggerThanMax<T: FixedWidthInteger>(
-    type: T.Type,
-    file: StaticString = #file,
-    line: UInt = #line
+    type: T.Type
   ) {
     let maxT = type.max
     let max = BigInt(maxT)
@@ -250,9 +240,7 @@ struct BigIntIntegerInitTests {
   }
 
   private func clamping_lessThanMin<T: FixedWidthInteger>(
-    type: T.Type,
-    file: StaticString = #file,
-    line: UInt = #line
+    type: T.Type
   ) {
     let minT = type.min
     let min = BigInt(minT)
@@ -295,9 +283,7 @@ struct BigIntIntegerInitTests {
   }
 
   private func truncatingIfNeeded_inRange<T: FixedWidthInteger>(
-    type: T.Type,
-    file: StaticString = #file,
-    line: UInt = #line
+    type: T.Type
   ) {
 
     var values: [T] = [0, 42, T.max, T.max - 1, T.min, T.min + 1]
@@ -346,9 +332,7 @@ struct BigIntIntegerInitTests {
   }
 
   private func truncatingIfNeeded_biggerThanMax<T: FixedWidthInteger>(
-    type: T.Type,
-    file: StaticString = #file,
-    line: UInt = #line
+    type: T.Type
   ) {
     let maxT = type.max
     let max = BigInt(maxT)
@@ -399,9 +383,7 @@ struct BigIntIntegerInitTests {
   }
 
   private func truncatingIfNeeded_lessThanMin<T: FixedWidthInteger>(
-    type: T.Type,
-    file: StaticString = #file,
-    line: UInt = #line
+    type: T.Type
   ) {
     let maxT = type.max
     let max = BigInt(maxT)

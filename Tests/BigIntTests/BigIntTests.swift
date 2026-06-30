@@ -513,7 +513,7 @@ import Foundation
             for j in -5 ... 5 {
                 for m in [-7, -5, -3, -2, -1, 1, 2, 3, 5, 7] {
                     guard i != 0 || j >= 0 else { continue }
-                    #expect(BigInt(i).power(BigInt(j), modulus: BigInt(m)) == BigInt(i).power(j).modulus(BigInt(m)), Comment(rawValue: "\(i), \(j), \(m)"))
+                    #expect(BigInt(i).power(BigInt(j), modulus: BigInt(m)) == BigInt(i).power(j).modulus(BigInt(m)), "\(i), \(j), \(m)")
                 }
             }
         }
@@ -545,7 +545,7 @@ import Foundation
                     #expect((base * inverse).modulus(modulus) == 1, "\(base), \(modulus), \(inverse)")
                 }
                 else {
-                    #expect(BigInt(base).greatestCommonDivisor(with: modulus) != BigInt(1), Comment(rawValue: "\(base), \(modulus)"))
+                    #expect(BigInt(base).greatestCommonDivisor(with: modulus) != BigInt(1), "\(base), \(modulus)")
                 }
             }
         }
