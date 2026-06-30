@@ -1,7 +1,7 @@
 // This file was written by LiarPrincess for Violet - Python VM written in Swift.
 // https://github.com/LiarPrincess/Violet
 
-import XCTest
+import Testing
 @testable import BigInt
 
 // swiftlint:disable type_name
@@ -10,40 +10,49 @@ private typealias Word = BigInt.Word
 
 /// Operations for which exists 'reverse' operation that undoes its effect.
 /// For example for addition it is subtraction: `(n + x) - x = n`.
-class ApplyA_UndoA: XCTestCase {
-
-  private lazy var values = generateBigIntValues(countButNotReally: 20)
-  private lazy var pairs = allPossiblePairings(lhs: self.values, rhs: self.values)
+@Suite
+struct ApplyA_UndoA {
 
   // MARK: - Tests
 
-  func test_addSub() {
-    for (lhsRaw, rhsRaw) in self.pairs {
-      let lhs = self.create(lhsRaw)
-      let rhs = self.create(rhsRaw)
+  @Test
+  func addSub() {
+    let values = generateBigIntValues(countButNotReally: 20)
+    let pairs = allPossiblePairings(lhs: values, rhs: values)
+    
+    for (lhsRaw, rhsRaw) in pairs {
+      let lhs = create(lhsRaw)
+      let rhs = create(rhsRaw)
 
       let expectedLhs = (lhs + rhs) - rhs
-      XCTAssertEqual(lhs, expectedLhs, "\(lhs) +- \(rhs)")
+      #expect(lhs == expectedLhs, "\(lhs) +- \(rhs)")
     }
   }
 
-  func test_mulDiv() {
-    for (lhsRaw, rhsRaw) in self.pairs {
+  @Test
+  func mulDiv() {
+    let values = generateBigIntValues(countButNotReally: 20)
+    let pairs = allPossiblePairings(lhs: values, rhs: values)
+    
+    for (lhsRaw, rhsRaw) in pairs {
       if rhsRaw.isZero {
         continue
       }
 
-      let lhs = self.create(lhsRaw)
-      let rhs = self.create(rhsRaw)
+      let lhs = create(lhsRaw)
+      let rhs = create(rhsRaw)
 
       let expectedLhs = (lhs * rhs) / rhs
-      XCTAssertEqual(lhs, expectedLhs, "\(lhs) */ \(rhs)")
+      #expect(lhs == expectedLhs, "\(lhs) */ \(rhs)")
     }
   }
 
-  func test_shiftLeftRight() {
-    for raw in self.values {
-      let value = self.create(raw)
+  @Test
+  func shiftLeftRight() {
+    let values = generateBigIntValues(countButNotReally: 20)
+    
+    for raw in values {
+      let value = create(raw)
 
       let lessThanWord = 5
       let word = Word.bitWidth
@@ -51,23 +60,26 @@ class ApplyA_UndoA: XCTestCase {
 
       for count in [lessThanWord, word, moreThanWord] {
         let result = (value << count) >> count
-        XCTAssertEqual(result, value, "\(value) <<>> \(count)")
+        #expect(result == value, "\(value) <<>> \(count)")
       }
     }
   }
 
-  func test_toStringInit() {
-    for raw in self.values {
-      let value = self.create(raw)
+  @Test
+  func toStringInit() {
+    let values = generateBigIntValues(countButNotReally: 20)
+    
+    for raw in values {
+      let value = create(raw)
 
       for radix in [2, 5, 10, 16] {
         let string = String(value, radix: radix)
         guard let int = BigInt(string, radix: radix) else {
-          XCTFail("string: \(string), radix: \(radix)")
+          Issue.record("string: \(string), radix: \(radix)")
           continue
         }
 
-        XCTAssertEqual(int, value, "string: \(string)")
+        #expect(int == value, "string: \(string)")
       }
     }
   }

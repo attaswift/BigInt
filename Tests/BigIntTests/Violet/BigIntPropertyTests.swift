@@ -1,19 +1,21 @@
 // This file was written by LiarPrincess for Violet - Python VM written in Swift.
 // https://github.com/LiarPrincess/Violet
 
-import XCTest
+import Testing
 @testable import BigInt
 
 private typealias Word = BigInt.Word
 
-class BigIntPropertyTests: XCTestCase {
+@Suite
+struct BigIntPropertyTests {
 
   // MARK: - Description
 
-  func test_description() {
+  @Test
+  func description() {
     for int in generateIntValues(countButNotReally: 100) {
       let value = BigInt(int)
-      XCTAssertEqual(value.description, int.description, "\(int)")
+      #expect(value.description == int.description, "\(int)")
     }
   }
 
@@ -31,7 +33,8 @@ class BigIntPropertyTests: XCTestCase {
 //    }
 //  }
 
-  func test_words_multipleWords_positive() {
+  @Test
+  func words_multipleWords_positive() {
     for (words, expected) in WordsTestCases.heapPositive {
       let heap = BigIntPrototype(isNegative: false, words: words)
       let bigInt = heap.create()
@@ -47,7 +50,8 @@ class BigIntPropertyTests: XCTestCase {
 //    }
 //  }
 
-  func test_words_multipleWords_negative_notPowerOf2() {
+  @Test
+  func words_multipleWords_negative_notPowerOf2() {
     for (words, expected) in WordsTestCases.heapNegative_notPowerOf2 {
       let heap = BigIntPrototype(isNegative: true, words: words)
       let bigInt = heap.create()
@@ -68,10 +72,11 @@ class BigIntPropertyTests: XCTestCase {
 //    XCTAssertEqual(minus1.bitWidth, 1) // -1 is just 1
 //  }
 
-  func test_bitWidth_positivePowersOf2() {
+  @Test
+  func bitWidth_positivePowersOf2() {
     for (int, power, expected) in BitWidthTestCases.positivePowersOf2 {
       let bigInt = BigInt(int)
-      XCTAssertEqual(bigInt.bitWidth, expected, "for \(int) (2^\(power))")
+      #expect(bigInt.bitWidth == expected, "for \(int) (2^\(power))")
     }
   }
 
@@ -89,7 +94,8 @@ class BigIntPropertyTests: XCTestCase {
 //    }
 //  }
 
-  func test_bitWidth_multipleWords_positivePowersOf2() {
+  @Test
+  func bitWidth_multipleWords_positivePowersOf2() {
     let correction = BitWidthTestCases.positivePowersOf2Correction
 
     for zeroWordCount in [1, 2] {
@@ -102,7 +108,7 @@ class BigIntPropertyTests: XCTestCase {
         let bigInt = heap.create()
 
         let expected = power + correction + zeroWordsBitWidth
-        XCTAssertEqual(bigInt.bitWidth, expected, "\(heap)")
+        #expect(bigInt.bitWidth == expected, "\(heap)")
       }
     }
   }
@@ -127,12 +133,14 @@ class BigIntPropertyTests: XCTestCase {
 
   // MARK: - Trailing zero bit count
 
-  func test_trailingZeroBitCount_zero() {
+  @Test
+  func trailingZeroBitCount_zero() {
     let zero = BigInt(0)
-    XCTAssertEqual(zero.trailingZeroBitCount, 0)
+    #expect(zero.trailingZeroBitCount == 0)
   }
 
-  func test_trailingZeroBitCount_int() {
+  @Test
+  func trailingZeroBitCount_int() {
     for raw in generateIntValues(countButNotReally: 100) {
       if raw == 0 {
         continue
@@ -142,11 +150,12 @@ class BigIntPropertyTests: XCTestCase {
       let result = int.trailingZeroBitCount
 
       let expected = raw.trailingZeroBitCount
-      XCTAssertEqual(result, expected)
+      #expect(result == expected)
     }
   }
 
-  func test_trailingZeroBitCount_heap_nonZeroFirstWord() {
+  @Test
+  func trailingZeroBitCount_heap_nonZeroFirstWord() {
     for p in generateBigIntValues(countButNotReally: 100, maxWordCount: 3) {
       if p.isZero {
         continue
@@ -161,11 +170,12 @@ class BigIntPropertyTests: XCTestCase {
       let result = int.trailingZeroBitCount
 
       let expected = p.words[0].trailingZeroBitCount
-      XCTAssertEqual(result, expected)
+      #expect(result == expected)
     }
   }
 
-  func test_trailingZeroBitCount_heap_zeroFirstWord() {
+  @Test
+  func trailingZeroBitCount_heap_zeroFirstWord() {
     for p in generateBigIntValues(countButNotReally: 100, maxWordCount: 3) {
       if p.isZero {
         continue
@@ -183,23 +193,25 @@ class BigIntPropertyTests: XCTestCase {
       let result = int.trailingZeroBitCount
 
       let expected = Word.bitWidth + p.words[1].trailingZeroBitCount
-      XCTAssertEqual(result, expected)
+      #expect(result == expected)
     }
   }
 
   // MARK: - Magnitude
 
-  func test_magnitude_int() {
+  @Test
+  func magnitude_int() {
     for raw in generateIntValues(countButNotReally: 100) {
       let int = BigInt(raw)
       let magnitude = int.magnitude
 
       let expected = raw.magnitude
-      XCTAssert(magnitude == expected, "\(raw)")
+      #expect(magnitude == expected, "\(raw)")
     }
   }
 
-  func test_magnitude_heap() {
+  @Test
+  func magnitude_heap() {
     for p in generateBigIntValues(countButNotReally: 100) {
       if p.isZero {
         continue
@@ -211,7 +223,7 @@ class BigIntPropertyTests: XCTestCase {
       let negativeHeap = BigIntPrototype(isNegative: true, words: p.words)
       let negative = negativeHeap.create()
 
-      XCTAssertEqual(positive.magnitude, negative.magnitude)
+      #expect(positive.magnitude == negative.magnitude)
     }
   }
 }

@@ -6,7 +6,7 @@
 //  Copyright © 2017 Károly Lőrentey. All rights reserved.
 //
 
-import XCTest
+import Testing
 @testable import BigInt
 
 // TODO: Return to `where Word.Magnitude == Word` when SR-13491 is resolved
@@ -19,7 +19,7 @@ struct TestDivision<Word: FixedWidthInteger> {
         if o { ph += Word(1) }
 
         if mod >= v {
-            XCTFail("For u = \(u), v = \(v): u mod v = \(mod), which is greater than v")
+            Issue.record("For u = \(u), v = \(v): u mod v = \(mod), which is greater than v")
         }
 
         func message() -> String {
@@ -32,8 +32,8 @@ struct TestDivision<Word: FixedWidthInteger> {
             let pls = String(pl, radix: 16)
             return "(\(uhs),\(uls)) / \(vs) = (\(divs), \(mods)), but div * v + mod = (\(phs),\(pls))"
         }
-        XCTAssertEqual(ph, u.high, message())
-        XCTAssertEqual(pl, u.low, message())
+        #expect(ph == u.high, Comment(rawValue: message()))
+        #expect(pl == u.low, Comment(rawValue: message()))
     }
 
     static func test() {
@@ -47,8 +47,10 @@ struct TestDivision<Word: FixedWidthInteger> {
     }
 }
 
-class WordTests: XCTestCase {
-    func testFullDivide() {
+@Suite
+struct WordTests {
+    @Test
+    func fullDivide() {
         TestDivision<UInt8>.test()
         TestDivision<UInt16>.test()
         TestDivision<UInt32>.test()
@@ -67,7 +69,8 @@ class WordTests: XCTestCase {
         #endif
     }
     
-    func testConversion() {
+    @Test
+    func conversion() {
         enum Direction {
             case unitsToWords
             case wordsToUnits
@@ -81,7 +84,7 @@ class WordTests: XCTestCase {
             switch direction {
             case .wordsToUnits, .both:
                 let actualUnits = [Unit](Units(of: Unit.self, words))
-                XCTAssertEqual(actualUnits, units, "words -> units", file: file, line: line)
+                #expect(actualUnits == units, "words -> units")
             default:
                 break
             }
@@ -89,7 +92,7 @@ class WordTests: XCTestCase {
             case .unitsToWords, .both:
                 var it = units.makeIterator()
                 let actualWords = [Word](count: units.count, generator: { () -> Unit? in it.next() })
-                XCTAssertEqual(actualWords, words, "units -> words", file: file, line: line)
+                #expect(actualWords == words, "units -> words")
             default:
                 break
             }

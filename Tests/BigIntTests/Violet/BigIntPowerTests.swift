@@ -1,10 +1,12 @@
 // This file was written by LiarPrincess for Violet - Python VM written in Swift.
 // https://github.com/LiarPrincess/Violet
 
-import XCTest
+import Testing
 @testable import BigInt
+import Foundation
 
-class BigIntPowerTests: XCTestCase {
+@Suite
+struct BigIntPowerTests {
 
   // MARK: - Trivial base
 
@@ -23,18 +25,20 @@ class BigIntPowerTests: XCTestCase {
 //  }
 
   /// 1 ^ n = 1
-  func test_base_one() {
+  @Test
+  func base_one() {
     let one = BigInt(1)
 
     for exponent in generateIntValues(countButNotReally: 100) {
       let result = one.power(exponent)
       let expected = one
-      XCTAssertEqual(result, expected, "1 ^ \(exponent)")
+      #expect(result == expected, "1 ^ \(exponent)")
     }
   }
 
   /// (-1) ^ n = (-1) or 1
-  func test_base_minusOne() {
+  @Test
+  func base_minusOne() {
     let plusOne = BigInt(1)
     let minusOne = BigInt(-1)
 
@@ -42,14 +46,15 @@ class BigIntPowerTests: XCTestCase {
       let result = minusOne.power(exponent)
 
       let expected = exponent.isMultiple(of: 2) ? plusOne : minusOne
-      XCTAssertEqual(result, expected, "(-1) ^ \(exponent)")
+      #expect(result == expected, "(-1) ^ \(exponent)")
     }
   }
 
   // MARK: - Trivial exponent
 
   /// n ^ 0 = 1
-  func test_exponent_zero() {
+  @Test
+  func exponent_zero() {
     let zero = 0
     let one = BigInt(1)
 
@@ -58,12 +63,13 @@ class BigIntPowerTests: XCTestCase {
       let result = base.power(zero)
 
       let expected = one
-      XCTAssertEqual(result, expected, "\(smi) ^ 1")
+      #expect(result == expected, "\(smi) ^ 1")
     }
   }
 
   /// n ^ 1 = n
-  func test_exponent_one() {
+  @Test
+  func exponent_one() {
     let one = 1
 
     for smi in generateIntValues(countButNotReally: 100) {
@@ -71,11 +77,12 @@ class BigIntPowerTests: XCTestCase {
       let result = base.power(one)
 
       let expected = base
-      XCTAssertEqual(result, expected, "\(smi) ^ 1")
+      #expect(result == expected, "\(smi) ^ 1")
     }
   }
 
-  func test_exponent_two() {
+  @Test
+  func exponent_two() {
     let two = 2
 
     for p in generateBigIntValues(countButNotReally: 2) {
@@ -84,11 +91,12 @@ class BigIntPowerTests: XCTestCase {
       let result = base.power(two)
 
       let expected = base * base
-      XCTAssertEqual(result, expected, "\(base) ^ 2")
+      #expect(result == expected, "\(base) ^ 2")
     }
   }
 
-  func test_exponent_three() {
+  @Test
+  func exponent_three() {
     let three = 3
 
     for p in generateBigIntValues(countButNotReally: 2) {
@@ -97,13 +105,14 @@ class BigIntPowerTests: XCTestCase {
       let result = base.power(three)
 
       let expected = base * base * base
-      XCTAssertEqual(result, expected, "\(base) ^ 3")
+      #expect(result == expected, "\(base) ^ 3")
     }
   }
 
   // MARK: - Smi
 
-  func test_againstFoundationPow() {
+  @Test
+  func againstFoundationPow() {
     // THIS IS NOT A PERFECT TEST!
     // It is 'good enough' to be usable, but don't think about it too much!
     let mantissaCount = Double.significandBitCount // well… technically '+1'
@@ -127,7 +136,7 @@ class BigIntPowerTests: XCTestCase {
 
       guard let baseDouble = Double(exactly: baseSmi),
             let expDouble = Double(exactly: expSmi) else {
-          continue
+        continue
       }
 
       let expectedDouble = pow(baseDouble, expDouble)
@@ -142,7 +151,7 @@ class BigIntPowerTests: XCTestCase {
       let result = base.power(exp)
 
       let expected = BigInt(expectedInt)
-      XCTAssertEqual(result, expected, "\(baseSmi) ^ \(expSmi)")
+      #expect(result == expected, "\(baseSmi) ^ \(expSmi)")
     }
   }
 }

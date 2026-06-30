@@ -1,7 +1,7 @@
 // This file was written by LiarPrincess for Violet - Python VM written in Swift.
 // https://github.com/LiarPrincess/Violet
 
-import XCTest
+import Testing
 @testable import BigInt
 
 // swiftlint:disable type_name
@@ -33,7 +33,7 @@ private struct TestCase {
 }
 
 private func createTestCases(_ op: TestCase.Operation,
-                             useBigNumbers: Bool = true) -> [TestCase] {
+                              useBigNumbers: Bool = true) -> [TestCase] {
   var strings = [
     "0",
     "1", "-1",
@@ -68,35 +68,28 @@ private func createTestCases(_ op: TestCase.Operation,
 ///
 /// This is not exactly associativity, because we will also do this for shifts:
 /// `(x >> a) >> b = x >> (a + b)`.
-class ApplyA_ApplyB_Equals_ApplyAB: XCTestCase {
-
-  private lazy var values = generateBigIntValues(countButNotReally: 20)
+@Suite
+struct ApplyA_ApplyB_Equals_ApplyAB {
 
   // MARK: - Add
 
-  func test_add() {
-    for raw in self.values {
-      let int = self.create(raw)
-      self.addTest(value: int)
+  @Test
+  func add() {
+    let values = generateBigIntValues(countButNotReally: 20)
+    for raw in values {
+      let int = create(raw)
+      addTest(value: int)
     }
   }
 
-  private let addTestCases = createTestCases(+)
+  private static let addTestCases = createTestCases(+)
 
-  private func addTest(value: BigInt,
-                       file: StaticString = #file,
-                       line: UInt = #line) {
-    for testCase in self.addTestCases {
+  private func addTest(value: BigInt) {
+    for testCase in Self.addTestCases {
       let a_b = value + testCase.a + testCase.b
       let ab = value + testCase.c
 
-      XCTAssertEqual(
-        a_b,
-        ab,
-        "\(value) + \(testCase.a) + \(testCase.b) vs \(value) + \(testCase.c)",
-        file: file,
-        line: line
-      )
+      #expect(a_b == ab, Comment(rawValue: "\(value) + \(testCase.a) + \(testCase.b) vs \(value) + \(testCase.c)"))
 
       var inoutA_B = value
       inoutA_B += testCase.a
@@ -106,42 +99,30 @@ class ApplyA_ApplyB_Equals_ApplyAB: XCTestCase {
       inoutAB += testCase.c
       assert(inoutAB == ab)
 
-      XCTAssertEqual(
-        inoutA_B,
-        inoutAB,
-        "inout: \(value) + \(testCase.a) + \(testCase.b) vs \(value) + \(testCase.c)",
-        file: file,
-        line: line
-      )
+      #expect(inoutA_B == inoutAB, Comment(rawValue: "inout: \(value) + \(testCase.a) + \(testCase.b) vs \(value) + \(testCase.c)"))
     }
   }
 
   // MARK: - Sub
 
-  func test_sub() {
-    for raw in self.values {
-      let int = self.create(raw)
-      self.subTest(value: int)
+  @Test
+  func sub() {
+    let values = generateBigIntValues(countButNotReally: 20)
+    for raw in values {
+      let int = create(raw)
+      subTest(value: int)
     }
   }
 
   // '+' because we need to add a + b
-  private let subTestCases = createTestCases(+)
+  private static let subTestCases = createTestCases(+)
 
-  private func subTest(value: BigInt,
-                       file: StaticString = #file,
-                       line: UInt = #line) {
-    for testCase in self.subTestCases {
+  private func subTest(value: BigInt) {
+    for testCase in Self.subTestCases {
       let a_b = value - testCase.a - testCase.b
       let ab = value - testCase.c
 
-      XCTAssertEqual(
-        a_b,
-        ab,
-        "\(value) - \(testCase.a) - \(testCase.b) vs \(value) - \(testCase.c)",
-        file: file,
-        line: line
-      )
+      #expect(a_b == ab, Comment(rawValue: "\(value) - \(testCase.a) - \(testCase.b) vs \(value) - \(testCase.c)"))
 
       var inoutA_B = value
       inoutA_B -= testCase.a
@@ -151,41 +132,29 @@ class ApplyA_ApplyB_Equals_ApplyAB: XCTestCase {
       inoutAB -= testCase.c
       assert(inoutAB == ab)
 
-      XCTAssertEqual(
-        inoutA_B,
-        inoutAB,
-        "inout: \(value) - \(testCase.a) - \(testCase.b) vs \(value) - \(testCase.c)",
-        file: file,
-        line: line
-      )
+      #expect(inoutA_B == inoutAB, Comment(rawValue: "inout: \(value) - \(testCase.a) - \(testCase.b) vs \(value) - \(testCase.c)"))
     }
   }
 
   // MARK: - Mul
 
-  func test_mul() {
-    for raw in self.values {
-      let int = self.create(raw)
-      self.mulTest(value: int)
+  @Test
+  func mul() {
+    let values = generateBigIntValues(countButNotReally: 20)
+    for raw in values {
+      let int = create(raw)
+      mulTest(value: int)
     }
   }
 
-  private let mulTestCases = createTestCases(*, useBigNumbers: false)
+  private static let mulTestCases = createTestCases(*, useBigNumbers: false)
 
-  private func mulTest(value: BigInt,
-                       file: StaticString = #file,
-                       line: UInt = #line) {
-    for testCase in self.mulTestCases {
+  private func mulTest(value: BigInt) {
+    for testCase in Self.mulTestCases {
       let a_b = value * testCase.a * testCase.b
       let ab = value * testCase.c
 
-      XCTAssertEqual(
-        a_b,
-        ab,
-        "\(value) * \(testCase.a) * \(testCase.b) vs \(value) * \(testCase.c)",
-        file: file,
-        line: line
-      )
+      #expect(a_b == ab, Comment(rawValue: "\(value) * \(testCase.a) * \(testCase.b) vs \(value) * \(testCase.c)"))
 
       var inoutA_B = value
       inoutA_B *= testCase.a
@@ -195,46 +164,34 @@ class ApplyA_ApplyB_Equals_ApplyAB: XCTestCase {
       inoutAB *= testCase.c
       assert(inoutAB == ab)
 
-      XCTAssertEqual(
-        inoutA_B,
-        inoutAB,
-        "inout: \(value) * \(testCase.a) * \(testCase.b) vs \(value) * \(testCase.c)",
-        file: file,
-        line: line
-      )
+      #expect(inoutA_B == inoutAB, Comment(rawValue: "inout: \(value) * \(testCase.a) * \(testCase.b) vs \(value) * \(testCase.c)"))
     }
   }
 
   // MARK: - Div
 
-  func test_div() {
-    for raw in self.values {
-      let int = self.create(raw)
-      self.divTest(value: int)
+  @Test
+  func div() {
+    let values = generateBigIntValues(countButNotReally: 20)
+    for raw in values {
+      let int = create(raw)
+      divTest(value: int)
     }
   }
 
-  private let divTestCases = [
+  private static let divTestCases = [
     TestCase(*, a: "3", b: "5"),
     TestCase(*, a: "3", b: "-5"),
     TestCase(*, a: "-3", b: "5"),
     TestCase(*, a: "-3", b: "-5")
   ]
 
-  private func divTest(value: BigInt,
-                       file: StaticString = #file,
-                       line: UInt = #line) {
-    for testCase in self.divTestCases {
+  private func divTest(value: BigInt) {
+    for testCase in Self.divTestCases {
       let a_b = value / testCase.a / testCase.b
       let ab = value / testCase.c
 
-      XCTAssertEqual(
-        a_b,
-        ab,
-        "\(value) / \(testCase.a) / \(testCase.b) vs \(value) / \(testCase.c)",
-        file: file,
-        line: line
-      )
+      #expect(a_b == ab, Comment(rawValue: "\(value) / \(testCase.a) / \(testCase.b) vs \(value) / \(testCase.c)"))
 
       var inoutA_B = value
       inoutA_B /= testCase.a
@@ -244,33 +201,31 @@ class ApplyA_ApplyB_Equals_ApplyAB: XCTestCase {
       inoutAB /= testCase.c
       assert(inoutAB == ab)
 
-      XCTAssertEqual(
-        inoutA_B,
-        inoutAB,
-        "inout: \(value) / \(testCase.a) / \(testCase.b) vs \(value) / \(testCase.c)",
-        file: file,
-        line: line
-      )
+      #expect(inoutA_B == inoutAB, Comment(rawValue: "inout: \(value) / \(testCase.a) / \(testCase.b) vs \(value) / \(testCase.c)"))
     }
   }
 
   // MARK: - Left shift
 
-  func test_shiftLeft() {
-    for raw in self.values {
-      let int = self.create(raw)
-      self.shiftLeftTest(value: int)
+  @Test
+  func shiftLeft() {
+    let values = generateBigIntValues(countButNotReally: 20)
+    for raw in values {
+      let int = create(raw)
+      shiftLeftTest(value: int)
     }
   }
 
-  func test_shiftLeft_heap() {
-    for raw in self.values {
-      let int = self.create(raw)
-      self.shiftLeftTest(value: int)
+  @Test
+  func shiftLeft_heap() {
+    let values = generateBigIntValues(countButNotReally: 20)
+    for raw in values {
+      let int = create(raw)
+      shiftLeftTest(value: int)
     }
   }
 
-  private let shiftLeftTestCases: [TestCase] = [
+  private static let shiftLeftTestCases: [TestCase] = [
     TestCase(+, a: 1, b: 0),
     TestCase(+, a: 1, b: 1),
     TestCase(+, a: 3, b: 5),
@@ -278,20 +233,12 @@ class ApplyA_ApplyB_Equals_ApplyAB: XCTestCase {
     TestCase(+, a: Word.bitWidth - 5, b: 7)
   ]
 
-  private func shiftLeftTest(value: BigInt,
-                             file: StaticString = #file,
-                             line: UInt = #line) {
-    for testCase in self.shiftLeftTestCases {
+  private func shiftLeftTest(value: BigInt) {
+    for testCase in Self.shiftLeftTestCases {
       let a_b = (value << testCase.a) << testCase.b
       let ab = value << testCase.c
 
-      XCTAssertEqual(
-        a_b,
-        ab,
-        "(\(value) << \(testCase.a)) << \(testCase.b) vs \(value) << \(testCase.c)",
-        file: file,
-        line: line
-      )
+      #expect(a_b == ab, Comment(rawValue: "(\(value) << \(testCase.a)) << \(testCase.b) vs \(value) << \(testCase.c)"))
 
       var inoutA_B = value
       inoutA_B <<= testCase.a
@@ -301,35 +248,33 @@ class ApplyA_ApplyB_Equals_ApplyAB: XCTestCase {
       inoutAB <<= testCase.c
       assert(inoutAB == ab)
 
-      XCTAssertEqual(
-        inoutA_B,
-        inoutAB,
-        "inout: (\(value) << \(testCase.a)) << \(testCase.b) vs \(value) << \(testCase.c)",
-        file: file,
-        line: line
-      )
+      #expect(inoutA_B == inoutAB, Comment(rawValue: "inout: (\(value) << \(testCase.a)) << \(testCase.b) vs \(value) << \(testCase.c)"))
     }
   }
 
   // MARK: - Right shift
 
-  func test_shiftRight() {
-    for raw in self.values {
-      let int = self.create(raw)
-      self.shiftRightTest(value: int)
+  @Test
+  func shiftRight() {
+    let values = generateBigIntValues(countButNotReally: 20)
+    for raw in values {
+      let int = create(raw)
+      shiftRightTest(value: int)
     }
   }
 
-  func test_shiftRight_heap() {
-    for raw in self.values {
-      let int = self.create(raw)
-      self.shiftRightTest(value: int)
+  @Test
+  func shiftRight_heap() {
+    let values = generateBigIntValues(countButNotReally: 20)
+    for raw in values {
+      let int = create(raw)
+      shiftRightTest(value: int)
     }
   }
 
   // Right shift for more than 'Word.bitWidth' has a high probability
   // of shifting value into oblivion (0 or -1).
-  private let shiftRightTestCases: [TestCase] = [
+  private static let shiftRightTestCases: [TestCase] = [
     TestCase(+, a: 1, b: 0),
     TestCase(+, a: 1, b: 1),
     TestCase(+, a: 3, b: 5),
@@ -337,20 +282,12 @@ class ApplyA_ApplyB_Equals_ApplyAB: XCTestCase {
     TestCase(+, a: Word.bitWidth - 5, b: 7)
   ]
 
-  private func shiftRightTest(value: BigInt,
-                              file: StaticString = #file,
-                              line: UInt = #line) {
-    for testCase in self.shiftRightTestCases {
+  private func shiftRightTest(value: BigInt) {
+    for testCase in Self.shiftRightTestCases {
       let a_b = (value >> testCase.a) >> testCase.b
       let ab = value >> testCase.c
 
-      XCTAssertEqual(
-        a_b,
-        ab,
-        "(\(value) >> \(testCase.a)) >> \(testCase.b) vs \(value) >> \(testCase.c)",
-        file: file,
-        line: line
-      )
+      #expect(a_b == ab, Comment(rawValue: "(\(value) >> \(testCase.a)) >> \(testCase.b) vs \(value) >> \(testCase.c)"))
 
       var inoutA_B = value
       inoutA_B >>= testCase.a
@@ -360,13 +297,7 @@ class ApplyA_ApplyB_Equals_ApplyAB: XCTestCase {
       inoutAB >>= testCase.c
       assert(inoutAB == ab)
 
-      XCTAssertEqual(
-        inoutA_B,
-        inoutAB,
-        "inout: (\(value) >> \(testCase.a)) >> \(testCase.b) vs \(value) >> \(testCase.c)",
-        file: file,
-        line: line
-      )
+      #expect(inoutA_B == inoutAB, Comment(rawValue: "inout: (\(value) >> \(testCase.a)) >> \(testCase.b) vs \(value) >> \(testCase.c)"))
     }
   }
 
