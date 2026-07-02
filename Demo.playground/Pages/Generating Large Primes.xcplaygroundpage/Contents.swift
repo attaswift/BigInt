@@ -1,6 +1,6 @@
 //: [Previous](@previous)
 import Foundation
-import BigInt
+import SwiftBigInt
 //: # Generating Large Prime Numbers
 //:
 //: `BigUInt` has an `isPrime()` method that does a [Miller-Rabin Primality Test][mrpt]. Let's use

@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import BigInt
+import SwiftBigInt
 
 #if Profile
 

@@ -8,7 +8,7 @@
 
 import XCTest
 import Foundation
-@testable import BigInt
+@testable import SwiftBigInt
 
 extension BigUInt.Kind: Equatable {
     public static func ==(left: BigUInt.Kind, right: BigUInt.Kind) -> Bool {

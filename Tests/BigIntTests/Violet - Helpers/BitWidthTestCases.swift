@@ -1,7 +1,7 @@
 // This file was written by LiarPrincess for Violet - Python VM written in Swift.
 // https://github.com/LiarPrincess/Violet
 
-@testable import BigInt
+@testable import SwiftBigInt
 
 internal enum BitWidthTestCases {
 

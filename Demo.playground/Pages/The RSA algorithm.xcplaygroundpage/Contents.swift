@@ -1,6 +1,6 @@
 //: [Previous](@previous)
 import Foundation
-import BigInt
+import SwiftBigInt
 //: # RSA cryptography
 //:
 //: Another useful thing to have is a function that finds a random n-bit prime number:

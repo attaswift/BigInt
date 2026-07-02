@@ -6,7 +6,7 @@
 //  Copyright © 2017 Károly Lőrentey. All rights reserved.
 //
 
-import BigInt
+import SwiftBigInt
 
 @inline(never)
 func noop<T>(_ value: T) {

@@ -2,7 +2,7 @@
 // https://github.com/LiarPrincess/Violet
 
 import XCTest
-@testable import BigInt
+@testable import SwiftBigInt
 
 // Well… actually… hash and equatable
 class BigIntHashTests: XCTestCase {

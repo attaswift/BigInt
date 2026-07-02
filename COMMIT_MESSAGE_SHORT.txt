@@ -1,0 +1,16 @@
+feat!: Rename module to SwiftBigInt to fix module stability compilation
+
+BREAKING CHANGE: Module name changed from BigInt to SwiftBigInt
+
+Fixes Swift compiler error when building with BUILD_LIBRARY_FOR_DISTRIBUTION=YES:
+"'BigInt' is not a member type of struct 'BigInt.BigInt'"
+
+Changes:
+- Product/module name: BigInt → SwiftBigInt
+- Package name: Remains "BigInt" (repository name)
+- Type names: UNCHANGED (BigInt/BigUInt still work)
+
+Migration: Only import statements change from `import BigInt` to `import SwiftBigInt`
+
+Follows Swift naming conventions (SwiftNIO, SwiftLog, SwiftCrypto).
+Requires version bump to 6.0.0.

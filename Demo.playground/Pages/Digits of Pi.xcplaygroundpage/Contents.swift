@@ -1,5 +1,5 @@
 //: [Previous](@previous)
-import BigInt
+import SwiftBigInt
 //: ## Let's calculate the first thousand digits of π
 //:
 //: A fun application of BigInts is generating the digits of π.

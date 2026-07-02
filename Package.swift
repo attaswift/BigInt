@@ -20,14 +20,14 @@ let package = Package(
         .visionOS(.v1),
     ],
     products: [
-        .library(name: "BigInt", targets: ["BigInt"])
+        .library(name: "SwiftBigInt", targets: ["SwiftBigInt"])
     ],
     targets: [
         .target(
-            name: "BigInt", path: "Sources",
+            name: "SwiftBigInt", path: "Sources",
             swiftSettings: [.enableExperimentalFeature("StrictConcurrency")]),
         .testTarget(
-            name: "BigIntTests", dependencies: ["BigInt"], path: "Tests",
+            name: "BigIntTests", dependencies: ["SwiftBigInt"], path: "Tests",
             swiftSettings: [.enableExperimentalFeature("StrictConcurrency")]),
     ]
 )

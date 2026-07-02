@@ -121,6 +121,34 @@ Setup instructions:
     .package(url: "https://github.com/attaswift/BigInt.git", from: "5.4.0")
     ```
 
+## <a name="migration">Migration from v5.x to v6.0</a>
+
+**Module Name Change**: Starting with v6.0, the module has been renamed from `BigInt` to `SwiftBigInt` to resolve Swift compiler conflicts when building with `BUILD_LIBRARY_FOR_DISTRIBUTION=YES` (required for XCFramework distribution and module stability).
+
+**The Issue**: The previous module name `BigInt` conflicted with the struct name `public struct BigInt`, causing compilation errors:
+```
+'BigInt' is not a member type of struct 'BigInt.BigInt'
+```
+
+**Migration Guide**: Simply update your import statements:
+```swift
+// Before (v5.x):
+import BigInt
+
+// After (v6.0+):
+import SwiftBigInt
+```
+
+**Important**: Type names remain unchanged. All code using `BigInt` and `BigUInt` continues to work as before:
+```swift
+import SwiftBigInt  // Only the import changes
+
+let x = BigInt(100)     // Type names stay the same ✓
+let y = BigUInt(50)     // Type names stay the same ✓
+```
+
+This change follows Swift community naming conventions (similar to `SwiftNIO`, `SwiftLog`, `SwiftCrypto`).
+
 ## <a name="notes">Implementation notes</a>
 
 [`BigUInt`][BigUInt] is a `MutableCollectionType` of its 64-bit digits, with the least significant
@@ -189,7 +217,7 @@ generic variant that was slower but more flexible.
 It is easy to use `BigInt` to calculate the factorial function for any integer:
 
 ```Swift
-import BigInt
+import SwiftBigInt
 
 func factorial(_ n: Int) -> BigInt {
     return (1 ... n).map { BigInt($0) }.reduce(BigInt(1), *)

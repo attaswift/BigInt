@@ -2,7 +2,7 @@
 // https://github.com/LiarPrincess/Violet
 
 import XCTest
-@testable import BigInt
+@testable import SwiftBigInt
 
 class BigIntPowerTests: XCTestCase {
 

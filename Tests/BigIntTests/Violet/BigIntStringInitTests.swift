@@ -2,7 +2,7 @@
 // https://github.com/LiarPrincess/Violet
 
 import XCTest
-@testable import BigInt
+@testable import SwiftBigInt
 
 private typealias Word = BigInt.Word
 private typealias WordsExpected = (words: [Word], expected: String)

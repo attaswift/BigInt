@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import BigInt
+@testable import SwiftBigInt
 import Foundation
 
 class BigIntTests: XCTestCase {

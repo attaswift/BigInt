@@ -8,7 +8,7 @@
 //: (`BigInt` represents integers in base 2^64, storing digits in an `Array<UInt64>`, so the theoretical
 //: maximum value it can store is (2^64)^`Int.max` - 1.)
 import Foundation
-import BigInt
+import SwiftBigInt
 //: `BigInt` has several interesting initializers, but for now, the simplest way to create big integers is to use integer
 //: or string literals. The latter is useful when you want to create a number that's larger than `UIntMax.max`:
 let a: BigInt = 123

@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import BigInt
+@testable import SwiftBigInt
 
 // TODO: Return to `where Word.Magnitude == Word` when SR-13491 is resolved
 struct TestDivision<Word: FixedWidthInteger> {

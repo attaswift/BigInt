@@ -1,7 +1,7 @@
 // This file was written by LiarPrincess for Violet - Python VM written in Swift.
 // https://github.com/LiarPrincess/Violet
 
-@testable import BigInt
+@testable import SwiftBigInt
 
 // swiftlint:disable number_separator
 // swiftlint:disable line_length

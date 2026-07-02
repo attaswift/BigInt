@@ -1,0 +1,56 @@
+feat!: Rename module to SwiftBigInt to fix module stability compilation
+
+BREAKING CHANGE: Module name changed from BigInt to SwiftBigInt
+
+## Problem
+The module name "BigInt" conflicted with the struct name "public struct BigInt",
+causing Swift compiler errors when building with BUILD_LIBRARY_FOR_DISTRIBUTION=YES
+(required for XCFramework distribution and module stability):
+
+```
+error: 'BigInt' is not a member type of struct 'BigInt.BigInt'
+```
+
+## Solution
+Renamed the module to "SwiftBigInt" following Swift community conventions
+(similar to SwiftNIO, SwiftLog, SwiftCrypto).
+
+## Changes
+- Package name: Remains "BigInt" (matches repository name)
+- Product name: BigInt → SwiftBigInt
+- Module name: BigInt → SwiftBigInt
+- Type names: UNCHANGED (BigInt and BigUInt structs remain the same)
+
+## Migration for Consumers
+Only import statements need to change:
+
+```swift
+// Before (v5.x):
+import BigInt
+
+// After (v6.0+):
+import SwiftBigInt
+
+// Type names unchanged:
+let x = BigInt(100)   // ✓ Still works
+let y = BigUInt(50)   // ✓ Still works
+```
+
+## Benefits
+- ✅ Fixes module stability compilation errors
+- ✅ Enables XCFramework distribution without compiler workarounds
+- ✅ Eliminates need for -no-verify-emitted-module-interface flag
+- ✅ Follows Swift community naming conventions
+- ✅ Minimal breaking changes (import statements only)
+
+## Files Modified
+- Package.swift: Updated module and product names
+- All test files (18 files): Updated imports
+- Demo playground files (5 files): Updated imports
+- README.md: Added migration guide
+- Documentation: Updated import examples
+
+## Version
+Requires major version bump: 5.4.0 → 6.0.0
+
+Fixes module interface verification bug when building with library evolution enabled.
