@@ -1,37 +1,30 @@
 // This file was written by LiarPrincess for Violet - Python VM written in Swift.
 // https://github.com/LiarPrincess/Violet
-
-import XCTest
+import Testing
 @testable import BigInt
 
 // MARK: - Asserts
 
-internal func XCTAssertWords(_ value: BigInt,
-                             _ expected: [UInt],
-                             file: StaticString = #file,
-                             line: UInt = #line) {
-  XCTAssertWords(
+internal func expectWords(_ value: BigInt,
+                          _ expected: [UInt]) {
+  expectWords(
     value: String(value, radix: 10, uppercase: false),
     words: Array(value.words),
-    expected: expected,
-    file: file,
-    line: line
+    expected: expected
   )
 }
 
-private func XCTAssertWords(value: String,
-                            words: [UInt],
-                            expected: [UInt],
-                            file: StaticString,
-                            line: UInt) {
-  XCTAssertEqual(words.count, expected.count, "Count for \(value)", file: file, line: line)
+private func expectWords(value: String,
+                         words: [UInt],
+                         expected: [UInt]) {
+  #expect(words.count == expected.count, "Count for \(value)")
   guard words.count == expected.count else {
     return
   }
 
   // deconstruction nested in deconstruction? eh…
   for (index, (w, e)) in zip(words, expected).enumerated() {
-    XCTAssertEqual(w, e, "Word \(index) for \(value)", file: file, line: line)
+    #expect(w == e, "Word \(index) for \(value)")
   }
 }
 

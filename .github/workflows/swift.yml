@@ -64,6 +64,8 @@ jobs:
         with:
           path: ~/.local/share/swiftly/toolchains
           key: swiftly-wasm-6.3.2-${{ runner.os }}
+      - name: Install system dependencies
+        run: sudo apt-get -y install libcurl4-openssl-dev
       - name: Install Swift Toolchain
         run: |
           curl -O https://download.swift.org/swiftly/linux/swiftly-$(uname -m).tar.gz && \
