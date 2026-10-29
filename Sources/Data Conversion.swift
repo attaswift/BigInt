@@ -103,21 +103,22 @@ extension BigInt {
         // This assumes Word is binary.
         precondition(Word.bitWidth % 8 == 0)
         
-        self.init()
-        
         let length = buffer.count
         
         // Serialized data for a BigInt should contain at least 2 bytes: one representing
         // the sign, and another for the non-zero magnitude. Zero is represented by an
         // empty Data struct, and negative zero is not supported.
-        guard length > 1, let firstByte = buffer.first else { return }
+        guard length > 1, let firstByte = buffer.first else {
+            self.init()
+            return
+        }
 
         // The first byte gives the sign
         // This byte is compared to a bitmask to allow additional functionality to be added
         // to this byte in the future.
-        self.sign = firstByte & 0b1 == 0 ? .plus : .minus
-
-        self.magnitude = BigUInt(UnsafeRawBufferPointer(rebasing: buffer.dropFirst(1)))
+        let sign: BigInt.Sign = firstByte & 0b1 == 0 ? .plus : .minus
+        let magnitude = BigUInt(UnsafeRawBufferPointer(rebasing: buffer.dropFirst(1)))
+        self.init(sign: sign, magnitude: magnitude)
     }
 
     /// Return a `Data` value that contains the base-256 representation of this integer, in network (big-endian) byte order and a prepended byte to indicate the sign (0 for positive, 1 for negative)
