@@ -100,8 +100,7 @@ extension BigInt {
             magnitude = BigUInt(text, radix: radix)
         }
         guard let m = magnitude else { return nil }
-        self.magnitude = m
-        self.sign = m.isZero ? .plus : sign
+        self.init(sign: sign, magnitude: m)
     }
 }
 

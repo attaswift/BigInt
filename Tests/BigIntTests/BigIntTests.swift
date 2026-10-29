@@ -222,6 +222,27 @@ import Foundation
         #expect(BigInt(1).sign == .plus)
     }
 
+    @Test func zeroMutationsKeepCanonicalSign() {
+        var zero = BigInt(0)
+        zero.sign = .minus
+        #expect(zero.sign == .plus)
+        #expect(zero == 0)
+        #expect(zero.signum() == 0)
+
+        var negative = BigInt(-1)
+        negative.magnitude = 0
+        #expect(negative.sign == .plus)
+        #expect(negative == 0)
+        #expect(negative.signum() == 0)
+
+        var nonzero = BigInt(-2)
+        nonzero.magnitude = 3
+        #expect(nonzero.sign == .minus)
+        #expect(nonzero == -3)
+
+        #expect(BigInt(sign: .minus, magnitude: 0).sign == .plus)
+    }
+
     @Test func bitWidth() {
         #expect(BigInt(0).bitWidth == 0)
         #expect(BigInt(1).bitWidth == 2)

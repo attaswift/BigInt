@@ -45,8 +45,7 @@ extension BigInt {
 
     /// Initializes a new signed big integer with the same value as the specified unsigned big integer.
     public init(_ integer: BigUInt) {
-        self.magnitude = integer
-        self.sign = .plus
+        self.init(sign: .plus, magnitude: integer)
     }
 
     public init<T>(_ source: T) where T : BinaryInteger {

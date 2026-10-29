@@ -42,15 +42,30 @@ public struct BigInt: SignedInteger, Sendable {
     }
 
     /// The absolute value of this integer.
-    public var magnitude: BigUInt
+    private var _magnitude: BigUInt
+
+    /// The internal sign is kept canonical so zero is never negative.
+    private var _sign: Sign
+
+    /// The absolute value of this integer.
+    public var magnitude: BigUInt {
+        get { _magnitude }
+        set {
+            _magnitude = newValue
+            if newValue.isZero { _sign = .plus }
+        }
+    }
 
     /// True iff the value of this integer is negative.
-    public var sign: Sign
+    public var sign: Sign {
+        get { _sign }
+        set { _sign = _magnitude.isZero ? .plus : newValue }
+    }
 
     /// Initializes a new big integer with the provided absolute number and sign flag.
     public init(sign: Sign, magnitude: BigUInt) {
-        self.sign = (magnitude.isZero ? .plus : sign)
-        self.magnitude = magnitude
+        self._magnitude = magnitude
+        self._sign = magnitude.isZero ? .plus : sign
     }
 
     /// Return true iff this integer is zero.
