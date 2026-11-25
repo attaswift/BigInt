@@ -292,6 +292,11 @@ import Foundation
         #expect(BigInt(Word.max) & BigInt(words: [1, 2, 3, 4]) == BigInt(1))
         #expect(BigInt(Word.max) & BigInt(words: [Word.max, 1, 2]) == BigInt(Word.max))
         #expect(BigInt(Word.max) & BigInt(words: [Word.max, Word.max - 1]) == BigInt(Word.max))
+
+        // The result needs one more word than the operands.
+        #expect(-BigInt(Word.max) & BigInt(-2) == BigInt(words: [0, Word.max]))
+        #expect(-BigInt(words: [Word.max, Word.max, 0]) & BigInt(-2) == BigInt(words: [0, 0, Word.max]))
+        #expect(-BigInt(words: [1, Word.max, 0]) & -BigInt(words: [0, 1]) == BigInt(words: [0, 0, Word.max]))
     }
 
     @Test func binaryOr() {
@@ -314,6 +319,10 @@ import Foundation
         #expect(BigInt(Word.max) ^ BigInt(words: [1, 2, 3, 4]) == BigInt(words: [~1, 2, 3, 4] as [Word]))
         #expect(BigInt(Word.max) ^ BigInt(words: [1, 2, 3, Word.max]) == BigInt(words: [~1, 2, 3, Word.max] as [Word]))
         #expect(BigInt(Word.max) ^ BigInt(words: [Word.max - 1, Word.max - 1]) == BigInt(words: [1, Word.max - 1]))
+
+        // The result needs one more word than the operands.
+        #expect(BigInt(Word.max) ^ BigInt(-1) == BigInt(words: [0, Word.max]))
+        #expect(BigInt(-1) ^ BigInt(words: [Word.max, Word.max, 0]) == BigInt(words: [0, 0, Word.max]))
     }
 
     @Test func conversionToString() {
