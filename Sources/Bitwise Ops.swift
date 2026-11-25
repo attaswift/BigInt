@@ -60,7 +60,8 @@ extension BigInt {
         let left = lhs.words
         let right = rhs.words
         // Note we aren't using left.count/right.count here; we account for the sign bit separately later.
-        let count = Swift.max(lhs.magnitude.count, rhs.magnitude.count)
+        // A negative result can need one more word than the operands, e.g. `-(2^64 - 1) & -2 == -2^64`.
+        let count = Swift.max(lhs.magnitude.count, rhs.magnitude.count) + 1
         var words: [UInt] = []
         words.reserveCapacity(count)
         for i in 0 ..< count {
@@ -94,7 +95,8 @@ extension BigInt {
         let left = lhs.words
         let right = rhs.words
         // Note we aren't using left.count/right.count here; we account for the sign bit separately later.
-        let count = Swift.max(lhs.magnitude.count, rhs.magnitude.count)
+        // A negative result can need one more word than the operands, e.g. `-(2^64 - 1) & -2 == -2^64`.
+        let count = Swift.max(lhs.magnitude.count, rhs.magnitude.count) + 1
         var words: [UInt] = []
         words.reserveCapacity(count)
         for i in 0 ..< count {
